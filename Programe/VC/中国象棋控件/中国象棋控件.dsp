@@ -278,14 +278,6 @@ SOURCE=.\Res\Picture\BCHE.BMP
 # End Source File
 # Begin Source File
 
-SOURCE=.\bitmap1.bmp
-# End Source File
-# Begin Source File
-
-SOURCE=.\Res\Picture\bitmap1.bmp
-# End Source File
-# Begin Source File
-
 SOURCE=.\Res\Picture\BMA.BMP
 # End Source File
 # Begin Source File
@@ -306,19 +298,7 @@ SOURCE=.\Res\Picture\bxiang.bmp
 # End Source File
 # Begin Source File
 
-SOURCE=.\Res\Picture\BXING.BMP
-# End Source File
-# Begin Source File
-
 SOURCE=.\Res\Picture\BZU.BMP
-# End Source File
-# Begin Source File
-
-SOURCE=.\cchess.bmp
-# End Source File
-# Begin Source File
-
-SOURCE=.\Res\cchess.bmp
 # End Source File
 # Begin Source File
 
@@ -378,10 +358,6 @@ SOURCE=.\Res\Picture\xqboard.BMP
 # End Source File
 # Begin Source File
 
-SOURCE=.\XQCtl.bmp
-# End Source File
-# Begin Source File
-
 SOURCE=".\中国象棋控件.ico"
 # End Source File
 # End Group
@@ -395,14 +371,6 @@ SOURCE=.\ReadMe.txt
 # Begin Source File
 
 SOURCE="..\..\..\我的文档\Web\VC\Active控件\建立ActiveX控件.htm"
-# End Source File
-# Begin Source File
-
-SOURCE=".\文档\问题.txt"
-# End Source File
-# Begin Source File
-
-SOURCE=".\文档\中国象棋控件技术文档.htm"
 # End Source File
 # End Group
 # Begin Group "Wave"
