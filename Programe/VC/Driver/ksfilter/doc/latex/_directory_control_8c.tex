@@ -1,0 +1,117 @@
+\section{Directory\-Control.c文件参考}
+\label{_directory_control_8c}\index{DirectoryControl.c@{DirectoryControl.c}}
+Implement directory control route. 
+
+{\tt \#include \char`\"{}sfilter.h\char`\"{}}\par
+{\tt \#include \char`\"{}Support.h\char`\"{}}\par
+
+
+Directory\-Control.c包含/依赖关系图：\subsection*{组合类型}
+\begin{CompactItemize}
+\item 
+struct {\bf QUERYDIRECTORY}
+\end{CompactItemize}
+\subsection*{类型定义}
+\begin{CompactItemize}
+\item 
+typedef struct {\bf QUERYDIRECTORY} $\ast$ {\bf PQUERYDIRECTORY}
+\end{CompactItemize}
+\subsection*{函数}
+\begin{CompactItemize}
+\item 
+NTSTATUS {\bf Show\-File\-Both\-Directory\-Information} (PFILE\_\-BOTH\_\-DIR\_\-INFORMATION p\-File\-Both\-Dir)
+\item 
+NTSTATUS {\bf Process\-File\-Both\-Directory\-Information} (IN PFILE\_\-BOTH\_\-DIR\_\-INFORMATION p\-File\-Both\-Dir, IN PUNICODE\_\-STRING p\-Path)
+\begin{CompactList}\small\item\em Process File\-Both\-Directory\-Information request, hide file. \item\end{CompactList}\item 
+NTSTATUS {\bf Sf\-Directory\-Control} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\begin{CompactList}\small\item\em 目录控制派遣例程(IRP\_\-MJ\_\-DIRECTORY\_\-CONTROL) \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{详细描述}
+Implement directory control route. 
+
+\begin{Desc}
+\item[警告:]版权所有 (C) 2007 康林工作室；保留所有权利。\end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 ({\tt kl222@126.com}) \end{Desc}
+\begin{Desc}
+\item[日期:]2007年5月17日 13:32:42 \end{Desc}
+\begin{Desc}
+\item[编译器:]Microsoft Visual Studio 8.0 —— C/C++ 8.0 \end{Desc}
+
+
+在文件{\bf Directory\-Control.c}中定义。
+
+\subsection{类型定义文档}
+\index{DirectoryControl.c@{Directory\-Control.c}!PQUERYDIRECTORY@{PQUERYDIRECTORY}}
+\index{PQUERYDIRECTORY@{PQUERYDIRECTORY}!DirectoryControl.c@{Directory\-Control.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef  struct {\bf QUERYDIRECTORY} $\ast$ {\bf PQUERYDIRECTORY}}\label{_directory_control_8c_40b0cf11b29090ba9d1cf67f5a0b048c}
+
+
+
+
+\subsection{函数文档}
+\index{DirectoryControl.c@{Directory\-Control.c}!ProcessFileBothDirectoryInformation@{ProcessFileBothDirectoryInformation}}
+\index{ProcessFileBothDirectoryInformation@{ProcessFileBothDirectoryInformation}!DirectoryControl.c@{Directory\-Control.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Process\-File\-Both\-Directory\-Information (IN PFILE\_\-BOTH\_\-DIR\_\-INFORMATION {\em p\-File\-Both\-Dir}, IN PUNICODE\_\-STRING {\em p\-Path})}\label{_directory_control_8c_50a8b3a6fa88d63db629a3c2c6cfde11}
+
+
+Process File\-Both\-Directory\-Information request, hide file. 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em IN}]PFILE\_\-BOTH\_\-DIR\_\-INFORMATION p\-File\-Both\-Dir： \item[{\em IN}]PUNICODE\_\-STRING p\-Path ： \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 NTSTATUS 。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-20 12:29:26 \end{Desc}
+
+
+在文件Directory\-Control.c第75行定义。
+
+参考 Allocate\-Buffer()、Compare\-Call\-Back()、Free\-Buffer()、Move\-Buffer()、Sf\-Debug、SFDEBUG\_\-DIRECTORYCONTROL及Sf\-Is\-Disable\-Delete\-File().
+
+参考自 Sf\-Directory\-Control().\index{DirectoryControl.c@{Directory\-Control.c}!SfDirectoryControl@{SfDirectoryControl}}
+\index{SfDirectoryControl@{SfDirectoryControl}!DirectoryControl.c@{Directory\-Control.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Directory\-Control (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{_directory_control_8c_6174dc959d65f9881e250e896b235a9b}
+
+
+目录控制派遣例程(IRP\_\-MJ\_\-DIRECTORY\_\-CONTROL) 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em IN}]PDEVICE\_\-OBJECT Device\-Object： \item[{\em IN}]PIRP Irp ： \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 NTSTATUS 。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-19 15:05:06 \end{Desc}
+
+
+在文件Directory\-Control.c第204行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、QUERYDIRECTORY::File\-Information\-Class、QUERYDIRECTORY::File\-Name、Free\-Unicode\-Buffer()、Get\-Full\-Path()、IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT、IS\_\-MY\_\-DEVICE\_\-OBJECT、QUERYDIRECTORY::Length、Process\-File\-Both\-Directory\-Information()、Set\-Completion\-Routine()、Sf\-Debug、SFDEBUG\_\-DIRECTORYCONTROL及Sf\-Pass\-Through().
+
+参考自 Driver\-Entry().\index{DirectoryControl.c@{Directory\-Control.c}!ShowFileBothDirectoryInformation@{ShowFileBothDirectoryInformation}}
+\index{ShowFileBothDirectoryInformation@{ShowFileBothDirectoryInformation}!DirectoryControl.c@{Directory\-Control.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Show\-File\-Both\-Directory\-Information (PFILE\_\-BOTH\_\-DIR\_\-INFORMATION {\em p\-File\-Both\-Dir})}\label{_directory_control_8c_4e1ff6ff5816c7994b9685acc56b2649}
+
+
+
+
+在文件Directory\-Control.c第25行定义。
+
+参考 Sf\-Debug及SFDEBUG\_\-DIRECTORYCONTROL.

@@ -1,0 +1,63 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>capGetVideoFormat</title>
+</head>
+
+<body>
+
+<h1 align="center">capGetVideoFormat</h1>
+<p align="center">康&nbsp; 林</p>
+<p>你能用此宏或者明确的发送 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_3b5g.htm">
+WM_CAP_GET_VIDEOFORMAT</a> 消息。</p>
+<pre><code><b>DWORD capGetVideoFormat(
+ </b><i> hwnd</i><b>,           </b>
+<b> </b><i> psVideoFormat</i><b>,  </b>
+<b> </b><i> wSize           </i>
+<b>);</b>
+ </code></pre>
+<dl>
+	<dt><i>hwnd</i> </dt>
+	<dd>捕获窗口的句柄.  
+	</dd>
+	<dt><i>psVideoFormat</i></dt>
+	
+	<dd><a href="JavaScript:alink_1.Click()"><b>BITMAPINFO</b></a> 结构的地址。你能用 
+	NULL 得到 BITMAPINFO 所要的字节数。 </dd>
+	<dt><i>wSize</i> </dt>
+	<dt><i>&nbsp;&nbsp;&nbsp;&nbsp; psVideoFormat </i>它所要的大小，单位：字节。</dt>
+</dl>
+<h4>返回值：</h4>
+<p>返回大小，单位：字节。如果捕获窗口没有连接捕获驱动，则返回 0。视频格式要求一个调色板，当前调色板总是被返回。</p>
+<h4>注释：</h4>
+<p>因为视频格式的请求大小因压缩而改变，所以应用程序应该先请求分配一块本地内存。然后再请求得到视频格式数据。</p>
+<p>Because compressed video formats vary in size requirements applications must 
+first retrieve the size, then allocate memory, and finally request the video 
+format data.</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in vfw.h.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_8xyd.htm">
+Video Capture Overview</a>, <a href="index.htm">Video Capture Macros</a>,
+<object id="alink_2" type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param NAME="Width" VALUE="106">
+	<param NAME="Height" VALUE="53">
+	<param NAME="Command" VALUE="ALink,MENU">
+	<param NAME="Item1" VALUE>
+	<param NAME="Item2" VALUE="_">
+</object>
+<a href="JavaScript:alink_2.Click()"><b>BITMAPINFO</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_3b5g.htm">
+WM_CAP_GET_VIDEOFORMAT</a></p>
+<p>　</p>
+
+</body>
+
+</html>

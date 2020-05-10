@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ASCToChar", "ASCToChar\ASCToChar.vcproj", "{4E3174F3-D443-4433-AE2B-E27CA2226C1F}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup1", "Setup1\Setup1.vdproj", "{D2A73475-665D-4A52-85E7-47BF164747D0}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 3
+		SccLocalPath0 = .
+		CanCheckoutShared = false
+		SccProjectUniqueName1 = ASCToChar\\ASCToChar.vcproj
+		SccLocalPath1 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection1 = ASCToChar\\
+		SccProjectUniqueName2 = Setup1\\Setup1.vdproj
+		SccLocalPath2 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection2 = Setup1\\
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E3174F3-D443-4433-AE2B-E27CA2226C1F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4E3174F3-D443-4433-AE2B-E27CA2226C1F}.Debug|Win32.Build.0 = Debug|Win32
+		{4E3174F3-D443-4433-AE2B-E27CA2226C1F}.Release|Win32.ActiveCfg = Release|Win32
+		{4E3174F3-D443-4433-AE2B-E27CA2226C1F}.Release|Win32.Build.0 = Release|Win32
+		{D2A73475-665D-4A52-85E7-47BF164747D0}.Debug|Win32.ActiveCfg = Debug
+		{D2A73475-665D-4A52-85E7-47BF164747D0}.Release|Win32.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

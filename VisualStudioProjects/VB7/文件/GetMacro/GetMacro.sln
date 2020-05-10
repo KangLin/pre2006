@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GetMacro", "GetMacro\GetMacro.vbproj", "{501CD4F7-B320-48BC-AE2B-63E5F07C1EAB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C4379EB7-651B-45D1-B7B4-3B404CB1D589} = {C4379EB7-651B-45D1-B7B4-3B404CB1D589}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Syntax", "..\..\..\VC7\DLL\Syntax\Syntax.vcproj", "{C4379EB7-651B-45D1-B7B4-3B404CB1D589}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{501CD4F7-B320-48BC-AE2B-63E5F07C1EAB}.Debug.ActiveCfg = Debug|.NET
+		{501CD4F7-B320-48BC-AE2B-63E5F07C1EAB}.Debug.Build.0 = Debug|.NET
+		{501CD4F7-B320-48BC-AE2B-63E5F07C1EAB}.Release.ActiveCfg = Release|.NET
+		{501CD4F7-B320-48BC-AE2B-63E5F07C1EAB}.Release.Build.0 = Release|.NET
+		{C4379EB7-651B-45D1-B7B4-3B404CB1D589}.Debug.ActiveCfg = Debug|Win32
+		{C4379EB7-651B-45D1-B7B4-3B404CB1D589}.Debug.Build.0 = Debug|Win32
+		{C4379EB7-651B-45D1-B7B4-3B404CB1D589}.Release.ActiveCfg = Release|Win32
+		{C4379EB7-651B-45D1-B7B4-3B404CB1D589}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

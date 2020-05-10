@@ -1,0 +1,41 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "5400R", "5400R\5400R.vcproj", "{7D83B075-8E18-4D66-926C-EDD507300400}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "art_rel", "..\..\..\kl\无线资料\tenda\5400R\5400R\src\dk\mdk\art\art_rel.vcproj", "{F4B25EF3-078E-4B77-9250-5709F89C70FA}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 1
+		SccProjectUniqueName0 = ..\\..\\..\\kl\\无线资料\\tenda\\5400R\\5400R\\src\\dk\\mdk\\art\\art_rel.vcproj
+		SccProjectName0 = dk_install
+		SccLocalPath0 = ..\\..\\..\\kl\\无线资料\\tenda\\5400R\\5400R\\src\\dk\\mdk
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		SccProjectFilePathRelativizedFromConnection0 = art\\
+	EndGlobalSection
+	GlobalSection(SolutionConfiguration) = preSolution
+		customerRelease = customerRelease
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{7D83B075-8E18-4D66-926C-EDD507300400}.customerRelease.ActiveCfg = Release|Win32
+		{7D83B075-8E18-4D66-926C-EDD507300400}.customerRelease.Build.0 = Release|Win32
+		{7D83B075-8E18-4D66-926C-EDD507300400}.Debug.ActiveCfg = Debug|Win32
+		{7D83B075-8E18-4D66-926C-EDD507300400}.Release.ActiveCfg = Release|Win32
+		{7D83B075-8E18-4D66-926C-EDD507300400}.Release.Build.0 = Release|Win32
+		{F4B25EF3-078E-4B77-9250-5709F89C70FA}.customerRelease.ActiveCfg = customerRelease|Win32
+		{F4B25EF3-078E-4B77-9250-5709F89C70FA}.customerRelease.Build.0 = customerRelease|Win32
+		{F4B25EF3-078E-4B77-9250-5709F89C70FA}.Debug.ActiveCfg = Debug|Win32
+		{F4B25EF3-078E-4B77-9250-5709F89C70FA}.Debug.Build.0 = Debug|Win32
+		{F4B25EF3-078E-4B77-9250-5709F89C70FA}.Release.ActiveCfg = customerRelease|Win32
+		{F4B25EF3-078E-4B77-9250-5709F89C70FA}.Release.Build.0 = customerRelease|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,39 @@
+#ifndef __<UDocumentName>_HPP__
+#define __<UDocumentName>_HPP__
+#pragma once
+
+<BaseClass_HPP>
+/////////////////////////////////////////////////////////////////////////////
+
+class <ClassName> : public <BaseClassName>
+{
+public: 
+    <ClassName>();
+    virtual ~<ClassName>();
+
+public:
+	//{{AFX_VIRTUAL(<ClassName>)
+    <SerialFunctionDeclare>
+	//}}AFX_VIRTUAL
+
+
+protected:
+<MessageFunctionComment>
+
+
+private:
+	
+
+/////////////////////////////////////////////////////////////////////////////
+<DeclareMacro>
+#ifdef _DEBUG
+public:
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
+#endif
+
+//!begin get/set
+};
+
+#include "<DocumentName>.inl"
+#endif

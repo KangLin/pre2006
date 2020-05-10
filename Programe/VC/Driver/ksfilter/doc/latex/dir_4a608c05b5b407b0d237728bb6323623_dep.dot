@@ -1,0 +1,8 @@
+digraph G {
+  compound=true
+  node [ fontsize=10, fontname="FreeSans.ttf"];
+  edge [ labelfontsize=9, labelfontname="FreeSans.ttf"];
+  dir_4a608c05b5b407b0d237728bb6323623 [shape=box, label="KSFilterControl", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_4a608c05b5b407b0d237728bb6323623.html"];
+  dir_9ddfffab8ec874f30e10f41af16ae1a4 [shape=box label="ksfilter" URL="dir_9ddfffab8ec874f30e10f41af16ae1a4.html"];
+  dir_4a608c05b5b407b0d237728bb6323623->dir_9ddfffab8ec874f30e10f41af16ae1a4 [headlabel="1", labeldistance=1.5 headhref="dir_000002_000000.html"];
+}

@@ -1,0 +1,16 @@
+// ShowDialog.odl : type library source for ShowDialog.dll
+
+// This file will be processed by the MIDL compiler to produce the
+// type library (ShowDialog.tlb).
+
+[ uuid(87F1A0E5-A94B-4F55-A176-6C12E9E7CDEF), version(1.0) ]
+library ShowDialog
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

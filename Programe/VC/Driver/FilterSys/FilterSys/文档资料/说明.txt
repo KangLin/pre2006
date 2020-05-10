@@ -1,0 +1,16 @@
+本工程
+1、Hook注册表操作函数,并实现了隐藏指定的键值的功能。
+2、Hook进程函数，并实现了进程的隐藏。
+
+编译：
+在DDK 3790下编译通过。
+
+程序结构：
+array.c：实现了一个C语言数组。
+DataSupport.c：实现了与数据相关的操作。
+Memory.c：实现了内存管理函数。
+
+FilterSys.c：驱动的入口函数与UnLoad函数。
+Dispatch.c：实现了驱动对象的派遣函数。
+HookProcess.c：Hook进程操作函数。
+HookReg.c：Hook注册表操作函数。

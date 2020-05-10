@@ -1,0 +1,59 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>设置VC6</title>
+<style>
+<!--
+
+.font        { font-size: 9pt; line-height: 12pt }
+-->
+</style>
+</head>
+
+<body>
+
+<p><b>设置VC6.0的工作目录</b>:工具-&gt;选择</p>
+<p><img border="0" src="图片/目录选择.gif"></p>
+<p>它保存在注册表中的下列位置:</p>
+<p>[HKEY_CURRENT_USER\Software\Microsoft\DevStudio\6.0\Build 
+System\Components\Platforms\Win32 (x86)\Directories]</p>
+<p><br>
+&quot;Path Dirs&quot;=&quot;C:\\Program Files\\Microsoft Visual 
+Studio\\Common\\MSDev98\\Bin;C:\\Program Files\\Microsoft Visual 
+Studio\\VC98\\BIN;C:\\Program Files\\Microsoft Visual 
+Studio\\Common\\TOOLS;C:\\Program Files\\Microsoft Visual 
+Studio\\Common\\TOOLS\\WINNT;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem&quot;</p>
+<p><br>
+&quot;Include Dirs&quot;=&quot;C:\\DXSDK\\Include;C:\\Program Files\\Microsoft Visual 
+Studio\\VC98\\INCLUDE;C:\\Program Files\\Microsoft Visual 
+Studio\\VC98\\MFC\\INCLUDE;C:\\Program Files\\Microsoft Visual 
+Studio\\VC98\\ATL\\INCLUDE;D:\\PROGRAME\\VC\\库\\浏览文件夹对话框&quot;</p>
+<p><br>
+&quot;Library Dirs&quot;=&quot;C:\\DXSDK\\Lib;C:\\Program Files\\Microsoft Visual 
+Studio\\VC98\\LIB;C:\\Program Files\\Microsoft Visual Studio\\VC98\\MFC\\LIB&quot;</p>
+<p><br>
+&quot;Source Dirs&quot;=&quot;C:\\Program Files\\Microsoft Visual 
+Studio\\VC98\\MFC\\SRC;C:\\Program Files\\Microsoft Visual 
+Studio\\VC98\\MFC\\INCLUDE;C:\\Program Files\\Microsoft Visual 
+Studio\\VC98\\ATL\\INCLUDE;C:\\Program Files\\Microsoft Visual 
+Studio\\VC98\\CRT\\SRC;D:\\PROGRAME\\VC\\库\\浏览文件夹对话框&quot;<br>
+<br>
+<b>生成自定义的关键字 </b> <br>
+		　</p>
+
+<table  width="100%">
+	<tr>
+		<td>你知不知道可以在微软的Developer Studio中生成自定义的关键字表? 
+		那些词都作为着重强调,就象保留字一样.你甚至可以指定颜色. 如下所示:<br>
+		将你的关键字加入到文件<a href="Data/USERTYPE.DAT">USERTYPE.DAT</a>中,此文件和MSDEV.EXE在同一个目录中. 每个词都要占一行,也就是说,一行一个关键字.<br>
+		为你的关键字指定颜色,在开发环境中菜单工具… 选项对话框中, 你会看到有一格式项.选择目录&quot;Source Window&quot;,然后在颜色列表中选择 
+		&quot;用户自定义关键字&quot;. 在这里你可以指定颜色,字体和大小.<br>
+		要使改动生效,你必须重起开发环境.</td>
+	</tr>
+</table>
+
+</body>
+
+</html>

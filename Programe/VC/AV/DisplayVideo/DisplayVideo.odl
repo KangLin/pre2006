@@ -1,0 +1,70 @@
+// DisplayVideo.odl : type library source for ActiveX Control project.
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (DisplayVideo.tlb) that will become a resource in
+// DisplayVideo.ocx.
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(B85678F9-6067-4E21-A0B6-2F8B1FC34CD6), version(1.0),
+  helpfile("DisplayVideo.hlp"),
+  helpstring("DisplayVideo ActiveX Control module"),
+  control ]
+library DISPLAYVIDEOLib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+	//  Primary dispatch interface for CDisplayVideoCtrl
+
+	[ uuid(BA0B24D5-BF89-44C5-A3F5-35C4C62B7A28),
+	  helpstring("Dispatch interface for DisplayVideo Control"), hidden ]
+	dispinterface _DDisplayVideo
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CDisplayVideoCtrl)
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CDisplayVideoCtrl)
+			[id(1)] void Display(BSTR* lpData, long dwSize);
+			//}}AFX_ODL_METHOD
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  Event dispatch interface for CDisplayVideoCtrl
+
+	[ uuid(58BBD3BB-C66D-4A9D-8B35-64BA3560B546),
+	  helpstring("Event interface for DisplayVideo Control") ]
+	dispinterface _DDisplayVideoEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			// NOTE - ClassWizard will maintain event information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_EVENT(CDisplayVideoCtrl)
+			//}}AFX_ODL_EVENT
+	};
+
+	//  Class information for CDisplayVideoCtrl
+
+	[ uuid(AFD9EC81-5CED-4D82-BA94-819086C4D569),
+	  helpstring("DisplayVideo Control"), control ]
+	coclass DisplayVideo
+	{
+		[default] dispinterface _DDisplayVideo;
+		[default, source] dispinterface _DDisplayVideoEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

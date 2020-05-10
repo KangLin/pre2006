@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Winsocketexp", "Winsocketexp.vcproj", "{2D0C460F-4272-420E-B143-80854D260FC3}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{2D0C460F-4272-420E-B143-80854D260FC3}.Debug.ActiveCfg = Debug|Win32
+		{2D0C460F-4272-420E-B143-80854D260FC3}.Debug.Build.0 = Debug|Win32
+		{2D0C460F-4272-420E-B143-80854D260FC3}.Release.ActiveCfg = Release|Win32
+		{2D0C460F-4272-420E-B143-80854D260FC3}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

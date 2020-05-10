@@ -1,0 +1,247 @@
+\section{Ctest\-Dlg类参考}
+\label{class_ctest_dlg}\index{CtestDlg@{CtestDlg}}
+{\tt \#include $<$test\-Dlg.h$>$}
+
+\subsection*{公有类型}
+\begin{CompactItemize}
+\item 
+enum \{ {\bf IDD} =  IDD\_\-TEST\_\-DIALOG
+ \}
+\end{CompactItemize}
+\subsection*{公有成员}
+\begin{CompactItemize}
+\item 
+{\bf Ctest\-Dlg} (CWnd $\ast$p\-Parent=NULL)
+\item 
+afx\_\-msg void {\bf On\-Bn\-Clicked\-Button3} ()
+\item 
+afx\_\-msg void {\bf On\-Bn\-Clicked\-Button1} ()
+\item 
+afx\_\-msg void {\bf On\-Bn\-Clicked\-Button2} ()
+\item 
+afx\_\-msg void {\bf On\-Bn\-Clicked\-Button4} ()
+\item 
+afx\_\-msg void {\bf On\-Bn\-Clicked\-Button5} ()
+\item 
+afx\_\-msg void {\bf On\-Bn\-Clicked\-Button6} ()
+\item 
+afx\_\-msg void {\bf On\-Bn\-Clicked\-Button7} ()
+\end{CompactItemize}
+\subsection*{公有属性}
+\begin{CompactItemize}
+\item 
+CString {\bf m\_\-sz\-Path}
+\item 
+CString {\bf m\_\-sz\-File\-Name}
+\item 
+CString {\bf m\_\-sz\-Remove\-File}
+\end{CompactItemize}
+\subsection*{保护成员}
+\begin{CompactItemize}
+\item 
+virtual void {\bf Do\-Data\-Exchange} (CData\-Exchange $\ast$p\-DX)
+\item 
+virtual BOOL {\bf On\-Init\-Dialog} ()
+\item 
+afx\_\-msg void {\bf On\-Sys\-Command} (UINT n\-ID, LPARAM l\-Param)
+\item 
+afx\_\-msg void {\bf On\-Paint} ()
+\item 
+afx\_\-msg HCURSOR {\bf On\-Query\-Drag\-Icon} ()
+\end{CompactItemize}
+\subsection*{保护属性}
+\begin{CompactItemize}
+\item 
+HICON {\bf m\_\-h\-Icon}
+\end{CompactItemize}
+
+
+\subsection{详细描述}
+
+
+
+
+在文件test\-Dlg.h第8行定义。
+
+\subsection{成员枚举类型文档}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}\label{class_ctest_dlg_4f6db96d5ba355d313fc81a114735829}
+
+
+\begin{Desc}
+\item[枚举值: ]\par
+\begin{description}
+\index{IDD@{IDD}!CtestDlg@{CtestDlg}}\index{CtestDlg@{CtestDlg}!IDD@{IDD}}\item[{\em 
+IDD\label{class_ctest_dlg_4f6db96d5ba355d313fc81a114735829416250ce5fcf2db8ffc8de98d351189e}
+}]\end{description}
+\end{Desc}
+
+
+
+在文件test\-Dlg.h第15行定义。
+
+\subsection{构造及析构函数文档}
+\index{CtestDlg@{Ctest\-Dlg}!CtestDlg@{CtestDlg}}
+\index{CtestDlg@{CtestDlg}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Ctest\-Dlg::Ctest\-Dlg (CWnd $\ast$ {\em p\-Parent} = {\tt NULL})}\label{class_ctest_dlg_c02c06a94e0e85b9a76c460c83fdd06b}
+
+
+
+
+在文件test\-Dlg.cpp第55行定义。
+
+参考 IDR\_\-MAINFRAME.
+
+\subsection{成员函数文档}
+\index{CtestDlg@{Ctest\-Dlg}!DoDataExchange@{DoDataExchange}}
+\index{DoDataExchange@{DoDataExchange}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Ctest\-Dlg::Do\-Data\-Exchange (CData\-Exchange $\ast$ {\em p\-DX})\hspace{0.3cm}{\tt  [protected, virtual]}}\label{class_ctest_dlg_d884bdbdfa7189362a83796f93e4684b}
+
+
+
+
+在文件test\-Dlg.cpp第64行定义。
+
+参考 IDC\_\-EDIT3、IDC\_\-PATH、IDC\_\-SETFILE、m\_\-sz\-File\-Name、m\_\-sz\-Path及m\_\-sz\-Remove\-File.\index{CtestDlg@{Ctest\-Dlg}!OnInitDialog@{OnInitDialog}}
+\index{OnInitDialog@{OnInitDialog}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL Ctest\-Dlg::On\-Init\-Dialog ()\hspace{0.3cm}{\tt  [protected, virtual]}}\label{class_ctest_dlg_421aadb259835c327ed5c93f0531cac5}
+
+
+
+
+在文件test\-Dlg.cpp第89行定义。
+
+参考 IDM\_\-ABOUTBOX及IDS\_\-ABOUTBOX.\index{CtestDlg@{Ctest\-Dlg}!OnSysCommand@{OnSysCommand}}
+\index{OnSysCommand@{OnSysCommand}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Ctest\-Dlg::On\-Sys\-Command (UINT {\em n\-ID}, LPARAM {\em l\-Param})\hspace{0.3cm}{\tt  [protected]}}\label{class_ctest_dlg_81ea957768695b70330422b740d5a804}
+
+
+
+
+在文件test\-Dlg.cpp第121行定义。
+
+参考 IDM\_\-ABOUTBOX.\index{CtestDlg@{Ctest\-Dlg}!OnPaint@{OnPaint}}
+\index{OnPaint@{OnPaint}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Ctest\-Dlg::On\-Paint ()\hspace{0.3cm}{\tt  [protected]}}\label{class_ctest_dlg_fb718cb00a8dbd3a8c583944b3b08885}
+
+
+
+
+在文件test\-Dlg.cpp第138行定义。
+
+参考 m\_\-h\-Icon.\index{CtestDlg@{Ctest\-Dlg}!OnQueryDragIcon@{OnQueryDragIcon}}
+\index{OnQueryDragIcon@{OnQueryDragIcon}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}HCURSOR Ctest\-Dlg::On\-Query\-Drag\-Icon ()\hspace{0.3cm}{\tt  [protected]}}\label{class_ctest_dlg_3a8692719712048a39135700a095a97b}
+
+
+
+
+在文件test\-Dlg.cpp第165行定义。
+
+参考 m\_\-h\-Icon.\index{CtestDlg@{Ctest\-Dlg}!OnBnClickedButton3@{OnBnClickedButton3}}
+\index{OnBnClickedButton3@{OnBnClickedButton3}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Ctest\-Dlg::On\-Bn\-Clicked\-Button3 ()}\label{class_ctest_dlg_7e6b305f7c36fd8b078385c71aa59f44}
+
+
+
+
+在文件test\-Dlg.cpp第171行定义。
+
+参考 m\_\-sz\-Path.\index{CtestDlg@{Ctest\-Dlg}!OnBnClickedButton1@{OnBnClickedButton1}}
+\index{OnBnClickedButton1@{OnBnClickedButton1}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Ctest\-Dlg::On\-Bn\-Clicked\-Button1 ()}\label{class_ctest_dlg_f4528613ceabbd163d3be8743b01b361}
+
+
+
+
+在文件test\-Dlg.cpp第181行定义。
+
+参考 Load\-Device\-Driver()及m\_\-sz\-Path.\index{CtestDlg@{Ctest\-Dlg}!OnBnClickedButton2@{OnBnClickedButton2}}
+\index{OnBnClickedButton2@{OnBnClickedButton2}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Ctest\-Dlg::On\-Bn\-Clicked\-Button2 ()}\label{class_ctest_dlg_d170e6d38c174098cb6a963c224cfa03}
+
+
+
+
+在文件test\-Dlg.cpp第187行定义。
+
+参考 Unload\-Device\-Driver().\index{CtestDlg@{Ctest\-Dlg}!OnBnClickedButton4@{OnBnClickedButton4}}
+\index{OnBnClickedButton4@{OnBnClickedButton4}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Ctest\-Dlg::On\-Bn\-Clicked\-Button4 ()}\label{class_ctest_dlg_92a93455a9a8451a8486d39943838471}
+
+
+
+
+在文件test\-Dlg.cpp第206行定义。
+
+参考 CKSFilter\-Control::Close\-Device()、CKSFilter\-Control::Open\-Device()及CKSFilter\-Control::Save\-Config().\index{CtestDlg@{Ctest\-Dlg}!OnBnClickedButton5@{OnBnClickedButton5}}
+\index{OnBnClickedButton5@{OnBnClickedButton5}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Ctest\-Dlg::On\-Bn\-Clicked\-Button5 ()}\label{class_ctest_dlg_96d1389a026e3afbba6dd2147adbe312}
+
+
+
+
+在文件test\-Dlg.cpp第261行定义。
+
+参考 CKSFilter\-Control::Close\-Device()、m\_\-sz\-File\-Name、CKSFilter\-Control::Open\-Device()及CKSFilter\-Control::Set\-Protect\-File().\index{CtestDlg@{Ctest\-Dlg}!OnBnClickedButton6@{OnBnClickedButton6}}
+\index{OnBnClickedButton6@{OnBnClickedButton6}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Ctest\-Dlg::On\-Bn\-Clicked\-Button6 ()}\label{class_ctest_dlg_a72c8e1dac0cc1ebe9060bcd2ec2af00}
+
+
+
+
+在文件test\-Dlg.cpp第278行定义。
+
+参考 CKSFilter\-Control::Close\-Device()、m\_\-sz\-Remove\-File、CKSFilter\-Control::Open\-Device()及CKSFilter\-Control::Remove\-Protect\-File().\index{CtestDlg@{Ctest\-Dlg}!OnBnClickedButton7@{OnBnClickedButton7}}
+\index{OnBnClickedButton7@{OnBnClickedButton7}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Ctest\-Dlg::On\-Bn\-Clicked\-Button7 ()}\label{class_ctest_dlg_093cdd6416e7086d6e25e5e56482fe28}
+
+
+
+
+在文件test\-Dlg.cpp第295行定义。
+
+参考 CKSFilter\-Control::Close\-Device()、CKSFilter\-Control::Load\-Config()及CKSFilter\-Control::Open\-Device().
+
+\subsection{成员数据文档}
+\index{CtestDlg@{Ctest\-Dlg}!m_hIcon@{m\_\-hIcon}}
+\index{m_hIcon@{m\_\-hIcon}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}HICON {\bf Ctest\-Dlg::m\_\-h\-Icon}\hspace{0.3cm}{\tt  [protected]}}\label{class_ctest_dlg_70789419e62a45238a2d47c8c0e50310}
+
+
+
+
+在文件test\-Dlg.h第23行定义。
+
+参考自 On\-Paint()及On\-Query\-Drag\-Icon().\index{CtestDlg@{Ctest\-Dlg}!m_szPath@{m\_\-szPath}}
+\index{m_szPath@{m\_\-szPath}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}CString {\bf Ctest\-Dlg::m\_\-sz\-Path}}\label{class_ctest_dlg_432beb592ba754e5e921c519f22a57a5}
+
+
+
+
+在文件test\-Dlg.h第32行定义。
+
+参考自 Do\-Data\-Exchange()、On\-Bn\-Clicked\-Button1()及On\-Bn\-Clicked\-Button3().\index{CtestDlg@{Ctest\-Dlg}!m_szFileName@{m\_\-szFileName}}
+\index{m_szFileName@{m\_\-szFileName}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}CString {\bf Ctest\-Dlg::m\_\-sz\-File\-Name}}\label{class_ctest_dlg_8c985871274b648d8c8a7a7e4fb933e0}
+
+
+
+
+在文件test\-Dlg.h第44行定义。
+
+参考自 Do\-Data\-Exchange()及On\-Bn\-Clicked\-Button5().\index{CtestDlg@{Ctest\-Dlg}!m_szRemoveFile@{m\_\-szRemoveFile}}
+\index{m_szRemoveFile@{m\_\-szRemoveFile}!CtestDlg@{Ctest\-Dlg}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}CString {\bf Ctest\-Dlg::m\_\-sz\-Remove\-File}}\label{class_ctest_dlg_cb57a1ddf99e09ba042b5fdb659db380}
+
+
+
+
+在文件test\-Dlg.h第46行定义。
+
+参考自 Do\-Data\-Exchange()及On\-Bn\-Clicked\-Button6().
+
+该类的文档由以下文件生成：\begin{CompactItemize}
+\item 
+{\bf test\-Dlg.h}\item 
+{\bf test\-Dlg.cpp}\end{CompactItemize}

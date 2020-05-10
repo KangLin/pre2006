@@ -1,0 +1,28 @@
+; AddInsInput.def : Declares the module parameters for the DLL.
+
+LIBRARY      "AddInsInput"
+
+EXPORTS
+    ; Explicit exports can go here
+	DllCanUnloadNow     PRIVATE
+	DllGetClassObject   PRIVATE
+	DllRegisterServer   PRIVATE
+	DllUnregisterServer PRIVATE
+
+	Show
+	Init
+	SetDTE
+	Free
+	BeforeKeyPress
+	AfterKeyPress
+	Sol_Open
+	Sol_AfterClosing
+	Sol_BeforeClosing
+	Sol_Renamed
+	Sol_ProjectAdded
+	Sol_ProjectRemoved
+	Sol_ProjectRenamed
+	Pro_ItemAdded
+	Pro_ItemRemoved
+	Pro_ItemRenamed
+	

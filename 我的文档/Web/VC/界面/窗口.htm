@@ -1,0 +1,37 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>窗 口</title>
+</head>
+
+<body>
+
+<p align="center"><b><font size="7">窗 口</font></b></p>
+<p align="center">康&nbsp; 林</p>
+<p align="left"><b>设置窗口标题</b></p>
+<p align="left">窗口自动加标题:在PreCreateWindow(CREATESTRUCT&amp; cs)函数中加入类型标识 
+<font color="#FF0000">FWS_ADDTOTITLE</font></p>
+<table border="1" width="100%" id="table1">
+	<tr>
+		<td>
+		<pre>BOOL CMainFrame::PreCreateWindow(CREATESTRUCT&amp; cs)
+{
+    if( !CMDIFrameWnd::PreCreateWindow(cs) )
+        return FALSE;
+    // TODO: Modify the Window class or styles here by modifying
+    //  the CREATESTRUCT cs</pre>
+		<pre>    cs.style = WS_OVERLAPPED | WS_CAPTION <font color="#FF0000">| FWS_ADDTOTITLE</font>
+        | WS_THICKFRAME | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_MAXIMIZE;</pre>
+		<pre>    return TRUE;
+}</pre>
+		</td>
+	</tr>
+</table>
+<p>要手动设置标题,则不要加上面的标识。用<font color="#FF0000"> | ~FWS_ADDTOTITLE</font>。然后在需要的地方用窗口的成员函数 
+SetWindowText 设置窗口标题栏。</p>
+
+</body>
+
+</html>

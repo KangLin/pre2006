@@ -1,0 +1,188 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>本&nbsp; 地&nbsp; 化</title>
+</head>
+
+<body>
+
+<p align="center"><b><font size="7">本&nbsp; 地&nbsp; 化</font></b></p>
+<p align="center">康林(2006-9-7)</p>
+<p>设置本地化：</p>
+<p><span codeLanguage="other">
+<a href="ms-help://MS.VSCC.v80/MS.MSDN.v80/MS.VisualStudio.v80.en/dv_vccrt/html/3ffb684e-5990-4202-9553-b5339af9520d.htm#seeAlsoToggle">
+setlocale</a></span></p>
+<p><span codeLanguage="other">char *setlocale(<br>
+&nbsp;&nbsp; int <span class="parameter">category</span>,<br>
+&nbsp;&nbsp; const char *<span class="parameter">locale</span> <br>
+);<br>
+参数：</span></p>
+<p><span codeLanguage="other">category：受影响的本地区域。</span></p>
+<p>locale；本地名。</p>
+<p>返回值：</p>
+<p>如果本地名和区域有效，则返回与本地名和区域相关联的字符串指针。如果无效，则返回空指针，并且当前程序的本地设置不变。</p>
+<p>例如：</p>
+<p><code>setlocale( LC_ALL, &quot;English&quot; );</code></p>
+<p><code>返回：</code></p>
+<p><code>English_United States.1252</code></p>
+<p><code>如果区域不明确，则可用setlocale(LC_ALL, NULL)来获得所有区域的设置。例如：</code></p>
+
+			<code>// Set all categories and return &quot; English_United States.1252&quot;</code><p>
+			<code>setlocale( LC_ALL, &quot;English&quot; );</code></p>
+			<p><code>// Set only the LC_MONETARY category and return 
+			&quot;French_France.1252&quot;</code></p>
+			<p><code>setlocale( LC_MONETARY, &quot;French&quot; );</code></p>
+			<p><code>setlocale( LC_ALL, NULL );</code></p>
+			<p><code>返回：</code></p>
+			
+						<code>LC_COLLATE= English_United States.1252;</code><p>
+						<code>LC_CTYPE= English_United States.1252;</code></p>
+						<p><code>LC_MONETARY=French_France.1252;</code></p>
+						<p><code>LC_NUMERIC= English_United States.1252;</code></p>
+						<p><code>LC_TIME= English_United States.1252</code>
+			
+			<p>注意：<p>区域可取下列值：
+			<dl>
+				<dt><b>LC_ALL</b> </dt>
+				<dd>所有区域</dd>
+			</dl>
+			<dl>
+				<dt><b>LC_COLLATE</b> </dt>
+				<dd>The <b>strcoll</b>, <b>_stricoll</b>, <b>wcscoll</b>, <b>_wcsicoll</b>,
+				<b>strxfrm</b>, <b>_strncoll</b>, <b>_strnicoll</b>, <b>_wcsncoll</b>,
+				<b>_wcsnicoll</b>, and <b>wcsxfrm</b> functions.</dd>
+			</dl>
+			<dl>
+				<dt><b>LC_CTYPE</b> </dt>
+				<dd>The character-handling functions (except <b>isdigit</b>, <b>
+				isxdigit</b>, <b>mbstowcs</b>, and <b>mbtowc</b>, <b>wctomb</b>,
+				<b>wcstombs</b>,which are 
+				unaffected).</dd>
+			</dl>
+			<dl>
+				<dt><b>LC_MONETARY</b> </dt>
+				<dd>Monetary-formatting information returned by the <b>
+				localeconv</b> function.</dd>
+			</dl>
+			<dl>
+				<dt><b>LC_NUMERIC</b> </dt>
+				<dd>Decimal-point character for the formatted output routines 
+				(such as <b>printf</b>), for the data-conversion routines, and 
+				for the non-monetary formatting information returned by <b>
+				localeconv</b>.&nbsp;&nbsp;&nbsp;&nbsp;In addition to the decimal-point character,
+				<b>LC_NUMERIC</b> also sets the thousands separator and the 
+				grouping control string returned by
+				<a href="ms-help://MS.VSCC.v80/MS.MSDN.v80/MS.VisualStudio.v80.en/dv_vccrt/html/7ecdb1f2-88f5-4037-a0e7-c754ab003660.htm">
+				localeconv</a>.</dd>
+			</dl>
+			<dl>
+				<dt><b>LC_TIME</b> </dt>
+				<dd>The <b>strftime</b> and <b>wcsftime</b> functions.</dd>
+			</dl>
+	
+
+
+
+<p>如果locale是一个字符串，则执行本地环境默认的设置。setlocale(LC_ALL, &quot;&quot;)</p>
+<p><font color="#FF0000">应用程序启动时，等效执行了setlocale(LC_ALL, &quot;C&quot;)。即执行C转换（C转换假设所有字符类型是在 
+1-256 之间）。</font></p>
+<p>由于mbtowc、mbstowcs、wctomb、wcstombs都受它的影响。在UNICODE下默认为C转换，所以会出现错误。详见VC\crt\src\wctomb.c文件。</p>
+<pre>　extern "C" int __cdecl _wctomb_s_l (
+        int *pRetValue,
+        char *dst,
+        size_t sizeInBytes,
+        wchar_t wchar,
+        _locale_t plocinfo
+        )
+{
+    if (dst == NULL && sizeInBytes > 0)
+    {
+        /* indicate do not have state-dependent encodings */
+        if (pRetValue != NULL)
+        {
+            *pRetValue = 0;
+        }
+        return 0;
+    }
+
+    if (pRetValue != NULL)
+    {
+        *pRetValue = -1;
+    }
+
+    /* validation section */
+    /* we need to cast sizeInBytes to int, so we make sure we are not going to truncate sizeInBytes */
+    _VALIDATE_RETURN_ERRCODE(sizeInBytes <= INT_MAX, EINVAL);
+
+
+    _LocaleUpdate _loc_update(plocinfo);
+
+    if ( _loc_update.GetLocaleT()->locinfo->lc_handle[LC_CTYPE] == _CLOCALEHANDLE ) <font color="#FF0000">//在这里进行C转换</font>
+    {
+        if ( wchar > 255 )  /* validate high byte */
+        {
+            if (dst != NULL && sizeInBytes > 0)
+            {
+                memset(dst, 0, sizeInBytes);
+            }
+            errno = EILSEQ;
+            return errno;
+        }
+
+        if (dst != NULL)
+        {
+            _VALIDATE_RETURN_ERRCODE(sizeInBytes > 0, ERANGE);
+            *dst = (char) wchar;
+        }
+        if (pRetValue != NULL)
+        {
+            *pRetValue = 1;
+        }
+        return 0;
+    }
+    else
+    {
+        int size;
+        BOOL defused = 0;
+
+        if ( ((size = WideCharToMultiByte( _loc_update.GetLocaleT()->locinfo->lc_codepage,
+                                           0,
+                                           &wchar,
+                                           1,
+                                           dst,
+                                           (int)sizeInBytes,
+                                           NULL,
+                                           &defused) ) == 0) ||
+             (defused) )
+        {
+            if (size == 0 && GetLastError() == ERROR_INSUFFICIENT_BUFFER)
+            {
+                if (dst != NULL && sizeInBytes > 0)
+                {
+                    memset(dst, 0, sizeInBytes);
+                }
+                _VALIDATE_RETURN_ERRCODE(("Buffer too small", 0), ERANGE);
+            }
+            errno = EILSEQ;
+            return errno;
+        }
+
+        if (pRetValue != NULL)
+        {
+            *pRetValue = size;
+        }
+        return 0;
+    }
+
+}</pre>
+<pre>综上所述：在UNICODE时，如果有多字符处理，则要设置本地区域。可用调用系统默认的。setlocale(LC_ALL, &quot;&quot;)</pre>
+<pre>　</pre>
+	
+
+
+
+</body>
+
+</html>

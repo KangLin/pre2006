@@ -1,0 +1,26 @@
+HKCR
+{
+	MicrosoftDevelopmentEnvironmentExtendTools.Connect.1 = s 'Connect Class'
+	{
+		CLSID = s '{AED4713D-1B4D-4DE9-866D-AD20557A4BEE}'
+	}
+	MicrosoftDevelopmentEnvironmentExtendTools.Connect = s 'Connect Class'
+	{
+		CLSID = s '{AED4713D-1B4D-4DE9-866D-AD20557A4BEE}'
+		CurVer = s 'MicrosoftDevelopmentEnvironmentExtendTools.Connect.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove '{AED4713D-1B4D-4DE9-866D-AD20557A4BEE}' = s 'Connect Class'
+		{
+			ProgID = s 'MicrosoftDevelopmentEnvironmentExtendTools.Connect.1'
+			VersionIndependentProgID = s 'MicrosoftDevelopmentEnvironmentExtendTools.Connect'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{4AC05046-DF4F-48C4-A3C0-951D95DAC83A}'
+		}
+	}
+}

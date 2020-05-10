@@ -1,0 +1,48 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>capCaptureStop</title>
+</head>
+
+<body>
+
+<h1 align="center">capCaptureStop</h1>
+<p align="center">康&nbsp; 林</p>
+<p>你能用此宏或者是明确地发送 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_2ucw.htm">
+WM_CAP_STOP</a> 消息，停止捕获操作。</p>
+<p>在捕获帧步中，在这个消息被发送前，收集的图象数据被保存在捕获文件中。同样，如果允许一个音频捕获操作的话，收集的音频数据将被保存在捕获文件中。（这与 
+<a href="capcaptureabort.htm">capCaptureAbort</a> 不同）</p>
+<pre><code><b>BOOL capCaptureStop(
+ </b><i> hwnd  </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>hwnd</i> </dt>
+	<dd>捕获窗口的句柄。 </dd>
+</dl>
+<h4>返回值：</h4>
+<p>成功返回 TRUE，否则返回 FALSE。</p>
+<h4>注释：</h4>
+<p>这个捕获操作必须用这个宏停止。用 <b>capCaptureAbort</b> 宏放弃当前捕获操作。</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in vfw.h.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_8xyd.htm">
+Video Capture Overview</a>, <a href="index.htm">Video Capture Macros</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_27sk.htm">
+<b>capCaptureAbort</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_2ucw.htm">
+WM_CAP_STOP</a></p>
+<p>　</p>
+
+</body>
+
+</html>

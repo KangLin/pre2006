@@ -1,0 +1,67 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>解决方案</title>
+</head>
+
+<body>
+
+<p align="center"><b><font size="6">解决方案、项目、工程、条目、文档</font></b></p>
+<p align="center">康林</p>
+<ol>
+	<li>解决方案对象：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfsolutionobject.htm">Solution 
+	对象</a>&nbsp;&nbsp; DTE.Solution</li>
+	<li>项目集合：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfprojectsinterface.htm">Projects 
+	集合</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DTE.Solution.Projects 或 
+	DTE.ActiveSolutionProjects()</li>
+	<li>项目对象：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfprojectobject.htm">Project 
+	对象</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	DTE.Solution.Projects.Item(n)</li>
+	<li>项目项集合：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfprojectitemscollection.htm">ProjectItems 
+	集合</a> DTE.Solution.Projects.Item(n).ProjectItems</li>
+	<li>项目项对象：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfprojectitemobject.htm">ProjectItem 
+	对象</a>&nbsp; DTE.Solution.Projects.Item(n).ProjectItems.Item(m)</li>
+	<li>文档集合：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfdocumentscollection.htm">Documents</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	DTE.Documents</li>
+	<li>文档对象：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfdocumentobject.htm">Document</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+	DTE.ActiveDocument 或 DTE.Documents.Item(n) </li>
+	<li>文本文档对象：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxobjtextdocumentobject.htm">TextDocument</a></li>
+</ol>
+<p>关系图：</p>
+<div id="nstext" style="PADDING-RIGHT: 20px; OVERFLOW: auto; WIDTH: 748px; TOP: 0px" valign="bottom">
+	<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfdteobject.htm">
+	DTE</a><p>&nbsp; <a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfsolutionobject.htm">
+	Solution</a></p>
+	<p>&nbsp; &nbsp;&nbsp;&nbsp;<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfprojectsinterface.htm">Projects</a></p>
+	<p>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfprojectobject.htm">Project</a></p>
+	<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfprojectitemscollection.htm">ProjectItems</a></p>
+	<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfprojectitemobject.htm">ProjectItem</a>
+</div>
+
+<div id="nstext0" style="PADDING-RIGHT: 20px; OVERFLOW: auto; WIDTH: 788px; TOP: 0px" valign="bottom">
+		<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfdteobject.htm">
+		DTE</a><p>&nbsp;&nbsp;&nbsp;<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfdocumentscollection.htm">Documents</a></p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfdocumentobject.htm">Document</a></p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxobjtextdocumentobject.htm">TextDocument</a>
+</div>
+<ol>
+	<li><p>从文档（Document）得到项目项对象：由文档的属性 
+	<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfprojectitempropertygeneralextensibility.htm">
+	ProjectItem 属性（常规扩展性）</a>得到。</li>
+	<li>从项目项得到所属的工程：由项目项的属性 
+	<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfcontainingprojectpropertygeneralextensibility.htm">
+	ContainingProject 属性（常规扩展性）</a>得到。<br>
+	例子：<br>
+	Dim doc as Document<br>
+	Dim pji as ProjectItem<br>
+	Dim prj as Project<br>
+	doc = DTE.ActiveDocument&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '得到当前文档<br>
+	pji = doc.ProjectItem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '得到项目项<br>
+	prj = pji.ContainingProject&nbsp;&nbsp; '得到工程</li>
+</ol>
+
+</body>
+
+</html>

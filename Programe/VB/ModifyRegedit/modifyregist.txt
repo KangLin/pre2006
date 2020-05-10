@@ -1,0 +1,115 @@
+自动执行程序：
+[HKEY_LOCAL_MACHINE\SoftWare\Microsoft\Windows\Currentversion\Run]
+新建主键名="字符串"
+
+[HKEY_LOCAL_MACHINE\SoftWare\Microsoft\Windows\Currentversion\Exporer\Desktop\NameSpace]
+把下面的2D值删除,即可清除桌面上的系统图标
+修改后面的值,即可修改系统图标
+
+桌面:
+[HKEY_CURRENT_USER\SoftWare\Microsoft\Windows\Currentversion\Policies\Explorer]
+"NoDrverTypeAutoRun"=DWORD:00000001   禁止光盘自动运行
+"NoDisktop"=DWORD:00000001            没桌面
+"NoRun"=DWORD:00000001                禁用开始菜单中的运行
+"NoClose"=DWORD:00000001              禁用开始菜单中的关闭系统
+"NoSetFolders"=DWORD:00000001         ................设置\文件夹选项
+"NoSetTaskbar"=DWORD:00000001         .....................任务栏和开始菜单
+"Nofind"=DWORD:00000001               ................查找
+
+网络和用户:
+"NoDives"=DWORD:00000001              该用户中"我的电脑"中的所有驱动器被隐藏,当值为2^N方时第N个驱动器被隐藏
+"NoEntioneNetWork"=DWORD:00000001     该用户的"网上邻居"中的"整个网络"被隐藏
+"NoWorkGroupContents"=DWORD:00000001  ......................工作目录被隐藏
+"NoSaveSettings"=DWORD:00000001       ......退出时,所作的修改不被保存
+"NoNetHood"=DWORD:00000001            "网上邻居"被隐藏
+
+只运行允许的Windows程序列表
+[HKEY_USER\"用户名"\SoftWare\Microsoft\Windows\Currentversion\Policies\Explorer]
+主键"RestrictRun",其下的字符值表示允许该用户只能运行的Windows程序的列表
+
+清除记录:
+[HKEY_CURRENT_USER\SoftWare\Microsoft\Windows\Currentversion\Policies\Explorer\Doc Find Spec MRU]
+查找中的记录
+[HKEY_CURRENT_USER\SoftWare\Microsoft\Windows\Currentversion\Policies\Explorer\RunMRU]
+运行中的记录
+
+限制控制面板:
+[HKEY_USERS\"用户名"\Sofrware\Microsoft\Windows\CurrenVersino\Policies\System]
+"NoDispAppearancePage"==DWORD:00000001 禁用"显示器"属性
+"NoDispBackGroundPage"=DWORD:00000001  隐藏............
+"NoDispCPL"=DWORD:00000001             ................中的"屏幕保护程序"页
+"NoDispScrSavPage"=DWORD:00000001      ...................."外观"页
+"NoSecCPL"=DWORD:00000001              禁用"密码"属性
+"NoPwdPage"=DWORD:00000001             隐藏..........中的"修改密码"页
+"NoAdminPage"=DWORD:00000001           ...."远程管理"页
+"NoProfilePage"=DWORD:00000001         ...."系统"属性中的"用户配置文件"页
+"NoDevMgrPage"=DWORD:00000001          .................."设备管理"页
+"NoConfigPage"=DWORD:00000001          .................."硬件配置文件"页
+"NoFileSysPage"=DWORD:00000001         .................."性能"页中的"文件系统"按钮
+"NoVirtMemPage"=DWORD:00000001         ............................. "虚拟内存"按钮
+
+禁用注册表编辑器:
+"DisableregistryTools"=DWORD:00000001
+
+[HKEY_USERS\"用户名"\Sofrware\Microsoft\Windows\CurrenVersino\Policies\NetWork]
+"NoNetSetup"=DWORD:00000001              禁用"网络"属性
+"NoNetSetupIDPage"=DWORD:00000001        隐藏"网络属性"中的"标识页
+"NoNetSetupSecurrityPage"=DWORD:00000001 .................."访问控制页"
+
+拔号网络和共享设置:
+[HKEY_LOCAL_MACHINE\Sofrware\Microsoft\Windows\CurrenVersino\Policies\NetWork]
+"NoDialIn"=DWORD:00000001                禁止拔入
+"NoFileSharing"=DWORD:00000001           禁用文件共享
+
+口令的设置:
+"HideSharePwlds"=DWORD:00000001          使用星号(*)隐藏共享口令
+"DisablePwdCaching"=DWORD:00000001       禁用口令缓存(注意用户可不用密码即登录)
+"AlphanumPwds"=DWORD:00000001            使Windows口令必须为数字或字母
+"MinPwdlen"=n                            设Windows口令的最小长度为民(0<=N<=8)
+
+必须使用口令才能登录：
+[HKEY_LOCAL_MACHINE\Sofrware\Microsoft\Windows\CurrenVersino\Policies\Winlogon]
+"mustbeValidated"=DWORD:00000001         必须用登录密码才能登录
+"DontDisPlayLastUserName"=DWORD:00000001 不显示上次的登录用户名
+
+"AutoAdminLogon"="1"
+"DisableCAD"="1"
+"DefaultUserName"=""
+"DefaultPassword"=""
+
+去掉IE内部的分级密码:
+[HKEY_LOCAL_MACHINE\Sofrware\Microsoft\Windows\CurrenVersino\Policies\Ratings]
+去掉Key键值勤即可
+
+关闭计算机对话框中的选项
+[HKEY_CURRENT_USER\SoftWare\Microsoft\Windows\Currentversion\Explorer]
+Shutdown Setting=Dword:0000000i (i=0,1,2,3,4)
+
+设置Explorer中的文件夹（收藏夹、）
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders]
+"Favorites"="C:\\Documents and Settings\\kl\\Favorites"
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders]
+"AppData"="C:\\Documents and Settings\\kl\\Application Data"
+"Cookies"="C:\\Documents and Settings\\kl\\Cookies"
+"Desktop"="C:\\Documents and Settings\\kl\\桌面"
+"Favorites"="C:\\Documents and Settings\\kl\\Favorites"
+"NetHood"="C:\\Documents and Settings\\kl\\NetHood"
+"Personal"="D:\\"
+"PrintHood"="C:\\Documents and Settings\\kl\\PrintHood"
+"Recent"="C:\\Documents and Settings\\kl\\Recent"
+"SendTo"="C:\\Documents and Settings\\kl\\SendTo"
+"Start Menu"="C:\\Documents and Settings\\kl\\「开始」菜单"
+"Templates"="C:\\Documents and Settings\\kl\\Templates"
+"Programs"="C:\\Documents and Settings\\kl\\「开始」菜单\\程序"
+"Startup"="C:\\Documents and Settings\\kl\\「开始」菜单\\程序\\启动"
+"Local Settings"="C:\\Documents and Settings\\kl\\Local Settings"
+"Local AppData"="C:\\Documents and Settings\\kl\\Local Settings\\Application Data"
+"Cache"="C:\\Documents and Settings\\kl\\Local Settings\\Temporary Internet Files"
+"History"="C:\\Documents and Settings\\kl\\Local Settings\\History"
+"My Pictures"="D:\\My Pictures"
+"Fonts"="C:\\WINDOWS\\Fonts"
+"My Music"="e:\\music"
+"Administrative Tools"="C:\\Documents and Settings\\kl\\「开始」菜单\\程序\\管理工具"
+"CD Burning"="C:\\Documents and Settings\\kl\\Local Settings\\Application Data\\Microsoft\\CD Burning"
+"My Video"=""

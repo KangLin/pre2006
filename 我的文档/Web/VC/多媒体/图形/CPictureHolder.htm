@@ -1,0 +1,216 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>CPictureHolder</title>
+</head>
+
+<body>
+
+<font size="2" face="宋体">
+<h1 align="center">CPictureHolder</h1>
+<p align="center">康&nbsp; 林</p>
+</font><font face="宋体">
+<p><span style="background-color: #FFFF00"><b>从位图句柄得到 CPictureHolder 对象</b></span></p>
+</font><font size="2" face="宋体">
+<p><b>BOOL</b> <b>CreateFromBitmap(</b> <b>UINT</b> <i>idResource</i> <b>);</b></p>
+<p><b>BOOL</b> <b>CreateFromBitmap(</b> <b>CBitmap*</b> <i>pBitmap</i><b>,</b>
+<b>CPalette*</b> <i>pPal</i> <b>=</b> <b>NULL,</b> <b>BOOL</b> <i>
+bTransferOwnership</i> <b>=</b> <b>TRUE</b> <b>);</b></p>
+<p><b>BOOL</b> <b>CreateFromBitmap(</b> <b>HBITMAP</b> <i>hbm</i><b>,</b> <b>
+HPALETTE</b> <i>hpal</i> <b>=</b> <b>NULL</b> <b>);</b></p>
+<p>此类可从一个资源ID或位图类(CBitmap)或位图句柄建立一个位图对象。</p>
+<p>当参数 <i>bTransferOwnership</i> <b>=</b> <b>TRUE</b> 时，此对象在内部复制一个位图。请用者<font color="#FF0000">不用保证</font>位图类对象或位图句柄的生命期大于在 
+CPictureHolder 生命期。</p>
+<p>当参数 <i>bTransferOwnership</i> <b>=</b> <b>FALSE</b> 时，此对象在内部复制一个位图。请用者<font color="#FF0000">要保证</font>位图类对象或位图句柄的生命期大于在 
+CPictureHolder 生命期。</p>
+</font><font face="宋体">
+<p><span style="background-color: #FFFF00"><b>从光标句柄得到 CPictureHolder 对象</b></span></p>
+</font><font size="2" face="宋体">
+<p><b>BOOL</b> <b>CreateFromIcon(</b> <b>UINT</b> <i>idResource</i> <b>);</b></p>
+<p><b>BOOL</b> <b>CreateFromIcon(</b> <b>HICON</b> <i>hIcon</i><b>,</b> <b>BOOL</b>
+<i>bTransferOwnership</i> <b>=</b> <b>FALSE</b> <b>);</b></p>
+<p>从一个光标句柄或光标资源建立一个光标对象。参数 <i>bTransferOwnership </i></font><font face="宋体">
+的意同上。</p>
+</font><font face="verdana,arial,helvetica">
+<p><span style="background-color: #FFFF00"><b>
+<a name="从_CPictureHolder_对象得到位图句柄或光标句柄" href="../../../../Active控件/建立ActiveX控件.htm#增加加函数从 CPictureHolder 对象得到 CBitmap 对象的函数">
+从 CPictureHolder 对象得到位图句柄或光标句柄</a></b></span></p>
+</font><font face="verdana,arial,helvetica" size="2">
+<table border="1" width="100">
+	<tr>
+		<td>
+		<pre>GetCBitmapFromPictureHolder(CPictureHolder *ph, CBitmap *pb)
+{
+	ASSERT(ph != NULL &amp;&amp; pb != NULL);
+	</pre>
+		<pre>	// if picture is a bitmap
+	if (PICTYPE_BITMAP == ph-&gt;GetType())
+	{
+		HBITMAP hBitmap = NULL;
+		</pre>
+		<pre>		// get handle of the bitmap
+		ph-&gt;m_pPict-&gt;get_Handle((OLE_HANDLE FAR *) &amp;hBitmap);
+		if(hBitmap != NULL) 
+		{
+			if(pb-&gt;GetSafeHandle() != NULL)
+				pb-&gt;Detach();
+			pb-&gt;Attach(hBitmap);
+			return true;
+		} 
+	}
+	return false;	
+}</pre>
+		</td>
+	</tr>
+</table>
+</font>
+<p>主要用 CPictureHolder 类中的成员 IPicture* m_pPict;</p>
+<p align="center"><b><font size="6">IPicture</font></b></p>
+<table cellSpacing="0" cellPadding="0" width="100" border="0">
+	<tr>
+		<td vAlign="top" width="*">
+		<table cellSpacing="0" cellPadding="0" width="91%" border="0">
+			<tr>
+				<td>IPicture 的方法描述：<br>
+　<table cellPadding="0" width="725" border="1">
+					<tr>
+						<td align="middle" width="28%">方法</td>
+						<td align="middle" width="72%">描述</td>
+					</tr>
+					<tr>
+						<td width="28%">get_Handle&nbsp;</td>
+						<td width="72%">返回图像对象的Windows GDI句柄&nbsp;</td>
+					</tr>
+					<tr>
+						<td width="28%">get_Hpal&nbsp;</td>
+						<td width="72%">返回图像对象当前使用的调色板拷贝</td>
+					</tr>
+					<tr>
+						<td width="28%">get_Type</td>
+						<td width="72%">返回当前图像对象的的图像类型</td>
+					</tr>
+					<tr>
+						<td width="28%">get_Width&nbsp;</td>
+						<td width="72%">返回当前图像对象的图像宽度</td>
+					</tr>
+					<tr>
+						<td width="28%">get_Height&nbsp;</td>
+						<td width="72%">返回当前图像对象的图像高度</td>
+					</tr>
+					<tr>
+						<td width="28%">Render&nbsp;</td>
+						<td width="72%">在指定的位置、指定的设备上下文上绘制指定的图像部分</td>
+					</tr>
+					<tr>
+						<td width="28%">set_Hpal&nbsp;</td>
+						<td width="72%">设置当前图像的调色板</td>
+					</tr>
+					<tr>
+						<td width="28%">get_CurDC&nbsp;</td>
+						<td width="72%">返回当前选中这个图像的设备上下文</td>
+					</tr>
+					<tr>
+						<td width="28%">SelectPicture&nbsp;</td>
+						<td width="72%">将一个位图图像选入给定的设备上下文，返回选中图像的设备上下文和图像的GDI句柄</td>
+					</tr>
+					<tr>
+						<td width="28%">get_KeepOriginalForma&nbsp;</td>
+						<td width="72%">返回图像对象KeepOriginalFormat 属性的当前值</td>
+					</tr>
+					<tr>
+						<td width="28%">put_KeepOriginalFormat&nbsp;</td>
+						<td width="72%">设置图像对象的KeepOriginalFormat 属性</td>
+					</tr>
+					<tr>
+						<td width="28%">PictureChanged&nbsp;</td>
+						<td width="72%">通知图像对象它的图像资源改变了</td>
+					</tr>
+					<tr>
+						<td width="28%">SaveAsFile&nbsp;</td>
+						<td width="72%">将图像数据存储到流中，格式与存成文件格式相同</td>
+					</tr>
+					<tr>
+						<td width="28%">get_Attributes&nbsp;</td>
+						<td width="72%">返回图像位属性当前的设置</td>
+					</tr>
+				</table>
+				</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>
+<p>根据结构 <b>PICTDESC</b> 建立一个新的对象。</p>
+<p><code><b>STDAPI OleCreatePictureIndirect(<br>
+&nbsp; PICTDESC*</b><i> pPictDesc</i><b>,</b><br>
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</b>//Pointer to the structure of parameters for picture<br>
+<b>&nbsp; REFIID </b><i>&nbsp;riid</i><b>,&nbsp; </b>//Reference to the 
+identifier of the interface<br>
+<b>&nbsp; BOOL</b><i> fOwn</i><b>,&nbsp;&nbsp;&nbsp;&nbsp; </b>//Whether the 
+picture is to be destroyed<br>
+<b>&nbsp; VOID**</b><i> ppvObj&nbsp; </i>//Address of output variable that 
+receives the <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+// interface pointer requested in <i>riid</i><br>
+<b>);</b><br>
+　</code></p>
+<h1>PICTDESC</h1>
+<p>The <b>PICTDESC</b> structure contains parameters to create a picture object 
+through the <b>OleCreatePictureIndirect</b> function.</p>
+<pre><code>typedef struct tagPICTDESC 
+{ 
+    UINT cbSizeOfStruct; 
+    UINT picType; 
+    union 
+    { 
+        struct 
+        { 
+            HBITMAP hbitmap; //位图句柄
+            HPALETTE hpal;   //调色板 
+        } bmp; 
+        struct 
+        { 
+            HMETAFILE hmeta;//元图句柄 
+            int xExt; 
+            int yExt; 
+        } wmf; 
+        struct 
+        { 
+            HICON hicon;    //光标句柄 
+        } icon; 
+        struct 
+        { 
+            HENHMETAFILE hemf; 
+        } emf; 
+    } ; 
+} PICTDESC; 
+ </code></pre>
+<p><code>从一个流建立一个对象。</code></p>
+<p><code><b>STDAPI OleLoadPicture(<br>
+&nbsp; IStream *</b><i> pStream</i><b>,</b><br>
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</b>//Pointer to the stream that contains picture's data<br>
+<b>&nbsp; LONG</b><i> lSize</i><b>,&nbsp; </b>//Number of bytes read from the 
+stream<br>
+<b>&nbsp; BOOL</b><i> fRunmode</i><b>,</b><br>
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</b>//The opposite of the initial value of the picture's <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+// property<br>
+<b>&nbsp; REFIID</b><i> riid</i><b>, </b>//Reference to the identifier of the 
+interface <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+// describing the type of interface pointer to return<br>
+<b>&nbsp; VOID</b><i> ppvObj&nbsp; </i>//Address of output variable that 
+receives interface <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+// pointer requested in <i>riid</i><br>
+<b>);</b></code></p>
+<p>　</p>
+
+</body>
+
+</html>

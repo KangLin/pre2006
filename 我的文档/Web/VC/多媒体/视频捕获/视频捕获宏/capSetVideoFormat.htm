@@ -1,0 +1,57 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>capSetVideoFormat</title>
+</head>
+
+<body>
+
+<h1 align="center">capSetVideoFormat</h1>
+<p align="center">康&nbsp; 林</p>
+<p>你能用此宏或者明确地发送 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_8t2s.htm">
+WM_CAP_SET_VIDEOFORMAT</a> 消息，设置捕获视频数据的格式。</p>
+<pre><code><b>BOOL capSetVideoFormat(
+ </b><i> hwnd</i><b>,           </b>
+<b> </b><i> psVideoFormat</i><b>,  </b>
+<b> </b><i> wSize           </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>hwnd</i> </dt>
+	<dd>捕获窗口的句柄。</dd>
+	<dt><i>psVideoFormat</i> </dt>
+	<dd><a href="JavaScript:alink_1.Click()"><b>BITMAPINFO</b></a> 指针。</dd>
+	<dt><i>wSize</i> </dt>
+	<dd><i>psVideoFormat</i> 指定结构的大小。单位：字节。</dd>
+</dl>
+<h4>返回值：</h4>
+<p>成功返回 TRUE，否则返回 FALSE。</p>
+<h4>注释：</h4>
+<p>因为视频格式是设备的细节，所以应用程序应该检查它的返回值，以确定设备驱动是否接受此格式。</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in vfw.h.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_8xyd.htm">
+Video Capture Overview</a>, <a href="index.htm">Video Capture Macros</a>,
+<object id="alink_2" type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param NAME="Width" VALUE="0">
+	<param NAME="Height" VALUE="0">
+	<param NAME="Command" VALUE="ALink,MENU">
+	<param NAME="Item1" VALUE>
+	<param NAME="Item2" VALUE="_">
+</object>
+<a href="JavaScript:alink_2.Click()"><b>BITMAPINFO</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_8t2s.htm">
+WM_CAP_SET_VIDEOFORMAT</a></p>
+
+</body>
+
+</html>

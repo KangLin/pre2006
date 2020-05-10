@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "socmca", "socmca\socmca.vcproj", "{BF491C25-5D85-4659-8AF2-2AA070CCCB5A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "socmca\Platform\Test\Test\Test.vcproj", "{104A54A4-38E3-471E-82C8-7915FF194241}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WMItest", "socmca\WMI\test\test\WMItest.vcproj", "{60C2C45F-F35A-40F5-A9E2-DE78E5E9F969}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 4
+		SccLocalPath0 = .
+		CanCheckoutShared = false
+		SccProjectUniqueName1 = socmca\\Platform\\Test\\Test\\Test.vcproj
+		SccLocalPath1 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection1 = socmca\\Platform\\Test\\Test\\
+		SccProjectUniqueName2 = socmca\\socmca.vcproj
+		SccLocalPath2 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection2 = socmca\\
+		SccProjectUniqueName3 = socmca\\WMI\\test\\test\\WMItest.vcproj
+		SccLocalPath3 = .
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection3 = socmca\\WMI\\test\\test\\
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF491C25-5D85-4659-8AF2-2AA070CCCB5A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BF491C25-5D85-4659-8AF2-2AA070CCCB5A}.Debug|Win32.Build.0 = Debug|Win32
+		{BF491C25-5D85-4659-8AF2-2AA070CCCB5A}.Release|Win32.ActiveCfg = Release|Win32
+		{BF491C25-5D85-4659-8AF2-2AA070CCCB5A}.Release|Win32.Build.0 = Release|Win32
+		{104A54A4-38E3-471E-82C8-7915FF194241}.Debug|Win32.ActiveCfg = Debug|Win32
+		{104A54A4-38E3-471E-82C8-7915FF194241}.Debug|Win32.Build.0 = Debug|Win32
+		{104A54A4-38E3-471E-82C8-7915FF194241}.Release|Win32.ActiveCfg = Release|Win32
+		{104A54A4-38E3-471E-82C8-7915FF194241}.Release|Win32.Build.0 = Release|Win32
+		{60C2C45F-F35A-40F5-A9E2-DE78E5E9F969}.Debug|Win32.ActiveCfg = Debug|Win32
+		{60C2C45F-F35A-40F5-A9E2-DE78E5E9F969}.Debug|Win32.Build.0 = Debug|Win32
+		{60C2C45F-F35A-40F5-A9E2-DE78E5E9F969}.Release|Win32.ActiveCfg = Release|Win32
+		{60C2C45F-F35A-40F5-A9E2-DE78E5E9F969}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

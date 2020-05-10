@@ -1,0 +1,144 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>WinSocket的使用</title>
+<link rel="stylesheet" type="text/css" href="../../../Scrpit/样式.css">
+<script language="vbscript" src="../../../Scrpit/webscrpit.bas" ></script>
+<script language="JavaScript" fptype="dynamicoutline">
+<!--
+function dynOutline() {}
+//-->
+</script>
+<script language="JavaScript1.2" fptype="dynamicoutline" src="file:///C:/Program%20Files/Microsoft%20Office/OFFICE11/fpclass/outline.js">
+</script>
+<script language="JavaScript1.2" fptype="dynamicoutline" for="document" event="onreadystatechange()">
+<!--
+initOutline()
+//-->
+</script>
+</head>
+
+<body onclick="dynOutline()" language="Javascript1.2">
+
+<p align="center"><b><font size="7">WinSocket的使用</font></b></p>
+<p align="center">康&nbsp; 林</p>
+<ol type="I">
+	<li>
+		<p align="left"><b>准备:</b></p>
+	    <ol dynamicoutline initcollapsed style ="cursor:hand">
+		    <li>
+			<p align="left"><b>加入头文件</b>:#include &lt;afxsock.h&gt; // MFC socket extensions</li>
+				<li>
+				<p align="left"><b>在应用程序初始化中加入下面代码</b>(红色部分):
+		             <table border="0" width="746">
+						<tr>
+							<td>
+						<pre>BOOL CWinsocketexpApp::InitInstance(){
+	<font color="#FF0000">if (!AfxSocketInit())//初始化WinSocket
+	{
+		AfxMessageBox(IDP_SOCKETS_INIT_FAILED);
+		return FALSE;
+	}</font></pre>
+						<pre>	AfxEnableControlContainer();  //初始化ActiveX控件容器</pre>
+						<pre>	// Standard initialization
+	// If you are not using these features and wish to reduce the size
+	//  of your final executable, you should remove from the following
+	//  the specific initialization routines you do not need.</pre>
+						<pre>#ifdef _AFXDLL
+	Enable3dControls();			// Call this when using MFC in a shared DLL
+#else
+	Enable3dControlsStatic();	// Call this when linking to MFC statically
+#endif</pre>
+						<pre>	CWinsocketexpDlg dlg;
+	m_pMainWnd = &amp;dlg;
+	int nResponse = dlg.DoModal();
+	if (nResponse == IDOK)
+	{
+		// TODO: Place code here to handle when the dialog is
+		//  dismissed with OK
+	}
+	else if (nResponse == IDCANCEL)
+	{
+		// TODO: Place code here to handle when the dialog is
+		//  dismissed with Cancel
+	}</pre>
+						<pre>	// Since the dialog has been closed, return FALSE so that we exit the
+	//  application, rather than start the application's message pump.
+	return FALSE;
+}</pre>
+							</td>
+						</tr>
+				</table>
+			</li>
+	    </ol>
+	</li>
+	<li><b>TCP</b><p>　</p>
+	</li>
+	<li><b>UDP</b><p>
+		<ol>
+			<li><b>从CSocket派生一个CUDPSocket类</b>:class CUDPSocket : public CSocket</li>
+			<li><b>在CUDPSocket类中加入成员函数</b> Inital:
+    			<table border="0" width="589">
+	    			<tr>
+		    			<td>
+			<pre>BOOL CUDPSocket::Inital(CWnd *pParent, UINT nLocatePort)
+{
+	m_pParent =(CWinsocketexpDlg*) pParent;
+	if(!Create(nLocatePort, SOCK_DGRAM))
+	{
+		TRACE(_T(&quot;CUDPSocket初始化失败.CUDPSocket::Inital-Create\n&quot;));
+		return FALSE;
+	}
+         return TRUE;
+}</pre>
+            		   </td>
+		  		    </tr>
+	    	     </table>
+		 </li>
+		 <li>增加接收函数:OnReceive:
+		     <table border="0" width="587">
+		         <tr>
+				    <td>
+			<pre>void CUDPSocket::OnReceive(int nErrorCode) 
+{
+	// TODO: Add your specialized code here and/or call the base class
+	TRACE(_T(&quot;CUDPSocket::OnReceive\n&quot;));
+	char buf[1024];
+	UINT nBufLen;
+	Receive(buf, 1024);
+	</pre>
+			<pre>	m_pParent-&gt;m_ctrLstRecive.AddString(buf);</pre>
+			<pre>	CSocket::OnReceive(nErrorCode);
+}</pre>
+					</td>
+				</tr>
+			</table>
+		</li>
+	</ol>
+	<li><b>CSocket类:</b>
+		<ol>
+			<li>建立一个sock并与指定的端口绑定：Create(UINT nSocketPort = 0, int 
+			nSocketType=SOCK_STREAM,LPCTSTR lpszSocketAddress = NULL);</li>
+			<li>得到本地IP和端口:BOOL GetSockName(CString&amp; rSocketAddress, UINT&amp; 
+			rSocketPort);<br>
+			BOOL GetSockName(SOCKADDR* lpSockAddr, int* lpSockAddrLen);</li>
+			<li>得到与套接口相连的端的同等套接口的地址：BOOL GetPeerName(CString&amp; rPeerAddress, 
+			UINT&amp; rPeerPort);<br>
+			BOOL GetPeerName(SOCKADDR* lpSockAddr, int* lpSockAddrLen);</li>
+		</ol>
+	</li>
+	<li><b>常见问题:</b>
+	    <ol>
+			<li></li>
+			<li>
+			</li>
+		</ol>
+	</li>
+
+</ol>
+<p class ="showlink" onclick="showall" id="showall">　</p>
+</body>
+
+</html>

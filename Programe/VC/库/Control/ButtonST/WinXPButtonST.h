@@ -1,0 +1,74 @@
+/*******************************************************************************************************
+//以下是由 ---康  林--- 增加于 2004-12-10 : 23:57:25
+//
+
+ [ VC知识库第17期, 适合初级读者 ]
+
+   CButtonST使用技巧（一）
+
+//
+//以上是由 ---康  林--- 增加于 2004-12-10 : 23:57:25
+*******************************************************************************************************/
+//
+//	Class:		CWinXPButtonST
+//
+//	Compiler:	Visual C++
+//				eMbedded Visual C++
+//	Tested on:	Visual C++ 6.0
+//				Windows CE 3.0
+//
+//	Created:	03/September/2001
+//	Updated:	11/September/2001
+//
+//	Author:		Davide Calabro'		davide_calabro@yahoo.com
+//
+//	Disclaimer
+//	----------
+//	THIS SOFTWARE AND THE ACCOMPANYING FILES ARE DISTRIBUTED "AS IS" AND WITHOUT
+//	ANY WARRANTIES WHETHER EXPRESSED OR IMPLIED. NO REPONSIBILITIES FOR POSSIBLE
+//	DAMAGES OR EVEN FUNCTIONALITY CAN BE TAKEN. THE USER MUST ASSUME THE ENTIRE
+//	RISK OF USING THIS SOFTWARE.
+//
+//	Terms of use
+//	------------
+//	THIS SOFTWARE IS FREE FOR PERSONAL USE OR FREEWARE APPLICATIONS.
+//	IF YOU USE THIS SOFTWARE IN COMMERCIAL OR SHAREWARE APPLICATIONS YOU
+//	ARE GENTLY ASKED TO DONATE 1$ (ONE U.S. DOLLAR) TO THE AUTHOR:
+//
+//		Davide Calabro'
+//		P.O. Box 65
+//		21019 Somma Lombardo (VA)
+//		Italy
+//
+#ifndef _WINXPBUTTONST_H_
+#define _WINXPBUTTONST_H_
+
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
+#ifdef UNDER_CE
+#include "CeBtnST.h"
+#define	BASE_BUTTONST	CCeButtonST
+#else
+#include "BtnST.h"
+#define	BASE_BUTTONST	CButtonST
+#endif
+
+class CWinXPButtonST : public BASE_BUTTONST
+{
+public:
+	CWinXPButtonST();
+	virtual ~CWinXPButtonST();
+
+	DWORD SetRounded(BOOL bRounded, BOOL bRepaint = TRUE);
+
+protected:
+	virtual DWORD OnDrawBackground(CDC* pDC, LPCRECT pRect);
+	virtual DWORD OnDrawBorder(CDC* pDC, LPCRECT pRect);
+
+private:
+	BOOL	m_bIsRounded;		// Borders must be rounded?
+};
+
+#endif 

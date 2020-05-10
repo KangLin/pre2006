@@ -1,0 +1,101 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>VcExtend文档</title>
+</head>
+
+<body topmargin="0" leftmargin="0">
+<script language="javascript" src="/js/header.js"></script>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td height="20"></td>
+    </tr>
+  </table>
+  </center>
+</div>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td width="100%">
+        <div align="center">
+          <table border="0" width="680">
+            <tr>
+              <td align="right" height="18">VcExtend使用说明书
+                <hr size="1" color="#000080">
+              </td>
+            </tr>
+            <tr>
+              <td align="center" height="10"></td>
+            </tr>
+            <tr>
+              <td align="center"><b>二、</b><b>看一看，试一试，味道怎么样？</b></td>
+            </tr>
+            <tr>
+              <td height="20"></td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp; 启动VC60， 打开Example目录下的Demo工程。<p>&nbsp;&nbsp;&nbsp; 这是AppWidzard生成的SDI工程，全部使用缺省选项，只不过加了两个类罢了。</p>      
+                <p>&nbsp;&nbsp;&nbsp; 让我们先来看一看。</p>     
+                <p>&nbsp;&nbsp;&nbsp; 打开CShow类的头文件，是不是觉得代码特别的清爽干净？</p>    
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;再用浏览器打开Doc目录下的Doc.htm文件。</p>
+                <p>&nbsp;&nbsp;&nbsp; 如果你没有安装微软XML插件，赶紧装一个。我用的是msxml3_cn。没有这个可能无法看到文档的效果。</p>   
+                <p>&nbsp;&nbsp;&nbsp; 你可以看到CShow的文档了，虽然这是随便贴的一些文字，没有实际意义，但如果是真正的工程，这个文档就可以在编码、调试、维护的过程中发挥很大的作用，这些东西完全是由注释自动生成的。CTaste类的文档还是空的，等一下由你来完成。</p>  
+                <p>&nbsp;&nbsp;&nbsp; 现在，我们再来试一试。请打开CTaste类的头文件，这是一个什么功能也没有的类。</p>  
+                <p>&nbsp;&nbsp;&nbsp; 先试一下CodeCleanUp功能。&nbsp;&nbsp;&nbsp;&nbsp;</p>  
+                <p>&nbsp;&nbsp;&nbsp;    
+                随便写两个函数的声明，不要使用VC的Add Member    
+                Function功能，而是直接在头文件上写。如：</p>
+                <p>&nbsp;&nbsp;&nbsp; CString CreateNewObj(CString Name, int    
+                Age);</p>
+                <p>&nbsp;&nbsp;&nbsp; 在private:下面加个几成员变量，也是直接在头文件上写。每个变量要独占一行，并且，在要需要提供读写接口的变量后面加上可读写标记,可读的为//R，可写的为//W，可读写的为..RW,只能加在注释的最前面，如:</p>  
+                <p>private:&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;&nbsp;&nbsp; CString m_strName; //RW 对象的名字<br>   
+                &nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp;&nbsp;    
+                m_nAge;&nbsp;&nbsp;&nbsp; //R 对象年龄<br>   
+                &nbsp;&nbsp;&nbsp; CString m_strAddr; //W</p>   
+                <p>&nbsp;&nbsp;&nbsp; 写完了吧？现在，点一下CodeCleanUp按钮。</p>   
+                <p>&nbsp;&nbsp;&nbsp;    
+                把光标放到你的函数的声明上，点击CodeJump按钮，怎么样？到了函数体了吧？再点一下CodeJump，又回到声明这边来了。</p>
+                <p>&nbsp;&nbsp;&nbsp; 再看看头文件的下方，注明R的函数生成了Get函数，注明W的生成了Set函数，把光标移到这些函数的上面，点击CodeJump，怎么样？函数体和实现都有了！</p>  
+                <p>&nbsp;&nbsp;&nbsp; 再用CodeJump跳回头文件。我们只是走马观花一下，后面会有更详细的说明，现在先看看另一个主要功能：注释！</p>  
+                <p>&nbsp;&nbsp;&nbsp;    
+                把光标在一个函数的声明上，点击Comment按钮，函数上方会出来一个注释模板。先不管这些注释项是否符合你的要求，如果需要，你可以修改的，以后再说。</p>
+                <p>&nbsp;&nbsp;&nbsp;    
+                在各注释项上填一些内容，最好不要填垃圾文字，不想写的话，从别的地方拷一些也行，比如说就从这篇说明书上拷一些文字。</p>
+                <p>&nbsp;&nbsp;&nbsp; 再点击Comment按钮，出问题啦，注释不见了！不会丢了吗？再点Comment，还好，又回来了。</p>   
+                <p>&nbsp;&nbsp;&nbsp; 用CodeJump跳到函数体。当你在写函数实现时想看一下注释怎么办？点一下Comment，真棒，头文件写的注释，源文件也可以查看，当然，修改也是可以的。</p>  
+                <p>&nbsp;&nbsp;&nbsp;    
+                这是函数注释，类注释有没有？当然有了，还是这个Comment，只不过要先把光标放到类声明或类声明上方。</p>
+                <p>&nbsp;&nbsp;&nbsp;   
+                在类注释各项上填些文字，特别是简述和说明两项，多填一些，当然，内容可以是随便拷来的。</p>
+                <p>&nbsp;&nbsp;&nbsp;   
+                无论是函数注释还是类注释，写完或修改后都要再点一下Comment，并且，光标要放在注释或函数上，当注释隐藏了，才是保存了。</p>
+                <p>&nbsp;&nbsp;&nbsp;   
+                现在我们来看看你写的文档。没写过文档？刚才填的注释就是了。</p>
+                <p>&nbsp;&nbsp;&nbsp; 用浏览器打开工程目录下的Doc目录下的doc.htm，接下来，就随便逛吧，反正，文档很象MSDN，格式是我们大家都很熟悉的。</p>   
+                <p>&nbsp;&nbsp;&nbsp;   
+                毛主席教导我们，要知道梨子的滋味，就得亲口尝一尝。味道怎么样？如果你喜欢，就继续往下看，如果不喜欢，如果不喜欢，那么......不会是真的吧？</td>
+            </tr>
+            <tr>
+              <td height="30"></td>
+            </tr>
+            <tr>
+              <td align="right"><a href="index.htm">返回目录页</a>&nbsp;&nbsp; 
+                下一节：<a href="foreword.htm">丑话说在前头----问题与注意事项</a></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+  </center>
+</div>
+<script language="javascript" src="/js/tail.js"></script>
+</body>
+
+</html>

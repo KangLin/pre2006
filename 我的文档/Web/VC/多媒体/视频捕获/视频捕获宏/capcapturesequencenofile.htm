@@ -1,0 +1,72 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>capCaptureSequenceNoFile</title>
+</head>
+
+<body>
+
+<h1 align="center">capCaptureSequenceNoFile</h1>
+<p align="center">康&nbsp; 林</p>
+<p>你能用此宏或者明确的发送 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_3gpx.htm">
+WM_CAP_SEQUENCE_NOFILE</a> 消息，开始一个捕获不写入文件的视频流。</p>
+<pre><code><b>BOOL capCaptureSequenceNoFile(
+ </b><i> hwnd  </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>hwnd</i> </dt>
+	<dd>捕获窗口的句柄</dd>
+</dl>
+<h4>返回值：</h4>
+<p>成功返回 TRUE，否则返回 FALSE。</p>
+<h4>注释：</h4>
+<p>这个宏能有效的使回调函数与视频流和音频流相关联，能让你的应用程序直接处理视频和音频数据。</p>
+<dl>
+	<dt>如果你想改变参数控制捕获流，那应该在捕获开始前用 <a href="capcapturesetsetup.htm">
+	capCaptureSetSetup</a> 宏设置参数。</dt>
+</dl>
+<p>默认在一个捕获窗口正在捕获期间，不允许其它的应用程序运行。要强制运行的话，就读设置 
+<a href="结构.htm#CAPTUREPARMS">CAPTUREPARMS</a> 结构的成员 fYield 为 TRUE 
+或者安装一个产生(yield)回调函数。</p>
+<p>在捕获流期间，捕获窗口能明确地向你的应用程序传送指明类型的（specific types of 
+conditions）通知。要为这些通知安装回调函数，用下面的宏：</p>
+<p><b>capSetCallbackOnError<br>
+capSetCallbackOnStatus<br>
+capSetCallbackOnVideoStream<br>
+capSetCallbackOnWaveStream<br>
+capSetCallbackOnYield</b></p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in vfw.h.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_8xyd.htm">
+Video Capture Overview</a>, <a href="index.htm">Video Capture Macros</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_6568.htm">
+<b>capCaptureSetSetup</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_2jsi.htm">
+<b>capSetCallbackOnError</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_3hrn.htm">
+<b>capSetCallbackOnStatus</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_8vql.htm">
+<b>capSetCallbackOnVideoStream</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_9r8t.htm">
+<b>capSetCallbackOnWaveStream</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_2pr8.htm">
+<b>capSetCallbackOnYield</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_6eia.htm">
+<b>CAPTUREPARMS</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_3gpx.htm">
+WM_CAP_SEQUENCE_NOFILE</a></p>
+<p>　</p>
+
+</body>
+
+</html>

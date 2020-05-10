@@ -1,0 +1,88 @@
+<html>
+<head>
+<style>
+<!--
+.10pt        { font-size: 10pt }
+.10ptb       { font-size: 10pt; font-weight: bold; color: #000080 }
+.12pt        { font-size: 12pt;}
+.12ptb       { font-size: 12pt; font-weight: bold; color: #000080 }
+.14pt        { font-size: 14pt; font-family: 宋体; font-weight: bold }
+.16pt        { font-size: 16pt; font-family: 宋体; font-weight: bold }
+.18pt        { font-size: 18pt; font-family: 宋体; font-weight: bold }
+.20pt        { font-size: 20pt; font-family: 宋体; font-weight: bold }
+-->
+</style>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+var XmlFile	= "doc.xml"
+var XslFile	= "classlist.xsl"
+var ClassName  = ""
+var MemberName = ""
+var FunCort    = ""
+
+var XslProc;
+
+function OutputHtml()
+{
+    var Xslt	= new ActiveXObject("MSXML2.XSLTemplate.3.0");
+    var XslDoc  = new ActiveXObject("MSXML2.FreeThreadedDOMDocument.3.0");
+    var XmlDoc	= new ActiveXObject("Msxml2.DOMDocument.3.0");
+
+	XslDoc.async	= false;
+	XslDoc.load(XslFile);
+	Xslt.stylesheet	= XslDoc;
+
+	XmlDoc.async	= false;
+	XmlDoc.load(XmlFile);
+
+	XslProc		    = Xslt.createProcessor();
+	XslProc.input	= XmlDoc;
+
+	XslProc.addParameter("ClassName", ClassName);
+	XslProc.addParameter("MemberName", MemberName);
+
+	XslProc.transform();
+
+	return XslProc.output;
+}
+
+function ChangeCort(cort)
+{
+    alert(cort)
+    XslProc.addParameter("FunCort", cort);
+}
+
+function ChangeHtml()
+{
+	Output.innerHTML = OutputHtml();
+}
+
+function window.onload()
+{
+	ChangeHtml()
+}
+
+function changePage(file, classname, membername)
+{
+    XslFile = file;
+	if(classname != "")
+	{
+	    ClassName  = classname.replace(" ", "");
+	}
+	if(membername != "")
+	{
+	    MemberName = membername.replace(" ", "");
+	}
+	ChangeHtml();
+}
+//-->
+</SCRIPT>
+
+</head>
+<body onload="ChangeHtml()">
+
+<div id="Output"></div>
+
+</body>
+</html>

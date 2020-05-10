@@ -1,0 +1,35 @@
+// KeyInput.idl : KeyInput.dll 的类型库源
+// 此文件将由 MIDL 编译器处理以产生
+// 类型库(KeyInput.tlb)。
+
+#include "olectl.h"
+[ uuid(DEDBF865-48BF-4C80-806D-54ADAC7FF281), version(1.0) ]
+library KeyInput
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	//  KeyInput 的主调度接口		
+	[ uuid(87741D4A-7277-4D93-98F0-D116B995FD91) ]
+	dispinterface IKeyInput
+	{
+		properties:
+		methods:
+	};
+
+    [uuid(BD08738C-FE72-42b5-AB62-41459C98476F)]
+    dispinterface IKeyEvents
+    {
+        properties:
+		methods:
+        [id(1), helpstring("方法KeyUp")] HRESULT KeyUp(void);
+    };
+
+    //  KeyInput 的类信息
+	[ uuid(7C6F1364-8C73-4335-B6FD-C61D53681573) ]
+	coclass KeyInput
+	{
+		[default] dispinterface IKeyInput;
+        [default, source] dispinterface IKeyEvents;
+	};
+};

@@ -1,0 +1,480 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>文档与视图</title>
+</head>
+
+<body>
+
+<p align="center"><b><font size="7">文档与视图</font></b></p>
+<p align="center">康林</p>
+<div align="justify">
+	<table class="font" height="57" width="100%" border="0">
+		<tr>
+			<td class="font" width="100%" colSpan="2" height="5">
+			<span class="90v"><b>如何改变一个视图的大小？</b>
+			<p>通常，你可以调用函数MoveWindow（）来改变窗口的大小。在用MFC库开发的应用程序中， 
+			视图是被框架窗口所围绕的一个子窗口。为了改变一个视图的大小，你可以通过调用函数GetParentFrame()来得到框架窗口的指针，然后调用函数MoveWindow()来改变父窗口的大小。当父框架窗口改变大小时，视图也会自动地改变大小来适应父窗口。 
+			</p>
+			<p><b>如何改变一个CFormView的大小？</b> </p>
+			<p>要想详细了解的话，你可以看有关Visual C＋＋基础知识的文章Q98598 《Using CFormView in SDI 
+			and MDI 
+			Applications》。基本上，在从CFormView类派生出来的类中，你必须覆盖函数OnInitialUpdate()。其他有关建立CFormView的细节问题，可以从该文章中获得。 
+			</p>
+			<pre>在类ClikethisView中声明如下函数：
+  virtual void OnInitialUpdate();
+
+在ClikethisView的代码中，函数如下：
+
+  void ClikethisView::OnInitialUpdate()
+  {
+      //使窗口与主对话框同样大小
+      CFormView::OnInitialUpdate();
+      GetParentFrame()-&gt;RecalcLayout();
+      ResizeParentToFit( /*FALSE*/ );
+  }
+  
+<b>如何使用一个文档模板的新视图？</b></pre>
+			<p>
+			在用AppWizard创建的应用程序中，你有两种选择：改变当前视图的派生关系或者建立一个新视图并且在你的MDI程序中同时利用新视图和原先的视图。<br>
+			<br>
+			<br>
+			为了创建一个新视图，你可以用ClassWizard由CView派生一个新的类。当新类创建以后，利用新视图或修改由AppWizard提供的视图，两者的步骤是相同的。<br>
+			<br>
+			<br>
+			修改视类的头文件，从而将所有对CView类的引用改名为你所想要的名称。本例中的类由CScrollView派生而来。通常，这个步骤包括对类的改变，视类将由如下方式派生而来：<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;class CMyView : public CScrollView<br>
+			<br>
+			<br>
+			修改视类的实现文件，从而将所有对CView的引用改名为你所想要的名称。这包括将IMPLEMENT_DYNCREATE那一行的语句改为：<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;IMPLEMENT_DYNCREATE(CMyView, CScrollView)<br>
+			<br>
+			<br>
+			将BEGIN_MESSAGE_MAP那一行的语句改为：<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;BEGIN_MESSAGE_MAP(CMyView, CScrollView)<br>
+			<br>
+			<br>
+			并且将其他所有的CView改成CScrollView.<br>
+			<br>
+			<br>
+			假如你修改的视图是由AppWizard生成的，那么就不需要作更多的修改了。而如果你在创建一个新视图，先在CWinApp::InitInstance()函数中找到对AddDocTemplate()函数的调用。AddDocTemplate()函数的第三个参数是RUNTIME_CLASS(CSomeView)，用CMyView来代替CSomeView，就可以将当前视图改为新视图。在MDI应用程序中，你可以增加第二个AddDocTemplate()函数调用来使用多视图类型，将RUNTIME_CLASS(CSomeView)改为RUNTIME_CLASS 
+			(CMyView)。<br>
+			<br>
+			要想获得更多的信息请参阅Q99562中相关文章《Switching Views in a Single Document 
+			Interface Program》 。 </p>
+			<p><b>如何改变视图的背景色？</b> </p>
+			<p>你可以通过处理WM_ERASEBKGND消息来改变CView、CFrameWnd或CWnd对象的背景色。请看如下的程序段： </p>
+			<pre>  BOOL CSampleView::OnEraseBkgnd(CDC* pDC)
+  {
+      // 设置所要求背景色的刷子
+      CBrush backBrush(RGB(255, 128, 128));
+      // 保存旧刷子
+      CBrush* pOldBrush = pDC-&gt;SelectObject(&amp;backBrush);
+      CRect rect;
+      pDC-&gt;GetClipBox(&amp;rect);     // 擦除所需的区域
+      pDC-&gt;PatBlt(rect.left, rect.top, rect.Width(), rect.Height(), PATCOPY);
+      pDC-&gt;SelectObject(pOldBrush);
+      return TRUE;
+  }
+  
+</pre>
+			而我则用如下方法解决这个问题： 
+			<pre>  HBRUSH dlgtest::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) 
+  {
+      switch (nCtlColor)
+      {
+          case CTLCOLOR_BTN:
+          case CTLCOLOR_STATIC:
+          {
+              pDC-&gt;SetBkMode(TRANSPARENT);
+          }
+          case CTLCOLOR_DLG:
+          {
+              CBrush*     back_brush;
+              COLORREF    color;
+              color = (COLORREF) GetSysColor(COLOR_BTNFACE);
+              back_brush = new CBrush(color);
+              return (HBRUSH) (back_brush-&gt;m_hObject);
+          }
+      }
+      return(CFormView::OnCtlColor(pDC, pWnd, nCtlColor));
+  }
+</pre>
+			<p><b>如何得到当前视图？</b> </p>
+			<p>
+			最佳方法是将视图当作一个参数来传递。如果不能这样做，但你确信它是当前激活文档和当前激活视图的话，你也可以得到该视图。具体细节见Visual 
+			C++文章Q108587《Get Current CDocument or CView from Anywhere》。 </p>
+			<pre>简单说来，用：
+
+      ((CFrameWnd*) AfxGetApp()-&gt;m_pMainWnd))-&gt;GetActiveDocument()
+
+和：
+
+      ((CFrameWnd*)(AfxGetApp()-&gt;m_pMainWnd))-&gt;GetActiveView()
+
+</pre>
+			来得到文档和视图。一个好的方法是将它们封装在你的CMyDoc和CMyView类的静态函数中，并且核对它们是否属于正确的RUNTIME_CLASS。然而，假如这个视图不是当前激活视图或者你在运行OLE本地激活，这样将不成功。 
+
+			<p><b>如何在一个文档中建立多个视图？</b> </p>
+			<p>CDocTemplate::CreateNewFrame()函数创建MFC 
+			MDI应用程序中的文档的附加视图。为了调用该函数，要指定一个指向CDocument对象（指将为之建立视图的文档）的指针和一个指向可从中复制属性的框架窗口的指针。一般情形下，该函数的第二个参数为NULL。 
+			<br>
+			<br>
+			当应用程序调用函数CreateNewFrame()时，该函数就创建一个框架窗口和在该窗口内的视图。框架窗口和它的视图的类型由与CreateNewFrame()函数调用指定的文档相关的文档摸板(CDocTemplate)决定。 
+			<br>
+			<br>
+			Visual C++中的CHKBOOK 
+			MFC样例程序也演示了如何为文档建立附加的框架和视图。检查CHKBOOK.CPP文件中的CChkBookApp::OpenDocumentfile()函数。 
+			<br>
+			<br>
+			另一个用函数CreateNewFrame()的例子是MULTVIEW样本程序。 <br>
+			<br>
+			CreateNewFrame()函数建立了一个框架和一个视图，而不仅仅是一个视图。假如CreateNewFrame()函数不能完全符合你的需要，可参考CreateNewFrame()函数的源程序来了解对建立结构和视图所必须的步骤。 
+			</p>
+			<p><b>如何在一个文档中有多个视图时,在程序运行时不显示选择文档对话框?</b></p>
+			<p>只要删除不要显示的视图的字符串中的符三个字符串就可以了。例如：</p>
+			<p>编辑资源文件中的字符串资源：</p>
+			<p><br>
+			// &quot;Book\nchecks\n<font color="#FF0000">Check Book\n</font><br>
+			// Check Book File (*.chb)\n.chb\n<br>
+			// ChkBookFileType\nCheck Book File Type&quot;<br>
+			// and<br>
+			// &quot;Check\nchecks\n<font color="#FF0000">\n</font><br>
+			// Check Book File (*.chb)\n.chb\n<br>
+			// ChkBookFileType\nCheck Book File Type&quot;<br>
+			//</p>
+			<p>m_pBookViewTemplate = new CMultiDocTemplate(<font color="#FF0000">IDR_BOOKFRAME</font>,<br>
+			RUNTIME_CLASS(CChkBookDoc),<br>
+			RUNTIME_CLASS(CCheckBookFrame),<br>
+			RUNTIME_CLASS(CBookView));<br>
+			AddDocTemplate(m_pBookViewTemplate);<br>
+			<br>
+			m_pCheckViewTemplate = new CMultiDocTemplate(<font color="#FF0000">IDR_CHECKFRAME</font>,<br>
+			RUNTIME_CLASS(CChkBookDoc),<br>
+			RUNTIME_CLASS(CCheckBookFrame),<br>
+			RUNTIME_CLASS(CCheckView));<br>
+			AddDocTemplate(m_pCheckViewTemplate);</p>
+			<p>　</p>
+			<p><b>如何在MDI程序中得到所有的视图？</b> </p>
+			<p>你必须用一些文档中没有记载的函数： </p>
+			<pre>  CDocument::GetFirstViewPosition(); // DOCCORE.CPP
+  CDocument::GetNextView(); // DOCCORE.CPP
+  CMultiDocTemplate::GetFirstDocPosition(); // DOCMULTI.CPP
+  CMultiDocTemplate::GetNextDoc(); // DOCMULTI.CPP 
+  
+</pre>
+			<p>你还需要与CWinApp的成员m_templateList打交道。<br>
+			注意：在MFC 版本4.0中已改变。现在已经有一个叫CDocManager的类可以帮助你显示所有的视图和文档。请参考《MFC 
+			Internals》获得更详细的信息。 </p>
+			<p><b>如何建立一个可用鼠标拉动的CScrollView类</b> </p>
+			<p>
+			在CIS上从MSMFC库下载AUTOSV.LZH。这个程序告诉你如何实现一个辅助消息循环来管理鼠标的活动，并提供了钩挂来对代码进行定制。这是一个免费软件。 
+			</p>
+			<p><b>一定要用视图/文档结构吗？</b> </p>
+			<p>MFC并不一定要求你使用文档/视图结构。查看HELLO、 
+			MDI和HELLOAPP例子―它们就没有用那种结构。大多数MFC特性都可以在非文档/视图应用程序中得到运用。但是当你不用文档 / 
+			视图结构时，你确实会失去一些特性，例如打印预览和许多OLE特性。 </p>
+			<p><b>如何得到当前文档？</b> </p>
+			<p>请详细参阅&quot;如何得到当前视图？&quot;章节。 </p>
+			<p><b>文档何时被析构？</b> </p>
+			<p>
+			在SDI程序中，程序退出后文档就被删除。在MDI程序中，与该文档相关的最后一个视图关闭时文档就被删除。为了在SDI和MDI中同时用这个文档，你应该在虚函数DeleteContents()函数中删除该文档的数据，而不是在析构器中。 
+			</p>
+			<p><b>如何建立多文档？</b> </p>
+			<p>
+			为了加入对附加文档类型的支持，你可以在CWinApp派生类中创建和注册附加CmultiDocTemplate对象。这种方法已经在MULTDOCS样例程序中得以说明。将一个附加文档类型加入到MFC程序的一般步骤如下： 
+			</p>
+			<p>用AppWizard来创建一个新的文档类和视图类。 <br>
+			用资源编辑器增加新的资源字串来支持新的文档类。要想知道关于文档样板字符串格式的更多内容，请参阅&quot;如何理解文档样板字符串&quot;。<br>
+			<br>
+			用资源编辑器增加附加的应用程序图标和菜单资源。注意，这些资源中每一个的ID都必须与在步骤2中创建的文档模板字符串的ID是相同的。这个ID被CmultiDocTemplate类用来识别与附加文档类型相关的资源。<br>
+			<br>
+			在应用程序的InitInstance（）函数中，创建了另一个CMultiDocTemplate对象并且用CWinApp::AddDocTemplate()函数来注册。例如： 
+			</p>
+			<pre>CMultiDocTemplate* pDocTemplate2 = new CMultiDocTemplate(
+  IDR_DOC2TYPE, RUNTIME_CLASS(CDoc2),
+  RUNTIME_CLASS(CMDIChildWnd),RUNTIME_CLASS(CView2));
+  AddDocTemplate(pDocTemplate2);
+</pre>
+			最后，将定制的序列化和绘图代码加入到你的新文档和视图类中。 
+			<p><b>如何得到一个打开文档的列表？</b> </p>
+			<p>下面的程序段指明如何得到用CDocTemplate对象建立的所有文档的指针列表。<br>
+			下面的程序段中，CMyApp由CWinApp派生而来。变量m_templateList是一个CPtrList对象，它是CwinApp的成员变量，包含一个所有文档模板指针的列表。文档模板函数GetFirstDocPosition()和GetNextDoc()被用来在文档模板列表中进行迭代来得到每一个文档模板。 
+			</p>
+			<pre>  void CMyApp::GetDocumentList(CObList * pDocList)
+  {
+      ASSERT(pDocList-&gt;IsEmpty());
+      POSITION pos = m_templateList.GetHeadPosition();
+      while (pos)
+      {
+          CDocTemplate* pTemplate = 
+              (CDocTemplate*)m_templateList.GetNext(pos);
+          POSITION pos2 = pTemplate-&gt;GetFirstDocPosition();
+          while (pos2) 
+          {
+              CDocument * pDocument;
+              if ((pDocument=pTemplate-&gt;GetNextDoc(pos2)) != NULL)
+                  pDocList-&gt;AddHead(pDocument);
+          }
+      }
+  }
+  
+</pre>
+			<p>在参考手册或在线帮助中，有两个CdocTemplate类的公共成员函数没有被说明。然而， 
+			这些公共成员函数在CDocTemplate类中被定义，并且为在打开文档的列表中前后搜索提供了简单的支持。 </p>
+			<p>这些函数如下：<br>
+			<br>
+			<br>
+			Function virtual POSITION GetFirstDocPosition() const；<br>
+			调用该函数得到在打开的文档列表中与模板相关联的第一个文档的位置。返回的POSITION的值能够被GetNextDoc成员函数反复使用。 
+			<br>
+			<br>
+			Function Virtual CDocument* GetNextDoc(POSITION&amp; rPosition) const；<br>
+			rPostion是前面调用GetNextDoc 
+			或GetFirstDocPosition成员函数返回的POSITION值。这个值不能是NULL。调用该函数来在所有打开的文档中进行迭代。该函数返回被rPosition所标识的文档并将rPosition设置为列表中的下一个文档的POSITION值。假如所检索的是列表中的最后一个文档，rPosition将被设为空值。 
+			</p>
+			<p><font color="blue">注意，这仅对MFC3.2版本或更低版本有效，对MFC4.0版本请参考下面：</font>
+			</p>
+			<pre>  void CMyApp::DoSomethingToAllDocs()
+  {
+      CObList  pDocList;
+      POSITION pos = GetFirstDocTemplatePosition();
+      while(pos)
+      {
+          CDocTemplate* pTemplate = GetNextDocTemplate(pos); 
+          POSITION pos2 = pTemplate-&gt;GetFirstDocPosition();
+          while(pos2)
+          {
+              CDocument* pDocument;
+              if(pDocument = pTemplate-&gt;GetNextDoc(pos2))
+                  pDocList.AddHead(pDocument);
+          }
+      }
+      if(!pDocList.IsEmpty()){
+          pos = pDocList.GetHeadPosition();
+      while(pos)
+      {  
+          //为每一个文档调用CDocument函数
+          ( (CDocument*)pDocList.GetNext(pos) )
+              -&gt;UpdateAllViews(NULL);
+      }
+  }
+</pre>
+			<p><b>如何使我的程序在启动时不创建一个新文档？</b> </p>
+			<p>在程序的InitInstance中的ProcessShellCommand函数之前加入： 
+			cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing</span></td>
+		</tr>
+	</table>
+</div>
+
+<table cellSpacing="0" cellPadding="0" width="100%" border="0">
+	<tr bgColor="#a0d39b">
+		<td height="30">&nbsp;<a target="_blank" href="http://www.vckbase.com/"><img height="13" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/prjconfig/vckcom.gif" width="109" border="0"></a></td>
+		<td vAlign="bottom" align="right" height="30">
+		<img height="27" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/prjconfig/earch.gif" width="89"></td>
+	</tr>
+	<tr bgColor="#eeeeee">
+		<td><font class="small" color="#333333">::</font><a target="_blank" href="http://www.vckbase.com/"><font color="black">VC知识库在线杂志</font></a></td>
+		<td class="small" align="right">　</td>
+	</tr>
+</table>
+<p>　</p>
+<table cellSpacing="0" cellPadding="0" width="100%" border="0">
+	<tr>
+		<td width="40"></td>
+		<td vAlign="top" width="*">[ 本文属于第21期, 适合初级读者 ]
+		<p>　</p>
+		<table cellSpacing="0" cellPadding="0" width="100%" border="0">
+			<tr>
+				<td>
+				<p align="center"><strong>MFC应用程序中指针的使用</strong><br>
+				作者：<a href="mailto:wang_wang_dogzi@163.com">gouguijia</a></p>
+				<a href="#A1">1) 在View中获得Doc指针</a><br>
+				<a href="#A2">2) 在App中获得MainFrame指针</a><br>
+				<a href="#A3">3) 在View中获得MainFrame指针</a><br>
+				<a href="#A4">4) 获得View（已建立）指针</a><br>
+				<a href="#A5">5) 获得当前<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>指针</a><br>
+				<a href="#A6">6) 获得状态栏与工具栏指针</a><br>
+				<a href="#A7">7) 获得状态栏与工具栏变量</a><br>
+				<a href="#A8">8) 在Mainframe获得菜单指针</a><br>
+				<a href="#A9">9) 在任何类中获得应用程序类</a><br>
+				<a href="#A0">10) 从<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类取得<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类的指针(1)</a><br>
+				<a href="#A10">11) 在App中获得<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板指针</a><br>
+				<a href="#A11">12) 从<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板获得<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类指针</a><br>
+				<a href="#A12">13) 在<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类中获得<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板指针</a><br>
+				<a href="#A13">14) 从<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类取得<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类的指针(2)</a><br>
+				<a href="#A14">15) 从一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类取得另一<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类的指针</a><br>
+				<br>
+				VC中编程对于刚刚开始学习的同学，最大的障碍和问题就是消息机制和指针获取与操作。其实这些内容基本上是每本VC学习工具书上必讲的内容，而且通过MSDN很多问题都能解决。<br>
+				下面文字主要是个人在编程中指针使用的一些体会，说的不当的地方请指正。<br>
+				一般我们使用的框架是VC提供的Wizard生成的MFC App Wizard(exe)框架，无论是多<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>还是单<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>，都存在指针获取和操作问题。<br>
+				下面这节内容主要是一般的框架，然后再讲多线程中的指针使用。使用到的类需要包含响应的头文件。首先一般获得本类(视，<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>，对话框都支持)实例指针this，用this的目的，主要可以通过类中的函数向其他类或者函数中发指针，以便于在非本类中操作和使用本类中的功能。<br>
+				<br>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"> 
+				1） 在View中获得Doc指针 
+				<pre>CYouSDIDoc *pDoc=GetDocument();一个视只能有一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>。</pre>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A2" name="A2"></a> 
+				2) 在App中获得MainFrame指针<br>
+				CWinApp 中的 m_pMainWnd变量就是MainFrame的指针<br>
+				也可以： 
+				<pre>CMainFrame *pMain =(CMainFrame *)AfxGetMainWnd();</pre>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A3" name="A3"></a> 
+				3) 在View中获得MainFrame指针 
+				<pre>CMainFrame *pMain=(CmaimFrame *)AfxGetApp()-&gt;m_pMainWnd;</pre>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A4" name="A4"></a> 
+				4) 获得View（已建立）指针 
+				<pre>CMainFrame *pMain=(CmaimFrame *)AfxGetApp()-&gt;m_pMainWnd;
+CyouView *pView=(CyouView *)pMain-&gt;GetActiveView();</pre>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A5" name="A5"></a> 
+				5) 获得当前<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>指针 
+				<pre>CDocument * pCurrentDoc =(CFrameWnd *)m_pMainWnd-&gt;GetActiveDocument();</pre>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A6" name="A6"></a> 
+				6) 获得状态栏与工具栏指针 
+				<pre>CStatusBar * pStatusBar＝(CStatusBar *)AfxGetMainWnd()-&gt;GetDescendantWindow(AFX_IDW_STATUS_BAR);
+CToolBar * pToolBar=(CtoolBar *)AfxGetMainWnd()-&gt;GetDescendantWindow(AFX_IDW_TOOLBAR);
+</pre>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A7" name="A7"></a> 
+				7) 如果框架中加入工具栏和状态栏变量还可以这样 
+				<pre>(CMainFrame *)GetParent()-&gt;m_wndToolBar;
+(CMainFrame *)GetParent()-&gt;m_wndStatusBar;
+</pre>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A8" name="A8"></a> 
+				8) 在Mainframe获得菜单指针 
+				<pre>CMenu *pMenu=m_pMainWnd-&gt;GetMenu();</pre>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A9" name="A9"></a> 
+				9) 在任何类中获得应用程序类<br>
+				用MFC全局函数AfxGetApp()获得。<br>
+				<br>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A10" name="A10"></a> 
+				10) 从<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类取得<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类的指针<br>
+				我是从<a target="_blank" href="http://download.cqcnc.com/soft/program/article/vc/vc405.html">http://download.cqcnc.com/soft/program/article/vc/vc405.html</a>学到的，从<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>获得<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类指针目的一般为了控制同一<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>的多个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>的定位问题，我的体会特别是文字处理CEditView当产生多个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类时，这个功能是非常需要的。 
+				<br>
+				CDocument类提供了两个函数用于<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类的定位：<br>
+				GetFirstViewPosition()和GetNextView() 
+				<pre>virtual POSITION GetFirstViewPosition() const;
+virtual CView* GetNextView(POSITION&amp; rPosition) const;
+
+</pre>
+				注意：GetNextView()括号中的参数用的是引用方式，因此执行后值可能改变。<br>
+				GetFirstViewPosition()用于返回第一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>位置（返回的并非<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类指针，而是一个POSITION类型值），GetNextView()有两个功能：返回下一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类的指针以及用引用调用的方式来改变传入的POSITION类型参数的值。很明显，在Test程序中，只有一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类，因此只需将这两个函数调用一次即可得到CTestView的指针如下（需定义一个POSITION结构变量来辅助操作）： 
+				<pre>CTestView* pTestView;
+POSITION pos=GetFirstViewPosition();
+pTestView=GetNextView(pos);
+</pre>
+				这样，便可到了CTestView类的指针pTestView.执行完几句后，变量pos=NULL,因为没有下一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类，自然也没有下一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类的POSITION.但是这几条语句太简单，不具有太强的通用性和安全特征；当象前面说的那样，当要在多个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>为中返回某个指定类的指针时，我们需要遍历所有<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类，直到找到指定类为止。判断一个类指针指向的是否某个类的实例时，可用IsKindOf()成员函数时行检查，如： 
+				<pre>pView-&gt;IsKindOf(RUNTIME_CLASS(CTestView));</pre>
+				即可检查pView所指是否是CTestView类。<br>
+				<br>
+				有了以上基础，我们已经可以从<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类取得任何类的指针。为了方便，我们将其作为一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类的成员函数，它有一个参数，表示要获得哪个类的指针。实现如下： 
+				<pre>CView* CTestDoc::GetView(CRuntimeClass* pClass)
+{
+	CView* pView;
+	POSITION pos=GetFirstViewPosition();
+
+	while(pos!=NULL){
+		pView=GetNextView(pos);
+		if(!pView-&gt;IsKindOf(pClass))
+		break;
+	}
+
+	if(!pView-&gt;IsKindOf(pClass)){
+		AfxMessageBox(&quot;Connt Locate the View.\r\n http://www.VCKBASE.com&quot;);
+		return NULL;
+	}
+
+	return pView;
+}</pre>
+				<br>
+				其中用了两次<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类的成员函数IsKindOf()来判断，是因为退出while循环有三种可能：<br>
+				<br>
+				1.pos为NULL，即已经不存在下一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类供操作；<br>
+				2.pView已符合要求。<br>
+				<br>
+				1和2同是满足。这是因为GetNextView()的功能是将当前<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>指针改变成一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>的位置同时返回当前<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>指针，因此pos是pView的下一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类的POSITION,完全有可能既是pos==NULL又是pView符合需要。当所需的<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>是最后一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>是最后一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类时就如引。因此需采用两次判断。<br>
+				使用该函数应遵循如下格式（以取得CTestView指针为例）：<pre>CTestView* pTestView=(CTestView*)GetView(RUNTIME_CLASS(CTestView));</pre>
+				RUNTIME_CLASS是一个宏，可以简单地理解它的作用：将类的名字转化为CRuntimeClass为指针。<br>
+				至于强制类型转换也是为了安全特性考虑的，因为从同一个基类之间的指针类型是互相兼容的。这种强制类型转换也许并不必要，但能避免一些可能出现的麻烦。<br>
+				<br>
+				3.从一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类取得另一<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类的指针 
+				综合1和2，很容易得出<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类之间互相获得指针的方法：就是用<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类作中转，先用1的方法得到<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类的指针，再用2的方法，以<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类的<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>定位函数取得另一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类。同样，可以实现成一个函数：<br>
+				（假设要从CTestAView中取得指向其它<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类的指针）<pre>CView* CTestAView::GetView(CRuntimeClass* pClass)
+{
+	CTestDoc* pDoc=(CTestDoc*)GetDocument();
+	CView* pView;
+	POSITION pos=pDoc-&gt;GetFirstViewPosition();
+	while(pos!=NULL){
+		pView=pDoc-&gt;GetNextView(pos);
+		if(!pView-&gt;IsKindOf(pClass))
+		break;
+	}
+	if(!pView-&gt;IsKindOf(pClass)){
+		AfxMessageBox(&quot;Connt Locate the View.&quot;);
+		return NULL;
+	}
+
+	return pView;
+}</pre>
+				这个函数和2中的GetView()相比，一是多了第一句以取得<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类指针，二是在GetFirstViewPosition()和GetNextView()前加上了<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类指针，以表示它们是<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类成员函数。<br>
+				有了此函数；当要从CTestAView中取得CTestBView的指针时，只需如下：<pre>CTestBView* pTestbView=(CTestView*)GetView(RUNTIME_CLASS(CTestBView));</pre>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A11" name="A11"></a> 
+				11）对于单<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>中也可以加入多个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板，但是一般的开发就使用MDI方式开发多<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板，其方法与上述<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>的获取方法很接近，这里稍做解释，如果不清楚，请查阅MSDN，（以下四个内容（11、12、13、14）来源：<a target="_blank" href="http://sanjianxia.myrice.com/vc/vc45.htm">http://sanjianxia.myrice.com/vc/vc45.htm</a>）<br>
+				<br>
+				可以用CWinApp::GetFirstDocTemplatePostion获得应用程序注册的第一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板的位置；<br>
+				利用该值来调用CWinApp::GetNextDocTemplate函数，获得第一个CDocTemplate对象指针。 
+				<pre>POSITION GetFirstDocTemplate( ) const; 
+CDocTemplate *GetNextDocTemplate( POSITION &amp; pos ) const;
+</pre>
+				第二个函数返回由pos 标识的<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板。POSITION是MFC定义的一个用于迭代或对象指针检索的值。通过这两个函数，应用程序可以遍历整个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板列表。如果被检索的<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板是模板列表中的最后一个，则pos参数被置为NULL。<br>
+				<br>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A12" name="A12"></a> 
+				12）一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板可以有多个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>，每个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板都保留并维护了一个所有对应<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>的指针列表。 
+				<br>
+				用CDocTemplate::GetFirstDocPosition函数获得与<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板相关的<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>集合中第一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>的位置，并用POSITION值作为CDocTemplate::GetNextDoc的参数来重复遍历与模板相关的<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>列表。函数原形为： 
+				<pre>viaual POSITION GetFirstDocPosition( ) const = 0; 
+visual CDocument *GetNextDoc(POSITION &amp; rPos) const = 0;  
+</pre>
+				如果列表为空，则rPos被置为NULL. <br>
+				<br>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A13" name="A13"></a> 
+				13）在<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>中可以调用CDocument::GetDocTemplate获得指向该<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板的指针。函数原形如下： 
+				<pre>CDocTemplate * GetDocTemplate ( ) const; </pre>
+				如果该<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>不属于<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>模板管理，则返回值为NULL。 
+				<br>
+				<br>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A14" name="A14"></a> 
+				14)一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>可以有多个视。每一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>都保留并维护一个所有相关视的列表。CDocument::AddView将一个视连接到<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>上，将该视加入到<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>相联系的视的列表中，并将视的<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>指针指向该<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>。当有File/New、File/Open、Windows/New或Window/Split的命令而将一个新创建的视的对象连接到<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>上时， 
+				MFC会自动调用该函数，框架通过<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>/视的结构将<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>和视联系起来。当然，程序员也可以根据自己的需要调用该函数。 
+				<pre>Virtual POSITION GetFirstViewPosition( ) const; 
+Virtual CView * GetNextView( POSITION &amp;rPosition) cosnt; 
+</pre>
+				应用程序可以调用CDocument::GetFirstViewPosition返回与调用<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>相联系的视的列表中的第一个视的位置，并调用CDocument::GetNextView返回指定位置的视，并将rPositon的值置为列表中下一个视的POSITION值。如果找到的视为列表中的最后一个视，则将rPosition置为NULL.
+				<br>
+				<br>
+				<img height="16" src="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/images/paragraph.gif" width="14"><a id="A15" name="A15"></a> 
+				15)从一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类取得另一<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类的指针<br>
+				这个应用在多视的应用程序中很多见，一般如果自己在主程序或者主框架中做好变量记号，也可以获得，还有比较通用的就是用<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类作中转，以<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>类的<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>遍历定位，取得另一个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">视图</font>类。这个功能从本文第10项中可以得到。<br>
+				<br>
+				这些资料大部分都是从网上和MSDN中获得的，写这个<font style="BACKGROUND-COLOR: #316ac5" color="#ffffff">文档</font>就是为了让大家不用再寻找，列出标题，可操作性更强。<br>
+　</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>
+<p>　</p>
+<table height="1" cellSpacing="0" cellPadding="0" width="100%" background="mk:@MSITStore:d:/books/vc鐭ヨ瘑搴揬vckbase21.chm::/prjconfig/dotline.gif" border="0">
+	<tr>
+		<td>　</td>
+	</tr>
+</table>
+<table cellSpacing="0" cellPadding="0" width="100%" border="0">
+	<tr align="middle">
+		<td class="eng">Copyright&copy; 1999-2003 vckbase.com All Rights Reserved.</td>
+	</tr>
+</table>
+
+</body>
+
+</html>

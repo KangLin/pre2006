@@ -1,0 +1,12 @@
+// Syntax.idl : Syntax.dll 的类型库源
+// 此文件将由 MIDL 编译器处理以产生
+// 类型库(Syntax.tlb)。
+
+import "ocidl.idl";
+import "oaidl.idl";
+[ uuid(C1C2101F-69DF-4374-8CAD-22961DB78991), version(1.0) ]
+library Syntax
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+};

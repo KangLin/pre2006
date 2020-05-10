@@ -1,0 +1,2774 @@
+'*****************************************************************************************
+'程 序 名：VcExtend
+'文 件 名：VcExtend.dsm
+'版 本 号：1.0
+'作    者：王彤
+'联系方式：Email: dellfox@tom.com  QQ: 20023896
+'版权声明：作者对VcExtend拥有完全版权，未经作者书面同意，任何企业和个人不得将
+'          VcExtend的全部或部分（包括但不限于：创意、源代码及文档）作为其他商
+'          业软件的一部份。
+'          中国籍的企业和个人自动获得对VcExtend的使用许可和修改许可，其他企业
+'          和个人可将以下文字作为标题给作者发电子邮件，经作者确认回复后获得使
+'          用许可，未经许可不得使用：
+'          钓鱼岛是中国领土！侵略者应谢罪并赔偿！！
+'          VcExtend,Copyright author,all right reserved.
+'          This computer program is protected by copyright law and international 
+'          treaties.Unauthorized reproduction or distirbution or as a part of other 
+'          commercial of this program,or any portion (including but not restricted 
+'          to: idea, source code and document) of it ,may result in severe civil and 
+'          criminal penalties ,and will be prosecuted to the maximum extent possible 
+'          under law.
+'          Chinese National Enterprise and individual are allowed to use and modify 
+'          VcExtend automatically. Other enterprise or individual can use the 
+'          following text as the title of the email to the author, and is granted 
+'          permission to use it with the author's confirmation. It is forbidden to 
+'          use it without permission: 
+'          Diaoyu Island belongs to Chinese territory!
+'          Invaders should apologize and compensate for it!!
+'*****************************************************************************************
+
+Option Explicit
+'/////////////////////////////////////////////////////////////////////////////////
+'可选项开始 你可以修改这些全局变量来定制自已的VcExtend，参见文档的可选项章节。
+Dim BaseType, ObjReadReturn, ObjWriteParam
+'这些是成员变量的基本类型，除此之外都当作是对象
+BaseType = "/unsigned long/DWORD/int/BOOL/unsigned char/BYTE/unsigned short/WORD"
+BaseType = BaseType + "/float/FLOAT/INT/unsigned int/UINT/WPARAM/LPARAM/LRESULT/double"
+BaseType = BaseType + "/COLORREF/CString/LPCSTR/LPSTR/LPCTSTR/LPTSTR/LPVOID/WNDPROC/"    
+                                                              
+ObjReadReturn = "*"    '成员变量是对象时的读函数的返回类型 指针为*， 引用为&，为""则拷贝对象
+ObjWriteParam = "&"    '成员变量是对象时的写函数的参数类型 只能为 & 或 ""
+
+Dim FixGet, FixSet, CommentFixGet, CommentFixSet, MemRead, MemWrite, MemNot
+FixGet = "Get"         '数据读函数前缀 如 m_strName -> GetName
+FixSet = "Set"         '数据写函数前缀 如 m_strName -> SetName
+CommentFixGet = "返回" '数据读函数注释前缀 如 m_strName; //姓名 -> GetName //返回姓名
+CommentFixSet = "设置" '数据写函数注释前缀 如 m_strName; //姓名 -> SetName //设置姓名
+MemRead  = "R"         '数据可读标记，只能一个字符
+MemWrite = "W"         '数据可写标记，只能一个字符
+MemNot   = "!"         '数据不可读或不可写标记，只能一个字符，当GetSetAll = True 时有效。
+
+Dim AssertGet, AssertSet, GetSetAll, AssertSentence
+AssertGet = False      '是否在所有的读函数中加断言语句
+AssertSet = False     '是否在所有的写函数中加断言语句
+GetSetAll = False      '是否为所有的成员变量生成读写函数
+AssertSentence = "ASSERT_VALID(this);" '断言语句的内容
+
+Dim HppDir, CppDir, InlDir
+HppDir = "" ' "Hpp\"   'Hpp文件的存储目录，为""则存在根目录下，如果不为""，一定要加\
+CppDir = "" ' "Cpp\"   'Cpp文件的存储目录，为""则存在根目录下，如果不为""，一定要加\
+InlDir = "" ' "Hpp\"   'Inl文件的存储目录，为""则存在根目录下，如果不为""，一定要加\
+
+Dim Mark_Desc, Mark_Return, Mark_Param, Mark_Cort
+Mark_Desc    = "简述"  '注释标签，修改了这些项则必须对Doc目录下的.xsl文件作相同修改。
+Mark_Return  = "返回"  '
+Mark_Param   = "参数"  '
+Mark_Cort    = "分类"  '
+
+Dim Marks_Class, Marks_Function 
+Marks_Class    = "版权/作者/初建/修改/说明" '可选类注释项，修改则须修改.xsl文件
+Marks_Function = "说明"                     '可选函数注释项
+
+Dim NameLen, NameLang
+NameLen  = Len(Mark_Desc) '等于上面的最长的标签的Len
+NameLang = 2              '标签的语言，英文为1，中文2
+
+Dim ComFlag, NameFlag, DescFlag, commBound
+NameFlag = "///$"         '开始一项注释
+ComFlag  = "///"          '是上一行注释的延续
+DescFlag = "//--"         '函数注释摘要
+commBound = "："          '注释标签与注释内容的分隔符
+'可选项结束
+'//////////////////////////////////////////////////////////////////////////////////////
+
+Dim DocDir, TxtDir
+DocDir = "Doc\"
+TxtDir = "Txt\"
+
+Dim BoundLine, Tab, Ln
+Tab = "    "
+Ln = Chr(13)
+BoundLine = "/////////////////////////////////////////////////////////////////////////////"
+
+Dim ClassName, BaseClassName, DocumentName, RootDir, DocumentDir
+Function HppPath
+    HppPath = RootDir + HppDir + DocumentDir
+End Function
+Function CppPath
+    CppPath = RootDir + CppDir + DocumentDir
+End Function
+Function InlPath
+    InlPath = RootDir + InlDir + DocumentDir
+End Function
+Function DocPath
+    DocPath = RootDir + DocDir
+End Function
+Function TxtPath
+    TxtPath = RootDir + TxtDir
+End Function
+
+Dim memBase, memObject, memBasePtr, memObjectPtr
+memBase      = 0 
+memObject    = 1 
+memBasePtr   = 2 
+memObjectPtr = 3 
+
+Function BeginDeclare()
+    BeginDeclare = ClassName + "();"
+End Function
+Dim EndDeclare, BeginGetSet, EndGetSet
+EndDeclare     = "!begin get/set"
+BeginGetSet    = "!begin get/set"
+EndGetSet      = "};"
+
+Dim codeUnknow, codeFunction, codeMember, codeMacro, codeDebug
+Dim codeComment, codeBlank, codeAccess
+codeUnknow   = 0
+codeFunction = 1
+codeMember   = 2
+codeMacro    = 3
+codeDebug    = 4
+codeComment  = 5
+codeBlank    = 6
+codeAccess   = 7
+
+Function CommentFix(Name, Blank)	
+    CommentFix = Blank + NameFlag + Name + String(NameLen*NameLang-Len(Name)*NameLang, " ")
+	If Name = "" Then
+	    CommentFix = CommentFix + "  "
+	Else
+	    CommentFix = CommentFix + commBound
+    End If
+End Function
+
+Function CommentNewLine(Blank)
+    CommentNewLine = Blank + comFlag + String(NameLen*NameLang + Len(commBound)*NameLang + 1, " ")
+End Function
+
+Function ParamBlank(Length)
+	'If Length = 0 Then Length = 4
+	Length = Len(Tab)
+	Length = Length - 1
+    ParamBlank = String(Length, " ")
+End Function
+
+Dim MaxDeep, Deep
+MaxDeep = 10
+Dim CtPath(10), CtLine(10)
+CtPath(0) = "doc"
+CtLine(0) = 2
+Deep = 0
+Function pathClass
+    pathClass = CtPath(0) + "/" + FormatPath("class", "name", ClassName) + "/"
+End Function
+Function pathBaseClass
+    pathBaseClass = CtPath(0) + "/" + FormatPath("class", "name", BaseClassName) + "/"
+End Function
+Function pathDocument
+    pathDocument  = CtPath(0) + "/" + FormatPath("Document", "name", DocumentName)	+ "/"
+End Function
+
+
+Sub ClassNew()
+    If GetFileDir = False Then Exit Sub
+
+	Dim Options
+	Options = ClassOption()
+    If Options = "" Then Exit Sub
+
+	CreateCppFile(Options)
+	CreateInlFile()
+ 	CreateHppFile(Options)
+
+	RecordClassInfo()
+
+	If ActiveDocument.Name = DocumentName + ".h" Then ActiveDocument.Close
+
+	Dim sel
+	Set sel = GetSelection(DocumentName + ".h", HppPath)
+	sel.StartOfDocument
+	sel.MoveTo 15, 1, dsMove
+	sel.Parent.Active = True
+	Set sel = Nothing
+End Sub
+
+Sub CodeCleanUp()
+    If PublicInfo() = False Then Exit Sub
+
+    Dim sel, OrgLine, OrgColumn
+	Set sel = ActiveDocument.Selection
+	OrgLine = sel.CurrentLine
+	OrgColumn = sel.CurrentColumn
+
+	Dim HppSel, CppSel, InlSel, TmpSel
+	Set HppSel = GetSelection(DocumentName + ".h",   HppPath)
+	Set CppSel = GetSelection(DocumentName + ".cpp", CppPath)
+    Set InlSel = GetSelection(DocumentName + ".inl", InlPath)
+	Set TmpSel = GetSelection("temp.txt",            TxtPath)
+
+    CopySelection HppSel, TmpSel
+	Dim StartLine, EndLine
+	If TmpSel.FindText(BeginDeclare) <> True Then
+	    NotFound(BeginDeclare)
+        Set sel = Nothing
+		Exit Sub
+	End If
+	StartLine = TmpSel.CurrentLine
+    If TmpSel.FindText(EndDeclare) <> True Then
+	    NotFound(EndDeclare)
+		Set sel = Nothing
+		Exit Sub
+	End If
+	EndLine = TmpSel.CurrentLine
+	
+    Dim SentenceType, Access, Text, VirtualFun
+	Dim GetSetDeclare(100), GetSetCount
+    GetSetCount = 0
+    Dim InlineBody(110), InlineCount
+    InlineCount = 0
+	
+	TmpSel.GoToLine StartLine, dsMove
+	Do While TmpSel.CurrentLine < EndLine
+	    Text = SelectionText(TmpSel)
+		SentenceType = CodeType(Text) 
+		
+		If SentenceType = codeAccess Then
+		    Access = ValidText(Text)
+		ElseIf SentenceType = codeComment Then
+			If CodeType(CommentText(Text)) = codeAccess Then
+				Access = CommentText(Text)
+		    End If
+		ElseIf SentenceType = codeFunction Then
+		    If Left(ValidText(Text), Len("inline")) = "inline" Then
+  			    InlineBody(InlineCount) = InlineFunctionBody(InlSel, FunctionFullName(Text))
+			    InlineCount = InlineCount + 1
+			Else
+			    FunctionCleanUp CppSel, FunctionFullName(Text)
+			End If
+			If InStr(ValidText(Text), "virtual ") > 0 Then
+			    VirtualFun = VirtualFun + ValidText(Text)
+			End If
+
+		ElseIf SentenceType = codeMember Then
+
+		    Dim Types, Cort, Name, AccessRead, AccessWrite, FullName
+
+			Types = MemberType(Text)
+			Name = MemberName(Text)
+		    FullName = MemberFullName(Text)
+
+			If Left(FullName, 1) = "&" Then Types = Types + "&"
+			If Left(FullName, 1) = "*" Then Types = Types + "*"
+
+			Cort = MemberCort(Types)
+	
+			AccessRead  = ReadFunctionAccess(Text, Access)
+			AccessWrite = WriteFunctionAccess(Text, Access)
+			 
+			If AccessRead <> "Not" Then
+			    GetSetDeclare(GetSetCount) = ReadFunctionDeclare(AccessRead, Cort, Types, Name)
+			    GetSetCount = GetSetCount + 1
+			    InlineBody(InlineCount) = ReadFunctionBody(InlSel, Cort, Types, Name, FullName)
+			    InlineCount = InlineCount + 1
+			End If
+			If AccessWrite <> "Not" Then
+			    GetSetDeclare(GetSetCount) = WriteFunctionDeclare(AccessWrite, Cort, Types, Name)
+			    GetSetCount = GetSetCount + 1
+  			    InlineBody(InlineCount) = WriteFunctionBody(InlSel, Cort, Types, Name, FullName)
+			    InlineCount = InlineCount + 1
+			End If
+		End If
+			 
+		TmpSel.GoToLine TmpSel.CurrentLine + 1
+	Loop
+	
+	GetSetDeclareCreate HppSel, GetSetDeclare, GetSetCount
+	
+	sel.StartOfDocument 
+	sel.MoveTo OrgLine, OrgColumn, dsMove
+
+	InlineBodyCreate InlSel, InlineBody, InlineCount
+    Erase GetSetDeclare
+    Erase InlineBody
+	
+	RecordVirtualFunction(VirtualFun)	
+
+	HppSel.Parent.Save
+	InlSel.Parent.Save
+	CppSel.parent.Save
+				  
+	Set HppSel = Nothing
+	Set InlSel = Nothing
+	Set CppSel = Nothing
+	Set TmpSel = Nothing
+    Set sel    = Nothing
+End Sub
+
+Sub CodeJump()
+    If PublicInfo() = False Then Exit Sub
+
+    Dim sel, Sel2, OrgLine, OrgColumn, Target, BottomLine
+	Set sel = ActiveDocument.Selection
+	OrgLine = sel.CurrentLine
+	OrgColumn = sel.CurrentColumn
+	
+	Dim Ext, FullName, SelText
+	Ext = FileExt(sel.Parent.Name)
+	If Ext = "h" Then
+	    Dim GetSetLine
+		sel.FindText(EndDeclare)
+		GetSetLine = sel.CurrentLine
+
+        sel.GoToLine OrgLine
+		SelText = SelectionText(sel)
+ 		If OrgLine > GetSetLine Then 
+		    Set sel2 = GetSelection(DocumentName + ".inl", "")
+		Else
+		    If Left(ValidText(SelText), Len("inline")) = "inline" Then
+			    Set sel2 = GetSelection(DocumentName + ".inl", "")
+			Else
+			    Set sel2 = GetSelection(DocumentName + ".cpp", "")
+			End If
+		End If  
+
+		If CodeType(SelText) <> codeFunction Then
+		    sel2.Parent.Active = True
+ 			sel2.Cancel
+			Set sel2 = Nothing
+			Set sel  = Nothing
+			Exit Sub
+		End If
+
+		FullName = FunctionFullName(SelText)
+
+		If FindFunctionBody(sel2, FullName) = True Then
+			Target = sel2.CurrentLine
+			sel2.StartOfDocument
+			sel2.MoveTo Target+2, 4, dsMove
+		    sel2.Parent.Active = True
+			Set sel = Nothing
+	        Set sel2 = Nothing
+			Exit Sub
+		End If
+	ElseIf Ext = "cpp" Or Ext = "inl" Then 
+ 		Do While sel.CurrentLine > 1
+			sel.SelectLine 
+			If InStr(sel.Text, " " + ClassName + "::") > 0 _
+			Or Left(sel.Text, Len(ClassName + "::")) = _
+			ClassName + "::" Then Exit Do
+			sel.GoToLine sel.CurrentLine - 1, dsMove
+		Loop 
+        SelText = SelectionText(sel)
+		FullName = ValidText(SelText)
+
+		If Left(FullName, Len("inline ")) = "inline " Then
+		    FullName = Right(FullName, Len(FullName)-Len("inline "))
+		End If
+
+	    FullName = Replace(FullName, chr(9), "")
+		FullName = DeleteBlank(FullName)
+
+	    Set sel2 = GetSelection(DocumentName + ".h", "")
+
+		If FullName = "" Then
+		    sel2.Parent.Active = True
+			sel2.Cancel
+			Set sel2 = Nothing
+			Set sel  = Nothing
+		    Exit Sub
+		End If
+
+		sel2.EndOfDocument
+		BottomLine = sel2.CurrentLine
+
+		sel2.StartOfDocument
+		Do While sel2.CurrentLine < BottomLine	
+		   Target = sel2.CurrentLine
+           SelText = SelectionText(sel2)
+		   If CodeType(SelText) = codeFunction Then
+		       If FunctionFullName(SelText) = FullName Then
+			       sel2.StartOfDocument
+				   sel2.GoToLine Target
+				   sel2.Parent.Active = True
+				   Set sel = Nothing
+	               Set sel2 = Nothing
+				   Exit Sub
+			   End If
+		   End If
+		   sel2.GoToLine sel2.CurrentLine + 1
+		Loop
+	End If 
+
+	Dim msg
+	msg = "没有找到！" + Ln + "要跳转到" + sel2.Parent.Name + "吗？"
+	If MsgBox(msg, vbOKCancel) = vbOK Then
+	    sel2.Parent.Active = True
+	Else
+	    sel.MoveTo OrgLine, OrgColumn, dsMove
+		sel.Cancel
+	End If
+ 
+	Set sel = Nothing
+	Set sel2 = Nothing
+End Sub
+
+Sub VirtualFunction()
+    If IsHppFile() <> True Then Exit Sub 
+	If PublicInfo() <> True Then Exit Sub   
+	
+    Dim Base, sel, VirSel, VirtualFun, Funs, i, msg, Result, index, Path
+	Set sel = ActiveDocument.Selection
+	Set VirSel = GetSelection("Doc.xml", DocPath)
+	Base = BaseClassName
+	Do While Base <> ""
+	    Path = FormatPath("class", "name", Base)
+		VirtualFun = VirtualFun + ReadElement(VirSel, Path, "virtual", "", "")
+	    Base = ReadElement(VirSel, Path, "base", "", "")
+	Loop
+
+    Funs = Split(VirtualFun, ";")
+	For i = 0 To UBound(Funs)-1
+	    msg = msg + CStr(i+1) + "："
+		msg = msg + FunctionName(Funs(i)) + Ln
+	Next
+
+	If msg = "" Then
+        msg = "没有可以覆盖的virtual函数！"
+		MsgBox msg
+		Set sel = Nothing
+		Set VirSel = Nothing
+		Exit Sub
+	Else
+	    msg = "把要覆盖的虚函数的序号填在输入框中：" + Ln + msg
+	End If
+	    
+	Result = InputBox(msg)
+	If Result = "" Then Exit Sub
+    
+	On Error Resume Next
+	index = CInt(Result)
+	index = index - 1
+	If index < 0 Then index = 0
+	If index >= UBound(Funs) Then Exit Sub
+	sel.Cancel
+
+	If sel.FindText(Funs(index) + ";") <> True Then
+	    sel.Text = Funs(index) + ";"
+	Else
+		sel.Cancel
+	End If
+	On Error GoTo 0
+
+	Set sel = Nothing
+	Set VirSel = Nothing
+End Sub
+
+Sub Comment()
+    If PublicInfo() = False Then Exit Sub
+    Dim sel, TmpSel, OrgLine, OrgColumn, Ext
+	Ext = FileExt(ActiveDocument.Name)
+
+	If Ext <> "h" And Ext <> "cpp" And Ext <> "inl" Then Exit Sub
+
+	Set sel = ActiveDocument.Selection
+    OrgLine = sel.CurrentLine
+	OrgColumn = sel.CurrentColumn
+
+    Dim OpeType, FunName, FunReturn, ProtoType, Parameters, Access, OpeLine
+	If Ext = "h" Then    
+		Set TmpSel = GetSelection("temp.txt", TxtPath)
+        CopySelection sel, TmpSel
+
+	    TmpSel.StartOfDocument
+	    If TmpSel.FindText("class " + ClassName) <> False Then
+		    If OrgLine <= TmpSel.CurrentLine Then
+			    sel.MoveTo TmpSel.CurrentLine, TmpSel.CurrentColumn, dsMove
+			    ClassComment(sel)
+				sel.Cancel
+				Set sel = Nothing
+				Set TmpSel = Nothing
+				Exit Sub
+			End If
+		End If	
+
+	    TmpSel.MoveTo OrgLine, OrgColumn, dsMove
+	    If CommentInitHpp(TmpSel, OpeType, FunName, FunReturn, OpeLine) <> True Then
+			Set sel = Nothing
+			Set TmpSel = Nothing		    
+		    Exit Sub
+		End If
+
+		GetPrototype TmpSel, FunName, ProtoType, Access
+
+	    Set TmpSel = Nothing
+	Else
+	    If CommentInitCpp(sel, OpeType, FunName, FunReturn, OpeLine) <> True Then 
+		    Set sel = Nothing
+		    Exit Sub
+		End If
+        Dim HppSel
+		Set HppSel = GetSelection(DocumentName + ".h", HppPath)
+		GetPrototype HppSel, FunName, Prototype, Access
+		Set HppSel = Nothing
+    End If
+	
+	GetParameters ProtoType, Parameters
+	
+	Dim XmlSel
+	Set XmlSel = GetSelection("Doc.xml", DocPath)
+    If OpeType = "Read" Then
+	    ReadFunctionComment  XmlSel, sel, FunName, FunReturn, ProtoType, Parameters, OpeLine
+	Else
+	    WriteFunctionComment XmlSel, sel, FunName, FunReturn, ProtoType, Parameters, OpeLine, Access
+	End If
+
+	Dim Blank
+	If FileExt(sel.Parent.Name) = "h" Then
+	    Blank = Tab
+	Else
+	    Blank = ""
+	End If
+
+	If OpeType = "Write" Then
+	    Dim Top, Bottom
+		Bottom = OpeLine - 1
+	    sel.GoToLine Bottom
+
+	    Do While sel.CurrentLine > 1
+		    sel.SelectLine
+		    If Left(TextTrim(sel.Text), Len(ComFlag)) <> ComFlag Then Exit Do
+		    sel.GoToLine sel.CurrentLine - 1
+		Loop
+
+	    Top = sel.CurrentLine + 1
+	    sel.GoToLine Top
+
+		sel.LineDown dsExtend, Bottom-Top+1
+		sel.Delete
+		sel.GoToLine OpeLine - (Bottom-Top+1)
+	Else
+	    Dim col
+		col = Len(CommentFix("", Blank))
+		col = col - NameLen*(NameLang - 1) 
+	    sel.MoveTo OpeLine, col, dsMove
+	End If
+
+	XmlSel.Parent.Save
+	sel.Parent.Save
+
+	Set XmlSel = Nothing
+	Set sel    = Nothing		
+End Sub
+
+Sub AttributeComment()
+    If IsHppFile() <> True Then Exit Sub
+	If PublicInfo() <> True Then Exit Sub
+
+    Dim sel, TmpSel, XmlSel
+	Set sel = ActiveDocument.Selection
+
+	Set TmpSel = GetSelection("temp.txt", TxtPath)
+	CopySelection sel, TmpSel
+
+	Set XmlSel = GetSelection("Doc.xml", DocPath)
+
+    Dim StartLine, EndLine
+	TmpSel.StartOfDocument
+    StartLine = TmpSel.CurrentLine
+	If TmpSel.FindText(BeginDeclare) = True Then
+	    StartLine = TmpSel.CurrentLine
+	End If
+    TmpSel.EndOfDocument
+	EndLine = TmpSel.CurrentLine
+	TmpSel.StartOfDocument
+	If TmpSel.FindText(EndDeclare) = True Then
+	    EndLine = TmpSel.CurrentLine
+	End If
+
+	TmpSel.GoToLine StartLine, dsMove
+	Dim MemName, MemType, MemCort, SelText, Comm, FunName, Path
+	Do While TmpSel.CurrentLine < EndLine
+        TmpSel.SelectLine
+		SelText = TmpSel.Text
+		If CodeType(SelText) = codeMember Then
+			Dim RW
+			RW = GetRW(SelText)
+		    Comm = CommentText(SelText)
+            If RW <> "" Then
+			    Comm = Trim(Right(Comm, Len(Comm) - Len(RW)))
+			End If
+
+		    If Comm <> "" Then
+			    MemName = MemberName(SelText)
+				MemType = MemberType(SelText)
+				MemCort = MemberCort(MemType)
+				FunName = FixGet + MemName
+                Path = pathClass + FormatPath("function", "name", FunName)
+			    
+				If ReadFunctionAccess(SelText, "") <> "Not" Then
+				    If ReadElement(XmlSel, Path, Mark_Desc, "", "") = "" Then
+                        MakeGetSetFunctionComment XmlSel, "Get", MemName, MemType, MemCort, Comm
+					End If
+				End If
+
+				FunName = FixSet + MemName
+                Path = pathClass + FormatPath("function", "name", FunName)
+			    
+                If WriteFunctionAccess(SelText, "") <> "Not" Then
+					If ReadElement(XmlSel, Path, Mark_Desc, "", "") = "" Then
+				        MakeGetSetFunctionComment XmlSel, "Set", MemName, MemType, MemCort, Comm
+					End If
+				End If
+			End If
+		End If
+		TmpSel.GoToLine TmpSel.CurrentLine + 1
+	Loop 
+	
+	XmlSel.Parent.Save
+	Set XmlSel = Nothing
+	
+	Set TmpSel = Nothing
+	Set sel    = Nothing      
+End Sub
+
+Sub CommentDetail()
+
+	If IsHppFile() <> True Then Exit Sub
+	If PublicInfo() = False Then Exit Sub
+
+    Dim sel, OrgLine, OrgColumn, OpeType, Path, FunName
+	Set sel = ActiveDocument.Selection
+
+	If sel.FindText(DescFlag) = True Then
+	    CommentDesc()
+	End If
+
+	If sel.FindText(NameFlag) = True Then
+	    OpeType = "Write"
+	Else
+	    OpeType = "Read"
+	End If
+
+	If OpeType = "Write" Then
+	    Do While sel.FindText(NameFlag) = True
+		    Comment()
+		Loop
+	Else
+		Dim XmlSel, BottomLine, SelText, TempLine
+		Set XmlSel = GetSelection("Doc.xml", DocPath)
+		sel.EndOfDocument
+
+		Do While sel.CurrentLine > 1
+		    TempLine = sel.CurrentLine
+			SelText = SelectionText(sel)
+			If CodeType(SelText) = codeFunction Then
+			    FunName = FunctionName(SelText)
+			    Path = pathClass + FormatPath("function", "name", FunName) + "/"
+			    If ReadElement(XmlSel, Path, Mark_Desc, "", "") <> "" Then
+				    Comment()
+				End If
+			End If			    
+		    sel.GoToLine TempLine - 1
+		Loop
+		
+		Set XmlSel = Nothing
+	End If
+    
+	sel.StartOfDocument
+	sel.MoveTo 15, 1, dsMove
+
+	Set sel = Nothing
+End Sub
+
+Sub CommentDesc
+	If IsHppFile() <> True Then Exit Sub
+	If PublicInfo() = False Then Exit Sub
+
+    Dim sel, OrgLine, OrgColumn, OpeType
+	Set sel = ActiveDocument.Selection
+
+	If sel.FindText(NameFlag) = True Then
+	    CommentDetail()
+	End If
+
+	If sel.FindText(DescFlag) = True Then
+	    OpeType = "Write"
+	Else
+	    OpeType = "Read"
+	End If
+
+	Dim XmlSel, SelText, TempLine, Desc, Str, FunLen, BlankFlag, Path, FunName
+	BlankFlag = "@FunBlank@"
+
+	Set XmlSel = GetSelection("Doc.xml", DocPath)
+
+	sel.EndOfDocument
+	Do While sel.CurrentLine > 1
+		TempLine = sel.CurrentLine
+	    SelText = SelectionText(sel)
+		If CodeType(SelText) = codeFunction Then
+		    FunName = FunctionName(SelText)
+		    Path = pathClass + FormatPath("function", "name", FunName)
+		    Desc = ReadElement(XmlSel, Path, Mark_Desc, "", "")
+  		    sel.SelectLine
+		    If OpeType = "Write" Then
+                If InStr(sel.Text, DescFlag) > 0 Then
+				    Str = Split(sel.Text, DescFlag)(0)
+				    sel.Text = Str + Ln
+				End If
+			Else  
+ 			    If Desc <> "" Then
+				    Str = sel.Text
+					If InStr(Str, ";") > 0 Then
+					    Str = Split(Str, ";")(0) + ";"
+						If Len(Str) > FunLen Then FunLen = Len(Str)
+					    Str = Str + BlankFlag + DescFlag + Desc
+				        sel.Text = Str + Ln
+					End If
+				End If
+			End If
+		End If			    
+		sel.GoToLine TempLine - 1
+	Loop
+    Dim Blank, l	
+	Do While sel.FindText(BlankFlag) = True
+	    l = FunLen-sel.CurrentColumn+Len(BlankFlag) + 2
+		If l < 0 Then l = 0
+	    Blank = String(l, " ")
+		sel.Text = Blank
+	Loop
+
+    sel.StartOfDocument
+	sel.Parent.Save
+	sel.MoveTo 15, 1, dsMove
+
+	Set sel = Nothing
+	Set XmlSel = Nothing
+End Sub
+
+Sub DocCleanUp()
+ 	If IsHppFile() <> True Then Exit Sub
+	If PublicInfo() = False Then Exit Sub
+
+    Dim sel, XmlSel, TmpSel, OrgLine, OrgColumn, TempLine, TempFlag, TempStr
+	Set sel = ActiveDocument.Selection
+	OrgLine = sel.CurrentLine
+	OrgColumn = sel.CurrentColumn
+	TempFlag = "_TEMP_FLAG_"
+
+	Set TmpSel = GetSelection("temp.txt", TxtPath)
+    CopySelection sel, TmpSel
+
+	Set XmlSel = GetSelection("Doc.xml", DocPath)
+	Context XmlSel, pathClass, True
+	XmlSel.GotoLine XmlSel.CurrentLine + 1
+	InsertElement XmlSel, TempFlag, "", "", ""
+
+	TmpSel.EndOfDocument
+	Dim FunName, SelText 
+	
+	Do While TmpSel.CurrentLine > 1
+		TempLine = TmpSel.CurrentLine
+	    SelText = SelectionText(TmpSel)
+        If CodeType(SelText) = codeFunction Then
+		    FunName = FunctionName(SelText)
+            Context XmlSel, pathClass, False
+			If SelectNode(XmlSel, "function", "name", FunName, "class") = True Then
+			    TempStr = XmlSel.Text
+			    XmlSel.Delete
+			    Context XmlSel, pathClass, False
+			    XmlSel.GotoLine XmlSel.CurrentLine + 1
+			    XmlSel.Text = TempStr
+			End If 			    	 		
+        End If
+		TmpSel.GotoLine TempLine - 1
+	Loop
+
+	Dim StartLine, EndLine
+	Context XmlSel, pathClass, False
+	FindNode XmlSel, TempFlag, "", "", "class"
+	StartLine = XmlSel.CurrentLine
+
+	EndLine = StartLine
+	XmlSel.GotoLine XmlSel.CurrentLine + 1
+	XmlSel.SelectLine
+	Do While InStr(XmlSel.Text, "</class>") = 0 
+	    If InStr(XmlSel.Text, "</function>") > 0 Then
+		    EndLine = XmlSel.CurrentLine
+		End If
+		XmlSel.GotoLine XmlSel.CurrentLine + 1
+		XmlSel.SelectLine
+	Loop
+	
+	XmlSel.GotoLine StartLine
+	XmlSel.LineDown dsExtend, EndLine - StartLine + 1
+	XmlSel.Delete	
+
+	XmlSel.Parent.Save
+	Set XmlSel = Nothing
+	sel.Parent.Save
+	Set sel    = Nothing
+	Set TmpSel = Nothing 	
+End Sub
+
+Sub ThisList()
+    Dim sel, OrgLine, OrgColumn, This
+
+	This = "this->"
+	Set sel = ActiveDocument.Selection
+	OrgLine = sel.CurrentLine
+	OrgColumn = sel.CurrentColumn
+
+	Do While sel.FindText(This) = True
+	    sel.ReplaceText This, ""
+	Loop
+
+    sel.MoveTo OrgLine, OrgColumn, dsMove
+	sel.MoveTo OrgLine, 1, dsExtend
+    If OrgColumn >= 4 And sel.Text = "" Then
+	    sel.Text = Tab + This
+	Else
+        sel.Text = sel.Text + This
+	End If
+
+	ExecuteCommand "ListMembers"
+
+	Set sel = Nothing
+End Sub
+
+Sub MultiLineComment
+    If PublicInfo() = False Then Exit Sub
+    Dim StartLine, EndLine, sel, Blank, Str
+	Set sel = ActiveDocument.Selection
+
+    StartLine = sel.TopLine
+	EndLine  = sel.BottomLine
+   
+    If FileExt(sel.Parent.Name) = "cpp" Then
+	    Blank = ""
+	Else
+        sel.StartOfLine
+	    sel.FindText("class " + ClassName)
+	    If sel.CurrentLine <= EndLine Then
+		    Blank = Tab
+		Else
+		    Blank = ""
+		End If
+	End If
+	    
+    sel.GotoLine StartLine, dsMove
+    Do While sel.CurrentLine <= EndLine
+	    sel.SelectLine
+		Str = sel.Text
+		Str = TextTrim(Str)
+		If Left(Str, Len(ComFlag)) = ComFlag Then
+		    Str = Right(Str, Len(Str) - Len(ComFlag)) 
+		Else
+		    Str = CommentNewLine(Blank) + Str
+		End If
+		sel.Text = Str + Ln
+        sel.GotoLine sel.CurrentLine, dsMove
+	Loop
+
+	sel.GotoLine StartLine, dsMove
+	sel.LineDown dsExtend, EndLine-StartLine+1
+	
+	Set sel = Nothing
+End Sub
+   
+Function GetFileDir
+    GetFileDir = False
+
+	Dim msg
+	msg = "必须在工程的根目录下打开至少一个文件！"
+    If Documents.Count = 0 Then
+		MsgBox msg
+		Exit Function
+	End If
+
+    Dim Path, pos, BaseDir(5), i
+
+	Path = ActiveDocument.Path + "\"
+	BaseDir(0) = HppDir
+	BaseDir(1) = CppDir
+	BaseDir(2) = InlDir
+	BaseDir(3) = DocDir
+	BaseDir(4) = TxtDir
+
+	For i = 0 To 4
+	    If BaseDir(i) <> "" Then
+	        pos = InStr(Path, "\" + BaseDir(i))
+		Else
+		    pos = 0
+		End If
+		If pos > 0 Then Exit For
+	Next
+
+	If pos > 0 Then 
+	    RootDir = Left(Path, pos)
+		DocumentDir = Right(Path, Len(Path)-(pos+Len(BaseDir(i))))
+	Else
+	    RootDir = Path
+		DocumentDir = ""
+	End If
+	GetFileDir = True
+End Function
+
+Function ClassOption
+    ClassOption = ""
+    Dim msg
+	msg = "类名是必须的，并且在最前面。其他选项："
+	msg = msg + Ln + "基  类：: + 基类名"
+	msg = msg + Ln + "文件名：# + 文件名"
+	msg = msg + Ln + "目录名：@ + 目录名"
+	msg = msg + Ln + "宏  名：/ + 宏代号"
+	msg = msg + Ln + "如：CMyClass:CBaseClass#MyClass@My/s/m"
+	msg = msg + Ln
+	msg = msg + Ln + "宏代号："
+    msg = msg + Ln + "MESSAGE：  /M"
+    msg = msg + "     SERIAL：/S"
+    msg = msg + Ln + "DYNCREATE：/DC"
+    msg = msg + "   DYNAMIC：/DA"
+    msg = msg + Ln
+
+    Dim Str
+    Str = InputBox (msg, "类选项")
+    If Str = "" Then Exit Function
+
+    ClassName = GetPartStr(Str)
+
+	If InStr(Str, ":") > 0 Then
+        BaseClassName = Split(Str, ":")(1)
+	    BaseClassName = GetPartStr(BaseClassName)
+	Else
+	    BaseClassName = "CObject"
+	End If
+
+	If InStr(Str, "#") > 0 Then
+	    DocumentName = Split(Str, "#")(1)
+	    DocumentName = GetPartStr(DocumentName)
+	Else
+        If Left(ClassName, 1) = "C" Then
+	        DocumentName = Right(ClassName, Len(ClassName)-1)
+	    Else
+	        DocumentName = ClassName
+	    End If
+	End If
+
+	If InStr(Str, "@") > 0 Then
+	    DocumentDir  = Split(Str, "@")(1)
+	    DocumentDir  = GetPartStr(DocumentDir)
+		If DocumentDir <> "" Then DocumentDir = DocumentDir + "\"
+	End If
+
+    Str = UCase(Str)
+    If InStr(Str, "/M") >  0 Then ClassOption = ClassOption + "/M"
+    If InStr(Str, "/S") >  0 Then ClassOption = ClassOption + "/S"
+    If InStr(Str, "/DC") > 0 Then ClassOption = ClassOption + "/DC"
+    If InStr(Str, "/DA") > 0 Then ClassOption = ClassOption + "/DA"
+    ClassOption = ClassOption + "/"
+End Function
+
+Function GetPartStr(Str)
+    GetPartStr = Str
+
+    Dim Flag(4), pos, i, p
+
+	Flag(0) = ":" 
+	Flag(1) = "#" 
+	Flag(2) = "@"
+	Flag(3) = "/"
+
+	pos = 0
+	For i = 0 To 3
+	    p = InStr(GetPartStr, Flag(i))
+		If p > 0 Then 
+		    If pos = 0 Then pos = p
+		    If pos > p Then pos = p
+		End If
+	Next
+
+	If pos > 0 Then GetPartStr = Left(GetPartStr, pos-1)   	    
+End Function
+
+Function FileExt(DocName)
+    FileExt = DocName
+	If Instr(FileExt, ".") > 0 Then FileExt = Split(FileExt, ".")(1)
+    FileExt = LCase(FileExt)
+End Function
+
+Function FileName(DocName)
+    FileName = DocName
+	If Instr(FileName, ".") > 0 Then FileName = Split(FileName, ".")(0)
+End Function
+
+Function CreateHppFile(Options)
+	Dim sel
+	Set sel = GetSelection("hpp.txt", TxtPath)
+
+    sel.SelectAll
+	sel.ReplaceText "<ClassName>", ClassName 
+	sel.ReplaceText "<BaseClassName>", BaseClassName
+	sel.ReplaceText "<DocumentName>", DocumentName  
+	sel.ReplaceText "<UDocumentName>", UCase(DocumentName) 
+	Dim Str
+    If InStr(Options, "/S/") > 0 Then
+	    Str = "virtual void Serialize(CArchive& ar);"
+	Else
+	    Str = ""
+	End If
+	If sel.FindText("<SerialFunctionDeclare>") = True Then
+	    If Str <> "" Then
+	        sel.ReplaceText "<SerialFunctionDeclare>", Str
+		Else
+		    sel.SelectLine
+			sel.Delete
+		End If
+	End If 
+
+	If InStr(Options, "/M/") > 0 Then
+	    Str = Tab + "//{{AFX_MSG(" + ClassName + ")"
+		Str = Str + Ln + Tab + "//}}AFX_MSG"
+	Else 
+	    Str = ""
+	End If
+	If sel.FindText("<MessageFunctionComment>") = True Then
+	    If Str <> "" Then	
+	        sel.ReplaceText "<MessageFunctionComment>", Str
+		Else
+		    sel.SelectLine
+			sel.Delete
+		End If
+	End If 
+
+    Str = ""
+	If InStr(Options, "/S/") > 0 Then
+	    Str = "DECLARE_SERIAL(" + ClassName + ")"
+	ElseIf InStr(Options, "/DC/") > 0 Then
+	    Str = "DECLARE_DYNCREATE(" + ClassName + ")"
+	ElseIf InStr(Options, "/DM/") > 0 Then
+	    Str = "DECLARE_DYNAMIC(" + ClassName + ")"
+	End If
+	If InStr(Options, "/M/") > 0 Then
+	    If Str <> "" Then Str = Str + Ln
+	    Str = Str + "DECLARE_MESSAGE_MAP()"
+	End If
+    If sel.FindText("<DeclareMacro>") = True Then
+	    If Str <> "" Then
+	        sel.ReplaceText "<DeclareMacro>", Str + Ln
+		Else
+		    sel.SelectLine
+			sel.Delete
+		End If
+	End If
+
+    Dim BaseClassFile, BaseFileInsertFlag, VirtualBegin, VirtualEnd
+	BaseClassFile = ClassAttribute(BaseClassName, "file")
+	If BaseClassFile <> "" Then BaseClassFile = "#include """ + BaseClassFile + ".h"""
+	BaseFileInsertFlag = "<BaseClass_HPP>"
+	VirtualBegin = "//{{AFX_VIRTUAL"
+	VirtualEnd   = "//}}AFX_VIRTUAL"
+    Select Case BaseClassCort(BaseClassName)
+	    case "mfcCumtom" 
+            ReplaceOrDelete sel, BaseFileInsertFlag, BaseClassFile	 			    
+	    case "mfc"
+            DeleteLineFind sel, BaseFileInsertFlag
+		case "CObject"
+            DeleteLineFind sel, BaseFileInsertFlag
+			DeleteLineFind sel, VirtualBegin
+			DeleteLineFind sel, VirtualEnd
+		case "obj"
+            ReplaceOrDelete sel, BaseFileInsertFlag, BaseClassFile		
+			DeleteLineFind  sel, VirtualBegin
+			DeleteLineFind  sel, VirtualEnd
+	End Select
+
+    sel.Parent.Save HppPath + DocumentName + ".h"
+
+	sel.Cancel
+	Set sel = Nothing
+End Function
+
+Function CreateCppFile(Options)
+    Dim sel
+	Set sel = GetSelection("cpp.txt", TxtPath)
+
+    sel.SelectAll
+    sel.ReplaceText "<ClassName>", ClassName 
+ 	sel.ReplaceText "<DocumentName>", DocumentName 
+	sel.ReplaceText "<BaseClassName>", BaseClassName 
+
+	Dim Str
+	If InStr(Options, "/S/") > 0 Then
+	    Str = "IMPLEMENT_SERIAL(" + ClassName + ", " + BaseClassName + ", 1)"
+	ElseIf InStr(Options, "/DC/") > 0 Then
+	    Str = "IMPLEMENT_DYNCREATE(" + ClassName + ", " + BaseClassName + ")"
+	ElseIf InStr(Options, "/DA/") > 0 = True Then
+	    Str = "IMPLEMENT_DYNAMIC(" + ClassName + ", " + BaseClassName + ")"
+	End If
+	If InStr(Options, "/M/") > 0 = True Then
+	    If Str <> "" Then Str = Str + Ln + Ln
+	    Str = Str + "BEGIN_MESSAGE_MAP(" + ClassName + ", " + BaseClassName + ")"
+		Str = Str + Ln + Tab + "//{{AFX_MSG_MAP(" + ClassName + ")"
+		Str = Str + Ln + Tab + "//}}AFX_MSG_MAP"
+		Str = Str + Ln + "END_MESSAGE_MAP()"
+	End If
+	If sel.FindText("<ImplementMacro>") = True Then
+	    If Str <> "" Then
+	        sel.ReplaceText "<ImplementMacro>", Ln + Str + Ln + Ln + BoundLine
+		Else
+		    sel.SelectLine
+		    sel.Delete
+		End If
+	End If
+
+    Str = ""
+	If InStr(Options, "/S/") > 0 = True Then
+		Str = Str + "void " + ClassName + "::Serialize(CArchive& ar)"
+		Str = Str + Ln + "{"
+		Str = Str + Ln + Tab + BaseClassName + "::Serialize(ar);"
+		Str = Str + Ln + Tab + "if (ar.IsStoring())"
+		Str = Str + Ln + Tab + "{"
+		Str = Str + Ln + Tab + "}"
+		Str = Str + Ln + Tab + "else"
+		Str = Str + Ln + Tab + "{"
+		Str = Str + Ln + Tab + "}"
+		Str = Str + Ln + "}"
+		Str = Str + Ln
+	End If
+
+	If sel.FindText("<SerialFunctionImplement>") = True Then
+	    If str <> "" Then
+            sel.ReplaceText "<SerialFunctionImplement>", Str
+		Else
+		    sel.SelectLine
+			sel.Delete
+		End If
+	End If
+
+    sel.Parent.Save CppPath + DocumentName + ".cpp"
+	sel.Cancel
+	Set sel = Nothing
+End Function
+
+Function CreateInlFile
+    Dim sel
+	Set sel = GetSelection("inl.txt", TxtPath)
+    sel.Parent.Save InlPath + DocumentName + ".inl"
+	sel.Cancel
+	Set sel = Nothing
+End Function
+
+Function GetSelection(DocName, DocPath)
+    Dim doc
+	For Each doc In Documents
+	    If doc.Name = DocName Then
+		    Set GetSelection = doc.Selection
+			Exit Function
+		End If
+	Next
+    Dim OrgDoc, Path
+	Set OrgDoc = ActiveDocument
+
+	Path = DocPath + DocName
+
+    Documents.Open Path
+	Set GetSelection = ActiveDocument.Selection
+	OrgDoc.Active = True
+End Function
+
+Function RecordClassInfo
+    Dim sel
+	Set sel = GetSelection("doc.xml", DocPath)
+	WriteElement sel, pathClass,    "base",      "", "", BaseClassName
+	WriteElement sel, pathClass,    "file",      "", "", DocumentName
+	WriteElement sel, pathDocument, "ClassName", "", "", ClassName
+	WriteElement sel, pathClass,    "BaseCort", "", "",  BaseClassCort(BaseClassName)
+	sel.Parent.Save
+	Set sel = Nothing
+End Function
+
+Function InsertNode(sel, Mark, AttributeName, AttributeValue)
+    Dim Str, OrgLine
+	Str = NodeBlank + BeginElement(Mark, AttributeName, AttributeValue)
+	Str = Str + Ln + NodeBlank + EndElement(Mark) + Ln
+    sel.GoToLine sel.CurrentLine + 1
+	OrgLine = sel.CurrentLine
+ 	Deep = Deep + 1
+	CtPath(Deep) = FormatPath(Mark, AttributeName, AttributeValue)
+	CtLine(Deep) = sel.CurrentLine
+	sel.StartOfLine
+	sel.Text = Str
+	sel.GotoLine OrgLine, dsMove
+End Function
+
+Function SelectNode(sel, Mark, AttributeName, AttributeValue, Parent)
+    SelectNode = False
+    If FindNode(sel, Mark, AttributeName, _
+	AttributeValue, Parent) <> True Then Exit Function
+	Dim StartLine, EndLine
+	StartLine = sel.CurrentLine
+
+	FindEnd sel, Mark
+	EndLine = sel.CurrentLine
+
+	sel.GotoLine StartLine
+	sel.LineDown dsExtend, EndLine - StartLine + 1
+	SelectNode = True
+End Function
+
+Function DeleteNode(sel)
+    If sel.Text = "" Then Exit Function
+	Sel.Delete
+End Function
+
+Function DeleteNodeContent(sel)
+    Dim StartLine, EndLine
+	StartLine = sel.TopLine
+	EndLine = sel.BottomLine
+	If StartLine = EndLine Then
+	    MsgBox "不是节点！"
+	    Exit Function
+	End If
+
+	StartLine = StartLine + 1
+	EndLine   = EndLine - 1
+	If EndLine < StartLine Then Exit Function
+	sel.GotoLine StartLine
+	sel.LineDown dsExtend, EndLine - StartLine + 1
+	sel.Delete
+End Function
+
+Function InsertElement(sel, Mark, AttributeName, AttributeValue, Text)
+    Dim Str
+	Str = NodeBlank()
+	Str = Str + BeginElement(Mark, AttributeName, AttributeValue)
+	Str = Str + Text + EndElement(Mark) + Ln
+	sel.StartOfLine
+	sel.Text = Str
+	sel.StartOfLine
+End Function
+
+Function BeginElement(Mark, AttributeName, AttributeValue)
+    BeginElement = "<" + Mark
+    If AttributeName <> "" Then
+	    BeginElement = BeginElement + " " + AttributeName
+		BeginElement = BeginElement + "=""" + AttributeValue + """"
+	End If
+	BeginElement = BeginElement + ">"  
+End Function
+
+Function EndElement(Mark)
+	EndElement = "</" + Mark + ">"
+End Function
+
+Function Context(sel, OrgPath, AutoCreate)
+    Context = True
+    Dim Paths, i, Mark, AttributeName, AttributeValue, Parent, Path
+   
+    Path = OrgPath
+    PreContext sel, Path
+	Parent = GetMark(CtPath(Deep))
+	If Parent = "" Then Parent = "doc"
+
+	If Right(Path, 1) = "/" Then Path = Left(Path, Len(Path)-1)
+	Paths = Split(Path, "/")
+	For i = 0 To UBound(Paths)
+	    If InStr(Paths(i), "?") > 0 Then
+		    Mark = Split(Paths(i), "?")(0)
+			AttributeName  = Split(Paths(i), "?")(1)
+			AttributeValue = Split(AttributeName, "=")(1)
+			AttributeName  = Split(AttributeName, "=")(0)
+		Else
+		    Mark = Paths(i)
+			AttributeName  = ""
+			AttributeValue = ""
+		End If
+		sel.Cancel
+
+		If FindNode(sel, Mark, AttributeName, _
+		AttributeValue, Parent) <> True Then
+		    If AutoCreate = True Then
+			    InsertNode sel, Mark, AttributeName, AttributeValue
+			Else
+			    Context = False
+				Exit Function
+			End If
+		End If
+			
+		Parent = Mark
+	Next
+	
+	ResetCtPath()
+End Function
+
+Function PreContext(sel, Path)
+    Dim i, j, Paths
+
+	Paths = Split(Path, "/")
+	For i = 0 To UBound(Paths)
+	    If CtPath(i) <> Paths(i) Then Exit For
+	Next
+
+	Path = ""
+	For j = i To UBound(Paths)
+	    Path = Path + "/" + Paths(j)
+	Next
+	If Path <> "" Then Path = Right(Path, Len(Path) - 1)
+	
+	If i > 0 Then i = i - 1
+
+	sel.GotoLine CtLine(i)
+	Deep = i
+End Function
+
+Function FormatPath(Mark, AttributeName, AttributeValue)
+    If AttributeName <> "" Then
+	    FormatPath = Mark + "?" + AttributeName + "=" + AttributeValue
+	Else
+	    FormatPath = Mark
+	End If
+End Function
+
+Function FindNode(sel, Mark, AttributeName, AttributeValue, Parent)
+    Dim Count, OrgLine
+	OrgLine = sel.CurrentLine
+	sel.GotoLine sel.CurrentLine + 1
+
+	Count = 1
+	sel.SelectLine
+	Do While Count > 0
+		If InStr(sel.Text, BeginElement(Mark, AttributeName, _
+		AttriButeValue)) > 0  And Mid(sel.Text, Len(NodeBlank())+1, 1) = "<" Then
+		    FindNode = True
+			Deep = Deep + 1
+			CtPath(Deep) = FormatPath(Mark, AttributeName, AttributeValue)
+			CtLine(Deep) = sel.CurrentLine
+			Exit Function
+		End If
+
+		If InStr(sel.Text, "<" + Parent + " ") > 0 _
+		Or InStr(sel.Text, "<" + Parent + ">") > 0 Then
+		    Count = Count + 1
+		End If
+		If InStr(sel.Text, EndElement(Parent)) > 0 Then
+		    Count = Count - 1
+		End If
+
+		sel.GotoLine sel.CurrentLine + 1
+		sel.SelectLine
+	Loop
+
+	sel.GotoLine OrgLine
+	FindNode = False
+End Function
+
+Function FindEnd(sel, Mark)
+    Dim Count
+	Count = 1
+	Do While Count <> 0
+		sel.SelectLine
+
+		If InStr(sel.Text, EndElement(Mark)) > 0 Then
+		    Count = Count - 1
+			If Count = 0 Then Exit Function
+		End If
+
+		If InStr(sel.Text, "<" + Parent + " ") > 0 _
+		Or InStr(sel.Text, "<" + Parent + ">") > 0 Then
+		    Count = Count + 1
+		End If
+
+		sel.GotoLine sel.CurrentLine + 1
+	Loop
+	sel.GotoLine sel.CurrentLine - 1
+End Function
+
+Function ReadElement(sel, Path, Mark, AttributeName, AttributeValue)
+    ReadElement = ""
+    If Context(sel, Path, False) <> True Then Exit Function
+	  
+	If FindNode(sel, Mark, AttributeName, AttributeValue, _
+	GetMark(CtPath(Deep))) = True Then
+	    sel.SelectLine
+		ReadElement = sel.Text
+        Dim pos, Flag
+		Flag = BeginElement(Mark, AttributeName, AttributeValue)
+		pos = InStr(ReadElement, Flag)
+		ReadElement = Right(ReadElement, Len(ReadElement) - (pos+Len(Flag)) + 1)
+		Flag = EndElement(Mark)
+		pos = InStr(ReadElement, Flag)
+		ReadElement = Left(ReadElement, pos-1)
+
+		ReadElement = Replace(ReadElement, "&lt;br&gt;", "\r")
+
+		ReadElement = Replace(ReadElement, "&amp;", "&")
+		ReadElement = Replace(ReadElement, "&lt;",  "<")
+		ReadElement = Replace(ReadElement, "&gt;",  ">")
+        ReadElement = Replace(ReadElement, "&quot", """")
+        ReadElement = Replace(ReadElement, "&apos", "'")
+	    ReadElement = Replace(ReadElement, "&#160;", " ")
+	Else
+	    ReadElement = ""
+	End If
+End Function
+
+Function WriteElement(sel, Path, Mark, AttributeName, AttributeValue, Text)
+    Context sel, Path, True
+	If FindNode(sel, Mark, AttributeName, _
+	AttributeValue, GetMark(CtPath(Deep))) = True Then
+	    sel.SelectLine
+		sel.Delete
+		Deep = Deep - 1
+		ResetCtPath()
+	Else
+	    sel.GoToLine sel.CurrentLine + 1
+	End If
+
+    Dim Str
+	Str = Text
+
+	Str = Replace(Str, "<br/>", "@br/@")
+
+    Str = Replace(Str, "&",  "&amp;")
+    Str = Replace(Str, "<",  "&lt;")
+    Str = Replace(Str, ">",  "&gt;")
+    Str = Replace(Str, """", "&quot")
+    Str = Replace(Str, "'",  "&apos")
+
+	Str = Replace(Str, Ln, "")
+	Str = Replace(Str, "  ",    " &#160;")
+
+	Str = Replace(Str, "\r",  "&lt;br&gt;")
+
+	Str = Replace(Str, "@br/@", "<br/>")
+
+ 	InsertElement sel, Mark, AttributeName, AttributeValue, Str
+End Function
+
+Function GetMark(Path)
+    If InStr(Path, "?") > 0 Then
+	    GetMark = Split(Path, "?")(0)
+	Else
+	    GetMark = Path
+	End If
+End Function
+
+Function NodeBlank()
+    NodeBlank = String((Deep+1)*4, " ")
+End Function
+
+Function ResetCtPath()
+    Dim i
+	For i = Deep + 1 To MaxDeep
+	   If CtPath(i) = "-@-" Then Exit For
+	   CtPath(i) = "-@-"
+	Next
+End Function
+
+Function PublicInfo()
+    Dim DocName
+	On Error Resume Next
+	DocName = ActiveDocument.Name
+	If DocName = "" Then
+	    MsgBox "至少需打开工程的一个头文件或源文件。"
+		PublicInfo = False
+		Exit Function
+	End If
+	On Error Goto 0
+
+    PublicInfo = True
+	If DocumentName = "" Then DocumentName = "_@_@_@_"
+	If FileName(DocName) = DocumentName Then Exit Function
+    PublicInfo = False
+	If GetFileDir = False Then Exit Function
+
+    DocumentName = FileName(DocName)
+	If DocumentName = "" Then Exit Function
+
+    Dim sel, Path
+	Set sel = GetSelection("Doc.xml", DocPath)
+
+    ClassName = ReadElement(sel, pathDocument, "ClassName", "", "")
+	If ClassName = "" Then
+        If ExSupport(DocName) = True Then
+		    PublicInfo = True
+	    End If
+		Set sel = Nothing
+		Exit Function
+    End If
+
+	BaseClassName = ReadElement(sel, pathClass, "base", "", "")
+	If BaseClassName = "" Then
+	    Set sel = Nothing
+	    Exit Function
+	End If
+
+	Set sel = Nothing
+	PublicInfo = True
+End Function
+
+Function CopySelection(FromSel, ToSel)
+    Dim OrgLine, OrgColumn, Str
+	OrgLine   = FromSel.CurrentLine
+	OrgColumn = FromSel.CurrentColumn
+
+    FromSel.SelectAll
+	Str = FromSel.Text
+
+    ToSel.SelectAll
+	ToSel.Text = Str
+
+	ToSel.MoveTo OrgLine, OrgColumn, dsMove
+    FromSel.MoveTo OrgLine, OrgColumn, dsMove
+End Function
+
+Function SelectionText(sel)
+	sel.SelectLine
+	If InStr(sel.Text, "/*") > 0 And InStr(sel.Text, "*/") = 0 Then
+	    SelectionText = MultipleLineText(sel, "*/")
+	ElseIf InStr(ValidText(sel.Text), "(") > 0 _
+	And    InStr(ValidText(sel.Text), ")") = 0 Then
+	    SelectionText = MultipleLineText(sel, ")")
+	Else
+	    SelectionText = sel.Text
+	End If
+End Function
+
+Function CodeType(CodeText)
+	CodeType = codeUnknow   
+	Dim Text, OrgText
+    Text = CodeText
+    Text = TextTrim(Text)	    
+	OrgText = Text
+	Text = ValidText(Text)
+    If Len(Text) = 0 Then
+	    If Len(OrgText) > 0 Then
+		    CodeType = codeComment
+		Else
+		    CodeType = codeBlank
+		End If
+	ElseIf Instr(Text, "(" ) > 0 And Instr(Text, ")" ) > 0 Then 
+        If StrComp(UCase(FunctionName(Text)), FunctionName(Text)) <> 0 Then 
+		    CodeType = codeFunction
+		Else
+		    CodeType = codeMacro 
+		End If
+	Else
+	    If Text = "private:" Or Text = "protected:"  Or Text = "public:" Then
+		    CodeType = codeAccess                      
+		ElseIf InStr(Text, "{") > 0 Or InStr(Text, "}") > 0 Or InStr(Text, "#") > 0 Then
+		    CodeType = codeUnKnow
+		ElseIf StrComp(UCase(Text), Text, 0) = 0 Then
+			CodeType = codeMacro
+	    ElseIf InStr(Text, " ") > 0 And InStr(Text, ";") > 0 Then
+		    CodeType = codeMember                       
+		ElseIf Left(OrgText, 2) = "//" Or Left(OrgText, 2) = "/*" Then
+		    CodeType = codeComment
+		End If
+	End If
+End Function
+
+Function ValidText(Text)
+    ValidText = Text
+    ValidText = TextTrim(ValidText)
+	If Left(ValidText, 2) = "//" Or ValidText = "/*" Then
+	    ValidText = ""
+	ElseIf InStr(ValidText, "//") > 0 Then
+	    ValidText = Split(ValidText, "//")(0)
+	ElseIf InStr(ValidText, "/*") > 0 Then
+	    ValidText = Split(ValidText, "/*")(0)
+	End If
+	ValidText = Trim(ValidText)
+End Function
+
+Function InlineFunctionBody(sel, FunName)
+    Dim Body 
+    If sel.FindText(FunName) = False Then
+	    Body = FunctionBody(FunName, "")
+	Else
+        Body = FunctionCut(sel)
+	End If
+	InlineFunctionBody = Body
+End Function
+
+Function FunctionBody(FunName, Code)
+	FunctionBody = Ln + FunName
+	FunctionBody = FunctionBody + Ln + "{"
+	If Code <> "" Then
+        FunctionBody = FunctionBody + Ln + Code
+	End If
+	FunctionBody = FunctionBody + Ln
+	FunctionBody = FunctionBody + Ln + "}" + Ln
+End Function
+
+Function FunctionCut(sel)
+    Dim StartLine, EndLine
+	StartLine = FunctionTopLine(sel)
+	EndLine = FunctionBottomLine(sel)
+	sel.GoToLine StartLine, dsMove
+	sel.LineDown dsExtend, EndLine-StartLine+1
+	FunctionCut = sel.Text
+	sel.Delete
+End Function
+
+Function FunctionTopLine(sel)
+    Do While sel.CurrentLine > 1
+	    sel.GoToLine sel.CurrentLine - 1
+		sel.SelectLine
+		If ValidText(sel.Text) = "#ifdef _DEBUG" Then
+		    sel.GoToLine sel.CurrentLine - 1
+			sel.SelectLine
+		End If
+		If CodeType(sel.Text) <> codeComment Then Exit Do		
+	Loop
+	FunctionTopLine = sel.CurrentLine
+End Function
+	
+Function FunctionBottomLine(sel)
+	Dim OrgLine, BottomLine
+	OrgLine = sel.CurrentLine
+	sel.EndOfDocument
+	BottomLine = sel.CurrentLine
+
+	sel.GoToLine OrgLine
+    Do While sel.CurrentLine < BottomLine
+	    sel.GoToLine sel.CurrentLine + 1, dsMove
+		sel.SelectLine
+ 		If Left(sel.Text, 1) = "}" Then Exit Do
+	Loop
+	FunctionBottomLine = sel.CurrentLine 
+	sel.GoToLine sel.CurrentLine + 1
+	sel.SelectLine
+	If ValidText(sel.Text) = "#endif" Then
+		FunctionBottomLine = sel.CurrentLine
+	End If 	
+End Function
+
+Function NotFound(Str)
+    MsgBox "没找到" + Str
+End Function
+
+Function TextTrim(Text)
+    TextTrim = Text
+	Dim i
+	For i = 0 To 2
+	    If Right(TextTrim, 1) = Chr(9)  Then TextTrim = Left(TextTrim, Len(TextTrim)-1)
+	    If Right(TextTrim, 1) = Chr(10) Then TextTrim = Left(TextTrim, Len(TextTrim)-1)
+	    If Right(TextTrim, 1) = Chr(13) Then TextTrim = Left(TextTrim, Len(TextTrim)-1)
+
+		If Left(TextTrim, 1)  = Chr(9)  Then TextTrim = Right(TextTrim, Len(TextTrim)-1)
+	    If Left(TextTrim, 1)  = Chr(10) Then TextTrim = Right(TextTrim, Len(TextTrim)-1)
+	    If Left(TextTrim, 1)  = Chr(13) Then TextTrim = Right(TextTrim, Len(TextTrim)-1)
+	Next
+    TextTrim = Trim(TextTrim)
+End Function
+
+Function FunctionName(Text)
+    Dim pos
+    FunctionName = Text
+    pos = InStr(FunctionName, "(")
+    FunctionName = Left(FunctionName, pos-1)
+	If InStr(FunctionName, " operator") > 0 Then
+	   FunctionName = Trim(Split(FunctionName, " operator")(1))
+	   FunctionName = "operator " + FunctionName
+	   Exit Function
+	End If 
+
+    pos = InStrRev(FunctionName, " ")
+    If pos > 0 Then     
+        FunctionName = Right(FunctionName, Len(FunctionName)-pos)
+    End If
+    If InStr(FunctionName, "::") > 0 Then
+	    FunctionName = Split(FunctionName, "::")(1)
+	End If
+End Function
+
+Function FunctionFullName(Text)
+    FunctionFullName = ReturnType(Text)
+	FunctionFullName = FunctionFullName + " " + ClassName + "::"
+	FunctionFullName = FunctionFullName + FunctionName(Text) + "("
+	Dim Parameter, BlankLen
+	BlankLen = Len(FunctionFullName)
+	Parameter = ParameterList(Text)
+	FunctionFullName = FunctionFullName + Parameter + ")"
+	FunctionFullName = FunctionFullName + " " + FunctionType(Text)
+    FunctionFullName = TextTrim(FunctionFullName)
+	Do While InStr(FunctionFullName, "  ") > 0
+	    FunctionFullName = Replace(FunctionFullName, "  ", " ")
+	Loop
+	FunctionFullName = Replace(FunctionFullName, "@ParamBlank@", ParamBlank(BlankLen)) 
+End Function
+
+Function ReturnType(Text)
+    ReturnType = Text
+    ReturnType = Replace(ReturnType, "virtual",    "")
+    ReturnType = Replace(ReturnType, "afx_msg",    "")
+	ReturnType = Replace(ReturnType, "inline",     "")
+	ReturnType = Replace(ReturnType, "public:",    "")
+	ReturnType = Replace(ReturnType, "protected:", "")
+	ReturnType = Replace(ReturnType, "private:",   "")
+	
+	ReturnType = Replace(ReturnType, "WINAPI",     "")
+	ReturnType = Replace(ReturnType, "PASCAL",     "")
+	ReturnType = Replace(ReturnType, "CALLBACK",   "")
+
+
+
+	ReturnType = Replace(ReturnType, chr(9),  "")
+	ReturnType = Replace(ReturnType, chr(10), "")
+    ReturnType = Replace(ReturnType, chr(13), "")
+
+    ReturnType = DeleteBlank(ReturnType)
+
+    Dim pos
+    pos = Instr(ReturnType, FunctionName(ReturnType))
+    If pos > 1 Then
+        ReturnType = Left(ReturnType, pos-2)
+    Else
+        ReturnType = ""
+    End If
+	ReturnType = Trim(ReturnType)
+End Function
+
+Function DeleteBlank(Str)
+    DeleteBlank = Str
+	Do While InStr(DeleteBlank, "  ") > 0
+        DeleteBlank = Replace(DeleteBlank, "  ", " ")
+	Loop
+	DeleteBlank = TextTrim(DeleteBlank)
+End Function
+
+Function ParameterList(Text)
+    Dim Str
+    Str = Text
+	ParameterList = ""
+    If Instr(Str, "(") = 0 Then
+        Exit Function
+    ElseIf Instr(Str, "()") > 0 Then
+        Exit Function
+    Else
+        Str = Replace(Str, " = ","=")
+        Str = Replace(Str, "= ","=")
+        Str = Replace(Str, " =","=")
+        Dim Param, Params
+        Param = Right(Str, Len(Str)-Instr(Str, "("))
+        Param = Left(Param, Instr(Param, ")") -1)
+		Param = Replace(Param, Ln, Ln + "@ParamBlank@")
+        Params = Split(Param, ",")
+		Dim i
+        For i = 0 To UBound(Params)
+            ParameterList = ParameterList + Split(Params(i), "=")(0) + ","
+        Next
+		If Len(parameterList) > 2 Then
+            ParameterList = Left(ParameterList, Len(ParameterList) - 1)
+		Else
+		    ParameterList = ""
+		End If
+    End If 
+End Function
+
+Function FunctionType(Text)
+    Functiontype = Text
+    If Instr(Functiontype, ")")	> 0 Then
+	    Functiontype = Split(Functiontype, ")")(1)
+		If InStr(Left(Functiontype, 6), "const") > 0 Then
+            Functiontype = "const"
+		Else
+		    Functiontype = ""
+		End If
+	Else
+	    Functiontype = ""
+    End If
+End Function
+
+Function FunctionCleanUp(sel, FunName)
+    Dim Body 
+    If FindFunctionBody(sel, FunName) = False Then
+	    Body = FunctionBody(FunName, "")
+	Else
+        Body = FunctionCut(sel)
+	End If
+	sel.EndOfDocument
+	sel.Text = Body 
+End Function
+
+Function FindFunctionBody(sel, FunName)
+    If InStr(FunName, Ln) = 0 Then
+	    FindFunctionBody = sel.FindText(FunName)
+		Exit Function
+	Else
+	    Dim OrgLine, OrgColumn, BottomLine
+		OrgLine = sel.CurrentLine
+		OrgColumn = sel.CurrentColumn
+        sel.EndOfDocument
+		BottomLine = sel.CurrentLine
+		sel.StartOfDocument
+		Dim Str, SelText, TempLine
+		Str = Split(FunName, Ln)(0)
+		Do While sel.CurrentLine < BottomLine
+		    sel.SelectLine
+			If InStr(sel.Text, Str) > 0 Then
+			    TempLine = sel.CurrentLine
+				SelText = SelectionText(sel)
+				If ValidText(SelText) = FunName Then
+				    sel.GoToLine TempLine
+                    FindFunctionBody = True
+					Exit Function
+				End If
+			End If
+            sel.GoToLine sel.CurrentLine + 1
+		Loop
+		sel.MoveTo OrgLine, OrgColumn, dsMove
+		FindFunctionBody = False
+	End If
+End Function
+
+Function CommentText(Text)
+    CommentText = TextTrim(Text)
+	If InStr(CommentText, "//") = 0 And InStr(CommentText, "/*") = 0 Then 
+	    CommentText = ""
+		Exit Function
+	End If 
+
+	If InStr(CommentText, "//{{") > 0 Or InStr(CommentText, "//}}") > 0 Then 'vc Comment
+	    CommentText = ""
+		Exit Function
+	End If 
+
+	If InStr(CommentText, "//") > 0 Then
+	    CommentText = Split(CommentText, "//")(1)	
+	ElseIf InStr(CommentText, "/*") > 0 Then
+	    CommentText = Split(CommentText, "/*")(1)
+		If InStr(CommentText, "*/") > 0 Then
+		    CommentText = Split(CommentText, "*/")(0)
+		End If
+	End If
+End Function
+
+Function MemberType(Text)
+    MemberType = Text
+	MemberType = TextTrim(MemberType)
+	MemberType = ValidText(Text)
+	MemberType = Replace(MemberType, chr(9), "")
+    MemberType = DeleteBlank(MemberType)
+	MemberType = Split(MemberType, " ")(UBound(Split(MemberType, " "))-1)
+End Function
+
+Function MemberCort(MemberType)
+    Dim Str 
+	If Instr(MemberType, "*") > 0 Then
+	    Str = "/" + Left(MemberType, Len(MemberType)-1) + "/"
+	    If Instr(BaseType, Str) > 0 Then
+		    MemberCort = memBasePtr
+		Else
+		    MemberCort = memObjectPtr
+		End If
+	Else
+	    Str = "/" + MemberType + "/"
+	    If Instr(BaseType, Str) > 0 Then
+		    MemberCort = memBase
+		Else
+		    MemberCort = memObject
+		End If
+	End If
+End Function
+
+Function MemberName(Text)
+	MemberName = MemberFullName(Text)
+	Dim pos, s
+	For pos = 1 To Len(MemberName)
+	    s = Mid(MemberName, pos, 1)
+	    If s = UCase(s) Then 
+		    If s <> "-" And s <> "_" And s <> "*" And s <> "&" Then Exit For
+		End If
+	Next
+	If pos < Len(memberName) Then    
+	    MemberName = Right(MemberName, Len(MemberName)-pos+1)
+	End If
+End Function
+
+Function MemberFullName(Text)
+	MemberFullName = ValidText(Text)
+	Do While InStr(MemberFullName, "  ") > 0
+	    MemberFullName = Replace(MemberFullName, "  ", " ")
+	loop 
+	MemberFullName = Split(MemberFullName, " ")(UBound(Split(MemberFullName, " ")))
+	MemberFullName = Replace(MemberFullName, ";", "")
+End Function
+
+Function ReadFunctionAccess(Text, Access)
+    Dim RW
+	RW = GetRW(Text)
+    If RW <> "" Then
+	    If InStr(RW, MemNot + MemRead + MemWrite) > 0 Then
+		    ReadFunctionAccess = "Not"
+		ElseIf InStr(RW, MemNot + MemRead) > 0 Then
+		    ReadFunctionAccess = "Not"
+		ElseIf InStr(RW, MemRead) > 0 Then
+		    ReadFunctionAccess = "public:"
+		Else
+		    ReadFunctionAccess = Access
+		End If
+	Else
+	    ReadFunctionAccess = Access
+	End If 
+	
+	If GetSetAll = False Then
+	    If ReadFunctionAccess <> "public:" Then ReadFunctionAccess = "Not"
+	End If
+End Function
+
+Function WriteFunctionAccess(Text, Access)
+    Dim RW
+	RW = GetRW(Text)
+    If RW <> "" Then
+	    If InStr(RW, MemNot + MemRead + MemWrite) > 0 Then
+		    WriteFunctionAccess = "Not"
+		ElseIf InStr(RW, MemNot + MemWrite) > 0 Then
+		    WriteFunctionAccess = "Not"
+		ElseIf InStr(RW, MemWrite) > 0 Then
+		    WriteFunctionAccess = "public:"
+		Else
+		    WriteFunctionAccess = Access
+		End If
+	Else
+	    WriteFunctionAccess = Access
+	End If   
+	If GetSetAll = False Then
+	    If WriteFunctionAccess <> "public:" Then WriteFunctionAccess = "Not"
+	End If		     
+End Function
+
+Function GetRW(Text)
+    Dim Str, i, s
+	Str = Text
+	If InStr(Str, "//") > 0 Then Str = CommentText(Str)
+	For i = 1 To 5
+	    s = Mid(Str, i, 1)
+		If s <> MemRead And s <> MemWrite And s <> MemNot Then
+		    Exit For
+		End If
+	Next 
+	i = i - 1
+	GetRW = Left(Str, i) 
+End Function
+
+Function ReadFunctionDeclare(Access, Cort, Types, Name)
+    Dim Str
+	Str = Access + String(Len("protected:")-Len(Access)+1, " ")
+	Str = Str + Types
+	If Cort = memObject Then Str = Str + ObjReadReturn
+	Str = Str + " " + FixGet + Name + "()"
+	If Cort = memBase Then
+	    Str = Str + " const"
+	End If
+	Str = Str + ";"
+	ReadFunctionDeclare = Str
+End Function
+
+Function ReadFunctionBody(sel, Cort, Types, Name, FullName)
+    Dim Str
+	Dim StartLine, EndLine
+    Str = ReadFunctionBodyName(Cort, Types, Name, FullName)
+	If sel.FindText(Str) Then
+	    StartLine = FunctionTopLine(sel)
+	    EndLine = FunctionBottomLine(sel)
+	    sel.GoToLine StartLine, dsMove
+		sel.LineDown dsExtend, EndLine-StartLine+1
+		ReadFunctionBody = sel.Text
+		Exit Function
+	End If
+
+	Str = Ln + Str + Ln + "{"
+	If AssertGet = True Then Str = Str + Ln + Tab + AssertSentence
+	Str = Str + Ln + Tab + "return "
+	If Cort = memObject And ObjReadReturn = "*" Then Str = Str + "&"
+	If Left(FullName, 1) = "*" Or Left(FullName, 1) = "&" Then
+	    FullName = Right(FullName, Len(FullName) - 1)
+	End If
+	Str = Str + FullName + ";"
+	Str = Str + Ln + "}" 
+	Str = Str + Ln
+
+	ReadFunctionBody = Str
+End Function
+
+Function ReadFunctionBodyName(Cort, Types, Name, FullName)
+	Dim Str
+    Str = "inline " + Types
+	If Cort = memObject Then Str = Str + ObjReadReturn
+	Str = Str + " " + ClassName + "::" + FixGet + Name
+	Str = Str + "()"
+	If Cort = memBase Then
+	    Str = Str + " const"
+	End If
+	ReadFunctionBodyName = Str
+End Function
+
+Function WriteFunctionDeclare(Access, Cort, Types, Name)
+    Dim Str
+	Str = Access + String(Len("protected:")-Len(Access)+1, " ")
+	Str = Str + "void " + FixSet + Name
+
+  	Str = Str + "("
+	If Types = "CString" Or Cort = memObject Then
+	    Str = Str + "const "
+	End If
+	Str = Str + Types
+	If Types = "CString" Or Cort = memObject Then
+	    Str = Str + ObjWriteParam
+	End If	
+	Str = Str + " " + Name + ")"
+
+	Str = Str + ";"
+ 	WriteFunctionDeclare = Str
+End Function
+
+Function WriteFunctionBody(sel, Cort, Types, Name, FullName)
+	Dim Str
+	Dim StartLine, EndLine
+    Str = WriteFunctionBodyName(Cort, Types, Name, FullName)
+	If sel.FindText(Str) Then
+	    StartLine = FunctionTopLine(sel)
+	    EndLine = FunctionBottomLine(sel)
+	    sel.GoToLine StartLine, dsMove
+		sel.LineDown dsExtend, EndLine-StartLine+1
+		WriteFunctionBody = sel.Text
+		Exit Function
+	End If
+
+	Str = Ln + Str + Ln + "{"
+	Str = Str + Ln + Tab + FullName +" = " + Name + ";"
+	If AssertSet = True Then Str = Str + Ln + Tab + AssertSentence
+	Str = Str + Ln + "}" 
+	Str = Str + Ln
+
+	WriteFunctionBody = Str
+End Function
+
+Function WriteFunctionBodyName(Cort, Types, Name, FullName)
+
+	Dim Str
+    Str = "inline void "
+	Str = Str + ClassName + "::" + FixSet + Name
+
+	Str = Str + "("
+	If Types = "CString" Or Cort = memObject Then
+	    Str = Str + "const "
+	End If
+	Str = Str + Types
+	If Types = "CString" Or Cort = memObject Then
+	    Str = Str + ObjWriteParam
+	End If	
+	Str = Str + " " + Name + ")"
+
+	WriteFunctionBodyName = Str
+End Function
+
+Function GetSetDeclareCreate(sel, Arr, Count)
+    Dim StartLine, EndLine
+	sel.StartOfDocument
+    If sel.FindText(BeginGetSet) <> True Then
+	    NotFound(BeginGetSet)
+		Exit Function
+	End If
+	StartLine = sel.CurrentLine	+ 1
+
+	If Sel.FindText(EndGetSet) <> True Then
+	    NotFound(EndGetSet)
+		Exit Function
+	End If
+
+	EndLine = sel.CurrentLine - 1
+    If EndLine - StartLine > 0 Then
+	    sel.GoToLine StartLine, dsMove
+		sel.LineDown dsExtend, EndLine-StartLine+1
+		sel.Delete
+	End If
+
+	If Count = 0 Then Exit Function
+
+    Dim i, a, Str, Access(3)
+	Access(0) = "public:"
+	Access(1) = "protected:"
+	Access(2) = "private:"
+	For a = 0 To 2
+	    Str = Str + Access(a) + Ln
+	    For i = 0 To Count-1
+		    If Left(Arr(i), Len(Access(a))) = Access(a) Then
+                Str = Str + Tab + TextTrim( Right(Arr(i), Len(Arr(i))-Len(Access(a))) ) + Ln
+			End If
+		Next
+		If GetSetAll = False Then Exit For
+	Next
+	sel.StartOfLine
+	sel.Text = Str + Ln
+End Function
+
+Function InlineBodyCreate(sel, Arr, Count)
+    Dim BottomLine
+	sel.EndofDocument
+	BottomLine = sel.CurrentLine
+	sel.GoToLine 2
+	sel.LineDown dsExtend, BottomLine-sel.CurrentLine+1
+	sel.Delete
+
+	If Count = 0 Then Exit Function
+    Dim i
+	Dim Str
+	For i = 0 To Count-1
+        Str =  Str + Arr(i)
+	Next
+	sel.StartOfLine
+	sel.Text = Str
+End Function
+
+Function RecordVirtualFunction(VirtualFun)
+    If VirtualFun = "" Then Exit Function
+
+    Dim sel
+	Set sel = GetSelection("Doc.xml", DocPath)
+
+    Dim ValidFun, Base, VirtualFuns, v, ExistFun, Path
+	VirtualFuns = Split(VirtualFun, ";")
+	Base = BaseClassName
+	Do While Base <> ""
+		Path = FormatPath("class", "name", Base)				
+		ExistFun = ExistFun + ReadElement(sel, Path, "virtual", "", "")
+		Base = ReadElement(sel, Path, "base", "", "")
+	Loop
+
+	For v = 0 To UBound(VirtualFuns)-1
+	    If  FunctionName(VirtualFuns(v)) <> "~" + ClassName _
+		And FunctionName(VirtualFuns(v)) <> "AssertValid"   _
+        And FunctionName(VirtualFuns(v)) <> "Dump"          Then
+            If InStr(ExistFun, VirtualFuns(v) + ";") <= 0 Then
+			    ValidFun = ValidFun + VirtualFuns(v) + ";"
+			End If 
+		End If
+	Next  
+    
+	WriteElement sel, pathClass, "virtual", "", "", ValidFun
+	
+	sel.Parent.Save
+	Set sel = Nothing
+End Function
+
+Function IsHppFile()
+    Dim DocName
+	DocName = ActiveDocument.Name
+    IsHppFile = True
+    If FileExt(DocName) <> "h" Then
+	    MsgBox "只有头文件才能使用此功能！"
+		IsHppFile = False
+	End If
+End Function
+
+Function BaseClassCort(Base)
+    BaseClassCort = "CObject"
+	If Base = "CObject" Then Exit Function
+
+	Dim sel, BaseClass, Path, HieLevel
+	BaseClass = Base 
+	Set sel = GetSelection("Doc.xml", DocPath)
+
+	Do While BaseClass <> ""
+	    HieLevel = HieLevel + 1 
+        Path = "doc/" + FormatPath("class", "name", BaseClass)
+		BaseClass = ReadElement(sel, Path, "base", "", "")
+		If BaseClass = "CObject" Then
+		    BaseClassCort = "obj"
+			Set sel  = Nothing
+			Exit Function
+		End If	
+	Loop 
+
+    If HieLevel > 1 Then
+	    BaseClassCort = "mfcCumtom"
+	Else
+	    BaseClassCort = "mfc"
+    End If
+
+	Set sel = Nothing
+End Function
+
+Function DeleteLineFind(sel, Str)
+	If sel.FindText(Str) = True Then
+		sel.SelectLine
+	    sel.Delete
+	End If
+End Function
+
+Function ReplaceOrDelete(sel, OldStr, NewStr)
+    If sel.FindText(OldStr) = True Then
+        If NewStr <> "" Then 
+            sel.ReplaceText OldStr, NewStr
+		 Else
+			sel.SelectLine
+			sel.Delete
+		End If
+	End If	    
+End Function
+
+Function ClassAttribute(ClsName, AttributeName)
+	Dim sel, Path
+	Set sel = GetSelection("Doc.xml", DocPath)
+	Path = "doc/" + FormatPath("class", "name", ClsName)
+    ClassAttribute = ReadElement(sel, Path, AttributeName, "", "")
+	Set sel = Nothing
+End Function
+
+Function CommentInitHpp(sel, OpeType, FunName, FunReturn, OpeLine)
+    CommentInitHpp = False
+	Dim SenType, SelText, BottomLine, OrgLine, OrgColumn
+	OrgLine = sel.CurrentLine
+	OrgColumn = sel.CurrentColumn
+    sel.EndOfDocument
+	BottomLine = sel.CurrentLine
+	sel.GoToLine OrgLine
+	SelText = SelectionText(sel)
+	SenType = CodeType(SelText)
+
+	If SenType = codeFunction Then
+	    OpeLine = OrgLine
+	    FunName = FunctionName(SelText)
+	    FunReturn = ReturnType(SelText)
+        sel.GoToLine OrgLine - 1, dsMove
+		sel.SelectLine
+		If CodeType(sel.Text) = codeComment And Left(TextTrim(sel.Text), Len(ComFlag)) = ComFlag Then
+			OpeType = "Write"		
+		Else
+			OpeType = "Read"
+		End If
+	ElseIf SenType = codeComment Then
+	    Dim TempLine
+		If Left(TextTrim(SelText), Len(ComFlag)) <> ComFlag Then Exit Function
+		OpeType = "Write"
+		Do While sel.CurrentLine < BottomLine
+			sel.GoToLine sel.CurrentLine + 1, dsMove
+			TempLine = sel.CurrentLine
+			SelText = SelectionText(sel)
+			If CodeType(SelText) = codeFunction Then
+				FunName = FunctionName(SelText)
+				FunReturn = ReturnType(SelText)
+				OpeLine = TempLine
+				Exit Do
+			ElseIf Left(TextTrim(SelText), Len(ComFlag)) <> ComFlag Then
+			    MsgBox "注释不符合格式要求！"
+			    Exit Function
+			End If
+		Loop
+	Else
+	    Exit Function
+	End If
+	CommentInitHpp = True
+End Function
+
+Function GetPrototype(sel, FunName, Prototype, Access)
+	Dim OrgLine, BottomLine, SelText, TempAccess
+	OrgLine = sel.CurrentLine
+	sel.EndOfDocument
+	BottomLine = sel.CurrentLine
+	sel.StartOfDocument
+	Prototype = ""
+	Do While sel.CurrentLine < BottomLine
+	    SelText = SelectionText(sel)
+		Select Case CodeType(SelText)
+		    Case codeAccess
+		        TempAccess = ValidText(SelText)
+		    Case codeFunction
+		        If FunctionName(SelText) = FunName Then
+	                Access = TempAccess
+			        If Prototype <> "" Then
+			            Prototype = Prototype + "<br>" + ValidText(SelText)
+				    Else
+				        Prototype = ValidText(SelText)
+				    End If 
+			    End If
+		End Select
+	    sel.GoToLine sel.CurrentLine + 1, dsMove
+	Loop
+	Prototype = Replace(Prototype, Ln, "")
+	Prototype = DeleteBlank(Prototype)
+End Function
+
+Function ReadFunctionComment(XmlSel, sel, FunName, FunReturn, ProtoType, Parameters, OpeLine)
+    Dim Str, Strs, i, ParamType, ParamName, Temp, Blank, Path
+	If FileExt(sel.Parent.Name) = "h" Then
+	    Blank = Tab
+	Else
+	    Blank = ""
+	End If
+
+	Path = pathClass + FormatPath("function", "name", FunName)
+	Str = CommentFix(Mark_Desc, Blank)
+	Str = Str + ReadElement(XmlSel, Path, Mark_Desc, "", "")
+	If FunReturn <> "" And FunReturn <> "void" Then
+	    Str = Str + Ln + CommentFix(Mark_Return, Blank)
+		Str = Str + "[" + FunReturn + "] "
+		Str = Str + ReadElement(XmlSel, Path + "/" + Mark_Return, Mark_Desc, "", "") 
+	End If
+	If Parameters <> "" Then
+	    Strs = Split(Parameters, ",")
+		For i = 0 To UBound(Strs)
+		    Dim ps
+			ps = Split(Strs(i), " ")
+			If UBound(ps) = 1 Then
+		        ParamType = ps(0)
+			    ParamName = ps(1)
+			Else
+			    ParamType = ps(0) + " " + ps(1)
+				ParamName = ps(2)
+			End If
+			If Left(ParamName, 1) = "*" Then
+			    ParamType = ParamType + "*"
+				ParamName = Right(ParamName, Len(ParamName) - 1)
+			End If
+			If Left(ParamName, 1) = "&" Then
+			    ParamType = ParamType + "&"
+				ParamName = Right(ParamName, Len(ParamName) - 1)
+			End If
+
+			If i = 0 Then 
+			    Str = Str + Ln + CommentFix(Mark_Param, Blank)
+			Else
+			    Str = Str + Ln + CommentFix("", Blank)
+			End If  
+			Str = Str + "[" + ParamType + " " + ParamName + "] "
+			Str = Str + ReadElement(XmlSel, Path + "/" + _
+			    FormatPath(Mark_Param, "name", ParamName), Mark_Desc, "", "")
+		Next
+	End If
+
+    If Marks_Function <> "" Then
+	    Dim Items, it
+	    Items = Split(Marks_Function, "/")
+	    For it = 0 To UBound(Items)
+		    Str = Str + Ln + CommentFix(Items(it), Blank)
+            Str = Str + ReadElement(XmlSel, Path, Items(it), "", "")
+		Next
+	End If
+
+	Dim FunCort
+	FunCort = ReadElement(XmlSel, Path, Mark_Cort, "", "")
+	If FunCort <> "" Then
+	    Str = Str + Ln + CommentFix(Mark_Cort, Blank)
+        Str = Str + FunCort
+    End If
+
+	Str = Replace(Str, "<br/>", Ln + CommentNewLine(Blank))
+
+	sel.GoToLine OpeLine
+	sel.StartOfLine
+	sel.Text = Str + Ln
+End Function
+
+Function GetParameters(Prototype, Parameters)
+    Parameters = ""
+	Dim Str, Strs, Param, Params, i
+	Str = Prototype
+	Strs = Split(Str, "<br>")
+	For i = 0 To UBound(Strs)
+	    Param = Param + ParameterList(Strs(i)) + ","
+	Next
+	Param = Replace(Param, "@ParamBlank@", "")
+	Param = Replace(Param, Ln, "")
+	If Param <> "" Then
+	    Params = Split(Param, ",")
+		Parameters = ","
+	    For i = 0 To UBound(Params) - 1
+		    If InStr(Parameters, "," + TextTrim(Params(i)) + ",") = 0 Then
+			    If TextTrim(Params(i)) <> "" Then
+			        Parameters = Parameters + TextTrim(Params(i)) + ","
+				End If
+			End If
+		Next
+	End If
+	If Len(Parameters) < 2 Then
+	    Parameters = ""
+	Else
+	    Parameters = TextTrim(Parameters)
+	    Parameters = Left(Parameters, Len(Parameters)-1)
+		Parameters = Right(Parameters, Len(Parameters)-1)
+	End If
+End Function
+
+Function WriteFunctionComment(XmlSel, sel, FunName, FunReturn, ProtoType, Parameters, OpeLine, Access)
+	Dim Types, Value, Str, Blank, Path, FixLen
+	If FileExt(sel.Parent.Name) = "h" Then Blank = Tab
+    Path = pathClass + FormatPath("function", "name", FunName)
+      Context XmlSel, pathClass, True
+	If SelectNode(XmlSel, "function", "name", FunName, "class") = True Then
+	    DeleteNodeContent XmlSel
+	End If
+ 	sel.GotoLine OpeLine - 1  
+	sel.SelectLine  
+	Do While Left(TextTrim(sel.Text), Len(comFlag)) = comFlag
+		If Left(TextTrim(sel.Text), Len(nameFlag)) = nameFlag Then
+
+			Str = TextTrim(sel.Text) + Str
+
+			Types = Left(Str, Len(nameFlag)+nameLen)
+			Types = Right(Types, nameLen)
+			Types = TextTrim(Types)	
+            If Types = "" Then Types = Mark_Param
+
+            FixLen = Len(CommentFix("", "")) - NameLen*(NameLang-1)
+            If Len(Str) > FixLen Then
+				Value = Right(Str, Len(Str) - FixLen + 1)
+			Else 
+				Value = ""
+		    End If
+
+			If Types = Mark_Param Then
+			    Dim PName, PType, ValueStr, ParamPath, PStr, ps
+				ValueStr = Value
+				Value = TextTrim (Split(ValueStr, "]")(1))
+				PStr  = Split(ValueStr, "[")(1)
+				PStr  = Split(PStr, "]")(0)
+
+ 				ps = Split(PStr, " ")
+		        If UBound(ps) = 1 Then
+		            PType = ps(0)
+			        PName = ps(1)
+			    Else
+			        PType = ps(0) + " " + ps(1)
+				    PName = ps(2)
+			    End If
+
+				ParamPath = Path + "/" + FormatPath(Mark_Param, "name", PName)
+				WriteElement XmlSel, ParamPath, "type",  "", "", PType
+				If Value <> "" Then
+					WriteElement XmlSel, ParamPath, Mark_Desc, "", "", Value
+				End If
+			ElseIf Types = Mark_Return Then
+				Dim RType, ReturnPath
+				ReturnPath = Path + "/" + Mark_Return
+				RType = Split(Value, "]")(0)
+				RType = Replace(RType, "[", "")
+                Value = Split(Value, "]")(1)
+				Value = TextTrim(Value)
+				WriteElement XmlSel, ReturnPath, "type",  "", "", RType
+				If Value <> "" Then
+				    WriteElement XmlSel, ReturnPath, Mark_Desc, "", "", Value
+				End If
+			Else
+				If Value <> "" Then
+					WriteElement XmlSel, Path, Types, "", "", Value
+				End If
+			End If
+			Str = ""
+		Else
+			Str = "<br/>" + TextTrim(Split(TextTrim(sel.Text), comFlag)(1)) + Str
+		End If
+		sel.GoToLine sel.CurrentLine - 1
+		sel.SelectLine
+	Loop
+	WriteElement XmlSel, Path, "prototype", "", "", Prototype
+	WriteElement XmlSel, Path, "access", "", "", Access					
+End Function
+
+Function CommentInitCpp(sel, OpeType, FunName, FunReturn, OpeLine)
+    CommentInitCpp = False
+	Dim SenType, SelText, BottomLine, OrgLine, OrgColumn, Str
+	OrgLine = sel.CurrentLine
+	OrgColumn = sel.CurrentColumn
+    sel.EndOfDocument
+	BottomLine = sel.CurrentLine
+
+	sel.GoToLine OrgLine
+	sel.SelectLine
+	SelText = sel.Text
+	SenType = CodeType(SelText)
+	OpeType = ""
+	If SenType = codeComment And Left(TextTrim(SelText), Len(ComFlag)) = ComFlag Then
+	    OpeType = "Write"
+ 		Do While sel.CurrentLine < BottomLine
+			sel.GoToLine sel.CurrentLine + 1, dsMove
+		    sel.SelectLine
+			SelText = sel.Text
+			If IsFunctionCpp(SelText) = True Then
+				SelText = Replace(SelText, ClassName + "::", "")
+				FunName = FunctionName(SelText)
+				FunReturn = ReturnType(SelText)
+				OpeLine = sel.CurrentLine
+				CommentInitCpp = True
+				Exit Do
+			End If
+		Loop
+	ElseIf IsFunctionCpp(SelText) = True Then
+        SelText = Replace(SelText, " " + ClassName + "::", " ")
+		FunName = FunctionName(SelText)
+		FunReturn = ReturnType(SelText)
+		OpeLine = OrgLine
+		CommentInitCpp = True
+	Else
+ 		Do While sel.CurrentLine > 1
+            sel.GoToLine sel.CurrentLine-1, dsMove
+			sel.SelectLine
+		    SelText = sel.Text
+			If IsFunctionCpp(SelText) = True Then
+				SelText = Replace(SelText, " " + ClassName + "::", " ")
+				FunName = FunctionName(SelText)
+				FunReturn = ReturnType(SelText)
+				OpeLine = sel.CurrentLine
+				CommentInitCpp = True
+				Exit Do
+			End If
+		Loop
+	End If
+
+    If CommentInitCpp = False Then
+	    sel.MoveTo OrgLine, OrgColumn
+	    Exit Function
+	End If
+
+	If OpeType = "" Then
+        sel.GoToLine OpeLine - 1
+	    sel.SelectLine
+		If CodeType(sel.Text) = codeComment And Left(TextTrim(sel.Text), Len(ComFlag)) = ComFlag Then
+		    OpeType = "Write"
+		Else
+		    OpeType = "Read"
+        End If
+	End If
+
+	sel.GoToLine OpeLine
+End Function
+
+Function IsFunctionCpp(Str)
+    If InStr(Str, ClassName + "::"  + ClassName + "(") > 0 _
+    Or InStr(Str, ClassName + "::~" + ClassName + "(") > 0 _
+    Or InStr(Str, " " + ClassName + "::")              > 0 Then
+	    IsFunctionCpp = True
+	Else
+	    IsFunctionCpp = False
+	End If
+End Function
+
+Function ClassComment(sel)
+    Dim XmlSel, OrgLine, OpeType, OpeLine
+	OrgLine = sel.CurrentLine
+	OpeLine = sel.CurrentLine
+
+	Set XmlSel = GetSelection("Doc.xml", DocPath)
+
+	sel.GoToLine OpeLine - 1
+	sel.SelectLine
+	If Left(TextTrim(sel.Text), Len(ComFlag)) <> ComFlag Then
+	    OpeType = "Read"
+	Else
+	    OpeType = "Write"
+	End If
+	
+	Dim Str
+	If OpeType = "Read" Then
+	    Str = CommentFix(Mark_Desc, "")
+	    Str = Str + ReadElement(XmlSel, pathClass, Mark_Desc, "", "")
+
+        If Marks_Class <> "" Then
+	        Dim Items, it
+	        Items = Split(Marks_Class, "/")
+	        For it = 0 To UBound(Items)
+		        Str = Str + Ln + CommentFix(Items(it), "")
+                Str = Str + ReadElement(XmlSel, pathClass, Items(it), "", "")
+		    Next
+	    End If
+
+        Str = Replace(Str, "<br/>", Ln + CommentNewLine(""))
+
+		sel.GoToLine OpeLine
+		sel.StartOfLine
+		sel.Text = Str + Ln
+	Else
+	     sel.GoToLine OpeLine - 1
+	     Dim Types, Value, FixLen
+	     Str = ""
+
+         sel.SelectLine
+	     Do While Left(TextTrim(sel.Text), Len(ComFlag)) = ComFlag
+		     If Left(TextTrim(sel.Text), Len(NameFlag)) = NameFlag Then
+			     Str = TextTrim(sel.Text) + Str
+
+			     Types = Left(Str, Len(NameFlag)+NameLen)
+				 Types = Right(Types, NameLen)
+				 Types = TextTrim(Types)
+
+                 FixLen = Len(CommentFix("", "")) - NameLen*(NameLang-1)
+                 If Len(Str) > FixLen Then
+				     Value = Right(Str, Len(Str) - FixLen + 1)
+				 Else 
+				     Value = ""
+				 End If
+
+				 If Value <> "" Then
+                     WriteElement XmlSel, pathClass, Types, "", "", Value
+				 End If
+
+				 Str = ""
+			  Else
+                 Str = "<br/>" + TextTrim(Split(TextTrim(sel.Text), comFlag)(1)) + Str
+		      End If
+		      sel.GoToLine sel.CurrentLine - 1
+			  sel.SelectLine
+	     Loop
+	End If
+
+	If OpeType = "Write" Then
+	    Dim Top, Bottom
+		Bottom = OpeLine - 1
+	    sel.GoToLine Bottom
+	    Do While sel.CurrentLine > 1
+	        sel.SelectLine
+		    If Left(TextTrim(sel.Text), Len(ComFlag)) <> ComFlag Then Exit Do
+		    sel.GoToLine sel.CurrentLine - 1
+		Loop
+	    Top = sel.CurrentLine + 1
+	    sel.GoToLine Top
+		sel.LineDown dsExtend, Bottom-Top+1
+		sel.Delete
+		sel.GoToLine OpeLine - (Bottom-Top+1)				    
+	Else
+	    sel.MoveTo OpeLine, Len(CommentFix("", "")) - NameLen*(NameLang-1), dsMove
+	End If
+	
+	XmlSel.Parent.Save
+	Set XmlSel = Nothing
+End Function
+
+Function MakeGetSetFunctionComment(XmlSel, FunType, MemName, MemType, MemCort, Comm)
+    Dim FunName, Prototype, return, Parameter, Path
+	If FunType = "Get" Then
+	    FunName = FixGet + MemName
+	    Prototype = TextTrim(ReadFunctionDeclare("", MemCort, MemType, MemName))
+	Else
+	    FunName = FixSet + MemName
+    	Prototype = TextTrim(WriteFunctionDeclare("", MemCort, MemType, MemName))
+	End If
+
+    Path = pathClass + FormatPath("function", "name", FunName) + "/"
+
+	If FunType = "Get" Then
+	    WriteElement XmlSel, Path + Mark_Return, "type",  "", "", MemType
+		WriteElement XmlSel, Path + Mark_Return, Mark_Desc, "", "", Comm
+	Else
+	    WriteElement XmlSel, Path + FormatPath(Mark_Param, "name", MemName),  _
+		"type",  "", "", MemType
+		WriteElement XmlSel, Path + FormatPath(Mark_Param, "name", MemName),  _
+		Mark_Desc, "", "", Comm
+	End If
+
+	Dim DescFix
+    If FunType = "Get" Then
+	    DescFix = CommentFixGet
+	Else
+	    DescFix = CommentFixSet
+	End If
+
+    WriteElement XmlSel, Path,  Mark_Desc,     "", "", DescFix + Comm
+	WriteElement XmlSel, Path,  "prototype", "", "", Prototype
+End Function
+
+Function MultipleLineText(sel, EndFlag)
+    MultipleLineText = ""
+    Dim StartLine, EndLine, BottomLine
+	StartLine = sel.CurrentLine
+	EndLine = 0
+	sel.EndOfDocument
+	BottomLine = sel.CurrentLine
+	sel.GoToLine StartLine
+    Do While sel.CurrentLine < BottomLine
+	    sel.SelectLine
+		If InStr(sel.Text, EndFlag) > 0 Then
+		    EndLine = sel.CurrentLine
+            Exit Do
+		End If
+		sel.GoToLine sel.CurrentLine + 1, dsMove
+	Loop
+    If EndLine = 0 Then Exit Function
+
+	sel.GoToLine StartLine, dsMove
+	sel.LineDown dsExtend, EndLine-StartLine+1
+    MultipleLineText = sel.Text
+	sel.Cancel
+	sel.GoToLine EndLine
+	sel.StartOfLine
+End Function
+
+Function ExSupport(DocName)
+    ExSupport = False
+    If FileExt(DocName) <> "h" Then
+	    MsgBox "请在头文件执行此操作！"
+        Exit Function
+	End If
+
+    Dim msg, Input
+	msg = "找不到VcExtend所需要的基本信息, 要在当前类中使用VcExtend功能，"
+	msg = msg + "请在下边的输入框中输入类名和基类名, 格式为：" + Ln + Ln + "类名:基类名"
+    Input = InputBox(msg)
+	
+	If Input = "" Or InStr(Input, ":") = 0 Then Exit Function
+
+	Dim sel, InlSel, OrgLine, OrgColumn
+	Set sel = ActiveDocument.Selection
+	sel.Cancel
+
+	OrgLine = sel.CurrentLine
+	orgColumn = sel.CurrentColumn
+	
+	ClassName = Split(Input, ":")(0)
+	BaseClassName = Split(Input, ":")(1)
+	RecordClassInfo()
+
+	sel.EndOfDocument
+
+	If sel.FindText(EndGetSet, dsMatchBackward) <> True Then
+	    NotFound(EndGetSet)
+        Set sel = Nothing
+		Exit Function
+	End If
+
+	Dim Str
+	Str = "//" + BeginGetSet + Ln + EndGetSet + Ln + Ln
+	Str = Str + "#include """ + DocumentName + ".inl""" + Ln
+
+	sel.SelectLine
+	sel.Text = Ln + Str
+	sel.Parent.Save
+
+	Set InlSel = GetSelection("inl.txt", TxtPath)
+	InlSel.Parent.Save InlPath + DocumentName + ".inl"
+
+	sel.MoveTo OrgLine, OrgColumn, dsMove
+
+	Set sel = Nothing
+	Set InlSel = Nothing
+
+	ExSupport = True
+End Function
+
+
+
+Function Test(msg)
+	MsgBox(msg)
+End Function
+
+Function SelTest(sel, msg)
+	sel.Parent.Active = True
+	sel.SelectLine
+	If msg = "" Then
+	    MsgBox "SelTest"
+	Else
+	    MsgBox msg
+	End If
+	sel.Cancel
+End Function
+
+Function ContextTest()
+    Dim i
+	For i= 0 To Deep
+	Test "Deep:" + CStr(i) + " CtPath(" + CStr(i) + "):" + CtPath(i) + " CtLine:" + CStr(CtLine(i))
+
+	Next
+End Function

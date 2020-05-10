@@ -1,0 +1,111 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<script  language="javascript" src ="../../../../我的文档/Scrpit/JumpTop.js"></script>
+<script language ="vbscript" src="../../../../我的文档/Scrpit/webscrpit.bas"></script>
+<title>远程控制功能设计</title>
+</head>
+
+<body>
+
+<table border="0" width="100%">
+	<tr>
+		<td width="32">
+		<img border="0" src="../../../../我的文档/图片/KL.BMP" width="32" height="32"></td>
+		<td>
+
+<p align="center"><b><font size="6">远程控制功能设计</font></b></p>
+		</td>
+	</tr>
+</table>
+<p align="center">康&nbsp; 林</p>
+<p>此程序设计为可跨平台运行，所以服务器采用标准 C++ 编程，其函数采用标准 C/C++ 函数。主要功能：</p>
+
+<ol>
+	<li><b><a href="远程控制功能设计-文件操作.htm">文件操作</a></b></li>
+	<ol>
+		<li>查找本机驱动器(drive)</li>
+		<li>得到当前目录(pwd)</li>
+		<li>显示目录、文件(dir)。</li>
+		<li>建立目录(md)。</li>
+		<li>进入目录(cd)。</li>
+		<li>删除目录(rd)。</li>
+		<li>复制目录、文件(copy)。</li>
+		<ol>
+			<li>上传(put)。</li>
+			<li>下载(get)。</li>
+		</ol>
+		<li>建立文件(cf)。</li>
+		<li>重命名文件(rename)</li>
+		<li>删除文件(del)。</li>
+		<li>得到、更改文件、目录的属性(attrib)。</li>
+		<li>执行文件(exe)。</li>
+		 
+		<ol>
+			<li>执行可执行文件</li>
+			<li>在服务器端用相关连的程序打开文件</li>
+			<li>用指定的文件打开文件</li>
+		</ol>
+	</ol>
+	<li><b>进程控制</b><li><b><a href="远程控制功能设计-屏幕控制.htm">屏幕控制</a></b></li>
+	<ol>
+		<li>屏幕图形的载取、传输。</li>
+		<li>鼠标、键盘的控制。</li>
+	</ol>
+	<li><b><a href="远程控制详细设计-网络.htm">网络传输</a></b></li>
+	<ol>
+		<li>建立连接，用户可以自己配置连接方式。</li>
+		<li>进行登录。</li>
+		<li>发送/接收数据，采取命令通道与数据通道分离。</li>
+	</ol>
+	<li><b>其它功能</b></li>
+</ol>
+
+
+<p><b>命令格式</b></p>
+<table border="1" width=658>
+	<tr>
+		<td width="67" align="center">命令长度</td>
+		<td align="center" width="44">命令</td>
+		<td align="center" width="53">分隔符</td>
+		<td align="center" width="46">参数</td>
+		<td align="center" width="58">分隔符</td>
+		<td align="center" width="42">属性</td>
+		<td align="center" width="46">参数</td>
+		<td align="center" width="58">分隔符</td>
+		<td align="center" width="42">属性</td>
+		<td align="center">...</td>
+		<td align="center">...</td>
+		<td align="center">...</td>
+	</tr>
+	<tr>
+		<td width="67" align="center">LONG</td>
+		<td align="center" width="44">LONG</td>
+		<td align="center" width="53">0</td>
+		<td align="center" width="46">STRING</td>
+		<td align="center" width="58">0</td>
+		<td align="center" width="42">0</td>
+		<td align="center" width="46">　</td>
+		<td align="center" width="58">0</td>
+		<td align="center" width="42">0</td>
+		<td align="center">　</td>
+		<td align="center">　</td>
+		<td align="center">　</td>
+	</tr>
+</table>
+<p>　</p>
+
+<table border="0" width="100%" id="CopyRightTable">
+	<tr>
+		<td width="32">
+		<img border="0" src="../../../../我的文档/图片/KL.BMP" width="32" height="32"></td>
+		<td > 
+			<p align="center">版权所有（C）2005 康林工作室；保留所有权力</p>
+	    </td>
+	</tr>
+</table>
+
+</body>
+</html>

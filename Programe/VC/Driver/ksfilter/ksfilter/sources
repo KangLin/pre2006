@@ -1,0 +1,20 @@
+TARGETNAME=ksfilter
+TARGETPATH=obj
+TARGETTYPE=DRIVER
+DRIVERTYPE=FS
+
+SOURCES=sfilter.c					\
+		function.c					\
+		volume.c					\
+		FileSystemNotification.c    \
+		create.c					\
+		fastio.c					\
+		SetInformation.c			\
+		Support.c					\
+		Array.c						\
+		Memory.c					\
+		Read.c						\
+		Write.c						\
+		DirectoryControl.c			\
+        sfilter.rc
+

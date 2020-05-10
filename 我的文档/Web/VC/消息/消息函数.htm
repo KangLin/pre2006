@@ -1,0 +1,190 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>消息函数</title>
+<link rel="stylesheet" type="text/css" href="../../../Scrpit/样式.css">
+<script src="../../../Scrpit/webscrpit.bas" language="vbscript"></script>
+</head>
+
+<body>
+
+<p align="center"><b><font size="5">消息函数</font></b></p>
+<p align="center"><font size="2">康&nbsp; 林</font></p>
+<p align="left"><span class="ShowLink" onclick="Call ShowAll()" id="showall1">显示
+所有文字</span>　</p>
+<p>
+   <span class="ShowLink" onclick ="Call Show(DispthMessageTable)">
+         <a name="DispatchMessage">DispatchMessage</a>
+   </span>
+</p>
+<table border="1" width="100%" class="TableStyle" id="DispthMessageTable" style="display:none">
+	<tr>
+		<td><font style="FONT: 12px 宋体" color="black">
+		函数功能：该函数调度一个消息给窗口程序。通常调度从GetMessage取得的消息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;函数原型：LONG DispatchMessage（CONST MSG★lpmsg）；<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;参数：<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;lpmsg：指向含有消息的MSG结构的指针。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;返回值：返回值是窗口程序返回的值。尽管返回值的含义依赖于被调度的消息，但返回值通常被忽略。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;备注：MSG结构必须包含有效的消息值。如果参数lpmsg指向一个WM_TIMER消息，并且WM_TIMER消息的参数IParam不为NULL，则调用IPa1ram指向的函数，而不是调用窗口程序。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;速查：Windows NT：3.1及以上版本；Windows：95及以上版本；Windows 
+		CE：1.0及以上版本；头文件：winuser.h；输入库：user32.lib；Unicode：在Windows 
+		NT环境下以Unicode和ANSI方式实现。</font></td>
+	</tr>
+</table>
+
+<p align="left">
+   <span class="ShowLink" onclick="Call Show(GetMessageTable)">
+      <b>
+         <a name="GetMessage">GetMessage</a>
+      </b>
+   </span>
+</p>
+<table style ="display:none" border="1" width="100%" class="TableStyle" id="GetMessageTable">
+	<tr>
+		<td><font style="FONT: 12px 宋体" color="black">
+		&nbsp;&nbsp;&nbsp;&nbsp;函数功能：该函数从调用线程的消息队列里取得一个消息并将其放于指定的结构。此函数可取得与指定窗口联系的消息和由PostThreadMesssge寄送的线程消息。此函数接收一定范围的消息值。GetMessage不接收属于其他线程或应用程序的消息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;函数原型：BOOL GetMessage（LPMSG lpMsg，HWND hWnd，UINT wMsgFilterMin，UINT 
+		wMsgFilteMax<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;参数：<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;lpMsg：指向MSG结构的指针，该结构从线程的消息队列里接收消息信息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;hWnd：取得其消息的窗口的句柄。这是一个有特殊含义的值（NULL）。GetMessage为任何属于调用线程的窗口检索消息，线程消息通过PostThreadMessage寄送给调用线程。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;wMsgFilterMin：指定被检索的最小消息值的整数。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;wMsgFilterMax：指定被检索的最大消息值的整数。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;返回值：如果函数取得WM_QUIT之外的其他消息，返回非零值。如果函数取得WM_QUIT消息，返回值是零。如果出现了错误，返回值是 
+		-1。例如，当hWnd是无效的窗口句柄或lpMsg是无效的指针时。若想获得更多的错误信息，请调用GetLastError函数。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;备注：应用程序通常用返回值来确定是否终止主消息循环并退出程序。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;GetMesssge只接收与参数hWnd标识的窗口或子窗口相联系的消息，子窗口由函数IsChild决定，消息值的范围由参数wMsgFilterMin和wMsgFilterMax给出。如果hWnd为NULL，则GetMessage接收属于调用线程的窗口的消息，线程消息由函数PostThreadMessage寄送给调用线程。GetMessage不接收属于其他线程或其他线程的窗口的消息，即使hWnd为NULL。由PostThreadMessage寄送的线程消息，其消息hWnd值为NULL。如果wMsgFilterMin和wMsgFilterMax都为零，GetMessage返回所有可得的消息（即，无范围过滤）。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;常数 
+		WM_KEYFIRST和WM_KEYAST可作为过滤值取得与键盘输入相关的所有消息：常数WM_MOUSEFIRST和WM_MOUSELST可用来接收所有的鼠标消息。如果wMsgFilterMin和wMsgFilterMax都为零，GetMessage返回所有可得的消息（即，无范围过滤）。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;GetMessage不从队列里清除WM.PAINT消息。该消息将保留在队列里直到处理完毕。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;注意，此函数的返回值可非零、零或-1，应避免如下代码出现：<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;while（GetMessage（IpMsg，hwnd，0，0））…<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;－1返回值的可能性表示这样的代码会导致致命的应用程序错误。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;速查：Windows NT： 3.1及以上版本；Windows：95及以上版本；Windows 
+		CE：1.0及以上版本：头文件：winuser.h；输入库：user32.Iib；Unicode：在Windows 
+		NT环境下以Unicode和ANSI方式实现。</font></td>
+	</tr>
+</table>
+<p align="left"><b><span class="ShowLink" onclick="Call Show(PeekMessageTable)">
+<font size="3"><a name="PeekMessage">PeekMessage</a></font></span></b></p>
+<table border="1" width="100%" class="TableStyle" id="PeekMessageTable" style="display:none">
+	<tr>
+		<td>
+		<p align="left">
+		<font style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; font-family: 宋体" color="black">
+		函数功能：该函数为一个消息检查线程消息队列，并将该消息（如果存在）放于指定的结构。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;函数原型：BOOL PeekMessage（LPMSG IpMsg，HWND hWnd，UINT wMSGfilterMin，UINT 
+		wMsgFilterMax，UINT wRemoveMsg）；<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;参数：<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;lpMsg：接收消息信息的MSG结构指针。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;hWnd：其消息被检查的窗口的句柄。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;wMsgFilterMin：指定被检查的消息范围里的第一个消息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;wMsgFilterMax：指定被检查的消息范围里的最后一个消息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;wRemoveMsg：确定消息如何被处理。此参数可取下列值之一：<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;PM_NOREMOVE：PeekMessage处理后，消息不从队列里除掉。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;PM_REMOVE：PeekMessage处理后，消息从队列里除掉。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;可将PM_NOYIELD随意组合到PM_NOREMOVE或PM_REMOVE。此标志使系统不释放等待调用程序空闲的线程。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;缺省地，处理所有类型的消息。若只处理某些消息，指定一个或多个下列值：<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;PM_QS_INPUT：Windows NT5.0和Windows 98：处理鼠标和键盘消息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;PM_QS_PAINT：Windows NT 5.0和Windows 98：处理画图消息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;PM_QS_POSTMESSAGE：Windows NT 5.0和Windows 98：处理所有被寄送的消息，包括计时器和热键。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;PM_QS_SENDMESSAGE：Windows NT 5.0和Windows 98：处理所有发送消息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;返回值：如果消息可得到，返回非零值；如果没有消息可得到，返回值是零。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;备注：和函数GetMessage不一样的是，函数PeekMesssge在返回前不等待消息被放到队列里。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;PeekMesssge只得到那些与参数hWnd标识的窗口相联系的消息或被lsChild确定为其子窗口相联系的消息，并且该消息要在由参数wMsgFiterMin和wMsgFiherMax确定的范围内。如果hWnd为NULL，则PeekMessage接收属于当前调用线程的窗口的消息（PeekMessage不接收属于其他线程的窗口的消息）。如果hWnd为-1，PeekMessage只返回hWnd值为NULL的消息，该消息由函数PostThreadMessage寄送。如果wMsgFilterMin和wMsgFilterMax都为零，GetMessage返回所有可得的消息（即，无范围过滤）。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;常数WM_KEYFIRST和WMKEYLAST可作为过滤值取得所有键盘消息；常数WM_MOUSEFIRST和WM_MOUSELAST可用来接收所有的鼠标消息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;PeekMessage通常不从队列里清除WM_PANT消息。该消息将保留在队列里直到处理完毕。但如果WM_PAINT消息有一个空更新区，PeekMessage将从队列里清除WM_PAINT消息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;Windows CE：有一个NULL更新区的WM_PAINT消息不从队列里清除。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;速查：Windows NT：3.1及以上版本；Wihdows：95及以上版本：Windows 
+		CE：1.0及以上版本；头文件：winuser.h输入库：user32.lib：Unicode：在Windows 
+		NT环境下以Unicode和ANSI方式实现。</font></td>
+	</tr>
+</table>
+<p>
+   <span class="ShowLink" onclick ="Call Show(TranslateMessageTable)">
+         <a name ="TranslateMessage">TranslateMessage</a>
+   </span>
+</p>
+<table border="1" width="100%" class="TableStyle" id="TranslateMessageTable" style="display:none">
+	<tr>
+		<td><font style="FONT: 12px 宋体" color="black">
+		&nbsp;&nbsp;&nbsp;&nbsp;函数功能：该函数将虚拟键消息转换为字符消息。字符消息被寄送到调用线程的消息队列里，当下一次线程调用函数GetMessage或PeekMessage时被读出。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;函数原型：BOOL TranslateMessage（CONST MSG★lpMsg）；<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;参数：<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;IpMsg：指向含有消息的MSG结构的指针，该结构里含有用函数GetMessage或PeekMessage从调用线程的消息队列里取得的消息信息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;返回值：如果消息被转换（即，字符消息被寄送到调用线程的消息队列里），返回非零值。如果消息是WM_kEYDOWN，WM_KEYUP 
+		WM_SYSKEYDOWN或WM_SYSKEYUP，返回非零值，不考虑转换。如果消息没被转换（即，字符消息没被寄送到调用线程的消息队列里），返回值是零。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;备注：此函数不修改由参数IpMsg指向的消息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;WM_KEYDOWN和WM_KEYUP组合产生一个WM_CHAR或WM_DEADCHAR消息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;WM_SYSKEYDOWN和WM_SYSKEYUP组合产生一个SYSWM_CHAR或 
+		WM_SYSDEADCHAR消息。TtanslateMessage为那些由键盘驱动器映射为ASCll字符的键产生WM_CHAR消息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;如果应用程序为其他用途处理虚拟键消息，不应调用TranslateMessage。例如，如果件ThranslateAccelerator返回一个非零值，应用程序不应调用TranslateMessage。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;Windows CE：Windows 
+		CE不支持扫描码或扩展键标志，因此，不支持由TranslateMessage产生的WM_CHAR消息中的IKeyData参数（IParam）取值16-24。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;TranslateMessage只能用于转换调用GetMessage或PeekMessage接收的消息。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;速查：Windows NT：3.1及以上版本；Windows：95及以上版本；Windows 
+		CE：1.0及以上版本；头文件：winuser.h；输入库：user32.lib。</font></td>
+	</tr>
+</table>
+
+<p><span class="ShowLink" onclick="Call ShowAll()" id="showall2">显示所有文字</span></p>
+
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>acmDriverEnumCallback</title>
+</head>
+
+<body>
+
+<h1 align="center"><font size="7">acmDriverEnumCallback</font></h1>
+<p align="center">康&nbsp; 林</p>
+<p>这个回调函数被用于函数 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_80ml.htm">
+<b>acmDriverEnum</b></a><b> </b>。</p>
+<pre><code><b>BOOL ACMDRIVERENUMCB acmDriverEnumCallback(
+  HACMDRIVERID</b><i> hadid</i><b>,  </b>
+<b>  DWORD</b><i> dwInstance</i><b>,    </b>
+<b>  DWORD</b><i> fdwSupport     </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>hadid</i> </dt>
+	<dd>一个 ACM 驱动程序的标识符句柄。</dd>
+	<dt><i>dwInstance</i> </dt>
+	<dd>由应用程序通过 
+	<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_80ml.htm">
+	<b>acmDriverEnum</b></a>. 传给回调函数的值。</dd>
+	<dt><i>fdwSupport</i> </dt>
+	<dd>由参数 <i>hadid </i>指定的设备驱动程序所支持设备的细节标识。这个标识与结构 <b>
+	<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_0h6a.htm">
+	ACMDRIVERDETAILS</a> </b>中的成员<b> fdwSupport</b> 一样。这个参数能包含下列的值：<dl>
+		<dt>ACMDRIVERDETAILS_SUPPORTF_ASYNC </dt>
+		<dd>驱动程序支持异步转换。</dd>
+		<dt>ACMDRIVERDETAILS_SUPPORTF_CODEC </dt>
+		<dd>驱动程序支持在两种不同格式名称的两种不同的格式之间的转换。例如：如果这个驱动程序支持从 WAVE_FORMAT_PCMD 到 
+		WAVE_FORMAT_ADPCM 的压缩，那么这个标识被设置。</dd>
+		<dt>ACMDRIVERDETAILS_SUPPORTF_CONVERTER </dt>
+		<dd>驱动程序支持在同种格式名称的两种不同的格式之间的转换。例如：如果驱动程序支持 WAVE_FORMAT_PCM 重取样。这个标识被设置。</dd>
+		<dt>ACMDRIVERDETAILS_SUPPORTF_DISABLED </dt>
+		<dd>驱动程序是无效的。应用程序必须用函数 
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_80ml.htm">
+		<b>acmDriverEnum</b></a> 向回调函数指定 ACM_DRIVERENUMF_DISABLED ，标识驱动程序失效。 
+		</dd>
+		<dt>ACMDRIVERDETAILS_SUPPORTF_FILTER </dt>
+		<dd>驱动程序支持过滤器（指不改变格式的任何属性而修改数据）。例如：如果一个驱动程序支持在 WAVE_FORMAT_PCM 
+		音量或回声操作，这个标识被设置。</dd>
+	</dl>
+	</dd>
+</dl>
+<h4>返回值：</h4>
+<p>这个函数继续相枚举返回 TRUE，要停止枚举返回 FALSE。</p>
+<h4>注释：</h4>
+<p>如果没有 ACM 设备被安装，函数 <b>acmDriverEnum</b> 将返回 MMSYSERR_NOERROR (zero) 
+，这个个回调函数不会被调用。</p>
+<p>下列函数不能在回调函数中被除调用：<b>acmDriverAdd</b>, <b>acmDriverRemove</b>, 和 <b>
+acmDriverPriority</b>.</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in msacm.h.<br>
+<b>&nbsp;&nbsp;Import Library: </b>User-defined.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/audcomp_3kc2.htm">
+Audio Compression Manager Overview</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/audcomp_6x9v.htm">
+Audio Compression Functions</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_0h6a.htm">
+<b>ACMDRIVERDETAILS</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_80ml.htm">
+<b>acmDriverEnum</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_5jhg.htm">
+<b>acmDriverAdd</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_0lid.htm">
+<b>acmDriverRemove</b></a>, and
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_8dx5.htm">
+<b>acmDriverPriority</b></a></p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

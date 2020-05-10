@@ -1,0 +1,48 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>capSetCallbackOnVideoStream</title>
+</head>
+
+<body>
+
+<h1 align="center">capSetCallbackOnVideoStream</h1>
+<p align="center">康&nbsp; 林</p>
+<p>你能用这个宏或者明确调用<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_452l.htm">WM_CAP_SET_CALLBACK_VIDEOSTREAM</a> 
+消息，设置一个应用程序的回调函数。在捕获期间，当视频缓冲区满后，AVICap 调用这个程序。</p>
+<pre><code><b>BOOL capSetCallbackOnVideoStream(
+ </b><i> hwnd</i><b>,  </b>
+<b> </b><i> fpProc </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>hwnd</i> </dt>
+	<dd>捕获窗口的句柄。</dd>
+	<dt><i>fpProc</i> </dt>
+	<dd>视频流回调函数地址。这个参数指定为 NULL 时，卸载前面安装的视频流回调函数。</dd>
+</dl>
+<h4>返回值：</h4>
+<p>如果成功返回 TRUE 如果正在捕获流或者单一帧捕获会话正在执行时，返回FALSE。（ FALSE if streaming capture or a 
+single-frame capture session is in progress.）</p>
+<h4>注释：</h4>
+<p>捕获窗口在捕获帧写入硬盘前先调用这个回调函数。如果想修改帧的话，它允许应用程序修改帧。</p>
+<p>如果一个视频流回调函数被用于视频捕获的话，那么这个函数要在捕获会话开始前安装，并且它应在会话期间保持激活。它能在捕获流结束后终止。</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in vfw.h.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_8xyd.htm">
+Video Capture Overview</a>, <a href="index.htm">Video Capture Macros</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_452l.htm">
+WM_CAP_SET_CALLBACK_VIDEOSTREAM</a></p>
+<p>　</p>
+
+</body>
+
+</html>

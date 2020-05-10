@@ -1,0 +1,65 @@
+// MicrosoftDevelopmentEnvironmentExtendTools.odl : type library source for MicrosoftDevelopmentEnvironmentExtendTools.dll
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (MicrosoftDevelopmentEnvironmentExtendTools.tlb).
+
+[	uuid(26EC7BA1-4949-4FF6-8AC7-7A6AA099D203), version(1.0),
+	helpstring ("MICROSOFTDEVELOPMENTENVIRONMENTEXTENDTOOLS Developer Studio Add-in") ]
+library MicrosoftDevelopmentEnvironmentExtendTools
+{
+	importlib("stdole32.tlb");
+	importlib("devshl.dll");
+	importlib("ide\devdbg.pkg");
+	
+
+	//  Dual interface for CCommands
+	//
+	//  All commands that your add-in adds to DevStudio
+	//   must appear in this interface.  You may use the
+	//   ClassView to add methods to this interface, which
+	//   will cause stub implementations of those methods to
+	//   appear in your CCommands class.
+	
+	[	uuid(F5439B9A-A468-4137-888C-9D3CEDFEF843),
+		oleautomation,
+		dual
+	]
+
+	interface ICommands : IDispatch
+	{
+		// methods
+		[id(1)]
+		HRESULT AutoDispayMarcoOrConst();
+		[id(2)]
+		HRESULT SwitchHCpp();
+		[id(3)] 
+		HRESULT OpenRCAsText();
+		[id(4)]
+        HRESULT IncludeFile(); 
+		[id(5)]
+		HRESULT AutoFormatCCode();
+	};
+
+	//  Class information for CCommands
+
+	[ uuid(6867FF16-93CC-454F-AC3D-794231081080) ]
+	coclass Commands
+	{
+		[default] interface ICommands;
+	};
+
+	[ hidden, uuid(369A7FCF-A911-4717-9140-596069BB2428) ]
+	coclass ApplicationEvents
+	{
+		[default] interface IApplicationEvents;
+	}
+
+	[ hidden, uuid(E8FD6E23-C741-4365-9140-D78FA144D17B) ]
+	coclass DebuggerEvents
+	{
+		[default] interface IDebuggerEvents;
+	}
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

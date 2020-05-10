@@ -1,0 +1,344 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0048)http://topic.csdn.net/t/20021023/13/1118164.html -->
+<HTML lang=zh-CN xml:lang="zh-CN" 
+xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>如何用VB编程将JPG格式图形文件设置为桌面背景？ VB / 基础类 - CSDN社区 community.csdn.net</TITLE>
+<META content=all name=robots>
+<META http-equiv=Content-Language content=zh-CN>
+<META http-equiv=Content-Type content="text/html; charset=utf-8"><LINK 
+href="如何用VB编程将JPG格式图形文件设置为桌面背景？.files/topic.css" type=text/css rel=stylesheet>
+<SCRIPT src="如何用VB编程将JPG格式图形文件设置为桌面背景？.files/Topic.js" 
+type=text/javascript></SCRIPT>
+
+<META 
+content="桌面 vb spif updateinifile setdeskwallpaper systemparametersinfo sendwininichange spi circles bmp VB 基础类" 
+name=Keywords>
+<META content=如何用VB编程将JPG格式图形文件设置为桌面背景？注意：是JPG格式的，而不仅仅是BMP格式的 name=description>
+<META content="MSHTML 6.00.2900.3059" name=GENERATOR></HEAD>
+<BODY>
+<DIV id=wrapper>
+<DIV id=innerWrapper>
+<TABLE class=CSDN-PHF id=CSDNPHL cellSpacing=1 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD><A href="http://www.csdn.net/" rel=external>CSDN首页</A></TD>
+    <TD><A href="http://news.csdn.net/" rel=external>新闻</A></TD>
+    <TD><A href="http://bbs.csdn.net/" rel=external><STRONG>论坛</STRONG></A></TD>
+    <TD><A href="http://groups.csdn.net/" 
+    rel=external><STRONG>小组</STRONG></A></TD>
+    <TD><A href="http://blog.csdn.net/" 
+    rel=external><STRONG>Blog</STRONG></A></TD>
+    <TD><A href="http://dev.csdn.net/" rel=external>文档</A></TD>
+    <TD><A href="http://download.csdn.net/" rel=external>下载</A></TD>
+    <TD><A href="http://book.csdn.net/" rel=external>读书</A></TD>
+    <TD><A href="http://tag.csdn.net/" 
+rel=external><STRONG>Tag</STRONG></A></TD>
+    <TD><A href="http://wz.csdn.net/" rel=external><STRONG>网摘</STRONG></A></TD>
+    <TD><A href="http://search.csdn.net/" 
+    rel=external><STRONG>搜索</STRONG></A></TD>
+    <TD><A href="http://dotnet.csdn.net/" 
+      rel=external><STRONG>.NET</STRONG></A></TD>
+    <TD><A href="http://java.csdn.net/" 
+    rel=external><STRONG>Java</STRONG></A></TD>
+    <TD><A href="http://gamedev.csdn.net/" rel=external>游戏</A></TD>
+    <TD><A href="http://live.csdn.net/" rel=external>视频</A></TD>
+    <TD><A href="http://job.csdn.net/" rel=external>人才</A></TD>
+    <TD><A href="http://prj.csdn.net/" rel=external>外包</A></TD>
+    <TD><A href="http://www.dearbook.com.cn/" rel=external>第二书店</A></TD>
+    <TD><A href="http://www.programmer.com.cn/" 
+  rel=external>程序员</A></TD></TR></TBODY></TABLE>
+<DIV id=logo><A href="http://community.csdn.net/" rel=external><IMG class=logo 
+alt=CSDN社区 src="如何用VB编程将JPG格式图形文件设置为桌面背景？.files/logo_csdn.gif"></A><A 
+href="http://book.csdn.net/" rel=external><IMG alt="" 
+src="如何用VB编程将JPG格式图形文件设置为桌面背景？.files/book_468_60.gif"></A><A 
+href="http://search.codechina.net/" rel=external><IMG alt="" 
+src="如何用VB编程将JPG格式图形文件设置为桌面背景？.files/codesearch_120_60.gif"></A> <IMG 
+style="DISPLAY: none" alt="" src="如何用VB编程将JPG格式图形文件设置为桌面背景？.files/pv.htm"> 
+</DIV>
+<DIV id=navigation>
+<DIV id=search>
+<DIV id=innerSearch><INPUT id=key onfocus="value=''"><A 
+onclick="return Search()" 
+href="http://topic.csdn.net/t/20021023/13/1118164.html#">搜索</A>&nbsp;|&nbsp;<A 
+title=功能强大的网络收藏夹，一秒钟操作就可以轻松实现保存带来的价值、分享带来的快乐 
+href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();">收藏</A>&nbsp;|&nbsp;<A 
+onclick="return Print()" 
+href="http://topic.csdn.net/t/20021023/13/1118164.html#">打印</A>&nbsp;|&nbsp;<A 
+onclick="return Close()" 
+href="http://topic.csdn.net/t/20021023/13/1118164.html#">关闭</A> </DIV></DIV>
+<DIV><A class=CSDNRoom href="http://community.csdn.net/" 
+rel=external>CSDN社区</A>&nbsp;&gt;&nbsp; <A 
+href="http://community.csdn.net/Expert/ForumsList.asp?typenum=1&amp;roomid=51" 
+rel=external>VB</A>&nbsp;&gt;&nbsp; <A 
+href="http://community.csdn.net/Expert/ForumList.asp?typenum=1&amp;roomid=5101" 
+rel=external>基础类</A> </DIV></DIV>
+<DIV id=mainWrapper>
+<DIV id=pageContent>
+<DIV id=innerContent>
+<H1>如何用VB编程将JPG格式图形文件设置为桌面背景？</H1>
+<DIV class=author><A class=anchor name=Top>楼主</A>anshanchengang（刚）<INPUT class=user2 title="二级用户 该版得分小于等于500分，大于100分" type=button>2002-10-23 
+13:40:07 在 VB / 基础类 提问</DIV>
+<P>如何用VB编程将JPG格式图形文件设置为桌面背景？ &nbsp; <BR>&nbsp; 注意：是JPG格式的，而不仅仅是BMP格式的 
+<SPAN>问题点数：0、回复次数：2</SPAN><A 
+href="http://topic.csdn.net/t/20021023/13/1118164.html#">Top</A> </P>
+<DIV class=tagad><IFRAME src="如何用VB编程将JPG格式图形文件设置为桌面背景？.files/Board.htm" 
+frameBorder=0 scrolling=no></IFRAME></DIV>
+<H3><STRONG><A class=anchor name=r_7225947>1 楼</A>ch21st（www.blanksoft.com）<INPUT class=star2 title="二星用户 该版得分小于等于30000分，大于10000分" type=button></STRONG><SPAN>回复于 
+2002-10-23 14:40:47 得分 0 </SPAN></H3>
+<P> <BR>&nbsp; 　　众所周知在Windows中可以通过属性面板任意修改背景图案，要在VB的程序设计中实现这一功能其实也很方便，具体实现方法如下： 
+&nbsp; <BR>&nbsp; &nbsp; <BR>&nbsp; 
+　　首先在VB中创建一个窗体并在其中加入一个命令按钮，第一步在窗体的通用段中输入以下代码： &nbsp; <BR>&nbsp; &nbsp; 
+<BR>&nbsp; 　　Const &nbsp; SPI_SETDESKWALLPAPER &nbsp; = &nbsp; 20 &nbsp; 
+<BR>&nbsp; &nbsp; <BR>&nbsp; 　　Const &nbsp; SPIF_UPDATEINIFILE &nbsp; = &nbsp; 
+&amp;&amp;H1 &nbsp; <BR>&nbsp; &nbsp; <BR>&nbsp; 　　Private &nbsp; Declare &nbsp; 
+Function &nbsp; SystemParametersInfo &nbsp; Lib &nbsp; "user32" &nbsp; Alias 
+&nbsp; "SystemParametersInfoA" &nbsp; (ByVal &nbsp; uAction &nbsp; As &nbsp; 
+Long, &nbsp; ByVal &nbsp; uParam &nbsp; As &nbsp; Long, &nbsp; ByVal &nbsp; 
+lpvParam &nbsp; As &nbsp; Any, &nbsp; ByVal &nbsp; fuWinIni &nbsp; As &nbsp; 
+Long) &nbsp; As &nbsp; Long &nbsp; <BR>&nbsp; &nbsp; <BR>&nbsp; 
+　　注：如果以上的声明放在“一般模块”下， &nbsp; 应在 &nbsp; Const &nbsp; 之前加上 &nbsp; Public &nbsp; 
+保留字， &nbsp; 并且将 &nbsp; Private &nbsp; 保留字去掉。 &nbsp; <BR>&nbsp; &nbsp; <BR>&nbsp; 
+　　然后在命令按钮中的Click事件中输入以下代码： &nbsp; <BR>&nbsp; &nbsp; <BR>&nbsp; 　　'将桌面图片设定成 
+&nbsp; c:\windows\CIRCLES.bmp &nbsp; <BR>&nbsp; &nbsp; <BR>&nbsp; 　　Call &nbsp; 
+SystemParametersInfo(SPI_SETDESKWALLPAPER, &nbsp; 0,"c:\windows\CIRCLES.bmp", 
+&nbsp; SPIF_UPDATEINIFILE) &nbsp; <BR>&nbsp; &nbsp; <BR>&nbsp; 　　'将桌面图片清除 &nbsp; 
+<BR>&nbsp; &nbsp; <BR>&nbsp; 　　Call &nbsp; 
+SystemParametersInfo(SPI_SETDESKWALLPAPER, &nbsp; 0,"",SPIF_UPDATEINIFILE) 
+&nbsp; <BR>&nbsp; &nbsp; <BR>&nbsp; 　　但以上程序设定图片之后， &nbsp; 必须等到下次 &nbsp; Windows 
+&nbsp; 重新启动时才生效， &nbsp; 如果要设定之后立刻生效，则程序须修改如下： &nbsp; <BR>&nbsp; &nbsp; 
+<BR>&nbsp; 　　Const &nbsp; SPIF_SENDWININICHANGE &nbsp; = &nbsp; &amp;&amp;H2 
+&nbsp; <BR>&nbsp; &nbsp; <BR>&nbsp; 　　Call &nbsp; 
+SystemParametersInfo(SPI_SETDESKWALLPAPER, &nbsp; 0, &nbsp; 
+"c:\windows\CIRCLES.bmp", &nbsp; SPIF_UPDATEINIFILE &nbsp; + &nbsp; 
+SPIF_SENDWININICHANGE &nbsp; ) &nbsp; <BR>&nbsp; &nbsp; <BR>&nbsp; 　　此外如果只有本次使用 
+&nbsp; Windows &nbsp; 时改变桌面图片(下次开机时还原原状)， &nbsp; 则程序如下： &nbsp; <BR>&nbsp; &nbsp; 
+<BR>&nbsp; 　　Call &nbsp; SystemParametersInfo(SPI_SETDESKWALLPAPER, &nbsp; 0, 
+&nbsp; "c:\windows\CIRCLES.bmp", &nbsp; SPIF_SENDWININICHANGE &nbsp; ) &nbsp; ' 
+&nbsp; 去掉 &nbsp; SPIF_UPDATEINIFILE<A 
+href="http://topic.csdn.net/t/20021023/13/1118164.html#">Top</A></P>
+<H3><STRONG><A class=anchor name=r_7226253>2 楼</A>ch21st（www.blanksoft.com）<INPUT class=star2 title="二星用户 该版得分小于等于30000分，大于10000分" type=button></STRONG><SPAN>回复于 
+2002-10-23 14:52:02 得分 0 </SPAN></H3>
+<P>'Registry &nbsp; Constants &nbsp; <BR>&nbsp; Const &nbsp; REG_SZ &nbsp; = 
+&nbsp; 1 &nbsp; <BR>&nbsp; Const &nbsp; REG_BINARY &nbsp; = &nbsp; 3 &nbsp; 
+<BR>&nbsp; Const &nbsp; HKEY_CURRENT_USER &nbsp; = &nbsp; &amp;H80000001 &nbsp; 
+<BR>&nbsp; Const &nbsp; HKEY_USERS &nbsp; = &nbsp; &amp;H80000003 &nbsp; 
+<BR>&nbsp; &nbsp; <BR>&nbsp; 'Registry &nbsp; Declarations &nbsp; <BR>&nbsp; 
+Private &nbsp; Declare &nbsp; Function &nbsp; RegCreateKey &nbsp; Lib &nbsp; 
+"advapi32.dll" &nbsp; Alias &nbsp; "RegCreateKeyA" &nbsp; (ByVal &nbsp; hKey 
+&nbsp; As &nbsp; Long, &nbsp; ByVal &nbsp; lpSubKey &nbsp; As &nbsp; String, 
+&nbsp; phkResult &nbsp; As &nbsp; Long) &nbsp; As &nbsp; Long &nbsp; <BR>&nbsp; 
+Private &nbsp; Declare &nbsp; Function &nbsp; RegSetValueEx &nbsp; Lib &nbsp; 
+"advapi32.dll" &nbsp; Alias &nbsp; "RegSetValueExA" &nbsp; (ByVal &nbsp; hKey 
+&nbsp; As &nbsp; Long, &nbsp; ByVal &nbsp; lpValueName &nbsp; As &nbsp; String, 
+&nbsp; ByVal &nbsp; Reserved &nbsp; As &nbsp; Long, &nbsp; ByVal &nbsp; dwType 
+&nbsp; As &nbsp; Long, &nbsp; lpData &nbsp; As &nbsp; Any, &nbsp; ByVal &nbsp; 
+cbData &nbsp; As &nbsp; Long) &nbsp; As &nbsp; Long &nbsp; <BR>&nbsp; Private 
+&nbsp; Declare &nbsp; Function &nbsp; RegCloseKey &nbsp; Lib &nbsp; 
+"advapi32.dll" &nbsp; (ByVal &nbsp; hKey &nbsp; As &nbsp; Long) &nbsp; As &nbsp; 
+Long &nbsp; <BR>&nbsp; Private &nbsp; Declare &nbsp; Function &nbsp; CopyFile 
+&nbsp; Lib &nbsp; "kernel32" &nbsp; Alias &nbsp; "CopyFileA" &nbsp; (ByVal 
+&nbsp; lpExistingFileName &nbsp; As &nbsp; String, &nbsp; ByVal &nbsp; 
+lpNewFileName &nbsp; As &nbsp; String, &nbsp; ByVal &nbsp; bFailIfExists &nbsp; 
+As &nbsp; Long) &nbsp; As &nbsp; Long &nbsp; <BR>&nbsp; &nbsp; <BR>&nbsp; 
+'Subroutine &nbsp; to &nbsp; save &nbsp; String &nbsp; Data &nbsp; to &nbsp; 
+registry &nbsp; Key &nbsp; <BR>&nbsp; Sub &nbsp; SaveRegistryString(hKey &nbsp; 
+As &nbsp; Long, &nbsp; keyPath &nbsp; As &nbsp; String, &nbsp; strName &nbsp; As 
+&nbsp; String, &nbsp; strData &nbsp; As &nbsp; String) &nbsp; <BR>&nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'Open &nbsp; 
+the &nbsp; registry &nbsp; and &nbsp; save &nbsp; any &nbsp; new &nbsp; values 
+&nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Dim &nbsp; RetCode &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'Return &nbsp; Code &nbsp; Variant &nbsp; 
+<BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; RegCreateKey &nbsp; hKey, &nbsp; keyPath, 
+&nbsp; RetCode &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'Creates &nbsp; Registry 
+&nbsp; Key[hKey] &nbsp; if &nbsp; nonexistent &nbsp; or &nbsp; Opens &nbsp; 
+Registry &nbsp; Key[hKey] &nbsp; if &nbsp; it &nbsp; exists &nbsp; <BR>&nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; RegSetValueEx &nbsp; RetCode, &nbsp; strName, &nbsp; 
+0, &nbsp; REG_SZ, &nbsp; ByVal &nbsp; strData, &nbsp; Len(strData) &nbsp; &nbsp; 
+'Writes &nbsp; data(strData) &nbsp; to &nbsp; a &nbsp; Registry &nbsp; Key[hKey] 
+&nbsp; value[strName] &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; RegCloseKey 
+&nbsp; RetCode &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; 'Closes &nbsp; Registry &nbsp; Key[hKey] &nbsp; <BR>&nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; <BR>&nbsp; End &nbsp; Sub &nbsp; <BR>&nbsp; &nbsp; 
+<BR>&nbsp; 'Main &nbsp; program &nbsp; loop. &nbsp; &nbsp; Forms &nbsp; visible 
+&nbsp; attribute &nbsp; is &nbsp; set &nbsp; to &nbsp; false. &nbsp; <BR>&nbsp; 
+Private &nbsp; Sub &nbsp; Form_Load() &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Dim &nbsp; fileName &nbsp; 
+As &nbsp; String, &nbsp; filePath &nbsp; As &nbsp; String, &nbsp; ErrCode &nbsp; 
+As &nbsp; Long &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'Local &nbsp; variables &nbsp; 
+<BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; 'Search &nbsp; for &nbsp; all &nbsp; the &nbsp; image &nbsp; files &nbsp; 
+that &nbsp; can &nbsp; be &nbsp; used &nbsp; or &nbsp; converted &nbsp; in 
+&nbsp; a &nbsp; specific &nbsp; directory &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; filePath &nbsp; = &nbsp; "c:\winnt\web\wallpaper" &nbsp; &nbsp; &nbsp; 
+'Sets &nbsp; the &nbsp; directory[filePath] &nbsp; where &nbsp; you &nbsp; store 
+&nbsp; your &nbsp; images &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+flbTemp.Path &nbsp; = &nbsp; filePath &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+'Sets &nbsp; the &nbsp; FileListBox[flbTemp] &nbsp; with &nbsp; the &nbsp; store 
+&nbsp; path[filePath] &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+flbTemp.Pattern &nbsp; = &nbsp; "*.bmp;*.jpg;*.gif;*.dib;*.wmf;*.emf" &nbsp; 
+'Fills &nbsp; the &nbsp; FileListBox[flbTemp] &nbsp; with &nbsp; all &nbsp; the 
+&nbsp; images &nbsp; in &nbsp; the &nbsp; store &nbsp; directory[filePath] 
+&nbsp; of &nbsp; the &nbsp; types &nbsp; that &nbsp; can &nbsp; be &nbsp; used 
+&nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; If &nbsp; flbTemp.ListCount &nbsp; 
+= &nbsp; 0 &nbsp; Then &nbsp; Unload &nbsp; Me &nbsp; 'If &nbsp; no &nbsp; files 
+&nbsp; of &nbsp; the &nbsp; appropriate &nbsp; type &nbsp; exist &nbsp; then 
+&nbsp; exit &nbsp; program &nbsp; now &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'Randomly &nbsp; select 
+&nbsp; an &nbsp; image &nbsp; form &nbsp; the &nbsp; generated &nbsp; list 
+&nbsp; of &nbsp; images &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Randomize 
+&nbsp; Timer &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'Generate &nbsp; random &nbsp; sequence 
+&nbsp; based &nbsp; on &nbsp; the &nbsp; number &nbsp; of &nbsp; seconds &nbsp; 
+since &nbsp; midnight[Timer] &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+fileName &nbsp; = &nbsp; filePath &nbsp; + &nbsp; "\" &nbsp; + &nbsp; 
+Trim(flbTemp.List(Int(Rnd &nbsp; * &nbsp; (flbTemp.ListCount)))) &nbsp; &nbsp; 
+'Randomly &nbsp; selects &nbsp; an &nbsp; image[fileName] &nbsp; from &nbsp; the 
+&nbsp; FileListBox[flbTemp] &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'Convert &nbsp; and &nbsp; save &nbsp; an 
+&nbsp; image &nbsp; to &nbsp; the &nbsp; BMP &nbsp; format &nbsp; so &nbsp; we 
+&nbsp; don't &nbsp; have &nbsp; to &nbsp; set &nbsp; Active &nbsp; Desktop 
+&nbsp; (which &nbsp; slows &nbsp; down &nbsp; the &nbsp; screen &nbsp; redraws) 
+&nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; picTemp.AutoRedraw &nbsp; = &nbsp; 
+True &nbsp; &nbsp; &nbsp; 'Set &nbsp; the &nbsp; picturebox[picTemp] &nbsp; to 
+&nbsp; automatically &nbsp; redraw &nbsp; the &nbsp; image[fileName] &nbsp; that 
+&nbsp; is &nbsp; to &nbsp; be &nbsp; used &nbsp; to &nbsp; memory &nbsp; 
+<BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; picTemp.AutoSize &nbsp; = &nbsp; True 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'set &nbsp; the &nbsp; picturebox[picTemp] 
+&nbsp; to &nbsp; automatically &nbsp; resize &nbsp; the &nbsp; image[fileName] 
+&nbsp; that &nbsp; is &nbsp; to &nbsp; be &nbsp; used &nbsp; to &nbsp; memory 
+&nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Set &nbsp; picTemp.Picture &nbsp; 
+= &nbsp; LoadPicture(fileName) &nbsp; 'Load &nbsp; the &nbsp; image[fileName] 
+&nbsp; into &nbsp; memory &nbsp; via &nbsp; the &nbsp; picturebox[picTemp] 
+&nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; picTemp.Refresh &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+'Refresh &nbsp; the &nbsp; picturebox[picTemp] &nbsp; so &nbsp; that &nbsp; the 
+&nbsp; image[fileName] &nbsp; can &nbsp; be &nbsp; resized &nbsp; and &nbsp; 
+redrawn &nbsp; in &nbsp; memory &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'save &nbsp; the &nbsp; converted 
+&nbsp; image &nbsp; info &nbsp; to &nbsp; the &nbsp; registry &nbsp; and &nbsp; 
+set &nbsp; it &nbsp; to &nbsp; cover &nbsp; our &nbsp; entire &nbsp; screen 
+&nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; SavePicture &nbsp; picTemp.Image, 
+&nbsp; App.Path &nbsp; + &nbsp; "\temp.bmp" &nbsp; &nbsp; &nbsp; 'Convert &nbsp; 
+and &nbsp; save &nbsp; the &nbsp; image[filename] &nbsp; in &nbsp; memory &nbsp; 
+to &nbsp; the &nbsp; harddisk &nbsp; as &nbsp; a &nbsp; bitmap[temp.bmp] &nbsp; 
+<BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; SaveRegistryString &nbsp; 
+HKEY_CURRENT_USER, &nbsp; "Control &nbsp; Panel\Desktop", &nbsp; "Wallpaper", 
+&nbsp; App.Path &nbsp; + &nbsp; "\temp.bmp" &nbsp; &nbsp; 'Set &nbsp; the &nbsp; 
+location &nbsp; of &nbsp; our &nbsp; convert &nbsp; image[temp.bmp] &nbsp; into 
+&nbsp; the &nbsp; appropriate &nbsp; Registry &nbsp; Key &nbsp; (Wallpaper 
+&nbsp; property &nbsp; in &nbsp; the &nbsp; display &nbsp; settings) &nbsp; 
+<BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; SaveRegistryString &nbsp; 
+HKEY_CURRENT_USER, &nbsp; "Control &nbsp; Panel\Desktop", &nbsp; 
+"WallpaperStyle", &nbsp; "2" &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'set &nbsp; our 
+&nbsp; converted &nbsp; image[temp.bmp] &nbsp; to &nbsp; cover &nbsp; our &nbsp; 
+desktop &nbsp; regardless &nbsp; of &nbsp; resolution &nbsp; into &nbsp; the 
+&nbsp; appropriate &nbsp; Registry &nbsp; Key &nbsp; (Wallpaper &nbsp; property 
+&nbsp; in &nbsp; the &nbsp; display &nbsp; settings) &nbsp; <BR>&nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; SaveRegistryString &nbsp; HKEY_USERS, &nbsp; 
+".DEFAULT\Control &nbsp; Panel\Desktop", &nbsp; "Wallpaper", &nbsp; App.Path 
+&nbsp; + &nbsp; "\temp.bmp" &nbsp; &nbsp; &nbsp; &nbsp; 'Repeat &nbsp; the 
+&nbsp; above &nbsp; settings &nbsp; here &nbsp; just &nbsp; to &nbsp; make 
+&nbsp; sure &nbsp; that &nbsp; it &nbsp; takes &nbsp; <BR>&nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; SaveRegistryString &nbsp; HKEY_USERS, &nbsp; ".DEFAULT\Control 
+&nbsp; Panel\Desktop", &nbsp; "WallpaperStyle", &nbsp; "2" &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; 'Repeat &nbsp; the &nbsp; above &nbsp; settings 
+&nbsp; here &nbsp; just &nbsp; to &nbsp; make &nbsp; sure &nbsp; that &nbsp; it 
+&nbsp; takes &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <BR>&nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; 'All &nbsp; Done &nbsp; <BR>&nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; Unload &nbsp; Me &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; 'Close &nbsp; the &nbsp; program &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; <BR>&nbsp; End &nbsp; Sub<A 
+href="http://topic.csdn.net/t/20021023/13/1118164.html#">Top</A></P>
+<H4><STRONG>相关问题</STRONG></H4>
+<DIV class=relation>
+<UL>
+  <LI><A href="http://topic.csdn.net/t/20010801/19/219373.html" 
+  rel=external>vb图形编程问题~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</A> 
+  <LI><A href="http://topic.csdn.net/t/20020509/11/707972.html" 
+  rel=external>VB图形编程（200分送上）</A> 
+  <LI><A href="http://topic.csdn.net/t/20051120/15/4405832.html" 
+  rel=external>大家帮忙介绍几个VB图形编程的网站吧，谢谢</A> 
+  <LI><A href="http://topic.csdn.net/t/20021206/11/1236544.html" rel=external>用 
+  VB编程</A> 
+  <LI><A href="http://topic.csdn.net/t/20030111/02/1348214.html" 
+  rel=external>誰有《Windows图形编程》？</A> 
+  <LI><A href="http://topic.csdn.net/t/20050131/16/3766367.html" 
+  rel=external>求windows图形编程</A> 
+  <LI><A href="http://topic.csdn.net/t/20020730/09/909526.html" 
+  rel=external>VB图形编程！GUI系统，基于数据库画图，鼠标图形操作，放大缩小，滚屏，打印。1000分。</A> 
+  <LI><A href="http://topic.csdn.net/t/20020301/10/548859.html" 
+  rel=external>VB控件编程</A> 
+  <LI><A href="http://topic.csdn.net/t/20010112/13/58099.html" 
+  rel=external>保护模式下的图形编程</A> 
+  <LI><A href="http://topic.csdn.net/t/20011201/10/397875.html" 
+  rel=external>图形编程的重大发现！！！！</A> </LI></UL></DIV></DIV></DIV>
+<DIV id=sidebar>
+<H3>关键词</H3>
+<DIV>
+<UL>
+  <LI><A href="http://tag.csdn.net/tag/桌面/" rel=external>桌面</A> 
+  <LI><A href="http://tag.csdn.net/tag/vb/" rel=external>vb</A> 
+  <LI><A href="http://tag.csdn.net/tag/spif/" rel=external>spif</A> 
+  <LI><A href="http://tag.csdn.net/tag/updateinifile/" 
+  rel=external>updateinifile</A> 
+  <LI><A href="http://tag.csdn.net/tag/setdeskwallpaper/" 
+  rel=external>setdeskwallpaper</A> 
+  <LI><A href="http://tag.csdn.net/tag/systemparametersinfo/" 
+  rel=external>systemparametersinfo</A> 
+  <LI><A href="http://tag.csdn.net/tag/sendwininichange/" 
+  rel=external>sendwininichange</A> 
+  <LI><A href="http://tag.csdn.net/tag/spi/" rel=external>spi</A> 
+  <LI><A href="http://tag.csdn.net/tag/circles/" rel=external>circles</A> 
+  <LI><A href="http://tag.csdn.net/tag/bmp/" rel=external>bmp</A> </LI></UL></DIV>
+<H3>得分解答快速导航</H3>
+<DIV>
+<UL>
+  <LI>帖主：<A 
+  href="http://topic.csdn.net/t/20021023/13/1118164.html#Top">anshanchengang</A> 
+  </LI></UL></DIV>
+<H3>相关链接</H3>
+<DIV>
+<UL>
+  <LI><A 
+  href="http://www.dearbook.com.cn/Book/SearchBook.aspx?sortid=8&amp;sorttype=smallsort" 
+  target=_blank>Visual Basic类图书</A> 
+  <LI><A href="http://www.codechina.net/resource/sort.php/18" 
+  target=_blank>Visual Basic类源码下载</A> </LI></UL></DIV>
+<H3>广告也精彩</H3>
+<DIV>
+<SCRIPT src="如何用VB编程将JPG格式图形文件设置为桌面背景？.files/show_ads.js" 
+type=text/javascript></SCRIPT>
+</DIV>
+<H3>反馈</H3>
+<DIV>请通过下述方式给我们反馈<BR><IMG alt=反馈 
+src="如何用VB编程将JPG格式图形文件设置为桌面背景？.files/feedback.gif"></DIV></DIV>
+<DIV class=clear></DIV></DIV>
+<DIV class=CSDN-PHF id=CSDNPF>
+<HR>
+<A class=biaoshi 
+href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" 
+rel=external>&nbsp;</A> 
+<DIV><A href="http://www.csdn.net/intro/intro.asp?id=2" rel=external>网站简介</A>－<A 
+href="http://www.csdn.net/intro/intro.asp?id=5" rel=external>广告服务</A>－<A 
+href="http://www.csdn.net/map/map.shtm" rel=external>网站地图</A>－<A 
+href="http://www.csdn.net/help/help.asp" rel=external>帮助</A>－<A 
+href="http://www.csdn.net/intro/intro.asp?id=9" rel=external>联系方式</A>－<A 
+href="http://job.csdn.net/Jobs/f9c75c9f2ad14404a604669b757b9ed0/viewcompany.aspx" 
+rel=external>诚聘英才</A>－<A href="http://www.csdn.net/english/" 
+rel=external>English</A>－<A 
+href="javascript:navigate('mai'%20+%20'lto:'%20+%20'webm'%20+%20'aster@c'%20+%20'sdn.n'+'et?subject=向CSDN报告问题')" 
+rel=external>问题报告</A></DIV>
+<DIV>北京百联美达美数码科技有限公司&nbsp;&nbsp;版权所有&nbsp;&nbsp;京 ICP 证 020026 号</DIV>
+<DIV>Copyright © 2000-2006, CSDN.NET, All Rights Reserved</DIV>
+<SCRIPT src="如何用VB编程将JPG格式图形文件设置为桌面背景？.files/counter.js" 
+type=text/javascript></SCRIPT>
+
+<HR>
+</DIV></DIV></DIV></BODY></HTML>

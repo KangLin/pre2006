@@ -1,0 +1,11 @@
+; VCExtendTools.def : Declares the module parameters for the DLL.
+
+LIBRARY      "VCEXTENDTOOLS"
+DESCRIPTION  'VCEXTENDTOOLS Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+	DllCanUnloadNow PRIVATE
+	DllGetClassObject PRIVATE
+	DllRegisterServer PRIVATE
+	DllUnregisterServer PRIVATE

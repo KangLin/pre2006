@@ -1,0 +1,38 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>文&nbsp; 件</title>
+</head>
+
+<body>
+
+<p align="center"><font size="7">文 &nbsp; 件</font></p>
+<p align="center">康&nbsp; 林</p>
+<p><b><span style="background-color: #FFFF00">一、得到当前执行文件的文件名（包括全路径）：</span></b></p>
+<p><b>GetModuleFileName</b></p>
+<p>TCHAR szFileName[1024];<br>
+if(!::GetModuleFileName(::AfxGetInstanceHandle(), szFileName, 1024))<br>
+{<br>
+TRACE(_T(&quot;得到当前执行文件名错误.\n&quot;));<br>
+}</p>
+<p><b>filecode.cpp 中</b></p>
+<p><b>AfxGetModuleShortFileName</b></p>
+<p><b>AfxGetFileTitle</b></p>
+<p><b>AfxComparePath</b></p>
+<p><b>AfxGetRoot</b></p>
+<p><b>// turn a file, relative path or other into an absolute path<br>
+BOOL AFXAPI AfxFullPath(LPTSTR lpszPathOut, LPCTSTR lpszFileIn)<br>
+// lpszPathOut = buffer of _MAX_PATH<br>
+// lpszFileIn = file, relative path or absolute path<br>
+// (both in ANSI character set)</b></p>
+<p><b>BOOL AFXAPI AfxResolveShortcut(CWnd* pWnd, LPCTSTR lpszFileIn,<br>
+LPTSTR lpszFileOut, int cchPath)</b></p>
+<p align="left"><span style="font-weight: 700; background-color: #FFFF00">
+用文件关联的程序打开文件</span></p>
+<p align="left">用 ShellExecute</p>
+
+</body>
+
+</html>

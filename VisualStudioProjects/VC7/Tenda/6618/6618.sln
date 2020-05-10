@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "6618", "6618\6618.vcproj", "{CDD7125B-7A94-43D9-9613-4A09E110EA9E}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{33B1A305-632D-4A11-A452-40140B66A071}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDD7125B-7A94-43D9-9613-4A09E110EA9E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CDD7125B-7A94-43D9-9613-4A09E110EA9E}.Debug|Win32.Build.0 = Debug|Win32
+		{CDD7125B-7A94-43D9-9613-4A09E110EA9E}.Release|Win32.ActiveCfg = Release|Win32
+		{CDD7125B-7A94-43D9-9613-4A09E110EA9E}.Release|Win32.Build.0 = Release|Win32
+		{33B1A305-632D-4A11-A452-40140B66A071}.Debug|Win32.ActiveCfg = Debug
+		{33B1A305-632D-4A11-A452-40140B66A071}.Release|Win32.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

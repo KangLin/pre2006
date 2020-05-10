@@ -1,0 +1,42 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>capGetVideoFormatSize</title>
+</head>
+
+<body>
+
+<h1 align="center">capGetVideoFormatSize</h1>
+<p align="center">康&nbsp; 林</p>
+<p>你能用此宏或者明确地发送 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_3b5g.htm">
+WM_CAP_GET_VIDEOFORMAT</a> 消息，返回视频格式所需求的尺寸。</p>
+<pre><code><b>DWORD capGetVideoFormatSize(
+ </b><i> hwnd  </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>hwnd</i> </dt>
+	<dd>捕获窗口的句柄</dd>
+</dl>
+<h4>返回值：</h4>
+<p>返回视频格式的尺寸，单位：字节。如果捕获窗口不能与捕获驱动连接，返回0。因为视频格式需求一个调色版，所以当前调色版总是被返回。</p>
+<h4>注释：</h4>
+<p>因为视频格式的请求大小因压缩而改变，所以应用程序应该先请求分配一块本地内存。然后再请求得到视频格式数据</p>
+<p>Because compressed video formats vary in size requirements applications must 
+first retrieve the size, then allocate memory, and finally request the video 
+format data.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_8xyd.htm">
+Video Capture Overview</a>, <a href="index.htm">Video Capture Macros</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_3b5g.htm">
+WM_CAP_GET_VIDEOFORMAT</a></p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TEI6690i", "TEI6690i\TEI6690i.vcproj", "{4B5F8FCF-9988-4154-BD86-F6EEE59B8D9A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{3BC34DC0-66B1-4578-947E-55D9CD1E349A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{4B5F8FCF-9988-4154-BD86-F6EEE59B8D9A}.Debug.ActiveCfg = Debug|Win32
+		{4B5F8FCF-9988-4154-BD86-F6EEE59B8D9A}.Debug.Build.0 = Debug|Win32
+		{4B5F8FCF-9988-4154-BD86-F6EEE59B8D9A}.Release.ActiveCfg = Release|Win32
+		{4B5F8FCF-9988-4154-BD86-F6EEE59B8D9A}.Release.Build.0 = Release|Win32
+		{3BC34DC0-66B1-4578-947E-55D9CD1E349A}.Debug.ActiveCfg = Debug
+		{3BC34DC0-66B1-4578-947E-55D9CD1E349A}.Release.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

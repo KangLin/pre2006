@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KeyInput", "KeyInput\KeyInput.vcproj", "{4A12B658-20E0-4A38-80C1-3CB09DDF9F3E}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Text", "Text\Text.vbproj", "{356BE87F-54CD-4631-852F-1742923A6936}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4A12B658-20E0-4A38-80C1-3CB09DDF9F3E} = {4A12B658-20E0-4A38-80C1-3CB09DDF9F3E}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{4A12B658-20E0-4A38-80C1-3CB09DDF9F3E}.Debug.ActiveCfg = Debug|Win32
+		{4A12B658-20E0-4A38-80C1-3CB09DDF9F3E}.Debug.Build.0 = Debug|Win32
+		{4A12B658-20E0-4A38-80C1-3CB09DDF9F3E}.Release.ActiveCfg = Release|Win32
+		{4A12B658-20E0-4A38-80C1-3CB09DDF9F3E}.Release.Build.0 = Release|Win32
+		{356BE87F-54CD-4631-852F-1742923A6936}.Debug.ActiveCfg = Debug|.NET
+		{356BE87F-54CD-4631-852F-1742923A6936}.Debug.Build.0 = Debug|.NET
+		{356BE87F-54CD-4631-852F-1742923A6936}.Release.ActiveCfg = Release|.NET
+		{356BE87F-54CD-4631-852F-1742923A6936}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,79 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>VcExtend文档</title>
+</head>
+
+<body topmargin="0" leftmargin="0">
+<script language="javascript" src="/js/header.js"></script>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td height="20"></td>
+    </tr>
+  </table>
+  </center>
+</div>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td width="100%">
+        <div align="center">
+          <table border="0" width="680" height="709">
+            <tr>
+              <td align="right" height="37">VcExtend文档
+                <hr size="1" color="#000080">
+              </td>
+            </tr>
+            <tr>
+              <td align="center" height="18"></td>
+            </tr>
+            <tr>
+              <td align="center" height="18"><b>九、还有一些小玩意，喜欢吗？</b></td>
+            </tr>
+            <tr>
+              <td height="18"></td>
+            </tr>
+            <tr>
+              <td height="543">&nbsp;&nbsp;&nbsp; CodeJump：代码跳转；<br>
+                &nbsp;&nbsp;&nbsp; VirtualFunction：为CObject的子类覆盖基类的虚函数；<br>
+                &nbsp;&nbsp;&nbsp; ThisList：显示this指针的成员列表。&nbsp;
+                <p>&nbsp;&nbsp;&nbsp;&nbsp; VC60的代码跳转功能，常常找不到，并且也没有方便的头文件源文件之间的跳转命令，加了一个.inl文件之后，就更不方便了，所以我写了一个自己的跳转命令CodeJump。<br>
+                <br>
+                &nbsp;&nbsp;&nbsp; 
+                函数声明和函数实现的相互跳转，跟VC的跳转命令差不多，但CodeJump一般不会找不到。</p>
+                <p>&nbsp;&nbsp;&nbsp; CodeJump还会根据函数是否内联，来自动跳到.cpp或.inl文件，.inl到.h的跳转也工作良好。</p>
+                <p>&nbsp;&nbsp;&nbsp; 如果找不到，CodeJump会弹出一个窗口，问你是否跳转到相应的文件，它会根据函数是否内联来判断哪个文件是你的可能目标。</p>
+                <p>&nbsp;&nbsp;&nbsp; 
+                如果你只是想作文件的跳转，可以把光标放在空行或注释上行上，点击CodeJump，就会进行文件的跳转。如果你工作在头文件上，想跳到.cpp文件，光标就放到//!begin 
+                get/set这一行的上方，如果想跳到.inl文件，光标就放到//!begin 
+                get/set的下方。</p>
+                <p>&nbsp;&nbsp;&nbsp; VC60中为MFC的子类显示基类有哪些可覆盖函数，自定义的CObject子类就没有这个功能了，VirtualFunction可以弥补这个小缺陷。它的界面有点恶心，要填序号来选函数，并且只显示函数名。别骂我做得不好，VBScript就提供InputBox这么一个输入工具，我容易吗我？</p>
+                <p>&nbsp;&nbsp;&nbsp; 我一直很奇怪VC60的ListMembers命令为什么做成默认是显示全局成员，而不是显示this指针的成员，有一个::来显示全局成员了，默认显示this指针的成员不是很好吗？害我每次都要写一个this-&gt;，然后又要删掉它。ThisList就是用来显示this指针成员的。这个命令也做得不好，要调用ThisList，再调用VC60的ListMembers命令才能调出成员列表，我在ThisList宏的最后加了ExecuteCommand 
+                &quot;ListMembers&quot;语句，但却不起作用。ThisList实际上只是删掉代码中的上一个this-&gt;，再在光标位置插入一个this-&gt;。我把ThisList的快捷键设为Shift 
+                + Left Arrow，把ListMembers的快捷键设为Shift + Right 
+                Arrow，这样按住shift再按左右箭头就出来了。开头感觉不是很爽，习惯了觉得也不错，总比写一个this-&gt;，然后又删掉它好些。请注意，如果你的代码中有Isthis-&gt;这样的字符，ThisList会把其中的this-&gt;删掉，不过这种代码出现的可能性很小，并且编绎时也很容易发现的。
+                </td>
+            </tr>
+            <tr>
+              <td height="26"></td>
+            </tr>
+            <tr>
+              <td align="right" height="21"><a href="index.htm">返回目录页</a>&nbsp;&nbsp;  
+                下一节：<a href="option.htm">可选项----定制你的VcExtend</a></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+  </center>
+</div>
+<script language="javascript" src="/js/tail.js"></script>
+</body>
+
+</html>

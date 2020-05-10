@@ -1,0 +1,160 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>acmFormatEnum</title>
+</head>
+
+<body>
+
+<h1 align="center"><font size="7">acmFormatEnum</font></h1>
+<p align="center">康&nbsp; 林</p>
+<p>这个函数为一个 ACM 驱动程序枚举一个给定格式标识的有效的音频格式。这个函数一直枚举到没有与指定格式标识相配的格式为止，或者回调函数返回FALSE。</p>
+<pre><code><b>MMRESULT acmFormatEnum(
+  HACMDRIVER</b><i> had</i><b>,           </b>
+<b>  LPACMFORMATDETAILS</b><i> pafd</i><b>,  </b>
+<b>  ACMFORMATENUMCB</b><i> fnCallback</i><b>,  </b>
+<b>  DWORD</b><i> dwInstance</i><b>,         </b>
+<b>  DWORD</b><i> fdwEnum             </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>had</i> </dt>
+	<dd>一个要查询的音频格式细节的 ACM 驱动程序的句柄。如果为 NULL，那么，ACM 用第一个相配的 ACM 驱动程序。 
+	</dd>
+	<dt><i>pafd</i> </dt>
+	<dd>传给回调函数 fnCallback 的包含格式细节的　<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_8d0y.htm"><b>ACMFORMATDETAILS</b></a> 
+	结构。这个结构的成员 <b>cbStruct</b>, <b>pwfx</b>, 和 <b>cbwfx</b> 必须初始化。成员 <b>
+	dwFormatTag</b> 必须是一个有效的格式标识或是用 WAVE_FORMAT_UNKNOWN 查询支持的所有格式。</dd>
+	<dt><i>fnCallback</i> </dt>
+	<dd>回调函数的地址。</dd>
+	<dt><i>dwInstance</i> </dt>
+	<dd>传给回调函数的一个 32-位的应用程序定义的值。 
+	</dd>
+	<dt><i>fdwEnum</i> </dt>
+	<dd>标识给定格式标识的枚举格式。 
+	<dl>
+		<dt>ACM_FORMATENUMF_CONVERT </dt>
+		<dd>由 ACMFORMATDETAILS 的成员 pwfx 返回指向的 
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_625u.htm">
+		<b>WAVEFORMATEX</b></a> 结构是有效的。这个枚举者仅枚举由 pwfx 格式给定的能转换成的目地格式。 
+		</dd>
+		<dt>ACM_FORMATENUMF_HARDWARE </dt>
+		<dd>The enumerator should only enumerate formats that are supported as 
+		native input or output formats on one or more of the installed 
+		waveform-audio devices. This flag provides a way for an application to 
+		choose only formats native to an installed waveform-audio device. This 
+		flag must be used with one or both of the ACM_FORMATENUMF_INPUT and 
+		ACM_FORMATENUMF_OUTPUT flags. Specifying both ACM_FORMATENUMF_INPUT and 
+		ACM_FORMATENUMF_OUTPUT will enumerate only formats that can be opened 
+		for input or output. This is true regardless of whether this flag is 
+		specified. 
+		</dd>
+		<dt>ACM_FORMATENUMF_INPUT </dt>
+		<dd>Enumerator should enumerate only formats that are supported for 
+		input (recording). 
+		</dd>
+		<dt>ACM_FORMATENUMF_NCHANNELS </dt>
+		<dd>The <b>nChannels</b> member of the
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_625u.htm">
+		<b>WAVEFORMATEX</b></a> structure pointed to by the <b>pwfx</b> member 
+		of the
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_8d0y.htm">
+		<b>ACMFORMATDETAILS</b></a> structure is valid. The enumerator will 
+		enumerate only a format that conforms to this attribute. 
+		</dd>
+		<dt>ACM_FORMATENUMF_NSAMPLESPERSEC </dt>
+		<dd>The <b>nSamplesPerSec</b> member of the <b>WAVEFORMATEX</b> 
+		structure pointed to by the <b>pwfx</b> member of the <b>
+		ACMFORMATDETAILS</b> structure is valid. The enumerator will enumerate 
+		only a format that conforms to this attribute. 
+		</dd>
+		<dt>ACM_FORMATENUMF_OUTPUT </dt>
+		<dd>Enumerator should enumerate only formats that are supported for 
+		output (playback). 
+		</dd>
+		<dt>ACM_FORMATENUMF_SUGGEST </dt>
+		<dd>The
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_625u.htm">
+		<b>WAVEFORMATEX</b></a> structure pointed to by the <b>pwfx</b> member 
+		of the
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_8d0y.htm">
+		<b>ACMFORMATDETAILS</b></a> structure is valid. The enumerator will 
+		enumerate all suggested destination formats for the given <b>pwfx</b> 
+		format. This mechanism can be used instead of the
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_6xx0.htm">
+		<b>acmFormatSuggest</b></a> function to allow an application to choose 
+		the best suggested format for conversion. The <b>dwFormatIndex</b> 
+		member will always be set to zero on return. 
+		</dd>
+		<dt>ACM_FORMATENUMF_WBITSPERSAMPLE </dt>
+		<dd>The <b>wBitsPerSample</b> member of the <b>WAVEFORMATEX</b> 
+		structure pointed to by the <b>pwfx</b> member of the <b>
+		ACMFORMATDETAILS</b> structure is valid. The enumerator will enumerate 
+		only a format that conforms to this attribute. 
+		</dd>
+		<dt>ACM_FORMATENUMF_WFORMATTAG </dt>
+		<dd>The <b>wFormatTag</b> member of the <b>WAVEFORMATEX</b> structure 
+		pointed to by the <b>pwfx</b> member of the <b>ACMFORMATDETAILS</b> 
+		structure is valid. The enumerator will enumerate only a format that 
+		conforms to this attribute. The <b>dwFormatTag</b> member of the <b>
+		ACMFORMATDETAILS</b> structure must be equal to the <b>wFormatTag</b> 
+		member. </dd>
+	</dl>
+	</dd>
+</dl>
+<h4>Return Values</h4>
+<p>Returns zero if successful or an error otherwise. Possible error values 
+include the following: </p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="48%">Value</th>
+		<th align="left" width="52%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">ACMERR_NOTPOSSIBLE</td>
+		<td width="52%">The details for the format cannot be returned.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_INVALFLAG</td>
+		<td width="52%">At least one flag is invalid.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_INVALHANDLE</td>
+		<td width="52%">The specified handle is invalid.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_INVALPARAM</td>
+		<td width="52%">At least one parameter is invalid.</td>
+	</tr>
+</table>
+<br>
+　<h4>Remarks</h4>
+<p>This function will return MMSYSERR_NOERROR (zero) if no suitable ACM drivers 
+are installed. Moreover, the callback function will not be called.</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in msacm.h.<br>
+<b>&nbsp;&nbsp;Import Library: </b>Use msacm32.lib.<br>
+<b>&nbsp;&nbsp;Unicode: </b>Implemented as Unicode and ANSI versions on Windows NT.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/audcomp_3kc2.htm">
+Audio Compression Manager Overview</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/audcomp_6x9v.htm">
+Audio Compression Functions</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_6xx0.htm">
+<b>acmFormatSuggest</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_625u.htm">
+<b>WAVEFORMATEX</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_8d0y.htm">
+<b>ACMFORMATDETAILS</b></a></p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

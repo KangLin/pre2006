@@ -1,0 +1,285 @@
+\section{Fast\-IO.c文件参考}
+\label{_fast_i_o_8c}\index{FastIO.c@{FastIO.c}}
+{\tt \#include \char`\"{}sfilter.h\char`\"{}}\par
+
+
+Fast\-IO.c包含/依赖关系图：\subsection*{函数}
+\begin{CompactItemize}
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Check\-If\-Possible} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN BOOLEAN Wait, IN ULONG Lock\-Key, IN BOOLEAN Check\-For\-Read\-Operation, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Read} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN BOOLEAN Wait, IN ULONG Lock\-Key, OUT PVOID Buffer, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Write} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN BOOLEAN Wait, IN ULONG Lock\-Key, IN PVOID Buffer, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Query\-Basic\-Info} (IN PFILE\_\-OBJECT File\-Object, IN BOOLEAN Wait, OUT PFILE\_\-BASIC\_\-INFORMATION Buffer, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Query\-Standard\-Info} (IN PFILE\_\-OBJECT File\-Object, IN BOOLEAN Wait, OUT PFILE\_\-STANDARD\_\-INFORMATION Buffer, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Lock} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN PLARGE\_\-INTEGER Length, PEPROCESS Process\-Id, ULONG Key, BOOLEAN Fail\-Immediately, BOOLEAN Exclusive\-Lock, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Unlock\-Single} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN PLARGE\_\-INTEGER Length, PEPROCESS Process\-Id, ULONG Key, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Unlock\-All} (IN PFILE\_\-OBJECT File\-Object, PEPROCESS Process\-Id, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Unlock\-All\-By\-Key} (IN PFILE\_\-OBJECT File\-Object, PVOID Process\-Id, ULONG Key, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Device\-Control} (IN PFILE\_\-OBJECT File\-Object, IN BOOLEAN Wait, IN PVOID Input\-Buffer OPTIONAL, IN ULONG Input\-Buffer\-Length, OUT PVOID Output\-Buffer OPTIONAL, IN ULONG Output\-Buffer\-Length, IN ULONG Io\-Control\-Code, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+VOID {\bf Sf\-Fast\-Io\-Detach\-Device} (IN PDEVICE\_\-OBJECT Source\-Device, IN PDEVICE\_\-OBJECT Target\-Device)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Query\-Network\-Open\-Info} (IN PFILE\_\-OBJECT File\-Object, IN BOOLEAN Wait, OUT PFILE\_\-NETWORK\_\-OPEN\_\-INFORMATION Buffer, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Mdl\-Read} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN ULONG Lock\-Key, OUT PMDL $\ast$Mdl\-Chain, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Mdl\-Read\-Complete} (IN PFILE\_\-OBJECT File\-Object, IN PMDL Mdl\-Chain, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Prepare\-Mdl\-Write} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN ULONG Lock\-Key, OUT PMDL $\ast$Mdl\-Chain, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Mdl\-Write\-Complete} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN PMDL Mdl\-Chain, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Read\-Compressed} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN ULONG Lock\-Key, OUT PVOID Buffer, OUT PMDL $\ast$Mdl\-Chain, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, OUT struct \_\-COMPRESSED\_\-DATA\_\-INFO $\ast$Compressed\-Data\-Info, IN ULONG Compressed\-Data\-Info\-Length, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Write\-Compressed} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN ULONG Lock\-Key, IN PVOID Buffer, OUT PMDL $\ast$Mdl\-Chain, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN struct \_\-COMPRESSED\_\-DATA\_\-INFO $\ast$Compressed\-Data\-Info, IN ULONG Compressed\-Data\-Info\-Length, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Mdl\-Read\-Complete\-Compressed} (IN PFILE\_\-OBJECT File\-Object, IN PMDL Mdl\-Chain, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Mdl\-Write\-Complete\-Compressed} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN PMDL Mdl\-Chain, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Query\-Open} (IN PIRP Irp, OUT PFILE\_\-NETWORK\_\-OPEN\_\-INFORMATION Network\-Information, IN PDEVICE\_\-OBJECT Device\-Object)
+\end{CompactItemize}
+
+
+\subsection{函数文档}
+\index{FastIO.c@{Fast\-IO.c}!SfFastIoCheckIfPossible@{SfFastIoCheckIfPossible}}
+\index{SfFastIoCheckIfPossible@{SfFastIoCheckIfPossible}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Check\-If\-Possible (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN BOOLEAN {\em Wait}, IN ULONG {\em Lock\-Key}, IN BOOLEAN {\em Check\-For\-Read\-Operation}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_d2d679a4b9cf2b33cb2f0393da6c936b}
+
+
+
+
+在文件Fast\-IO.c第11行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoDetachDevice@{SfFastIoDetachDevice}}
+\index{SfFastIoDetachDevice@{SfFastIoDetachDevice}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Fast\-Io\-Detach\-Device (IN PDEVICE\_\-OBJECT {\em Source\-Device}, IN PDEVICE\_\-OBJECT {\em Target\-Device})}\label{_fast_i_o_8c_f6b4eabc5d5102d6ae998180272a4150}
+
+
+
+
+在文件Fast\-IO.c第833行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、IS\_\-MY\_\-DEVICE\_\-OBJECT、SF\_\-LOG\_\-PRINT、Sf\-Cleanup\-Mounted\-Device()及SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoDeviceControl@{SfFastIoDeviceControl}}
+\index{SfFastIoDeviceControl@{SfFastIoDeviceControl}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Device\-Control (IN PFILE\_\-OBJECT {\em File\-Object}, IN BOOLEAN {\em Wait}, IN PVOID Input\-Buffer {\em OPTIONAL}, IN ULONG {\em Input\-Buffer\-Length}, OUT PVOID Output\-Buffer {\em OPTIONAL}, IN ULONG {\em Output\-Buffer\-Length}, IN ULONG {\em Io\-Control\-Code}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_cc01a3a1688dac9a92280d0cb4302c88}
+
+
+
+
+在文件Fast\-IO.c第738行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoLock@{SfFastIoLock}}
+\index{SfFastIoLock@{SfFastIoLock}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Lock (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN PLARGE\_\-INTEGER {\em Length}, PEPROCESS {\em Process\-Id}, ULONG {\em Key}, BOOLEAN {\em Fail\-Immediately}, BOOLEAN {\em Exclusive\-Lock}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_35e4dc77ccd063e489599fd50b17d436}
+
+
+
+
+在文件Fast\-IO.c第421行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoMdlRead@{SfFastIoMdlRead}}
+\index{SfFastIoMdlRead@{SfFastIoMdlRead}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Mdl\-Read (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN ULONG {\em Lock\-Key}, OUT PMDL $\ast$ {\em Mdl\-Chain}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_957693ad39cf53728a66924848d36934}
+
+
+
+
+在文件Fast\-IO.c第965行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoMdlReadComplete@{SfFastIoMdlReadComplete}}
+\index{SfFastIoMdlReadComplete@{SfFastIoMdlReadComplete}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Mdl\-Read\-Complete (IN PFILE\_\-OBJECT {\em File\-Object}, IN PMDL {\em Mdl\-Chain}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_51236c0a17a98c81d5796ac16e3be6a0}
+
+
+
+
+在文件Fast\-IO.c第1046行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoMdlReadCompleteCompressed@{SfFastIoMdlReadCompleteCompressed}}
+\index{SfFastIoMdlReadCompleteCompressed@{SfFastIoMdlReadCompleteCompressed}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Mdl\-Read\-Complete\-Compressed (IN PFILE\_\-OBJECT {\em File\-Object}, IN PMDL {\em Mdl\-Chain}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_a608a30debc801c635109d02710e10ce}
+
+
+
+
+在文件Fast\-IO.c第1469行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoMdlWriteComplete@{SfFastIoMdlWriteComplete}}
+\index{SfFastIoMdlWriteComplete@{SfFastIoMdlWriteComplete}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Mdl\-Write\-Complete (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN PMDL {\em Mdl\-Chain}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_6b7501ec2585852408be5b79b8f678d3}
+
+
+
+
+在文件Fast\-IO.c第1192行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoMdlWriteCompleteCompressed@{SfFastIoMdlWriteCompleteCompressed}}
+\index{SfFastIoMdlWriteCompleteCompressed@{SfFastIoMdlWriteCompleteCompressed}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Mdl\-Write\-Complete\-Compressed (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN PMDL {\em Mdl\-Chain}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_4021a70e58c6e9560f64f03c6547f4a6}
+
+
+
+
+在文件Fast\-IO.c第1535行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoPrepareMdlWrite@{SfFastIoPrepareMdlWrite}}
+\index{SfFastIoPrepareMdlWrite@{SfFastIoPrepareMdlWrite}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Prepare\-Mdl\-Write (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN ULONG {\em Lock\-Key}, OUT PMDL $\ast$ {\em Mdl\-Chain}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_b5e49ca8d0a74909a6065adff3bdd68b}
+
+
+
+
+在文件Fast\-IO.c第1111行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoQueryBasicInfo@{SfFastIoQueryBasicInfo}}
+\index{SfFastIoQueryBasicInfo@{SfFastIoQueryBasicInfo}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Query\-Basic\-Info (IN PFILE\_\-OBJECT {\em File\-Object}, IN BOOLEAN {\em Wait}, OUT PFILE\_\-BASIC\_\-INFORMATION {\em Buffer}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_aaac01bb91208c2ceedbab51b4df686d}
+
+
+
+
+在文件Fast\-IO.c第271行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoQueryNetworkOpenInfo@{SfFastIoQueryNetworkOpenInfo}}
+\index{SfFastIoQueryNetworkOpenInfo@{SfFastIoQueryNetworkOpenInfo}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Query\-Network\-Open\-Info (IN PFILE\_\-OBJECT {\em File\-Object}, IN BOOLEAN {\em Wait}, OUT PFILE\_\-NETWORK\_\-OPEN\_\-INFORMATION {\em Buffer}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_71b6ee9bad3580d3e3c86843002191b1}
+
+
+
+
+在文件Fast\-IO.c第890行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoQueryOpen@{SfFastIoQueryOpen}}
+\index{SfFastIoQueryOpen@{SfFastIoQueryOpen}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Query\-Open (IN PIRP {\em Irp}, OUT PFILE\_\-NETWORK\_\-OPEN\_\-INFORMATION {\em Network\-Information}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_279844187adcc94c92382f67cbcb54b6}
+
+
+
+
+在文件Fast\-IO.c第1606行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoQueryStandardInfo@{SfFastIoQueryStandardInfo}}
+\index{SfFastIoQueryStandardInfo@{SfFastIoQueryStandardInfo}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Query\-Standard\-Info (IN PFILE\_\-OBJECT {\em File\-Object}, IN BOOLEAN {\em Wait}, OUT PFILE\_\-STANDARD\_\-INFORMATION {\em Buffer}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_54b4e30573ef11a08f2ba681e7972574}
+
+
+
+
+在文件Fast\-IO.c第346行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoRead@{SfFastIoRead}}
+\index{SfFastIoRead@{SfFastIoRead}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Read (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN BOOLEAN {\em Wait}, IN ULONG {\em Lock\-Key}, OUT PVOID {\em Buffer}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_1992d20737a4cf12d71fd03dec7ab924}
+
+
+
+
+在文件Fast\-IO.c第98行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoReadCompressed@{SfFastIoReadCompressed}}
+\index{SfFastIoReadCompressed@{SfFastIoReadCompressed}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Read\-Compressed (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN ULONG {\em Lock\-Key}, OUT PVOID {\em Buffer}, OUT PMDL $\ast$ {\em Mdl\-Chain}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, OUT struct \_\-COMPRESSED\_\-DATA\_\-INFO $\ast$ {\em Compressed\-Data\-Info}, IN ULONG {\em Compressed\-Data\-Info\-Length}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_9b3bba3c8e26f8f6d7c2784c84b49032}
+
+
+
+
+在文件Fast\-IO.c第1279行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoUnlockAll@{SfFastIoUnlockAll}}
+\index{SfFastIoUnlockAll@{SfFastIoUnlockAll}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Unlock\-All (IN PFILE\_\-OBJECT {\em File\-Object}, PEPROCESS {\em Process\-Id}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_d604294528d57a2b334a2198c47779ef}
+
+
+
+
+在文件Fast\-IO.c第594行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoUnlockAllByKey@{SfFastIoUnlockAllByKey}}
+\index{SfFastIoUnlockAllByKey@{SfFastIoUnlockAllByKey}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Unlock\-All\-By\-Key (IN PFILE\_\-OBJECT {\em File\-Object}, PVOID {\em Process\-Id}, ULONG {\em Key}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_85c8dd9d8e5419e9f4affa3f7dbaebeb}
+
+
+
+
+在文件Fast\-IO.c第665行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoUnlockSingle@{SfFastIoUnlockSingle}}
+\index{SfFastIoUnlockSingle@{SfFastIoUnlockSingle}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Unlock\-Single (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN PLARGE\_\-INTEGER {\em Length}, PEPROCESS {\em Process\-Id}, ULONG {\em Key}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_cda4fafbae494c0b791f89e87cffdf88}
+
+
+
+
+在文件Fast\-IO.c第512行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoWrite@{SfFastIoWrite}}
+\index{SfFastIoWrite@{SfFastIoWrite}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Write (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN BOOLEAN {\em Wait}, IN ULONG {\em Lock\-Key}, IN PVOID {\em Buffer}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_d189e99f7ad6929e0baeacdca5892aeb}
+
+
+
+
+在文件Fast\-IO.c第184行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{FastIO.c@{Fast\-IO.c}!SfFastIoWriteCompressed@{SfFastIoWriteCompressed}}
+\index{SfFastIoWriteCompressed@{SfFastIoWriteCompressed}!FastIO.c@{Fast\-IO.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Write\-Compressed (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN ULONG {\em Lock\-Key}, IN PVOID {\em Buffer}, OUT PMDL $\ast$ {\em Mdl\-Chain}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN struct \_\-COMPRESSED\_\-DATA\_\-INFO $\ast$ {\em Compressed\-Data\-Info}, IN ULONG {\em Compressed\-Data\-Info\-Length}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_fast_i_o_8c_3bd7144a5f91d93e226d595c3ca57075}
+
+
+
+
+在文件Fast\-IO.c第1374行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().

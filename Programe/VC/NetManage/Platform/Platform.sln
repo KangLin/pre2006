@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Platform", "Platform\Platform.vcproj", "{FCD05FA0-7945-453F-8168-C11FDDE626EA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcproj", "{104A54A4-38E3-471E-82C8-7915FF194241}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FCD05FA0-7945-453F-8168-C11FDDE626EA} = {FCD05FA0-7945-453F-8168-C11FDDE626EA}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 1
+		SccProjectUniqueName0 = Test\\Test.vcproj
+		SccProjectName0 = \u0022$/个人工作区/研发中心成员/康林/06-10/socmca\u0022,\u0020THDIAAAA
+		SccLocalPath0 = ..\\..\\..
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		CanCheckoutShared = false
+		SccProjectFilePathRelativizedFromConnection0 = doc\\NetManage\\Platform\\Test\\
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FCD05FA0-7945-453F-8168-C11FDDE626EA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FCD05FA0-7945-453F-8168-C11FDDE626EA}.Debug|Win32.Build.0 = Debug|Win32
+		{FCD05FA0-7945-453F-8168-C11FDDE626EA}.Release|Win32.ActiveCfg = Release|Win32
+		{FCD05FA0-7945-453F-8168-C11FDDE626EA}.Release|Win32.Build.0 = Release|Win32
+		{104A54A4-38E3-471E-82C8-7915FF194241}.Debug|Win32.ActiveCfg = Debug|Win32
+		{104A54A4-38E3-471E-82C8-7915FF194241}.Debug|Win32.Build.0 = Debug|Win32
+		{104A54A4-38E3-471E-82C8-7915FF194241}.Release|Win32.ActiveCfg = Release|Win32
+		{104A54A4-38E3-471E-82C8-7915FF194241}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

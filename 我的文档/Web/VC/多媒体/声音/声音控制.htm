@@ -1,0 +1,584 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>声 音 控 制</title>
+</head>
+
+<body>
+
+<p align="center"><font size="7">声 音 控 制</font></p>
+<p align="center">康&nbsp; 林</p>
+<p>　</p>
+<p>一、查询系统中的音频设备</p>
+<p>1.1、查询系统中音频设备的数量：</p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="32%">Function</th>
+		<th align="left" width="68%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="32%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_08hf.htm">
+		<b>auxGetNumDevs</b></a><b> </b></td>
+		<td width="68%">返回系统中辅助输出设备的数量</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="32%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_5oj7.htm">
+		<b>WaveInGetNumDevs</b></a><b> </b></td>
+		<td width="68%">返回系统中现有的波形声音输入设备的数量 </td>
+	</tr>
+	<tr vAlign="top">
+		<td width="32%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_2ooj.htm">
+		<b>WaveOutGetNumDevs</b></a><b> </b></td>
+		<td width="68%">返回系统中现有的波形声音输出设备的数量</td>
+	</tr>
+</table>
+<p>
+音频设备是用设备标识符标识的。这个设备标识符由系统现有的设备数确定。设备标识符的范围是从0到系统中现有设备数减一。例如：如果系统中有两个音频设备，那么，它的设备标
+识符的范围从0到1。</p>
+<p>1.2、查询每一个音频设备的性能</p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="32%">Function</th>
+		<th align="left" width="68%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="32%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_7lrn.htm">
+		<b>auxGetDevCaps</b></a></td>
+		<td width="68%">Retrieves the capabilities of a specified auxiliary 
+		output device.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="32%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_31tf.htm">
+		<b>waveInGetDevCaps</b></a></td>
+		<td width="68%">Retrieves the capabilities of a specified waveform-audio 
+		input device.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="32%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_01yr.htm">
+		<b>waveOutGetDevCaps</b></a></td>
+		<td width="68%">Retrieves the capabilities of a specified waveform-audio 
+		output device.</td>
+	</tr>
+</table>
+<p>每个函数将填充一个相应的设备性能结构，下面是每个函数对应的设备性能结构</p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="31%">Function</th>
+		<th align="left" width="69%">Structure</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="31%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_7lrn.htm">
+		<b>auxGetDevCaps</b></a></td>
+		<td width="69%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_8prm.htm">
+		<b>AUXCAPS</b></a></td>
+	</tr>
+	<tr vAlign="top">
+		<td width="31%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_31tf.htm">
+		<b>waveInGetDevCaps</b></a></td>
+		<td width="69%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_1ble.htm">
+		<b>WAVEINCAPS</b></a></td>
+	</tr>
+	<tr vAlign="top">
+		<td width="31%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_01yr.htm">
+		<b>waveOutGetDevCaps</b></a></td>
+		<td width="69%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_9t2q.htm">
+		<b>WAVEOUTCAPS</b></a></td>
+	</tr>
+</table>
+<br>
+1.3、设备句柄与设备标识符<p>设备标识符用于打开一个音频设备的各个函数使用。<br>
+句柄是打开一个音频设备后，调用其它函数时使用。</p>
+<p>1.4、波形音频输出的数据类型</p>
+<p>下面的数据类型是为波形音频输出函数而定义的：</p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="30%">Type</th>
+		<th align="left" width="70%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="30%"><b>HWAVEOUT</b></td>
+		<td width="70%">一个打开的波形音频设备的句柄</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="30%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_625u.htm">
+		<b>WAVEFORMATEX</b></a></td>
+		<td width="70%">一个波形音频输出设备所指定的数据结构，这个结构也可用于输入设备。</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="30%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_7zsi.htm">
+		<b>WAVEHDR</b></a></td>
+		<td width="70%">这个结构被用于一块波形输入数据的头，这个结构也能用于输入设备。</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="30%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_9t2q.htm">
+		<b>WAVEOUTCAPS</b></a></td>
+		<td width="70%">这个结构用于查询波形音频输出设备的详细情况。</td>
+	</tr>
+</table>
+<p>二、录入音频</p>
+<p>2.1、打开音频输出设备</p>
+<p>用 <a href="API函烽/waveInOpen.htm">waveInOpen</a> 函数为录音打开一个音频设备。这个函数打开一个与指定标识符相关联的设备，并且返回一个写入指定分配内存区域的打开设备的句柄。</p>
+<p>有些多媒体计算机有多个音频输入设备，当你打开一个音频设备、除非你知道一个系统中的音频输入设备，否则你应该用 WAVE_MAPPER 
+常量作为设备标识符。此函数将选择一个最适用于指定的数据结构的音频设备。</p>
+<p>2.2、音频录音的管理</p>
+<p>您打开一个音频录音设备后，就可以开始录制音频数据。音频数据将被录制到应用程序所指定的一个结构由 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_7zsi.htm">
+<b>WAVEHDR</b></a> 指定的缓存空间。这些数据块必须在他们使用前准备好。<font color="#FF0000">在使用了 
+waveInAddBuffer 后,要保证这个数据块在录音过程中一直有效,直到调用 </font>
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_3ueq.htm">
+		<font color="#FF0000">waveInUnprepareHeader</font></a><font color="#FF0000"> 
+释放录音数据块</font>。否则以后调用 waveInReset 时会出错。</p>
+<p>Ｗindows提供下列函数录制音频:</p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="26%">Function</th>
+		<th align="left" width="74%">描述</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="26%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_7aya.htm">
+		<b>waveInAddBuffer</b></a></td>
+		<td width="74%">发送一块缓存到设备驱动程序，他将音频数据填充。</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="26%">
+		<b><a href="API函烽/waveInReset.htm">waveInReset</a></b></td>
+		<td width="74%">停止录制的音频并且标识所有缓存已用过,即设备WAVEHDR中的成员dwFlags为WHDR_DONE </td>
+	</tr>
+	<tr vAlign="top">
+		<td width="26%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_10fo.htm">
+		<b>waveInStart</b></a></td>
+		<td width="74%">开始音频的录入</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="26%">
+		<b><a href="API函烽/waveInStop.htm">waveInStop</a></b></td>
+		<td width="74%">停止音频输入</td>
+	</tr>
+</table>
+<p>
+用 waveInAddBuffer 函数发送一缓存设备驱动程序。当缓存被音频数据满填后，应用程序将接到一个由打开这个设备驱动程序的函数的标识所设置的窗口消息、回调函数消息，线程消息、事件。</p>
+<p>当你使用 waveInStart 函数录音前，你应该至少发送了一块缓存到设备驱动程序。否则录入的数据将被丢失。</p>
+<p>在调用 waveInClose 关闭输入设备时,应先调用 waveInReset 
+函数设置没有用到的数据缓存为已用过,即设备WAVEHDR中的成员dwFlags为WHDR_DONE.</p>
+<p><b>音频数据块</b></p>
+<p>用 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_7aya.htm">
+<b>waveInAddBuffer</b></a><b> </b>和 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_1k9x.htm">
+<b>waveOutWrite</b></a><b> </b>函数要求应用程序为录入或播放分配一块数据块。这两个函数用 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_7zsi.htm">
+<b>WAVEHDR</b></a> 结构描述它的数据块。 </p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="41%">Function</th>
+		<th align="left" width="59%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="41%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_2b76.htm">
+		<b>waveInPrepareHeader</b></a></td>
+		<td width="59%">准备一个音频输入数据块。</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="41%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_3ueq.htm">
+		<b>waveInUnprepareHeader</b></a></td>
+		<td width="59%">清除已准备的音频输入数据块</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="41%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_93ci.htm">
+		<b>waveOutPrepareHeader</b></a></td>
+		<td width="59%">准备一个播放数据块</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="41%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_2h82.htm">
+		<b>waveOutUnprepareHeader</b></a></td>
+		<td width="59%">清除已准备的音频播放数据块</td>
+	</tr>
+</table>
+<p>2.3、用窗口消息管理音频录入</p>
+<p>下列消息能够发送到窗口处理函数，管理音频输入：</p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="33%">Message</th>
+		<th align="left" width="67%">描述</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="33%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_4ip1.htm">
+		MM_WIM_CLOSE</a></td>
+		<td width="67%">当驱动程序由 waveInClose 函数关闭时发送．</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="33%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_5tnl.htm">
+		MM_WIM_DATA</a></td>
+		<td width="67%">由 waveInAddBuffer 函数发送给设备驱动程序的缓存被音频数据填满后发送这个消息.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="33%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_8xbi.htm">
+		MM_WIM_OPEN</a></td>
+		<td width="67%">由 <b>
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_1q5q.htm">
+		waveInOpen</a> </b>函数打开一个音频设备时发送这个消息 </td>
+	</tr>
+</table>
+<p>三、播放音频文件</p>
+<p>3.1、打开一个音频输出设备</p>
+<p>用 waveOutOpen 函数为回放打开一个音频设备。这个函数打开一个与指定标识符相关联的设备，并且返回一个写入指定分配内存区域的打开设备的句柄。</p>
+<p>有些多媒体计算机有多个音频播放设备，当你打开一个音频设备、除非你知道一个系统中的音频播放设备，否则你应该用 WAVE_MAPPER 
+常量作为设备标识符。此函数将选择一个最适用于指定的数据结构的音频设备。</p>
+<p>3.2、查询见1.2、1.3</p>
+<p>3.3、向输出设备驱动程序写入波形数据</p>
+<p>当成功地打开一个播放设备的驱动程序后，你能开始播放声音了。Windows 提供 waveOutWrite 函数向播放设备发送一块数据。</p>
+<p>用 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_7zsi.htm">
+<b>WAVEHDR</b></a> 结构指定一个波形数据块。这个数据块将被发送给出 waveOutWrite 
+函数。这个结构包含一个指向锁定数据块的指针、长度、标识等。这个数据块在发送前用<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_93ci.htm"><b>waveOutPrepareHeader</b></a>必须准备好。</p>
+<p>你用 waveOutWrite 
+向输出设备发送这块数据块后，你在释放它前必须等到设备驱动程序播放完它。如果你发送多块数据，你必须监视数据块完成后才增加新的数据块。</p>
+<p>3.4、关闭播放设备驱动程序</p>
+<p>播放完成后调用 waveOutClose 
+关闭播放设备。如果在调用这个函数时波形音频文件正在播放，这个关闭特作失败并返回一个错误指明设备不能被关闭。如果你不想等待数据播放完就关闭设备，那你在关闭前应该先调用 
+waveOutReset 。它将结束播放并允许设备关闭。确定在关闭设备前用 waveOutUnprepareHeader 清除已经准备好的数据块。(这一步在消息WIM_DONE中处理。)&nbsp;</p>
+<p>3.5、最简单的播放波形音频文件的方法是用下面函数或宏：</p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="24%">Function</th>
+		<th align="left" width="76%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="24%">
+		<object id="alink_1" type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+			<param NAME="Width" VALUE="0">
+			<param NAME="Height" VALUE="0">
+			<param NAME="Command" VALUE="ALink,MENU">
+			<param NAME="Item1" VALUE>
+			<param NAME="Item2" VALUE="_">
+		</object>
+		<a href="JavaScript:alink_1.Click()"><b>MessageBeep</b></a></td>
+		<td width="76%">Plays the sound that corresponds to a specified 
+		system-alert level. </td>
+	</tr>
+	<tr vAlign="top">
+		<td width="24%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_4uzo.htm">
+		<b>sndPlaySound</b></a></td>
+		<td width="76%">Plays the sound that corresponds to the system sound 
+		entered in the registry or the contents of the specified filename. </td>
+	</tr>
+	<tr vAlign="top">
+		<td width="24%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_9uxw.htm">
+		<b>PlaySound</b></a></td>
+		<td width="76%">Provides all the functionality of
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_4uzo.htm">
+		<b>sndPlaySound</b></a> and can directly access resources.</td>
+	</tr>
+</table>
+<br>
+3.6、用窗口消息管理波形音频回放<h4><span style="font-weight: 400">下列消息能发送给窗口函数用于管理回放：</span></h4>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="30%">Message</th>
+		<th align="left" width="70%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="30%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_5mzp.htm">
+		MM_WOM_CLOSE</a></td>
+		<td width="70%">用 waveOutClose 函数关闭设备后发送</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="30%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_8b8l.htm">
+		MM_WOM_DONE</a></td>
+		<td width="70%">用 waveOutWrite 函数发送给设备驱动的数据块被播放完后发送</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="30%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_06y6.htm">
+		MM_WOM_OPEN</a></td>
+		<td width="70%">用 waveOutOpen 函数打开一个设备后发送。</td>
+	</tr>
+</table>
+<br>
+与消息相联系的有一个 <i>wParam</i> 和 <i>lParam</i> 参数。这个 <i>wParam</i> 参数总是一个打开设备的句柄。对于 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_8b8l.htm">
+MM_WOM_DONE</a> 消息, <i>lParam</i> 是一个确定完成数据块的 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_7zsi.htm">
+<b>WAVEHDR</b></a> 结构的指针。<i>lParam</i> 参数不用于 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_5mzp.htm">
+MM_WOM_CLOSE</a> 和 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_06y6.htm">
+MM_WOM_OPEN</a> 消息。<p>
+MM_WOM_DONE消息大概最有用，当一个数据块被播放完后，这个消息被发送，这时，你能清除和释放这个数据块。除非你要分配内存或初始化变量，否则你不需要处理MM_WOM_OPEN 
+和 MM_WOM_CLOSE 消息。</p>
+<p>The callback function for waveform-audio output devices is supplied by the 
+application. For information about this callback function, see the
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_8zdv.htm">
+<b>waveOutProc</b></a> function. </p>
+<p>3.7、返回当前回放的位置</p>
+<p>当波形音频文件正在播放时，你应用 waveOutGetPostion 函数监视当前回放的位置。</p>
+<p>For waveform-audio devices, samples are the preferred time format in which to 
+represent the current position. Thus, the current position of a waveform-audio 
+device is specified as the number of samples for one channel from the beginning 
+of the waveform-audio file. To query the current position of a waveform-audio 
+device, set the <b>wType</b> member of the
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_0v3n.htm">
+<b>MMTIME</b></a> structure to TIME_SAMPLES and pass this structure to <b>
+waveOutGetPosition</b>.</p>
+<p>The <b>MMTIME</b> structure can represent time in one or more different 
+formats, including milliseconds, samples, SMPTE (Society of Motion Picture and 
+Television Engineers), and MIDI song pointer formats. The <b>wType</b> member 
+specifies the format used to represent time. Before calling a function that uses 
+the <b>MMTIME</b> structure, you must set <b>wType</b> to indicate your 
+requested time format. Be sure to check <b>wType</b> after the call to see 
+whether the requested time format is supported. If the requested time format is 
+not supported, the device driver specifies the time in an alternate time format 
+and changes the <b>wType</b> member to the selected time format. </p>
+<p>For more information about the <b>MMTIME</b> structure, see
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/mmtime_4msz.htm">
+Multimedia Timers</a>.</p>
+<p>3.8、停止、暂停、重新回放</p>
+<p>当波形音频正在回放时，你能停止或暂停回放。回放被暂停后，你能重新开始它。Windows提供下面函数控制波形音频的回放。 </p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="28%">Function</th>
+		<th align="left" width="72%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="28%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_9xut.htm">
+		<b>waveOutPause</b></a></td>
+		<td width="72%">在一个输出设备暂停播放</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="28%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_1epg.htm">
+		<b>waveOutReset</b></a></td>
+		<td width="72%">在一个输出设备停止播放，并且标识所有未播放的数据块为已播放。</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="28%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_22r8.htm">
+		<b>WaveOutRestart</b></a></td>
+		<td width="72%">在一个已暂停的输出设备继续播放</td>
+	</tr>
+</table>
+<br>
+用 waveOutPause 函数暂停播放不是瞬间的，驱动程序要播放完当前的数据块才能暂停。<p>通常，当第一块波形音频数据块用
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_1k9x.htm">
+<b>waveOutWrite</b></a> 函数发送后，波形音频设备就开始播放。如果你不想立即开始播放，你应该在调用 waveOutWrite 前调用 
+waveOutPause 函数。然后，在你想开始播放时，调用
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_22r8.htm">
+<b>waveOutRestart</b></a> 函数。</p>
+<p>你不能用 <b>waveOutRestart</b> 重新开始已用 waveOutReset 停止的设备。你必须用 <b>waveOutWrite</b> 
+发送一块新的数据才能继续开始播放。 </p>
+<p>3.9、循环播放</p>
+<p>Looping a sound is controlled by the <b>dwLoops</b> and <b>dwFlags</b> 
+members in the
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_7zsi.htm">
+<b>WAVEHDR</b></a> structures passed to the device with the
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_1k9x.htm">
+<b>waveOutWrite</b></a> function. Use the WHDR_BEGINLOOP and WHDR_ENDLOOP flags 
+in the <b>dwFlags</b> member to specify the beginning and ending data blocks for 
+looping.</p>
+<p>To loop a single data block, specify both flags for the same block. To 
+specify the number of loops, use the <b>dwLoops</b> member in the <b>WAVEHDR</b> 
+structure for the first block in the loop.</p>
+<p>You can call the
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_6dgw.htm">
+<b>waveOutBreakLoop</b></a> function to stop a looping sound. </p>
+<h4>Changing the Volume of Waveform-Audio Playback</h4>
+<p>Windows provides the following functions to query and set the volume level of 
+waveform-audio output devices.</p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="30%">Function</th>
+		<th align="left" width="70%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="30%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_004l.htm">
+		<b>waveOutGetVolume</b></a></td>
+		<td width="70%">Retrieves the current volume level of the specified 
+		waveform-audio output device.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="30%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_3a1x.htm">
+		<b>waveOutSetVolume</b></a></td>
+		<td width="70%">Sets the volume level of the specified waveform-audio 
+		output device.</td>
+	</tr>
+</table>
+<br>
+　<p>Not all waveform-audio devices support volume changes. Some devices support 
+individual volume control on both the left and right channels. For information 
+about how to determine the volume-control capabilities of waveform-audio 
+devices, see
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/wave_5s1f.htm">
+Devices and Data Types</a>.</p>
+<p>Some applications allow the user to control the volume for all audio devices 
+in a system. (Many applications of this type use the audio mixer services; for 
+more information, see
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/mixer_10xf.htm">
+Audio Mixers</a>.) Unless your application is capable of this kind of master 
+volume control, you should open an audio device before changing its volume. You 
+should also query the volume level before changing it and restore the volume 
+level to its previous level as soon as possible.</p>
+<p>Volume is specified in a doubleword value. When the audio format is stereo, 
+the upper 16 bits specify the relative volume of the right channel and the lower 
+16 bits specify the relative volume of the left channel. For devices that do not 
+support left- and right-channel volume control, the lower 16 bits specify the 
+volume level, and the upper 16 bits are ignored. </p>
+<p>Volume-level values range from 0x0 (silence) to 0xFFFF (maximum volume) and 
+are interpreted logarithmically. The perceived volume increase is the same when 
+increasing the volume level from 0x5000 to 0x6000 as it is from 0x4000 to 
+0x5000.</p>
+<h4>Changing Pitch and Playback Rate</h4>
+<p>Some waveform-audio output devices can vary the pitch and the playback rate 
+of waveform-audio data. Not all waveform-audio devices support pitch and 
+playback-rate changes. For information about how to determine whether a 
+particular waveform-audio device supports pitch and playback rate changes, see
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/wave_5s1f.htm">
+Devices and Data Types</a>. </p>
+<p>The differences between changing pitch and playback rate are as follows: </p>
+<ul>
+	<li>Changing the playback rate is performed by the device driver and does 
+	not require specialized hardware. The sample rate is not changed, but the 
+	driver interpolates by skipping or synthesizing samples. For example, if the 
+	playback rate is changed by a factor of two, the driver skips every other 
+	sample. 
+	</li>
+	<li>Changing the pitch requires specialized hardware. The playback rate and 
+	sample rate are not changed. </li>
+</ul>
+<p>Windows provides the following functions to query and set waveform-audio 
+pitch and playback rates.</p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="40%">Function</th>
+		<th align="left" width="60%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="40%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_1l7s.htm">
+		<b>waveOutGetPitch</b></a></td>
+		<td width="60%">Retrieves the pitch for the specified waveform-audio 
+		output device.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="40%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_14kl.htm">
+		<b>waveOutGetPlaybackRate</b></a></td>
+		<td width="60%">Retrieves the playback rate for the specified 
+		waveform-audio output device.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="40%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_3tt4.htm">
+		<b>waveOutSetPitch</b></a></td>
+		<td width="60%">Sets the pitch for the specified waveform-audio output 
+		device.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="40%">
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_6mhx.htm">
+		<b>waveOutSetPlaybackRate</b></a></td>
+		<td width="60%">Sets the playback rate for the specified waveform-audio 
+		output device.</td>
+	</tr>
+</table>
+<br>
+　<p>The pitch and playback rates are changed by a factor specified with a 
+fixed-point number packed into a doubleword value. The upper 16 bits specify the 
+integer part of the number; the lower 16 bits specify the fractional part. For 
+example, the value 1.5 is represented as 0x00018000L. The value 0.75 is 
+represented as 0x0000C000L. A value of 1.0 (0x00010000) means the pitch or 
+playback rate is unchanged.</p>
+<p>四、混频器</p>
+<p>音频混频器服务是为播放或录制而控制从音频线（Audio Line)到目的驱动程序(Destination 
+Device)的路由。这个服务还能控制音量和其它效果。许多使用技巧与其它的音频驱动程序相似。</p>
+<p>构成混频器的基本元素是音频线（Audio 
+Line)。音频线是由一个或多个起源于单一源或系统资源的数据通道。例如：一个立体声音频线有两个通道，但是它是由一个单一的音频线组成，因为它起源于单一的源。</p>
+<p>混频器结构提供一个管理计算机的音频线的服务。如果你有硬件适配器并安装了驱动程序，你就能用这个服务。混频器允许几个音频源连到单一的目的音频线。</p>
+<p>每个音频线能够混与它相连的控制。一个混频器控制能够执行一些函数（例如控制音量），依靠关联的持性。 </p>
+<p>1、查询混频器<br>
+1.1得到混频器的数量：mixerGetNumDevs<br>
+在使用混频器之前，必须得到它的性能。用函数：mixerGetDevCaps,它用一个指定的混频器性能填充一个MIXERCAPS结构。<br>
+函数 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_9dpg.htm">
+<b>mixerGetID</b></a> 返回一个指定句柄的设备标识符。例如，你能用这个函数返回的标识符，然后你能用这个设备标识符调整音量或显示其它的控制。</p>
+<p>2、打开设备<br>
+当你想用一个混频设备时，你能简单地使用它或你在使用前显示地打开设备。显示地打开混频设备有下面两个方面的好处：</p>
+<ul>
+	<li>它保证混频设备驱动程序始终存在。</li>
+	<li>它让你接收音频线和控制改变通告。</li>
+</ul>
+<p>&nbsp;</p>
+<p>　</p>
+<p><br>
+　</p>
+<table cellSpacing="0" cellPadding="0" width="100%" border="0">
+	<tr>
+		<td vAlign="top" width="*">
+		<table cellSpacing="0" cellPadding="0" width="100%" border="0">
+			<tr>
+				<td>一、数字音频基础知识 
+				<ul>
+					<li>Fourier级数： </li>
+				</ul>
+				<p>
+				任何周期的波形可以分解成多个正弦波，这些正弦波的频率都是整数倍。级数中其他正线波的频率是基础频率的整数倍。基础频率称为一级谐波。 
+				</p>
+				<ul>
+					<li>PCM: </li>
+				</ul>
+				<p>pulse code 
+				modulation,脉冲编码调制，即对波形按照固定周期频率采样。为了保证采样后数据质量，采样频率必须是样本声音最高频率的两倍，这就是Nyquist频率。<br>
+				样本大小：采样后用于存储振幅级的位数，实际就是脉冲编码的阶梯数，位数越大表明精度越高，这一点学过数字逻辑电路的应该清楚。 </p>
+				<ul>
+					<li>声音强度： </li>
+				</ul>
+				<p>波形振幅的平方。两个声音强度上的差常以分贝(db)为单位来度量， </p>
+				<ul>
+					<li>计算公式如下： </li>
+				</ul>
+				<p>
+				20*log(A1/A2)分贝。A1,A2为两个声音的振幅。如果采样大小为8位，则采样的动态范围为20*log(256)分贝=48db。如果样本大小为16位，则采样动态范围为20*log(65536)大约是96分贝，接近了人听觉极限和痛苦极限，是再线音乐的理想范围。windows同时支持8位和16位的采样大小。<br>
+				<br>
+　</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>
+<p>　</p>
+
+</body>
+
+</html>

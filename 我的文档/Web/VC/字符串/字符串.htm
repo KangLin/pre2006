@@ -1,0 +1,126 @@
+<html>
+	<head>
+		<title>字符串</title>
+		<meta http-equiv="Content-Language" content="zh-cn">
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+	</head>
+	<body>
+		<p align="center"><b><font size="7">字符串</font></b></p>
+		<p align="center">康&nbsp; 林</p>
+		<p align="left"><b>格式化字符串</b>:<font face="verdana,arial,helvetica" size="2"><b>sprintf, 
+					swprintf</b></p>
+		<p>写入一个格式化字符串数据到一个字符串。</p>
+		<p><b>int</b> <b>sprintf(</b> <b>char</b> <b>*</b><i>buffer</i><b>,</b> <b>const</b>
+			<b>char</b> <b>*</b><i>format</i> [<b>,</b> <i>argument</i>] ... <b>);</b></p>
+		<p><b>int</b> <b>swprintf(</b> <b>wchar_t</b> <b>*</b><i>buffer</i><b>,</b> <b>const</b>
+			<b>wchar_t</b> <b>*</b><i>format</i> [<b>,</b> <i>argument</i>] ... <b>);</b></p>
+		<p>例如：<br>
+			char str[1024];<br>
+			sprintf(str, "%s&gt;&gt;%s&gt;&gt;%d", "ok", "hello", 4);</p>
+		<p>输出：ok&gt;&gt;hello&gt;&gt;4</p>
+		</FONT> <font face="verdana,arial,helvetica" size="5">
+			<p><b>CString 与 BSTR 转换</b></p>
+		</font><font face="verdana,arial,helvetica" size="2">
+			<p>(5) CString转换成BSTR<br>
+				<br>
+				通常是通过使用CStringT::AllocSysString来实现。例如：<br>
+				<br>
+				CString str("This is a test");<br>
+				BSTR bstrText = str.AllocSysString();<br>
+				…<br>
+				SysFreeString(bstrText); // 用完释放
+				<br>
+				<br>
+				(6) BSTR转换成CString<br>
+				<br>
+				一般可按下列方法进行：<br>
+				<br>
+				BSTR bstrText = ::SysAllocString(L"Test");<br>
+				CStringA str;<br>
+				str.Empty();<br>
+				str = bstrText;
+				<br>
+				<br>
+				或<br>
+				<br>
+				CStringA str(bstrText);
+				<br>
+			</p>
+			<P><B>ATL宏</B><BR>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+				ATL有一组很方便的宏用于串的转换。W2A()用于将Unicode串转换为ANSI串（记忆方法是“wide to 
+				ANSI”——宽字符到ANSI）。实际上使用OLE2A()更精确，“OLE”表示的意思是COM串或者OLE串。下面是使用这些宏的例子：<BR>
+				<BR>
+				#include &lt;atlconv.h&gt;<BR>
+				<BR>
+				// 还是假设有一个Unicode串wszSomeString...<BR>
+				<BR>
+				{<BR>
+				char szANSIString [MAX_PATH];<BR>
+				<FONT color="#ff0066">USES_CONVERSION; // 声明这个宏要使用的局部变量<BR>
+				</FONT>
+				<BR>
+				lstrcpy ( szANSIString, OLE2A(wszSomeString) );<BR>
+				}<BR>
+				<BR>
+				OLE2A()宏“返回”转换的串的指针，但转换的串被存储在某个临时栈变量中，所以要用lstrcpy()来获得自己的拷贝。OLE2T宏是COM串(BSTR)到TCHAR串的转换。其它的几个宏是W2T()（Unicode 
+				到 TCHAR）以及W2CT()（Unicode到常量TCHAR串）。&nbsp;<BR>
+				有个宏是OLE2CA()（Unicode到常量char串），可以被用到上面的例子中，OLE2CA()实际上是个更正宏，因为lstrcpy()的第二个参数是一个常量char*，关于这个问题本文将在以后作详细讨论。<BR>
+				另一方面，如果你不想做以上复杂的串处理，尽管让它还保持为Unicode串，如果编写的是控制台应用程序，输出/显示Unicode串时应该用全程变量std::wcout，如：<BR>
+				<BR>
+				wcout &lt;&lt; wszSomeString;<BR>
+				<BR>
+				但是要记住，std::wcout只认Unicode，所以你要是“正常”串的话，还得用std::cout输出/显示。对于Unicode串文字量，要使用前缀L标示，如：<BR>
+				<BR>
+			</P>
+		</font>
+		<p><b>OLE 处理 BSTR 的 API 函数</b></p>
+		<font face="verdana,arial,helvetica" size="2">
+			<p>
+				<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/automat/htm/chap7_8r53.htm">
+					SysAllocString</a></p>
+			<p>
+				<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/automat/htm/chap7_7u3y.htm">
+					SysAllocStringLen</a></p>
+			<p>
+				<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/automat/htm/chap7_2g6f.htm">
+					SysFreeString</a></p>
+			<p>
+				<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/automat/htm/chap7_3wfb.htm">
+					SysReAllocString</a></p>
+			<p>
+				<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/automat/htm/chap7_4e26.htm">
+					SysReAllocStringLen</a></p>
+			<p>
+				<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/automat/htm/chap7_8566.htm">
+					SysStringLen</a></p>
+			<p>
+				<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/automat/htm/chap7_3ub2.htm">
+					SysAllocStringByteLen</a></p>
+			<p>
+				<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/automat/htm/chap7_2wxa.htm">
+					SysStringByteLen</a></p>
+		</font>
+		<font face="verdana,arial,helvetica">
+			<p>
+				<b>VC 与 VB 之间的字符串传递</b></p>
+		<p>
+				当VB调用 API 函数时，就会遇到字符串在 VB 与 VC 之间传递的问题。对于 VB.NET 而言，它能在声明 API 
+				函数时可以控制传递给 API 的字符串的方式 AUTO、ASNI、UNICODE。如果，API&nbsp; 函数是用 VC 
+				写的，那你可以用 UNICODE 进行编码。以避免字符串转换。在 VB 调用时，用 UNICODE 进行声明。</p>
+		</font>
+		<font face="verdana,arial,helvetica" size="2">
+			<p><b>其它文章索引</b></p>
+			<ol>
+				<li>
+					VC 知识库第<a href="mk:@MSITStore:D:\books\vc知识库\vckbase9.chm::/vc/nonctrls/atlcomocx_02/0902003.htm">30期</a>
+					、<a href="mk:@MSITStore:D:\books\vc知识库\vckbase9.chm::/vc/nonctrls/atlcomocx_02/0902003.htm">31期</a>
+				C++字符串完全指引
+				<li>
+					<a href="mk:@MSITStore:D:\books\vc知识库\vckbase9.chm::/vc/nonctrls/atlcomocx_02/0902003.htm">
+						字符串的处理，见 VC知识库第九期 《COM编程入门——第一部分》</a></li>
+			</ol>
+		<p>　</p>
+		</font>
+	</body>
+</html>

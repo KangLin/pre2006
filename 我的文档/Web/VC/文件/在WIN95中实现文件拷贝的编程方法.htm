@@ -1,0 +1,158 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>在WIN95中实现文件拷贝的编程方法</title>
+</head>
+
+<body>
+
+<p>在WIN95中实现文件拷贝的编程方法<br>
+<br>
+<br>
+---- 在Windows中实现文件的操作主要有两种方法。一种是直接利用CFile 
+类的操作成员函数来实现，它要用到对于文件操作的底层操作方式，如READ、WRITE、GETLENTH等，并且要直接操作文件的属性，如创建、读、写等；而且，其缓冲区的设置对于文件的大小和不同的计算机是不同的，特别是对于长度很大的数据库进行备份，很难达到最佳效果。 
+<br>
+---- 
+另一种有效的方式是利用Win32外壳来实现这些对于文件的操作。它可以实现包括文件的拷贝、更名、移动及删除等，并且可以支持通配符(如*和？)，也可以直接对一个目录或目录树进行操作。 
+<br>
+---- 本文分析了Win32外壳API对于文件操作的原理,并利用Visual C++6.0实现文件的拷贝操作。 <br>
+---- 一、 原理与结构 <br>
+---- 
+Windows95/NT中提供了一个API函数SHFileOperation()，它只有一个指向SHFILEOPSTRUCT结构的参数。SHFileOperation（）函数的原形如下： 
+<br>
+---- WIN SHELL API int WINAPI SHFileOperation (LPSHFILEOPSTRUCT lpFIleOp); <br>
+---- LPSHFILEOPSTRUCT结构包含有进行文件操作的各种信息，其具体的结构如下： <br>
+Typedef struct _ShFILEOPSTRUCT {<br>
+HWND hWnd; //消息窗口<br>
+UINT wFunc; //操作类型<br>
+LPCSTR pFrom; //源文件及路径<br>
+LPCSTR pTo; //目标文件及路径<br>
+FILEOP_FLAGS fFlags; //操作与确认标志<br>
+BOOL fAnyOperationsAborted; //操作选择位<br>
+LPVOID hNameMappings; //文件映射<br>
+LPCSTR lpszProgressTitle; //进度窗口标题<br>
+} SHFILEOPSTRUCT, FAR* LPSHFILEOPSTRUCT;<br>
+---- 
+在这个结构中，有几个成员很重要。hWnd是指向发送消息的窗口，pFrom与pTo是进行文件操作的源文件名和目标文件名，它包含文件的路径，对于多个文件名之间用NULL作为间隔，并且可以支持通配符*和？。如源文件或目录有两个，则应是： 
+<br>
+char pFrom[]=&quot;c:\\windows\\command\0c:\\dos\\himem.sys\0&quot;<br>
+---- 
+它表示对c:\windows\command目录下的所有文件和c:\dos\himem.sys文件进行操作。'\\'是C语言中的'\'的转义符，'\0'则是NULL。wFunc 
+是结构中的重要成员，它指出将要进行的操作类型,是下面的操作类型之一： <br>
+---- FO_COPY: 拷贝文件pFrom到pTo 的指定位置。 <br>
+---- FO_RENAME: 将pFrom的文件名更名为pTo的文件名。 <br>
+---- FO_MOVE: 将pFrom的文件移动到pTo的地方。 <br>
+---- FO_DELETE： 删除pFrom指定的文件。 <br>
+---- 
+在进行文件拷贝、移动或删除时，如果需要的时间很长，则会在进行的过程中出现一个无模式的对话框，可以显示执行的进度和执行的时间，以及正拷贝移动或删除的文件名，成员lpszProgressTitle显示此对话框的标题。fFlags是在进行文件操作时的过程和状态控制标识。它主要有如下一些标识，也可以是其组合。 
+<br>
+---- FOF_FILESONLY:不执行通配符，只执行文件. <br>
+---- FOF_ALLOWUNDO：保存 UNDO信息，以便恢复. <br>
+---- FOF_NOCONFIRMATION: 
+在出现目标文件已存在的时候，如果不设置此项，则它会出现确认是否覆盖的对话框，设置此项则自动确认，进行覆盖，不出现对话框。 <br>
+---- FOF_NOERRORUI: 设置此项后，当文件处理过程中出现错误时，不出现错误提示，否则会进行错误提示。 <br>
+---- FOF_RENAMEONCOLLISION: 当已存在文件名时，对其进行更换文件名提示。 <br>
+---- FOF_SILENT: 不显示进度对话框。 <br>
+---- FOF_WANTMAPPINGHANDLE: 
+要求SHFileOperation()函数返回正处于操作状态的实际文件列表，文件列表名柄保存在hNameMappings成员中。SHFILEOPSTRUCT将包含一个SHNAMEMAPPING结构的数组，此数组保存由SHELL计算的每个处于操作状态的文件的新旧路径。 
+<br>
+---- 二、 实例操作 <br>
+---- 本文就一个Visual 
+C++程序来实现文件复制的实例。首先建立一个单文档界面filecopy，然后在主框架中新增一个工具条变量m_wndMyToolBar,新建一个工具条IDR_MYTOOLBAR，设置一个工具消息ID_FILECOPY，并在主框架MainFrm.cpp的OnCreate()成员函数中加入工具栏。 
+<br>
+if(!m_wndMyToolBar.Create(this)||<br>
+!m_wndMyToolBar.LoadToolBar(IDR_MYTOOLBAR))<br>
+{<br>
+TRACE(&quot;can not create the FileToolBar!\n&quot;);<br>
+return -1;<br>
+}<br>
+---- 
+通过中视类操作工具条IDR_MYTOOL,利用ClassWizard为其消息ID_FILECOPY新增消息处理函数OnFilecopy。然后在处理函数中加入下面程序。 
+<br>
+void OnFilecopy()<br>
+{<br>
+int nOk;<br>
+char strSrc[]=&quot;c:\\dos\0c:\\pwin98\\command\0&quot;;<br>
+//可以改变源路径<br>
+char strDst[]=&quot;c:\\temp\0&quot;;<br>
+//设置目的路径<br>
+char strTitle[]=&quot;File copying&quot;;<br>
+//进度题头<br>
+SHFILEOPSTRUCT FileOp;<br>
+FileOp.hwnd=m_hWnd;<br>
+FileOp.wFunc=FO_COPY;<br>
+//执行文件拷贝<br>
+FileOp.pFrom=strSrc;<br>
+FileOp.pTo=strDst;<br>
+FileOp.fFlags=FOF_ALLOWUNDO;<br>
+FileOp.hNameMappings=NULL;<br>
+FileOp.lpszProgressTitle=strTitle;<br>
+nOk=SHFileOperation(&amp;FileOp);<br>
+if(nOk)<br>
+TRACE(&quot;There is an error: %d\n&quot;,nOk);<br>
+else<br>
+TRACE(&quot;SHFileOperation <br>
+finished successfully\n&quot;);<br>
+if(FileOp.fAnyOperationsAborted)<br>
+TRACE(&quot;Operation was aborted!\n&quot;);<br>
+}<br>
+---- 三、 结束语 <br>
+---- 利用Windows 
+API进行程序文件操作设计，它直接调用Windows操作系统中的外壳，它的处理过程与Windows95/98/NT中的处理过程是一致的有利于我们在系统程序设计中保持与操作系统的一致性；同时，由于在文件处理中它是直接调用Windows 
+API函数，因此不需要其它应用程序动态链接库DLL的支持。 <br>
+---- 
+在各种开发软件中，都提供了对于文件的各种操作方式，但是它必须利用到文件系统较为深入的知识，而且对于其操作的直观性方面也需要开发者进一步地设计，因此利用操作系统SHELL进行程序设计，不失是一种好的设计方法。 
+<br>
+　<br>
+--------------------------------------------------------------------------------<br>
+　MFC 中CFILE类的成员<br>
+CFile Class Members<br>
+Data Members<br>
+m_hFile Usually contains the operating-system file handle. <br>
+<br>
+Construction<br>
+CFile Constructs a CFile object from a path or file handle. <br>
+Abort Closes a file ignoring all warnings and errors. <br>
+Duplicate Constructs a duplicate object based on this file. <br>
+Open Safely opens a file with an error-testing option. <br>
+Close Closes a file and deletes the object. <br>
+<br>
+Input/Output<br>
+Read Reads (unbuffered) data from a file at the current file position. <br>
+ReadHuge Can read more than 64K of (unbuffered) data from a file at the current 
+file position. Obsolete in 32-bit programming. See Read. <br>
+Write Writes (unbuffered) data in a file to the current file position. <br>
+WriteHuge Can write more than 64K of (unbuffered) data in a file to the current 
+file position. Obsolete in 32-bit programming. See Write. <br>
+Flush Flushes any data yet to be written. <br>
+<br>
+Position<br>
+Seek Positions the current file pointer. <br>
+SeekToBegin Positions the current file pointer at the beginning of the file. <br>
+SeekToEnd Positions the current file pointer at the end of the file. <br>
+GetLength Retrieves the length of the file. <br>
+SetLength Changes the length of the file. <br>
+<br>
+Locking<br>
+LockRange Locks a range of bytes in a file. <br>
+UnlockRange Unlocks a range of bytes in a file. <br>
+<br>
+Status<br>
+GetPosition Retrieves the current file pointer. <br>
+GetStatus Retrieves the status of this open file. <br>
+GetFileName Retrieves the filename of the selected file. <br>
+GetFileTitle Retrieves the title of the selected file. <br>
+GetFilePath Retrieves the full file path of the selected file. <br>
+SetFilePath Sets the full file path of the selected file. <br>
+<br>
+Static<br>
+Rename Renames the specified file (static function). <br>
+Remove Deletes the specified file (static function). <br>
+GetStatus Retrieves the status of the specified file (static, virtual function).
+<br>
+SetStatus Sets the status of the specified file (static, virtual function).</p>
+
+</body>
+
+</html>

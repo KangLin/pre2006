@@ -1,0 +1,56 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>capGetDriverDescription</title>
+</head>
+
+<body>
+
+<h1 align="center">capGetDriverDescription</h1>
+<p align="center">康&nbsp; 林</p>
+<p>得到捕获驱动的版本描述。</p>
+<pre><code><b>BOOL VFWAPI capGetDriverDescription(
+  WORD</b><i> wDriverIndex</i><b>,  </b>
+<b>  LPSTR</b><i> lpszName</i><b>,     </b>
+<b>  INT</b><i> cbName</i><b>,         </b>
+<b>  LPSTR</b><i> lpszVer</i><b>,      </b>
+<b>  INT</b><i> cbVer           </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>wDriverIndex</i> </dt>
+	<dd>捕获驱动的索引值。范围[0，9]。<p>先枚举即插即用捕获驱动，接下来在注册表捕获驱动列表中查找，再在 SYSTEM.INI捕获列表中查找。 
+	</dd>
+	<dt><i>lpszName</i> </dt>
+	<dd>包含相应捕获驱动名的字符串指针 
+	</dd>
+	<dt><i>cbName</i> </dt>
+	<dd>由 <i>lpszName</i> 指定的缓冲区的长度，单位：字节。</dd>
+	<dt><i>lpszVer</i> </dt>
+	<dd>包含捕获驱动相应的描述的字符串指针。 
+	</dd>
+	<dt><i>cbVer</i> </dt>
+	<dd>由 <i>lpszVer</i> 指定的缓冲区的长度，单位：字节。 </dd>
+</dl>
+<h4>返回值：</h4>
+<p>成功返回 TRUE，否则，返回FALSE。</p>
+<h4>注释：</h4>
+<p>如果描述长度大于给定的缓冲区的长度，那么这个描述将被缩短。返回字符串总是以空终结符结束。如果缓冲区为 0，那么不复制相应的描述。</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in vfw.h.<br>
+<b>&nbsp;&nbsp;Import Library: </b>Use vfw32.lib.<br>
+<b>&nbsp;&nbsp;Unicode: </b>Implemented as Unicode and ANSI versions on Windows NT.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_8xyd.htm">
+Video Capture Overview</a>, <a href="index.htm">Video Capture Functions</a> </p>
+
+</body>
+
+</html>

@@ -1,0 +1,129 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>用系统默认方式打开文件</title>
+</head>
+
+<body>
+
+<p align="center"><b><font size="6">Shell编程</font></b></p>
+<p align="center">康&nbsp; 林</p>
+<p><b><a name="ShellExecute的使用"><font size="4">ShellExecute的使用</font></a></b></p>
+<table border="0" width="700">
+	<tr>
+		<td><b><a name="用系统默认方式打开文件">用系统默认方式打开文件</a></b>：</td>
+	</tr>
+	<tr>
+		<td>&nbsp;&nbsp;&nbsp; CString FileName;<br>
+&nbsp;&nbsp;&nbsp; <a href="Shell函数/ShellExecute.htm">ShellExecute</a>(this-&gt;GetSafeHwnd(), 
+		NULL,(LPCTSTR)FileName,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NULL, NULL, SW_SHOWNORMAL);</td>
+	</tr>
+</table>
+
+<br>
+
+<table cellSpacing="0" cellPadding="0" width="100%" border="0">
+	<tr>
+		<td vAlign="top" width="*">
+		<table cellSpacing="0" cellPadding="0" width="100%" border="0">
+			<tr>
+				<td><b>如何<a name="用系统查找功能来查找指定文件">用系统查找功能来查找指定文件</a></b>？ 
+				<pre><a href="Shell函数/ShellExecute.htm">ShellExecute</a>(m_hWnd,&quot;find&quot;,&quot;d:\\nish&quot;,
+    NULL,NULL,SW_SHOW);</pre>
+				</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>
+
+<br>
+　
+<table cellSpacing="0" cellPadding="0" width="100%" border="0">
+	<tr>
+		<td vAlign="top" width="*">[ 本文属于VC知识库第14期, 适合初级读者 ] 
+		<p>　</p>
+		<table cellSpacing="0" cellPadding="0" width="100%" border="0">
+			<tr>
+				<td>
+				<p align="center"><b>深入浅出ShellExecute</b> <br>
+				<a href="mailto:jingzhou_xu@163.net">译者：徐景周</a>(原作:<a target="_blank" href="http://www.codeproject.com/script/articles/mailauthor.asp?guid=%2Fuseritems%2Fnewbiespawn%2Easp%2D2%2F18%2F2002">Nishant 
+				S</a>)</p>
+				Q: <b><a name="如何打开一个应用程">如何打开一个应用程</a>序</b>？ 
+				<pre>ShellExecute(this-&gt;m_hWnd,&quot;open&quot;,&quot;calc.exe&quot;,&quot;&quot;,&quot;&quot;, SW_SHOW );</pre>
+				或 
+				<pre>ShellExecute(this-&gt;m_hWnd,&quot;open&quot;,&quot;notepad.exe&quot;,
+    &quot;c:\\MyLog.log&quot;,&quot;&quot;,SW_SHOW );</pre>
+				正如您所看到的，我并没有传递程序的完整路径。<p><br>
+				Q: <b><a name="如何打开一个同系统程序相关连的文档">如何打开一个同系统程序相关连的文档</a></b>？ 
+				</p>
+				<pre>ShellExecute(this-&gt;m_hWnd,&quot;open&quot;,
+    &quot;c:\\abc.txt&quot;,&quot;&quot;,&quot;&quot;,SW_SHOW );</pre>
+				Q: <b><a name="如何打开一个网页">如何打开一个网页</a></b>？ 
+				<pre>ShellExecute(this-&gt;m_hWnd,&quot;open&quot;,
+    &quot;http://www.google.com&quot;,&quot;&quot;,&quot;&quot;, SW_SHOW );</pre>
+				Q: <b><a name="如何激活相关程序，发送EMAIL">如何激活相关程序，发送EMAIL</a></b>？ 
+				<pre>ShellExecute(this-&gt;m_hWnd,&quot;open&quot;,
+    &quot;mailto:nishinapp@yahoo.com&quot;,&quot;&quot;,&quot;&quot;, SW_SHOW );</pre>
+				Q: <b><a name="如何用系统打印机打印文档">如何用系统打印机打印文档</a></b>？ 
+				<pre>ShellExecute(this-&gt;m_hWnd,&quot;print&quot;,
+    &quot;c:\\abc.txt&quot;,&quot;&quot;,&quot;&quot;, SW_HIDE);</pre>
+				Q: <b><a name="如何用系统查找功能来查找指定文件">如何用系统查找功能来查找指定文件</a></b>？ 
+				<pre>ShellExecute(m_hWnd,&quot;find&quot;,&quot;d:\\nish&quot;,
+    NULL,NULL,SW_SHOW);</pre>
+				Q: <b><a name="如何启动一个程序，直到它运行结束">如何启动一个程序，直到它运行结束</a></b>？ 
+				<pre>SHELLEXECUTEINFO ShExecInfo = {0};
+ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+ShExecInfo.hwnd = NULL;
+ShExecInfo.lpVerb = NULL;
+ShExecInfo.lpFile = &quot;c:\\MyProgram.exe&quot;;		
+ShExecInfo.lpParameters = &quot;&quot;;	
+ShExecInfo.lpDirectory = NULL;
+ShExecInfo.nShow = SW_SHOW;
+ShExecInfo.hInstApp = NULL;	
+ShellExecuteEx(&amp;ShExecInfo);
+WaitForSingleObject(ShExecInfo.hProcess,INFINITE);</pre>
+				或： 
+				<pre>PROCESS_INFORMATION ProcessInfo; 
+STARTUPINFO StartupInfo; //This is an [in] parameter
+ZeroMemory(&amp;StartupInfo, sizeof(StartupInfo));
+StartupInfo.cb = sizeof StartupInfo ; //Only compulsory field
+if(CreateProcess(&quot;c:\\winnt\\notepad.exe&quot;, NULL, 
+    NULL,NULL,FALSE,0,NULL,
+    NULL,&amp;StartupInfo,&amp;ProcessInfo))
+{ 
+    WaitForSingleObject(ProcessInfo.hProcess,INFINITE);
+    CloseHandle(ProcessInfo.hThread);
+    CloseHandle(ProcessInfo.hProcess);
+}  
+else
+{
+    MessageBox(&quot;The process could not be started...&quot;);
+}
+</pre>
+				Q: <b><a name="如何显示文件或文件夹的属性">如何显示文件或文件夹的属性</a></b>？ 
+				<pre>SHELLEXECUTEINFO ShExecInfo ={0};
+ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+ShExecInfo.fMask = SEE_MASK_INVOKEIDLIST ;
+ShExecInfo.hwnd = NULL;
+ShExecInfo.lpVerb = &quot;properties&quot;;
+ShExecInfo.lpFile = &quot;c:\\&quot;; //can be a file as well
+ShExecInfo.lpParameters = &quot;&quot;; 
+ShExecInfo.lpDirectory = NULL;
+ShExecInfo.nShow = SW_SHOW;
+ShExecInfo.hInstApp = NULL; 
+ShellExecuteEx(&amp;ShExecInfo</pre>
+				</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>
+
+</body>
+
+</html>

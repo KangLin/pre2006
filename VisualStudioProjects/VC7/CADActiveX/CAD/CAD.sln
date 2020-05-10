@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CAD", "CAD\CAD.vcproj", "{BF71641A-E5C1-4EFF-A44D-C4B15A25F1F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF71641A-E5C1-4EFF-A44D-C4B15A25F1F5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BF71641A-E5C1-4EFF-A44D-C4B15A25F1F5}.Debug|Win32.Build.0 = Debug|Win32
+		{BF71641A-E5C1-4EFF-A44D-C4B15A25F1F5}.Release|Win32.ActiveCfg = Release|Win32
+		{BF71641A-E5C1-4EFF-A44D-C4B15A25F1F5}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

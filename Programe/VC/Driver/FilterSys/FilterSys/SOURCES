@@ -1,0 +1,14 @@
+TARGETNAME=FilterSys
+#TARGETPATH=$(BASEDIR)\lib  #以前的版本
+TARGETPATH=obj              #DDK 3790版本
+TARGETTYPE=DRIVER
+
+SOURCES = FilterSys.c        \
+		  Dispatch.c         \
+		  SupportRoute.c     \
+		  Array.c			 \
+		  DataSupport.c		 \
+		  Memory.c			 \
+		  HookProcess.c      \
+		  HookReg.c          \
+		  FilterSys.rc

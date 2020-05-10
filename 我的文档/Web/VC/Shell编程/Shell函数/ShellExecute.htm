@@ -1,0 +1,256 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>ShellExecute</title>
+</head>
+
+<body>
+
+<blockquote class="body">
+	<h1 align="center"><span style="font-weight: 400"><font size="2">康&nbsp; 林</font></span></h1>
+	<h1>ShellExecute</h1>
+	<br clear="all">
+	<a href="../index.htm#ShellExecute的使用">例子</a><pre>HINSTANCE ShellExecute(
+    HWND hwnd, 
+    LPCTSTR lpOperation,
+    LPCTSTR lpFile, 
+    LPCTSTR lpParameters, 
+    LPCTSTR lpDirectory,
+    INT nShowCmd
+);	
+</pre>
+	<p>Opens or prints a specified file. </p>
+	<ul>
+		<li>Returns a value greater than 32 if successful, or an error value 
+		that is less than or equal to 32 otherwise. The following table lists 
+		the error values. The return value is cast as an HINSTANCE for backward 
+		compatibility with 16-bit Windows applications. 
+		<table>
+			<tr>
+				<td>0 </td>
+				<td>The operating system is out of memory or resources.</td>
+			</tr>
+			<tr>
+				<td>ERROR_FILE_NOT_FOUND </td>
+				<td>The specified file was not found.</td>
+			</tr>
+			<tr>
+				<td>ERROR_PATH_NOT_FOUND </td>
+				<td>The specified path was not found.</td>
+			</tr>
+			<tr>
+				<td>ERROR_BAD_FORMAT </td>
+				<td>The .exe file is invalid (non-Win32&reg; .exe or error in .exe 
+				image).</td>
+			</tr>
+			<tr>
+				<td>SE_ERR_ACCESSDENIED </td>
+				<td>The operating system denied access to the specified file. 
+				</td>
+			</tr>
+			<tr>
+				<td>SE_ERR_ASSOCINCOMPLETE </td>
+				<td>The file name association is incomplete or invalid.</td>
+			</tr>
+			<tr>
+				<td>SE_ERR_DDEBUSY </td>
+				<td>The DDE transaction could not be completed because other DDE 
+				transactions were being processed.</td>
+			</tr>
+			<tr>
+				<td>SE_ERR_DDEFAIL </td>
+				<td>The DDE transaction failed.</td>
+			</tr>
+			<tr>
+				<td>SE_ERR_DDETIMEOUT </td>
+				<td>The DDE transaction could not be completed because the 
+				request timed out.</td>
+			</tr>
+			<tr>
+				<td>SE_ERR_DLLNOTFOUND </td>
+				<td>The specified dynamic-link library was not found. </td>
+			</tr>
+			<tr>
+				<td>SE_ERR_FNF </td>
+				<td>The specified file was not found. </td>
+			</tr>
+			<tr>
+				<td>SE_ERR_NOASSOC </td>
+				<td>There is no application associated with the given file name 
+				extension.</td>
+			</tr>
+			<tr>
+				<td>SE_ERR_OOM </td>
+				<td>There was not enough memory to complete the operation.</td>
+			</tr>
+			<tr>
+				<td>SE_ERR_PNF </td>
+				<td>The specified path was not found.</td>
+			</tr>
+			<tr>
+				<td>SE_ERR_SHARE </td>
+				<td>A sharing violation occurred.</td>
+			</tr>
+		</table>
+		</li>
+	</ul>
+	<dl>
+		<dt><i>hwnd</i> </dt>
+		<dd>父窗口的句柄。这个窗口能接收应用程序产生的任何消息框（message 
+		boxes）。例如，一个应用程序能报告一个正在产生消息框架的错误。（ For example, an application may 
+		report an error by producing a message box. ）</dd>
+		<dt><i>lpOperation</i> </dt>
+		<dd>指定这个操作执行方式的字符串指针。它能取下面值之一： 
+		<table>
+			<tr>
+				<td>&quot;open&quot; </td>
+				<td>这个函数能打开由参数 <i>lpFile </i>指定的文件。这个文件可以是可执行文件、文档文件、或者是一个文件夹。</td>
+			</tr>
+			<tr>
+				<td>&quot;print&quot; </td>
+				<td>这个函数打印由参数 <i>lpFile</i> 
+				指定的文件。这个文件应该是一个文档文件。如果这个文件是可执行文件，那么，这个函数将打开它，就象指定 &quot;open&quot; 方式一样。</td>
+			</tr>
+			<tr>
+				<td>&quot;explore&quot; </td>
+				<td>这个函数能浏览参数 <i>lpFile</i> 指定的文件夹。</td>
+			</tr>
+			<tr>
+				<td>&quot;find&quot;</td>
+				<td>用系统查找功能来查找指定文件(<a href="../index.htm#用系统查找功能来查找指定文件">例子</a>)</td>
+			</tr>
+		</table>
+		<p>　</dd>
+		<dt>&nbsp;&nbsp;&nbsp;&nbsp; 这个参数能用NULL,也就是说,这个函数将用参数 <i>lpFile</i> 
+		指定的文件打开它。</dt>
+		<dt><i>lpFile</i> </dt>
+		<dd>指定一个要打开、打印的文件或浏览的文件夹字符串的指针。这个函数能执行一个可执行文件或打印一个文档文件。 
+		</dd>
+		<dt><i>lpParameters</i> </dt>
+		<dd>如果参数 <i>lpFile</i> 是一个可执行文件，那么参数 <i>lpParameters</i> 
+		是一个传给应用程序的指定参数字符串的指针。如果参数 <i>lpFile</i> 是一个文档文件，那么此参数应为 NULL。 
+		</dd>
+		<dt><i>lpDirectory</i> </dt>
+		<dd>指向指定默认文件夹的字符串的指针。</dd>
+		<dt><i>nShowCmd</i> </dt>
+		<dd>如果参数 <i>lpFile</i> 是一个可执行文件， <i>nShowCmd</i> 
+		指示当这个应用程序打开后将如何显示。这个参数能取下列值之一： 
+		<table>
+			<tr>
+				<td>SW_HIDE </td>
+				<td>Hides the window and activates another window.</td>
+			</tr>
+			<tr>
+				<td>SW_MAXIMIZE </td>
+				<td>Maximizes the specified window.</td>
+			</tr>
+			<tr>
+				<td>SW_MINIMIZE </td>
+				<td>Minimizes the specified window and activates the next 
+				top-level window in the z-order.</td>
+			</tr>
+			<tr>
+				<td>SW_RESTORE </td>
+				<td>Activates and displays the window. If the window is 
+				minimized or maximized, Windows restores it to its original size 
+				and position. An application should specify this flag when 
+				restoring a minimized window.</td>
+			</tr>
+			<tr>
+				<td>SW_SHOW </td>
+				<td>Activates the window and displays it in its current size and 
+				position. 
+				</td>
+			</tr>
+			<tr>
+				<td>SW_SHOWDEFAULT </td>
+				<td>Sets the show state based on the SW_ flag specified in the
+				<object id="hhal_3" type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+					<param NAME="Width" VALUE="0">
+					<param NAME="Height" VALUE="0">
+					<param NAME="Command" VALUE="ALink">
+					<param NAME="Item1" VALUE>
+					<param NAME="Item2" VALUE="_">
+				</object>
+				<a href="JavaScript:hhal_3.Click()">STARTUPINFO</a> structure 
+				passed to the
+				<object id="hhal_4" type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+					<param NAME="Width" VALUE="0">
+					<param NAME="Height" VALUE="0">
+					<param NAME="Command" VALUE="ALink">
+					<param NAME="Item1" VALUE>
+					<param NAME="Item2" VALUE="_">
+				</object>
+				<a href="JavaScript:hhal_4.Click()">CreateProcess</a> function 
+				by the program that started the application. An application 
+				should call
+				<object id="hhal_5" type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+					<param NAME="Width" VALUE="0">
+					<param NAME="Height" VALUE="0">
+					<param NAME="Command" VALUE="ALink">
+					<param NAME="Item1" VALUE>
+					<param NAME="Item2" VALUE="_">
+				</object>
+				<a href="JavaScript:hhal_5.Click()">ShowWindow</a> with this 
+				flag to set the initial show state of its main window.</td>
+			</tr>
+			<tr>
+				<td>SW_SHOWMAXIMIZED </td>
+				<td>Activates the window and displays it as a maximized window.</td>
+			</tr>
+			<tr>
+				<td>SW_SHOWMINIMIZED </td>
+				<td>Activates the window and displays it as a minimized window.</td>
+			</tr>
+			<tr>
+				<td>SW_SHOWMINNOACTIVE </td>
+				<td>Displays the window as a minimized window. The active window 
+				remains active.</td>
+			</tr>
+			<tr>
+				<td>SW_SHOWNA </td>
+				<td>Displays the window in its current state. The active window 
+				remains active.</td>
+			</tr>
+			<tr>
+				<td>SW_SHOWNOACTIVATE </td>
+				<td>Displays a window in its most recent size and position. The 
+				active window remains active.</td>
+			</tr>
+			<tr>
+				<td>SW_SHOWNORMAL </td>
+				<td>Activates and displays a window. If the window is minimized 
+				or maximized, Windows restores it to its original size and 
+				position. An application should specify this flag when 
+				displaying the window for the first time.</td>
+			</tr>
+		</table>
+		<p>If <i>lpFile</i> specifies a document file, <i>nShowCmd</i> should be 
+		zero. </dd>
+	</dl>
+	<p>You can use this function to open or explore a shell folder. To open a 
+	folder, use either of the following calls: </p>
+	<pre>ShellExecute(handle, NULL, path_to_folder, NULL, NULL, SW_SHOWNORMAL);
+</pre>
+	<p>or </p>
+	<pre>ShellExecute(handle, &quot;open&quot;, path_to_folder, NULL, NULL, SW_SHOWNORMAL);
+</pre>
+	<p>To explore a folder, use the following call: </p>
+	<pre>ShellExecute(handle, &quot;explore&quot;, path_to_folder, NULL, NULL, SW_SHOWNORMAL);
+</pre>
+	<p>If <i>lpOperation</i> is NULL, the function opens the file specified by
+	<i>lpFile</i>. If <i>lpOperation</i> is &quot;open&quot; or &quot;explore&quot;, the function 
+	will attempt to open or explore the folder. </p>
+	<p>To obtain information about the application that is launched as a result 
+	of calling <b>ShellExecute</b>, use
+	<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/ShellExecuteEx.htm#ShellExecuteEx">
+	ShellExecuteEx</a>. <!-- *************************************************************************** --><!--CONTENTS_END --><!-- START PAGE FOOTER -->
+	</p>
+	<p>　</p>
+</blockquote>
+
+</body>
+
+</html>

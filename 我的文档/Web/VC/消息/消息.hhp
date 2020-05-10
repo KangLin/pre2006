@@ -1,0 +1,16 @@
+[OPTIONS]
+Auto Index=Yes
+Compatibility=1.1
+Compiled file=..\..\..\chm\消息.chm
+Contents file=Table of Contents.hhc
+Default Window=window
+Default topic=消息宏.htm
+Display compile progress=No
+Full-text search=Yes
+Index file=Index.hhk
+Language=0x804 中文(中国)
+Title=消息
+
+[WINDOWS]
+window="消息","Table of Contents.hhc","Index.hhk","消息宏.htm","消息宏.htm",,,,,0x3420,,0x387e,,0x900b0000,0x480,,0,,,
+

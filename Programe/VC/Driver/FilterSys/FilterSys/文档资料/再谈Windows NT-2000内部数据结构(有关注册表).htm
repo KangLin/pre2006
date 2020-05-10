@@ -1,0 +1,449 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0061)http://www.nsfocus.net/index.php?act=magazine&do=view&mid=518 -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>绿盟科技--www.nsfocus.com--绿盟月刊</TITLE><LINK 
+href="再谈Windows NT-2000内部数据结构(有关注册表).files/main.css" type=text/css 
+rel=stylesheet>
+<SCRIPT type=text/javascript>
+	var topLeftMenuNum = 4;
+	var currentTopLeftMenu = 0;
+	var currentTopSonLeftMenu = -1;
+	var startID = 4;
+</SCRIPT>
+
+<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+<META content=安全产品,防火墙,入侵检测,物理隔离,路由器,VPN设备,反垃圾产品,网络防毒,安全监控过滤,可信计算 
+name=description>
+<META content=安全产品频道，最全面的业界安全产品,防火墙,入侵检测,物理隔离,路由器,VPN设备,反垃圾产品,网络防毒,安全监控过滤,可信计算 
+name=keywords>
+<SCRIPT src="再谈Windows NT-2000内部数据结构(有关注册表).files/topMenu.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="再谈Windows NT-2000内部数据结构(有关注册表).files/leftMenu.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT type=text/javascript>
+function initMain () {
+	InitMenu ();
+	InitLeftMenu(); 
+}
+</SCRIPT>
+<LINK href="再谈Windows NT-2000内部数据结构(有关注册表).files/main.css" type=text/css 
+rel=stylesheet><LINK href="再谈Windows NT-2000内部数据结构(有关注册表).files/botton.css" 
+type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2800.1555" name=GENERATOR></HEAD>
+<BODY topMargin=0 onload=initMain()><A name=go_top></A>
+<TABLE height=59 cellSpacing=0 cellPadding=0 width=780 align=center 
+background="再谈Windows NT-2000内部数据结构(有关注册表).files/top_bg.gif" border=0>
+  <TBODY>
+  <TR height=59>
+    <TD vAlign=top width=183><A href="http://www.nsfocus.com/"><IMG height=59 
+      alt="Logo of NSFOCUS" src="再谈Windows NT-2000内部数据结构(有关注册表).files/logo.gif" 
+      width=183 border=0></A> </TD>
+    <TD vAlign=top width=46>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD colSpan=3 height=5></TD></TR>
+        <TR>
+          <TD><A href="http://www.nsfocus.com/en/"><IMG height=11 
+            alt="English Version" 
+            src="再谈Windows NT-2000内部数据结构(有关注册表).files/en_off.gif" width=21 
+            border=0></A></TD>
+          <TD width=1></TD>
+          <TD><A href="http://www.nsfocus.com/"><IMG height=11 
+            alt="Chinese Version" 
+            src="再谈Windows NT-2000内部数据结构(有关注册表).files/cn_on.gif" width=21 
+            border=0></A></TD></TR></TBODY></TABLE></TD>
+    <TD width=551>
+      <TABLE height=59 cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD width=325></TD>
+          <TD vAlign=center>
+            <TABLE class=border_white cellSpacing=0 cellPadding=0 
+            bgColor=#f2f2f2 border=0>
+              <FORM action=/search.php method=get>
+              <TBODY>
+              <TR>
+                <TD><IMG height=23 
+                  src="再谈Windows NT-2000内部数据结构(有关注册表).files/search_txt.gif" 
+                  width=38></TD>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD height=2></TD></TR>
+                    <TR>
+                      <TD><INPUT class=normal name=q></TD></TR>
+                    <TR>
+                      <TD height=2></TD></TR></TBODY></TABLE></TD>
+                <TD><LABEL><INPUT class=button_search type=submit value="  " name=s> 
+                  </LABEL></TD></TR></FORM></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE height=2 cellSpacing=0 cellPadding=0 width=780 align=center border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top width=183 height=2><IMG height=2 
+      src="再谈Windows NT-2000内部数据结构(有关注册表).files/top_dash_left.gif" width=183 
+      border=0></TD>
+    <TD vAlign=top width=597 
+    background="再谈Windows NT-2000内部数据结构(有关注册表).files/top_dash_right.gif" 
+    height=2></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=780 align=center border=0>
+  <TBODY>
+  <TR>
+    <TD class=navtd><A href="http://www.nsfocus.com/"><IMG id=menu0 
+      onclick=returnMain(); height=23 
+      src="再谈Windows NT-2000内部数据结构(有关注册表).files/topNav_left_bg.gif" width=183 
+      border=0></A> </TD>
+    <TD class=navtd><A 
+      onmouseover="document.menu1.src='/images/top_nav/topNav_1_on.gif'" 
+      onclick="navchange('/images/top_nav/topNav_1_on.gif','menu1');" 
+      onmouseout="checkChange('/images/top_nav/topNav_1_off.gif','menu1')" 
+      href="http://www.nsfocus.com/1_solution/"><IMG id=menu1/ height=23 
+      alt=产品与解决方案 src="再谈Windows NT-2000内部数据结构(有关注册表).files/topNav_1_off.gif" 
+      width=128 border=0 name=menu1></A> </TD>
+    <TD class=navtd><A 
+      onmouseover="document.menu2.src='/images/top_nav/topNav_2_on.gif'" 
+      onclick="navchange('/images/top_nav/topNav_2_on.gif','menu2');" 
+      onmouseout="checkChange('/images/top_nav/topNav_2_off.gif','menu2')" 
+      href="http://www.nsfocus.com/2_services/"><IMG id=menu2/ height=23 
+      alt=专业服务 src="再谈Windows NT-2000内部数据结构(有关注册表).files/topNav_2_off.gif" 
+      width=92 border=0 name=menu2></A> </TD>
+    <TD class=navtd><A 
+      onmouseover="document.menu3.src='/images/top_nav/topNav_3_on.gif'" 
+      onclick="navchange('/images/top_nav/topNav_3_on.gif','menu3');" 
+      onmouseout="checkChange('/images/top_nav/topNav_3_off.gif','menu3')" 
+      href="http://www.nsfocus.com/3_support/"><IMG id=menu3/ height=23 alt=客户支持 
+      src="再谈Windows NT-2000内部数据结构(有关注册表).files/topNav_3_off.gif" width=92 
+      border=0 name=menu3></A> </TD>
+    <TD class=navtd><A 
+      onmouseover="document.menu4.src='/images/top_nav/topNav_4_on.gif'" 
+      onclick="navchange('/images/top_nav/topNav_4_on.gif','menu4');" 
+      onmouseout="checkChange('/images/top_nav/topNav_4_off.gif','menu4')" 
+      href="http://www.nsfocus.net/"><IMG id=menu4/ height=23 alt=安全研究 
+      src="再谈Windows NT-2000内部数据结构(有关注册表).files/topNav_4_off.gif" width=91 
+      border=0 name=menu4></A> </TD>
+    <TD class=navtd><A 
+      onmouseover="document.menu5.src='/images/top_nav/topNav_5_on.gif'" 
+      onclick="navchange('/images/top_nav/topNav_5_on.gif','menu5');" 
+      onmouseout="checkChange('/images/top_nav/topNav_5_off.gif','menu5')" 
+      href="http://www.nsfocus.com/5_careers/"><IMG id=menu5/ height=23 alt=工作机会 
+      src="再谈Windows NT-2000内部数据结构(有关注册表).files/topNav_5_off.gif" width=92 
+      border=0 name=menu5></A> </TD>
+    <TD class=navtd><A 
+      onmouseover="document.menu6.src='/images/top_nav/topNav_6_on.gif'" 
+      onclick="navchange('/images/top_nav/topNav_6_on.gif','menu6');" 
+      onmouseout="checkChange('/images/top_nav/topNav_6_off.gif','menu6')" 
+      href="http://www.nsfocus.com/6_about/"><IMG id=menu6/ height=23 alt=关于我们 
+      src="再谈Windows NT-2000内部数据结构(有关注册表).files/topNav_6_off.gif" width=91 
+      border=0 name=menu6></A> </TD>
+    <TD class=navtd><IMG height=23 
+      src="再谈Windows NT-2000内部数据结构(有关注册表).files/topNav_right_bg.gif" width=11 
+      border=0></TD></TR></TBODY></TABLE><!--中间部分-->
+<TABLE cellSpacing=0 cellPadding=0 width=780 align=center border=0>
+  <TBODY>
+  <TR>
+    <TD height=1></TD></TR></TBODY></TABLE>
+<TABLE height="100%" cellSpacing=0 cellPadding=0 width=780 align=center 
+border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top width=184 bgColor=#eaebeb height="100%">
+      <TABLE cellSpacing=0 cellPadding=0 width=184 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 width=184 border=0>
+              <TBODY>
+              <TR>
+                <TD height=25><IMG 
+                  src="再谈Windows NT-2000内部数据结构(有关注册表).files/left_03.gif"></TD></TR><!--菜单1-->
+              <TR style="CURSOR: pointer" 
+              onclick="FirstLeftMenu('LeftMenu_1', 'LeftMenu_1_son', 'http://www.nsfocus.net/index.php?act=sec_bug')">
+                <TD class=leftLeftMenuText id=LeftMenu_1 align=left 
+                background="再谈Windows NT-2000内部数据结构(有关注册表).files/left_12.gif" 
+                height=24><A style="MARGIN-LEFT: 15px" 
+                  href="http://www.nsfocus.net/index.php?act=sec_bug">安全漏洞</A></TD></TR>
+              <TR id=LeftMenu_1_son style="DISPLAY: none; CURSOR: pointer"></TR><!--菜单1END--><!--菜单2-->
+              <TR style="CURSOR: pointer" 
+              onclick="FirstLeftMenu('LeftMenu_2', 'LeftMenu_2_son', 'http://www.nsfocus.net/index.php?act=sec_news')">
+                <TD class=leftLeftMenuText id=LeftMenu_2 align=left 
+                background="再谈Windows NT-2000内部数据结构(有关注册表).files/left_12.gif" 
+                height=24><A style="MARGIN-LEFT: 15px" 
+                  href="http://www.nsfocus.net/index.php?act=sec_news">业界动态</A></TD></TR>
+              <TR id=LeftMenu_2_son style="DISPLAY: none; CURSOR: pointer"></TR><!--菜单2END--><!--菜单3-->
+              <TR style="CURSOR: pointer" 
+              onclick="FirstLeftMenu('LeftMenu_3', 'LeftMenu_3_son', 'http://www.nsfocus.net/index.php?act=alert')">
+                <TD class=leftLeftMenuText id=LeftMenu_3 align=left 
+                background="再谈Windows NT-2000内部数据结构(有关注册表).files/left_12.gif" 
+                height=24><A style="MARGIN-LEFT: 15px" 
+                  href="http://www.nsfocus.net/index.php?act=alert">紧急通告</A></TD></TR>
+              <TR id=LeftMenu_3_son style="DISPLAY: none; CURSOR: pointer"></TR><!--菜单3END--><!--菜单4-->
+              <TR style="CURSOR: pointer" 
+              onclick="FirstLeftMenu('LeftMenu_4', 'LeftMenu_4_son', 'http://www.nsfocus.net/index.php?act=advisory')">
+                <TD class=leftLeftMenuText id=LeftMenu_4 align=left 
+                background="再谈Windows NT-2000内部数据结构(有关注册表).files/left_12.gif" 
+                height=24><A style="MARGIN-LEFT: 15px" 
+                  href="http://www.nsfocus.net/index.php?act=advisory">研究成果</A></TD></TR>
+              <TR id=LeftMenu_4_son style="DISPLAY: none; CURSOR: pointer"></TR><!--菜单4END--><!--菜单5-->
+              <TR style="CURSOR: pointer" 
+              onclick="FirstLeftMenu('LeftMenu_5', 'LeftMenu_5_son', 'http://www.nsfocus.com/4_research/4_5.html')">
+                <TD class=leftLeftMenuText id=LeftMenu_5 align=left 
+                background="再谈Windows NT-2000内部数据结构(有关注册表).files/left_12.gif" 
+                height=24><A style="MARGIN-LEFT: 15px" 
+                  href="http://www.nsfocus.com/4_research/4_5.html">研究机构</A></TD></TR>
+              <TR id=LeftMenu_5_son style="DISPLAY: none; CURSOR: pointer"></TR><!--菜单5END--></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD bgColor=#ffffff height=1></TD></TR></TBODY></TABLE></TD><!--End-->
+    <TD vAlign=top><!--右边正文-->
+      <TABLE height="100%" cellSpacing=0 cellPadding=0 width=596 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=596><!-- Magazine Name -->
+            <TABLE cellSpacing=0 cellPadding=0 width=596 border=0>
+              <TBODY>
+              <TR>
+                <TD height=10><IMG 
+                  src="再谈Windows NT-2000内部数据结构(有关注册表).files/top_nav_shadow.gif"></TD></TR>
+              <TR>
+                <TD><IMG style="MARGIN-LEFT: 8px" height=47 
+                  src="再谈Windows NT-2000内部数据结构(有关注册表).files/4_5_pic_1.gif" 
+                  width=171></TD></TR>
+              <TR>
+                <TD style="PADDING-LEFT: 8px">
+                  <TABLE width="100%" align=center border=0>
+                    <TBODY>
+                    <TR>
+                      <TD bgColor=#c3d7da height=1></TD></TR>
+                    <TR>
+                      <TD>&nbsp;</TD></TR>
+                    <TR>
+                      <TD style="PADDING-LEFT: 20px"><SPAN 
+                        class=mag_name>绿盟安全月刊-&gt;<A 
+                        href="http://www.nsfocus.net/index.php?act=magazine&amp;do=one&amp;periodical=11">第11期</A>-&gt;<A 
+                        href="http://www.nsfocus.net/index.php?act=magazine&amp;do=search&amp;periodical=11&amp;kind_id=4">技术专题</A></SPAN></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><!-- Magazine Search Form -->
+            <TABLE cellSpacing=0 cellPadding=0 width=596 border=0>
+              <TBODY>
+              <TR align=middle>
+                <TD>
+                  <FORM action=index.php>期刊号： <SELECT name=periodical> <OPTION 
+                    value="" selected>--全部--</OPTION><OPTION 
+                    value=57>第57期</OPTION><OPTION value=56>第56期</OPTION><OPTION 
+                    value=55>第55期</OPTION><OPTION value=54>第54期</OPTION><OPTION 
+                    value=53>第53期</OPTION><OPTION value=52>第52期</OPTION><OPTION 
+                    value=51>第51期</OPTION><OPTION value=50>第50期</OPTION><OPTION 
+                    value=49>第49期</OPTION><OPTION value=48>第48期</OPTION><OPTION 
+                    value=47>第47期</OPTION><OPTION value=46>第46期</OPTION><OPTION 
+                    value=45>第45期</OPTION><OPTION value=44>第44期</OPTION><OPTION 
+                    value=43>第43期</OPTION><OPTION value=42>第42期</OPTION><OPTION 
+                    value=41>第41期</OPTION><OPTION value=40>第40期</OPTION><OPTION 
+                    value=39>第39期</OPTION><OPTION value=38>第38期</OPTION><OPTION 
+                    value=37>第37期</OPTION><OPTION value=36>第36期</OPTION><OPTION 
+                    value=35>第35期</OPTION><OPTION value=34>第34期</OPTION><OPTION 
+                    value=33>第33期</OPTION><OPTION value=32>第32期</OPTION><OPTION 
+                    value=31>第31期</OPTION><OPTION value=30>第30期</OPTION><OPTION 
+                    value=29>第29期</OPTION><OPTION value=28>第28期</OPTION><OPTION 
+                    value=27>第27期</OPTION><OPTION value=26>第26期</OPTION><OPTION 
+                    value=25>第25期</OPTION><OPTION value=24>第24期</OPTION><OPTION 
+                    value=23>第23期</OPTION><OPTION value=22>第22期</OPTION><OPTION 
+                    value=21>第21期</OPTION><OPTION value=20>第20期</OPTION><OPTION 
+                    value=19>第19期</OPTION><OPTION value=18>第18期</OPTION><OPTION 
+                    value=17>第17期</OPTION><OPTION value=16>第16期</OPTION><OPTION 
+                    value=15>第15期</OPTION><OPTION value=14>第14期</OPTION><OPTION 
+                    value=13>第13期</OPTION><OPTION value=12>第12期</OPTION><OPTION 
+                    value=11>第11期</OPTION><OPTION value=10>第10期</OPTION><OPTION 
+                    value=9>第9期</OPTION><OPTION value=8>第8期</OPTION><OPTION 
+                    value=7>第7期</OPTION><OPTION value=6>第6期</OPTION><OPTION 
+                    value=5>第5期</OPTION><OPTION value=4>第4期</OPTION><OPTION 
+                    value=3>第3期</OPTION><OPTION value=2>第2期</OPTION><OPTION 
+                    value=1>第1期</OPTION></SELECT> 类型： <SELECT name=kind_id> 
+                    <OPTION value="" selected>--全部--</OPTION><OPTION 
+                    value=1>业界动态</OPTION><OPTION value=2>安全新闻</OPTION><OPTION 
+                    value=3>最新漏洞</OPTION><OPTION value=4>技术专题</OPTION><OPTION 
+                    value=5>工具介绍</OPTION><OPTION value=6>安全文摘</OPTION><OPTION 
+                    value=7>专题报道</OPTION><OPTION value=8>安全资源</OPTION></SELECT> 
+                  关键词： <INPUT size=10 name=keyword> <INPUT type=hidden 
+                  value=magazine name=act> <INPUT type=hidden value=search 
+                  name=do> <INPUT type=submit value=查询> 
+            </FORM></TD></TR></TBODY></TABLE><!-- Magazine Body --><!--<hr noshade width="98%">-->
+            <TABLE cellSpacing=0 cellPadding=0 width=596 border=0>
+              <TBODY>
+              <TR>
+                <TD class=mag_body style="PADDING-LEFT: 20px"><B>再谈Windows 
+                  NT/2000内部数据结构</B><BR><BR>作者：WebCrazy(tsu00@263.net)<BR>日期：2000-07-11<BR><BR>现在我们结合Regmon(www.sysinternals.com)在NT中的实现方法再来谈谈Windows 
+                  NT/2000内部数据结构。<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;Regmon是监视应用程序访问系统注册表的实用程序。大家都知道在应用程序中使用注册表一般都调用WinAPI 
+                  Regxxx，而Regxxx最终会调用Native API Zwxxx!(参阅Windows NT/2000 DDK 
+                  Documentation)。Regmon正是通过改变这些例程以达到监视注册表的目的。Zwxxx的实现方式如下：<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;mov 
+                  eax, 
+                  ServiceId&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;lea 
+                  edx, ParameterTable<BR>&nbsp;&nbsp;&nbsp;&nbsp;int 
+                  2eh<BR>&nbsp;&nbsp;&nbsp;&nbsp;ret 
+                  ParamTableBytes<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;这就是所说的NT System 
+                  Services，是不是与Linux有点相似(只不过Linux使用的是80h中断而已，它也有ServiceID，如fork系统调用ServiceID为2)。<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;System 
+                  Services在DDK 
+                  Documentation是如下定义的：<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The 
+                  set of native, user-mode routines exported by the executive 
+                  for use only by protected subsystems. Each 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system 
+                  service has a name of the form TwoLettersXxxYyy where: 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TwoLetters is the 
+                  prefix for all system services. 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Xxx is 
+                  usually a verb, describing the operation of a given service. 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Yyy is generally 
+                  the object type the service operates on. 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;System 
+                  Services在系统中由两部分组成，一部分由win32k.sys导出，另一部分由ntoskrnl.exe提供服务。前者主要完成NT中win32、Posix与Os/2等子系统(subsystems)与内核的通信，仅能由用户态的应用程序调用，如user32!WaitMessage等。由于Regmon只涉及后者，所以本文将对其进行讨论，以下所有关于System 
+                  Service的讨论均适合两者!<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;上次(Nsfocus 
+                  Magazine 
+                  10)我曾经提及KeServiceDescriptorTable，也说过它的结构如下:<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;struct 
+                  _ServiceDescriptorEntry {<BR>&nbsp;&nbsp;&nbsp;&nbsp;unsigned 
+                  int *ServiceTableBase;<BR>&nbsp;&nbsp;&nbsp;&nbsp;unsigned int 
+                  *ServiceCounterTableBase;<BR>&nbsp;&nbsp;&nbsp;&nbsp;unsigned 
+                  int NumberOfServices;<BR>&nbsp;&nbsp;&nbsp;&nbsp;unsigned char 
+                  *ParamTableBase;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}ServiceDescriptorTableEntry<BR>&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;ntoskrnl.exe导出全局变量KeServiceDescriptorTable指向ServiceDescriptorTableEntry(由win32k.sys导出的System 
+                  Services也有自己的ServiceDescriptorTable，在Win2000 Server中其Service 
+                  ID从1000h始，由KeServiceDescriptorTable以下偏移50h处指向，其结构与ntosrknl.exe导出的基本一致，本文不作讨论，SoftICE中的ntcall命令在特定情况下可以列出所有的System 
+                  Service)。<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;下面我们先用SoftICE 4.05 
+                  For Windows NT/2000来分析分析x86平台Windows 2000 Server Build 
+                  2195的情况(以下仅摘录部分，不同版本不同时刻可能得到的数据未必一样)<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;:dd 
+                  KeServiceDescriptorTable l 
+                  4*4<BR>&nbsp;&nbsp;&nbsp;&nbsp;0008:8046AB80 
+                  804704D8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00000000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;000000F8&nbsp;&nbsp;804708BC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..G...........G.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ServiceTableBase值&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ParamTableBase值<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_似乎总为0&nbsp;&nbsp;|<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_KeServiceDescriptorTable地址&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_NumberOfService<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;:dd @KeServiceDescriptorTable l 
+                  byte(@(KeServiceDescriptorTable+08))*4<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+                  dd ServiceDescriptorTableEntry-&gt;ServiceTableBase l 
+                  NumberOfService*4<BR>&nbsp;&nbsp;&nbsp;&nbsp;0008:804704D8 
+                  804AB3BF&nbsp;&nbsp;804AE86B&nbsp;&nbsp;804BDEF3&nbsp;&nbsp;8050B034&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..J.k.J...K.4.P.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ServiceID=0的System 
+                  Service入口地址(依次类推)<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;0008:804704E8 
+                  804C11F4&nbsp;&nbsp;80459214&nbsp;&nbsp;8050C2FF&nbsp;&nbsp;8050C33F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..L...E...P.?.P.<BR>&nbsp;&nbsp;&nbsp;&nbsp;0008:804704F8 
+                  804B581C&nbsp;&nbsp;80508874&nbsp;&nbsp;8049860A&nbsp;&nbsp;804FC7E2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.XK.t.P...I...O.<BR>&nbsp;&nbsp;&nbsp;&nbsp;0008:80470508 
+                  804955F7&nbsp;&nbsp;8049C8A6&nbsp;&nbsp;80448472&nbsp;&nbsp;804A8D50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.UI...I.r.D.P.J.<BR>&nbsp;&nbsp;&nbsp;&nbsp;0008:80470518 
+                  804B6BFB&nbsp;&nbsp;804F0CEF&nbsp;&nbsp;804FCB95&nbsp;&nbsp;8040189A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.kK...O...O...@.<BR>&nbsp;&nbsp;&nbsp;&nbsp;0008:80470528 
+                  804D06CB&nbsp;&nbsp;80418F66&nbsp;&nbsp;804F69D4&nbsp;&nbsp;8049E0CC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;..M.f.A..iO...I.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...(略)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;:db 
+                  @(KeServiceDescriptorTable+0c) l 
+                  byte(@(KeServiceDescriptorTable+08))&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+                  dd 
+                  ServiceDescriptorTableEntry-&gt;ParamTableBase<BR>&nbsp;&nbsp;&nbsp;&nbsp;0008:804708BC 
+                  18 20 2C 2C 40 2C 40 44-0C 18 18 08 04 04 0C 10&nbsp;&nbsp;. 
+                  ,,@,@D........<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ServiceID=0的System 
+                  Service参数个数*4(即参数个数为18h/4=6)<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;0008:804708CC 
+                  18 08 08 0C 08 08 04 04-04 0C 04 20 08 0C 14 
+                  0C&nbsp;&nbsp;........... 
+                  ....<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...(略)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;要获得哪个应用程序对系统注册表有过操作，只要在对其有操作的System 
+                  Service中注入自己的代码，也就是改变这些System 
+                  Service的执行流程，先执行自己的代码(Regmon中用于记录供GUI部分使用)，接着返回至原先处继续执行即可。通过以上分析，我们知道只要修改ServiceTableBase到ServiceTableBase+NumberOfService*4范围的数据就可以改变System 
+                  Service的执行流程，而只要知道System Service的ServiceID就可以改变这一System 
+                  Service入口地址在这一区域的位置，那么又如何得到System Service的Service 
+                  ID呢!我们可以随便以ZwOpenKey作个例子:<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;:u 
+                  ZwOpenKey<BR>&nbsp;&nbsp;&nbsp;&nbsp;ntoskrnl!ZwOpenKey<BR>&nbsp;&nbsp;&nbsp;&nbsp;0008:80400E2A&nbsp;&nbsp;B867000000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MOV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EAX,00000067&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_ServiceID<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|_机器码(其中第二字节即ZwOpenKey线性地址加一处就是ServiceID)<BR>&nbsp;&nbsp;&nbsp;&nbsp;0008:80400E2F&nbsp;&nbsp;8D542404&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EDX,[ESP+04]<BR>&nbsp;&nbsp;&nbsp;&nbsp;0008:80400E33&nbsp;&nbsp;CD2E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2E<BR>&nbsp;&nbsp;&nbsp;&nbsp;0008:80400E35&nbsp;&nbsp;C20C00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;000C<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;这样只要知道Zwxxx例程名(即System 
+                  Service在内存中的线性地址)，是不是就可以实现我们的目的了呢?来看看Regmon的具体实现代码吧：<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+                  保存ZwOpenKey原先入口，在HookRegOpenKey中使用<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RealRegOpenKey 
+                  = SYSCALL( ZwOpenKey 
+                  );&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+                  修改ZwOpenKey流程，指向新的入口，即调用ZwOpenKey时转向执行HookRegOpenKey<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SYSCALL( 
+                  ZwOpenKey ) = (PVOID) 
+                  HookRegOpenKey;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;SYSCALL在intel平台是如下定义的:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#define 
+                  SYSCALL(_function)&nbsp;&nbsp;ServiceTable-&gt;ServiceTable[ 
+                  *(PULONG)((PUCHAR)_function+1)]&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;ServiceTable-&gt;ServiceTable就是我们上面所述的 
+                  ServiceDescriptorTableEntry-&gt;ServiceTableBase(为了便于描述)。_function+1即ServiceID所在地址。整个表达式即取得_function对应的System 
+                  Service的入口地址在线性内存中的位置。其它定义请参阅Regsys.c与Regsys.h!<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;可以使用SoftICE对比一下Regsys.sys装载前后ServiceTable中System 
+                  Service入口地址的变化，加深对System 
+                  Service拦截的理解.<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;好了现在我们知道Regmon的基本实现方法了(当然真正要实现此功能还要考虑很多问题，如保护态应用程序与内核驱动程序之间的通信、线程同步等等)。<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;让我们再来看看KeServiceDescriptorTable的另一个应用吧!如果我们重新分配段内存池,构造自己的ServiceTable与ParamTable数组(必须复制系统原有的System 
+                  Services，否则...)，然后修改结构中ServiceTableBase与ParamTableBase，使其指向自己的ServiceTable与ParamTable，再修改一下NumberOfServices，是不是可以增加自个儿的System 
+                  Service呢!如果你有兴趣的话可以参阅&lt;&lt;Undocumented 
+                  NT&gt;&gt;。这书我也没见过,只知道网上它名声在外。哦，还要感谢James 
+                  Shatlyk给我提供随书配套例子代码。如果您见过此书(不知道有没有Chinese 
+                  版,E文也可)，能不能与我联系联系?<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;谈完System 
+                  Service后，再让我们来看看Regmon是如何在Driver中取得系统进程名的。<BR>&nbsp;&nbsp;&nbsp;&nbsp;首先谈谈KTEB(Kernel 
+                  Thread Environment Block)与KPEB(Kernel Process Environment 
+                  Block)，与TEB(其实应该是User-TEB)一样，KPEB/KTEB则纪录着系统内核进程/线程信息。要了解KTEB、KPEB，首先要知道如何得到当前进程/线程中它们的基址，可以先看看Native 
+                  API IoGetCurrentProcess。在Windows 2000 DDK 
+                  Document中它是如下定义的：<BR>&nbsp;&nbsp;&nbsp;&nbsp;PEPROCESS 
+                  IoGetCurrentProcess();<BR>&nbsp;&nbsp;&nbsp;&nbsp;使用IDA 
+                  Pro或SoftICE，可知其在ntoskrnl.exe仅是由几条汇编指令实现的：<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mov&nbsp;&nbsp;eax,fs:[00000124]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mov&nbsp;&nbsp;eax,[eax+00000044]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//NT 
+                  4.0以下这个值应为[eax+40]<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ret<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;这个Native 
+                  API很有典型性，它的第一条指令取得当前线程的KTEB,而整个API刚好将相对于KTEB始68(即16进制44)字节处取得当前进程的KPEB返回给使用者。你可以使用SoftICE验证一下。<BR>&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;让我们再来看看其具体是如何实现的：<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;//----------------------------------------------------------------------<BR>&nbsp;&nbsp;&nbsp;&nbsp;//<BR>&nbsp;&nbsp;&nbsp;&nbsp;// 
+                  GetProcessNameOffset<BR>&nbsp;&nbsp;&nbsp;&nbsp;//<BR>&nbsp;&nbsp;&nbsp;&nbsp;// 
+                  In an effort to remain version-independent, rather than using 
+                  a<BR>&nbsp;&nbsp;&nbsp;&nbsp;// hard-coded into the KPEB 
+                  (Kernel Process Environment Block), 
+                  we<BR>&nbsp;&nbsp;&nbsp;&nbsp;// scan the KPEB looking for the 
+                  name, which should match that<BR>&nbsp;&nbsp;&nbsp;&nbsp;// of 
+                  the GUI 
+                  process<BR>&nbsp;&nbsp;&nbsp;&nbsp;//<BR>&nbsp;&nbsp;&nbsp;&nbsp;//----------------------------------------------------------------------<BR>&nbsp;&nbsp;&nbsp;&nbsp;ULONG 
+                  GetProcessNameOffset()<BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PEPROCESS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curproc;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DbgPrint(("GetProcessNameOffset\n"));<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curproc 
+                  = 
+                  PsGetCurrentProcess();<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+                  Scan for 12KB, hopping the KPEB never grows that 
+                  big!<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for( 
+                  i = 0; i &lt; 3*PAGE_SIZE; i++ ) 
+                  {<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( 
+                  !strncmp( SYSNAME, (PCHAR) curproc + i, strlen(SYSNAME) )) 
+                  {<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+                  i;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+                  Name not found - oh, 
+                  well<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+                  0;<BR>&nbsp;&nbsp;&nbsp;&nbsp;}<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;//----------------------------------------------------------------------<BR>&nbsp;&nbsp;&nbsp;&nbsp;//<BR>&nbsp;&nbsp;&nbsp;&nbsp;// 
+                  GetProcess<BR>&nbsp;&nbsp;&nbsp;&nbsp;//<BR>&nbsp;&nbsp;&nbsp;&nbsp;// 
+                  Uses undocumented data structure offsets to obtain the name of 
+                  the<BR>&nbsp;&nbsp;&nbsp;&nbsp;// currently executing 
+                  process.<BR>&nbsp;&nbsp;&nbsp;&nbsp;//<BR>&nbsp;&nbsp;&nbsp;&nbsp;//----------------------------------------------------------------------<BR>&nbsp;&nbsp;&nbsp;&nbsp;FILTERSTATUS 
+                  GetProcess( PCHAR Name 
+                  )<BR>&nbsp;&nbsp;&nbsp;&nbsp;{<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PEPROCESS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curproc;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*nameptr;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ULONG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i;<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+                  We only try and get the name if we located the name 
+                  offset<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( 
+                  ProcessNameOffset ) 
+                  {<BR>&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curproc 
+                  = 
+                  PsGetCurrentProcess();<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nameptr&nbsp;&nbsp;&nbsp;= 
+                  (PCHAR) curproc + 
+                  ProcessNameOffset;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strncpy( 
+                  Name, nameptr, 16 
+                  );<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} 
+                  else 
+                  {<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strcpy( 
+                  Name, 
+                  "???");<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.,<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;这段代码从Regmon中NT 
+                  Driver部分摘录，详细可参阅Regsys.c。<BR>&nbsp;&nbsp;&nbsp;&nbsp;这两函数主要功能是取得进程名称，供程序使用。大家都知道在Driver部分不能简单的调用WIN32 
+                  API，而NT执行体提供的NtQuerySystemInformation主要针对所有进程、线程或其他NT内部信息等，所以我们必须寻找其它方法(一般方法是跟踪相应的Win32 
+                  API用Debugger对其进行艰苦但充满挑战充满乐趣的逆向工程，然后找出其在NT执行体中的具体实现过程，你也可以使用此方法对本文所提及的进行验证)。<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;Regmon中这两个函数通过查找KPEB取得进程名，GetProcessNameOffset主要是调用PsGetCurrentProcess取得KPEB基址，然后搜索KPEB，得到ProcessName相对KPEB的偏移量，存放在全局变量ProcessNameOffset中。在NT/2000 
+                  DDK中如下定义PsGetCurrentProcess：<BR>&nbsp;&nbsp;&nbsp;&nbsp;#define 
+                  PsGetCurrentProcess() 
+                  IoGetCurrentProcess()&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;而IoGetCurrentProcess已经在前面讨论过了。<BR>&nbsp;&nbsp;&nbsp;&nbsp;作者在3页内存区域(x86中一页为4k)查找，从程序中注释可知他也不知道是否会超出此范围，还有程序段中SYSNAME被定义为system，因为调用Driver中DriverEntry入口正是由system进程调度(GetProcessNameOffset在DriverEntry中调用)。你也可以使用SoftICE查出特定Windows 
+                  NT/2000版本中ProcessNameOffset的值。在x86平台Windows 2000 Server Build 
+                  2195中它为1fch(NT 
+                  4.0与3.51中为1dch)，然后根据这个值找几个进程核对核对。<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;GetProcess将当前进程的KPEB基址加上ProcessNameOffset值取得当前进程(Regmon中即调用操作Registry的Native 
+                  API进程)的名称。<BR>&nbsp;&nbsp;&nbsp;&nbsp;<BR>　　至于KPEB/KTEB等的具体结构，各字节的具体含义，由于其所谓的Undocument，我查MSDN，到各新闻组，追踪NT内核，也没找到其中的一小部分，这也是我着手写此篇的用意，希望懂得的高手，朋友能互相交流交流，还有本文有误之处，还望您能指出并与我说说，谢谢!<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;参考资料：<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.Regmon 
+                  4.22源代码<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.Windows 2000 
+                  DDK Documentation </TD></TR>
+              <TR>
+                <TD 
+        align=middle>版权所有，未经许可，不得转载</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><!--End--></TD></TR></TBODY></TABLE><!--END-->
+<TABLE cellSpacing=0 cellPadding=0 width=780 align=center border=0>
+  <TBODY>
+  <TR>
+    <TD bgColor=#d1d9da colSpan=3 height=1></TD></TR>
+  <TR>
+    <TD vAlign=bottom width=183>
+      <TABLE cellSpacing=0 cellPadding=0 border=0>
+        <TBODY>
+        <TR>
+          <TD><A href="http://www.nsfocus.com/7_law/index.html"><IMG height=20 
+            alt=X src="再谈Windows NT-2000内部数据结构(有关注册表).files/footer_law.gif" 
+            width=54 border=0></A></TD>
+          <TD><IMG height=20 
+            src="再谈Windows NT-2000内部数据结构(有关注册表).files/footer_I.gif" width=7></TD>
+          <TD><A href="http://www.nsfocus.com/8_contact/index.html"><IMG 
+            height=20 
+            src="再谈Windows NT-2000内部数据结构(有关注册表).files/footer_contact.gif" 
+            width=55 border=0></A></TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=bottom width=298><IMG 
+      src="再谈Windows NT-2000内部数据结构(有关注册表).files/footer_copyright_cn.gif"></TD>
+    <TD vAlign=bottom align=right width=299><A 
+      href="http://www.miibeian.gov.cn/" target=_blank><IMG height=20 
+      src="再谈Windows NT-2000内部数据结构(有关注册表).files/footer_icp.gif" width=100 
+      border=0></A></TD></TR>
+  <TR>
+    <TD vAlign=bottom>&nbsp;</TD>
+    <TD vAlign=bottom>&nbsp;</TD>
+    <TD vAlign=bottom align=right>&nbsp;</TD></TR></TBODY></TABLE></BODY></HTML>

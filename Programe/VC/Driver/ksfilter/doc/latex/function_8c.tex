@@ -1,0 +1,198 @@
+\section{function.c文件参考}
+\label{function_8c}\index{function.c@{function.c}}
+{\tt \#include \char`\"{}sfilter.h\char`\"{}}\par
+
+
+function.c包含/依赖关系图：\subsection*{函数}
+\begin{CompactItemize}
+\item 
+NTSTATUS {\bf Volume\-Device\-To\-Dos\-Name} (IN PVOID Volume\-Device\-Object, OUT PUNICODE\_\-STRING Dos\-Name)
+\item 
+VOID {\bf Sf\-Read\-Driver\-Parameters} (IN PUNICODE\_\-STRING Registry\-Path)
+\item 
+NTSTATUS {\bf Sf\-Attach\-Device\-To\-Device\-Stack} (IN PDEVICE\_\-OBJECT Source\-Device, IN PDEVICE\_\-OBJECT Target\-Device, IN OUT PDEVICE\_\-OBJECT $\ast$Attached\-To\-Device\-Object)
+\item 
+NTSTATUS {\bf Sf\-Fs\-Control\-Completion} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp, IN PVOID Context)
+\item 
+NTSTATUS {\bf Set\-Completion\-Routine} (IN PDEVICE\_\-OBJECT Attached\-Device\-Object, IN PIRP Irp)
+\begin{CompactList}\small\item\em Set Completion Routine \item\end{CompactList}\item 
+NTSTATUS {\bf Sf\-Completion\-Routine} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp, IN PVOID Context)
+\item 
+NTSTATUS {\bf Sf\-Query\-File\-Information} (PDEVICE\_\-OBJECT Device\-Object, PFILE\_\-OBJECT File\-Object, FILE\_\-INFORMATION\_\-CLASS File\-Information\-Class, PVOID File\-Info, ULONG File\-Info\-Length)
+\begin{CompactList}\small\item\em 查询文件信息 \item\end{CompactList}\item 
+NTSTATUS {\bf Sf\-Query\-File\-Information\-Completed} (PDEVICE\_\-OBJECT Device\-Object, PIRP Irp, PVOID Context)
+\item 
+NTSTATUS {\bf Sf\-Query\-File\-Basic\-Information} (PDEVICE\_\-OBJECT Device\-Object, PFILE\_\-OBJECT File\-Object, PFILE\_\-BASIC\_\-INFORMATION File\-Basic\-Info)
+\begin{CompactList}\small\item\em 查询文件基本信息 \item\end{CompactList}\item 
+NTSTATUS {\bf Sf\-Query\-File\-Name} (PDEVICE\_\-OBJECT Device\-Object, PFILE\_\-OBJECT File\-Object, PFILE\_\-NAME\_\-INFORMATION p\-File\-Name, ULONG dw\-Len)
+\begin{CompactList}\small\item\em 得到文件名信息 \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{函数文档}
+\index{function.c@{function.c}!SetCompletionRoutine@{SetCompletionRoutine}}
+\index{SetCompletionRoutine@{SetCompletionRoutine}!function.c@{function.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Set\-Completion\-Routine (IN PDEVICE\_\-OBJECT {\em Attached\-Device\-Object}, IN PIRP {\em Irp})}\label{function_8c_1e1bea04c44b3839282abd824f71c1a5}
+
+
+Set Completion Routine 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em IN}]PDEVICE\_\-OBJECT Attached\-Device\-Object：Lower Device Object \item[{\em IN}]PIRP Irp ： \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 NTSTATUS 。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-20 13:08:47 \end{Desc}
+
+
+在文件function.c第426行定义。
+
+参考 Sf\-Completion\-Routine().
+
+参考自 Sf\-Directory\-Control().\index{function.c@{function.c}!SfAttachDeviceToDeviceStack@{SfAttachDeviceToDeviceStack}}
+\index{SfAttachDeviceToDeviceStack@{SfAttachDeviceToDeviceStack}!function.c@{function.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Attach\-Device\-To\-Device\-Stack (IN PDEVICE\_\-OBJECT {\em Source\-Device}, IN PDEVICE\_\-OBJECT {\em Target\-Device}, IN OUT PDEVICE\_\-OBJECT $\ast$ {\em Attached\-To\-Device\-Object})}\label{function_8c_892f7ce99d119a30b714b43f26663b43}
+
+
+
+
+在文件function.c第249行定义。
+
+参考 g\-Sf\-Dynamic\-Functions.
+
+参考自 Sf\-Attach\-To\-File\-System\-Device()、Sf\-Attach\-To\-Mounted\-Device()及Sf\-Fs\-Control\-Load\-File\-System\-Complete().\index{function.c@{function.c}!SfCompletionRoutine@{SfCompletionRoutine}}
+\index{SfCompletionRoutine@{SfCompletionRoutine}!function.c@{function.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Completion\-Routine (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp}, IN PVOID {\em Context})}\label{function_8c_1f6289d65346bebd11978411e5842c53}
+
+
+
+
+在文件function.c第478行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT.
+
+参考自 Set\-Completion\-Routine()及Sf\-Create().\index{function.c@{function.c}!SfFsControlCompletion@{SfFsControlCompletion}}
+\index{SfFsControlCompletion@{SfFsControlCompletion}!function.c@{function.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Fs\-Control\-Completion (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp}, IN PVOID {\em Context})}\label{function_8c_c0b5779db1381fd73a573aeeb16884de}
+
+
+
+
+在文件function.c第339行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT.
+
+参考自 Sf\-Fs\-Control\-Load\-File\-System()及Sf\-Fs\-Control\-Mount\-Volume().\index{function.c@{function.c}!SfQueryFileBasicInformation@{SfQueryFileBasicInformation}}
+\index{SfQueryFileBasicInformation@{SfQueryFileBasicInformation}!function.c@{function.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Query\-File\-Basic\-Information (PDEVICE\_\-OBJECT {\em Device\-Object}, PFILE\_\-OBJECT {\em File\-Object}, PFILE\_\-BASIC\_\-INFORMATION {\em File\-Basic\-Info})}\label{function_8c_11310193351015be725bdd4135cceaed}
+
+
+查询文件基本信息 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PDEVICE\_\-OBJECT}]Device\-Object ：设备对象 \item[{\em PFILE\_\-OBJECT}]File\-Object ：要查询的文件对象 \item[{\em PFILE\_\-BASIC\_\-INFORMATION}]File\-Basic\-Info：文件基本信息结构指针 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]NTSTATUS \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-16 13:26:01 \end{Desc}
+
+
+在文件function.c第658行定义。
+
+参考 Sf\-Query\-File\-Information().
+
+参考自 Sf\-Set\-Information().\index{function.c@{function.c}!SfQueryFileInformation@{SfQueryFileInformation}}
+\index{SfQueryFileInformation@{SfQueryFileInformation}!function.c@{function.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Query\-File\-Information (PDEVICE\_\-OBJECT {\em Device\-Object}, PFILE\_\-OBJECT {\em File\-Object}, FILE\_\-INFORMATION\_\-CLASS {\em File\-Information\-Class}, PVOID {\em File\-Info}, ULONG {\em File\-Info\-Length})}\label{function_8c_a2d0026bd282343a641e0651016c4c99}
+
+
+查询文件信息 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PDEVICE\_\-OBJECT}]Device\-Object ：设备对象 \item[{\em PFILE\_\-OBJECT}]File\-Object ：要查询信息的文件对象 \item[{\em FILE\_\-INFORMATION\_\-CLASS}]File\-Information\-Class：要查询的类 \item[{\em PVOID}]File\-Info ：文件信息指针 \item[{\em ULONG}]File\-Info\-Length ：文件信息的长度 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 NTSTATUS 。成功返回 STATUS\_\-SUCCESS,否则返回错误代码。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-16 13:10:27 \end{Desc}
+
+
+在文件function.c第540行定义。
+
+参考 Sf\-Query\-File\-Information\-Completed().
+
+参考自 Sf\-Query\-File\-Basic\-Information()及Sf\-Query\-File\-Name().\index{function.c@{function.c}!SfQueryFileInformationCompleted@{SfQueryFileInformationCompleted}}
+\index{SfQueryFileInformationCompleted@{SfQueryFileInformationCompleted}!function.c@{function.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Query\-File\-Information\-Completed (PDEVICE\_\-OBJECT {\em Device\-Object}, PIRP {\em Irp}, PVOID {\em Context})}\label{function_8c_36ec784badcda35555ff8d48866b7efe}
+
+
+
+
+在文件function.c第611行定义。
+
+参考自 Sf\-Query\-File\-Information().\index{function.c@{function.c}!SfQueryFileName@{SfQueryFileName}}
+\index{SfQueryFileName@{SfQueryFileName}!function.c@{function.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Query\-File\-Name (PDEVICE\_\-OBJECT {\em Device\-Object}, PFILE\_\-OBJECT {\em File\-Object}, PFILE\_\-NAME\_\-INFORMATION {\em p\-File\-Name}, ULONG {\em dw\-Len})}\label{function_8c_b5545604c13b5920923ad2fbd0345a0f}
+
+
+得到文件名信息 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PDEVICE\_\-OBJECT}]Device\-Object ：设备对象 \item[{\em PFILE\_\-OBJECT}]File\-Object ：要查询的文件对象 \item[{\em PFILE\_\-NAME\_\-INFORMATION}]File\-Name：文件名信息缓存指针 \item[{\em ULONG}]dw\-Len ：缓存的长度 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 NTSTATUS 。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-21 10:02:19 \end{Desc}
+
+
+在文件function.c第687行定义。
+
+参考 Sf\-Query\-File\-Information().\index{function.c@{function.c}!SfReadDriverParameters@{SfReadDriverParameters}}
+\index{SfReadDriverParameters@{SfReadDriverParameters}!function.c@{function.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Read\-Driver\-Parameters (IN PUNICODE\_\-STRING {\em Registry\-Path})}\label{function_8c_a57754630d18bbc1eeb122c378b72a10}
+
+
+
+
+在文件function.c第166行定义。
+
+参考 Sf\-Debug.
+
+参考自 Driver\-Entry().\index{function.c@{function.c}!VolumeDeviceToDosName@{VolumeDeviceToDosName}}
+\index{VolumeDeviceToDosName@{VolumeDeviceToDosName}!function.c@{function.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Volume\-Device\-To\-Dos\-Name (IN PVOID {\em Volume\-Device\-Object}, OUT PUNICODE\_\-STRING {\em Dos\-Name})}\label{function_8c_3e378358e8677e31d304a03ebd12b895}
+
+
+
+
+在文件function.c第144行定义。
+
+参考 g\-Sf\-Dynamic\-Functions.
+
+参考自 Sf\-Fs\-Control\-Mount\-Volume().

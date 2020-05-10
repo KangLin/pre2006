@@ -1,0 +1,9 @@
+TARGETNAME=ksfilter
+TARGETPATH=obj
+TARGETTYPE=DRIVER
+DRIVERTYPE=FS
+
+SOURCES=init.c       \
+		dispatch.c   \
+        ksfilter.rc
+

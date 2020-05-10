@@ -1,0 +1,20 @@
+[OPTIONS]
+Auto Index=Yes
+Compatibility=1.1
+Compiled file=..\..\..\..\..\我的文档\我的网站\Production\微软开发环境扩展工具集-VS6.0.chm
+Contents file=Table of Contents.hhc
+Default Window=windows
+Default topic=微软开发环境扩展工具集.htm
+Display compile progress=Yes
+Flat=Yes
+Full-text search=Yes
+Index file=Index.hhk
+Language=0x804 中文(中国)
+Title=微软开发环境扩展工具集 - VS6.0  -- 康林工作室
+
+[WINDOWS]
+windows="微软开发环境扩展工具集 - VS6.0用户手册",,,"微软开发环境扩展工具集.htm",,,,,,0x2520,,0x300e,,,,,,,,
+
+
+[FILES]
+微软开发环境扩展工具集.htm

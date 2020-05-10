@@ -1,0 +1,44 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>VC 扩展模型</title>
+</head>
+
+<body>
+
+<p align="center"><b><font size="6">VC 扩展模型</font></b></p>
+<p align="center">康&nbsp; 林</p>
+<ol>
+	<li>得到项目 VC++ 目录：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vcext/html/vxlrfvcprojectenginelibraryvcplatformwin32.htm">VCPlatform</a></li>
+	<ul>
+		<li>得到可执行文件目录：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vcext/html/vxlrfexecutabledirectoriesproperty.htm">ExecutableDirectories</a></li>
+		<li>得到包含文件目录：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vcext/html/vxlrfincludedirectoriesproperty.htm">IncludeDirectories</a></li>
+		<li>得到库文件目录：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vcext/html/vxlrflibrarydirectoriesproperty.htm">LibraryDirectories</a></li>
+		<li>源文件目录：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vcext/html/vxlrfsourcedirectoriesproperty.htm">SourceDirectories</a></li>
+		<li>引用文件目录：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vcext/html/vxlrfvcprojectenginelibraryvcplatformreferencedirectories.htm">ReferenceDirectories</a></li>
+	</ul>
+	<li>得到工程模块或环境宏的值：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vcext/html/vxlrfevaluatemethod.htm">Evaluate 
+	Method</a></li>
+	<p>例子：<br>
+	Imports EnvDTE<br>
+	Imports Microsoft.VisualStudio.VCProjectEngine</p>
+	<p>Sub GetIncludeDir()<br>
+	Dim prj As VCProject<br>
+	Dim cfgs, tools As IVCCollection<br>
+	Dim cfg As VCConfiguration<br>
+	Dim p As VCPlatform<br>
+	Dim x As String<br>
+	prj = DTE.Solution.Projects.Item(1).Object<br>
+	p = prj.Platforms(1)<br>
+	x = p.IncludeDirectories<br>
+	p.IncludeDirectories = x + &quot;;something&quot;<br>
+	MsgBox(p.IncludeDirectories)<br>
+	MsgBox(p.Evaluate(p.IncludeDirectories))<br>
+	End Sub</p>
+</ol>
+
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+<HTML>
+	<HEAD>
+		<TITLE></TITLE>
+		<META NAME="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+	</HEAD>
+	<BODY>
+		<P align="center"><FONT face="宋体" size="5"><STRONG>BUG</STRONG></FONT></P>
+		<P align="left"><STRONG><FONT face="楷体_GB2312">1、刚开始提示时提示框位置不对（2005年06月14日）</FONT></STRONG></P>
+		<P align="left"><FONT face="宋体">原因分析：ShowTiShi 函数中语句的顺序不对。</FONT></P>
+		<P align="left"><STRONG><FONT face="楷体_GB2312">2、确定输入时，总出现用户中断（2005年06月14日）</FONT></STRONG></P>
+		<P align="left"><FONT face="宋体">原因分析：是在复制到剪切板操作时，全局分配内存与锁定、解锁与释放函数使用有误。</FONT></P>
+		<P align="left"><STRONG><FONT face="楷体_GB2312">3、用鼠标确定输入时，出现用户中断（2005年06月14日）</FONT></STRONG></P>
+		<P align="left"><FONT face="宋体">原因分析：同2</FONT></P>
+		<P align="left"><STRONG><FONT face="楷体_GB2312">4、输入 “.” 然后移动光标，再输入“.” 出现提示框(2005年06月14日)</FONT></STRONG></P>
+		<P align="left"><FONT face="宋体">解决方法：见函数 SetListPos</FONT></P>
+		<P align="left"><FONT face="宋体"></FONT>&nbsp;</P>
+	</BODY>
+</HTML>

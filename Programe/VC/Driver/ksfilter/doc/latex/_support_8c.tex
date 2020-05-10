@@ -1,0 +1,280 @@
+\section{Support.c文件参考}
+\label{_support_8c}\index{Support.c@{Support.c}}
+Support function 
+
+{\tt \#include \char`\"{}sfilter.h\char`\"{}}\par
+{\tt \#include \char`\"{}Support.h\char`\"{}}\par
+
+
+Support.c包含/依赖关系图：\subsection*{函数}
+\begin{CompactItemize}
+\item 
+INT {\bf Compare\-Call\-Back} (PDATASTRUCT p\-Destination, PDATASTRUCT p\-Source)
+\begin{CompactList}\small\item\em Compare between p\-Destination with p\-Source \item\end{CompactList}\item 
+INT {\bf Compare\-Dir\-Call\-Back} (PDATASTRUCT p\-Destination, PDATASTRUCT p\-Source)
+\begin{CompactList}\small\item\em Compare the Directory included whether in file name. \item\end{CompactList}\item 
+INT {\bf Clear\-Call\-Back} (PDATASTRUCT p\-Clear)
+\begin{CompactList}\small\item\em Free buffer of array \item\end{CompactList}\item 
+NTSTATUS {\bf Get\-Full\-Path} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp, PUNICODE\_\-STRING $\ast$p\-Full\-Path)
+\begin{CompactList}\small\item\em 得到完全的路径名，把设备符号名与文件对象名连接成完全路径名。 \item\end{CompactList}\item 
+BOOLEAN {\bf Sf\-Is\-Disable\-Delete\-File} (PUNICODE\_\-STRING p\-Source\-File, {\bf CHECKIFEQUAL} compare\-Call\-Back)
+\begin{CompactList}\small\item\em 判断文件是否是禁止删除的文件 \item\end{CompactList}\item 
+INT {\bf Insert\-Element} ({\bf PARRAYHEAD} p\-Root, PCHAR p\-String, INT n\-Len)
+\begin{CompactList}\small\item\em Insert the protected file into array \item\end{CompactList}\item 
+INT {\bf Remove\-Element} ({\bf PARRAYHEAD} p\-Root, PCHAR p\-String, INT n\-Len)
+\begin{CompactList}\small\item\em Remove the protected file from array \item\end{CompactList}\item 
+NTSTATUS {\bf Get\-Element} ({\bf PARRAYHEAD} p\-Root, INT n\-Pos, PCHAR p\-String, INT $\ast$p\-Len)
+\begin{CompactList}\small\item\em Get Element and copy the content to user buffer. \item\end{CompactList}\end{CompactItemize}
+\subsection*{变量}
+\begin{CompactItemize}
+\item 
+{\bf ARRAYHEAD} {\bf g\-File\-Name\-Array\-Head}
+\end{CompactItemize}
+
+
+\subsection{详细描述}
+Support function 
+
+\begin{Desc}
+\item[警告:]Copyright (C) 2007 Kang\-Lin Studio;All rights reserved.\end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin ({\tt kl222@126.com}) \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-14 10:52:59 \end{Desc}
+\begin{Desc}
+\item[Compiler:]Microsoft Visual Studio 8.0 —— C/C++ 8.0 \end{Desc}
+
+
+在文件{\bf Support.c}中定义。
+
+\subsection{函数文档}
+\index{Support.c@{Support.c}!ClearCallBack@{ClearCallBack}}
+\index{ClearCallBack@{ClearCallBack}!Support.c@{Support.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Clear\-Call\-Back (PDATASTRUCT {\em p\-Clear})}\label{_support_8c_ee123e877e148215bf4c5ea0d9affcfd}
+
+
+Free buffer of array 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PDATASTRUCT}]p\-Clear：data struct pointer \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]INT 。return 0 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-14 14:52:26 \end{Desc}
+
+
+在文件Support.c第110行定义。
+
+参考 Free\-Buffer()及INT.
+
+参考自 Clear\-Array()、Remove\-Element()及Remove\-Element\-Array().\index{Support.c@{Support.c}!CompareCallBack@{CompareCallBack}}
+\index{CompareCallBack@{CompareCallBack}!Support.c@{Support.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Compare\-Call\-Back (PDATASTRUCT {\em p\-Destination}, PDATASTRUCT {\em p\-Source})}\label{_support_8c_8aea7d8c15fe8a2d924e4df0980e80eb}
+
+
+Compare between p\-Destination with p\-Source 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PDATASTRUCT}]p\-Destination： \item[{\em PDATASTRUCT}]p\-Source ： \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 INT 。\par
+ If p\-Destination = p\-Source, return 0; \par
+ If p\-Destination $>$ p\-Source, return $>$ 0;\par
+ If p\-Destination $<$ p\-Source, return $<$ 0; \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-14 10:55:30 \end{Desc}
+
+
+在文件Support.c第29行定义。
+
+参考 INT.
+
+参考自 Insert\-Element()、Process\-File\-Both\-Directory\-Information()、Remove\-Element()、Sf\-Set\-Information()及Sf\-Write().\index{Support.c@{Support.c}!CompareDirCallBack@{CompareDirCallBack}}
+\index{CompareDirCallBack@{CompareDirCallBack}!Support.c@{Support.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Compare\-Dir\-Call\-Back (PDATASTRUCT {\em p\-Destination}, PDATASTRUCT {\em p\-Source})}\label{_support_8c_18b5d07ad535afc1a6a25fbf4d564b9f}
+
+
+Compare the Directory included whether in file name. 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PDATASTRUCT}]p\-Destination：file name \item[{\em PDATASTRUCT}]p\-Source ：directory \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]INT 。 If success, return 0; \par
+ If p\-Destination $>$ p\-Source, return $>$ 0;\par
+ If p\-Destination $<$ p\-Source, return $<$ 0; \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-16 14:20:18 \end{Desc}
+
+
+在文件Support.c第51行定义。
+
+参考 INT.
+
+参考自 Sf\-Set\-Information().\index{Support.c@{Support.c}!GetElement@{GetElement}}
+\index{GetElement@{GetElement}!Support.c@{Support.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Get\-Element ({\bf PARRAYHEAD} {\em p\-Root}, INT {\em n\-Pos}, PCHAR {\em p\-String}, INT $\ast$ {\em p\-Len})}\label{_support_8c_3ac7c9bbb0407426f33e060116b8e0f5}
+
+
+Get Element and copy the content to user buffer. 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PARRAYHEAD}]p\-Root： \item[{\em INT}]n\-Pos ： \item[{\em PCHAR}]p\-String ：user buffer \item[{\em INT}]$\ast$ p\-Len ：the length of p\-String content \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]NTSTATUS 。If success,return STATUS\_\-SUCCESS. \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-18 17:11:08 \end{Desc}
+
+
+在文件Support.c第313行定义。
+
+参考 Get\-Element\-Array()、Move\-Buffer()、\_\-ARRAYHEAD::n\-Element\-Number及PDATASTRUCT.
+
+参考自 Sf\-Device\-Control().\index{Support.c@{Support.c}!GetFullPath@{GetFullPath}}
+\index{GetFullPath@{GetFullPath}!Support.c@{Support.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Get\-Full\-Path (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp}, PUNICODE\_\-STRING $\ast$ {\em p\-Full\-Path})}\label{_support_8c_18e544f8679b7cc70d487bb19d94551a}
+
+
+得到完全的路径名，把设备符号名与文件对象名连接成完全路径名。 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em IN}]PDEVICE\_\-OBJECT Device\-Object：设备对象 \item[{\em IN}]PIRP Irp ： \item[{\em PUNICODE\_\-STRING$\ast$}]p\-Full\-Path ：返回路径名, \end{description}
+\end{Desc}
+\begin{Desc}
+\item[注解:]由调用者释放内存。 \end{Desc}
+\begin{Desc}
+\item[返回:]类型为 NTSTATUS 。成功返回 STATUS\_\-SUCCESS,否则返回错误代码。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-16 13:04:33 \end{Desc}
+
+
+在文件Support.c第129行定义。
+
+参考 Allocate\-Buffer()及\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Link\-Symbol\-Name.
+
+参考自 Sf\-Directory\-Control()、Sf\-Set\-Information()及Sf\-Write().\index{Support.c@{Support.c}!InsertElement@{InsertElement}}
+\index{InsertElement@{InsertElement}!Support.c@{Support.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Insert\-Element ({\bf PARRAYHEAD} {\em p\-Root}, PCHAR {\em p\-String}, INT {\em n\-Len})}\label{_support_8c_93e1863107174582cc7a2c86ec48efdf}
+
+
+Insert the protected file into array 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PARRAYHEAD}]p\-Root：array pointer \item[{\em PCHAR}]p\-String ：the protected file \item[{\em INT}]n\-Len ：file name length(in byte) \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]INT 。If success,return 0. otherwise return no 0 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-14 14:47:36 \end{Desc}
+
+
+在文件Support.c第243行定义。
+
+参考 Allocate\-Buffer()、Compare\-Call\-Back()、DATASTRUCT、Insert\-Element\-Array()、INT及Move\-Buffer().
+
+参考自 Sf\-Device\-Control().\index{Support.c@{Support.c}!RemoveElement@{RemoveElement}}
+\index{RemoveElement@{RemoveElement}!Support.c@{Support.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Remove\-Element ({\bf PARRAYHEAD} {\em p\-Root}, PCHAR {\em p\-String}, INT {\em n\-Len})}\label{_support_8c_842a373fe84d14cdaec1657ca8bda1e8}
+
+
+Remove the protected file from array 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PARRAYHEAD}]p\-Root：array pointer \item[{\em PCHAR}]p\-String ：removed element \item[{\em INT}]n\-Len ：file name length(in byte) \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]INT 。If success,return 0. otherwise return no 0 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-16 16:18:20 \end{Desc}
+
+
+在文件Support.c第276行定义。
+
+参考 Allocate\-Buffer()、Clear\-Call\-Back()、Compare\-Call\-Back()、DATASTRUCT、Delete\-Element\-Array()、Free\-Buffer()、INT及Move\-Buffer().
+
+参考自 Sf\-Device\-Control().\index{Support.c@{Support.c}!SfIsDisableDeleteFile@{SfIsDisableDeleteFile}}
+\index{SfIsDisableDeleteFile@{SfIsDisableDeleteFile}!Support.c@{Support.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Is\-Disable\-Delete\-File (PUNICODE\_\-STRING {\em p\-Source\-File}, {\bf CHECKIFEQUAL} {\em compare\-Call\-Back})}\label{_support_8c_99de091b494ee825763bf07730c991e7}
+
+
+判断文件是否是禁止删除的文件 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PUNICODE\_\-STRING}]p\-Source\-File：要判断的文件。 \item[{\em CHECKIFEQUAL}]compare\-Call\-Back ：比较回调函数。 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 BOOLEAN 。如果是禁止删除的文件,则返回TRUE,否则返回FLASE。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-16 14:12:18 \end{Desc}
+
+
+在文件Support.c第187行定义。
+
+参考 Allocate\-Buffer()、DATASTRUCT、Free\-Buffer()、g\-File\-Name\-Array\-Head、g\-Write\-Protect\-Data、INT及Search\-Element\-Array().
+
+参考自 Process\-File\-Both\-Directory\-Information()、Sf\-Set\-Information()及Sf\-Write().
+
+\subsection{变量文档}
+\index{Support.c@{Support.c}!gFileNameArrayHead@{gFileNameArrayHead}}
+\index{gFileNameArrayHead@{gFileNameArrayHead}!Support.c@{Support.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf ARRAYHEAD} {\bf g\-File\-Name\-Array\-Head}}\label{_support_8c_efcd5a04a487371f1094f5cb257c9a98}
+
+
+
+
+在文件Support.c第15行定义。
+
+参考自 Driver\-Entry()、Sf\-Device\-Control()及Sf\-Is\-Disable\-Delete\-File().

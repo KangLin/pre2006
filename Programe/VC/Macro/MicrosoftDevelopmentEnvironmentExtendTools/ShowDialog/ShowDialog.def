@@ -1,0 +1,12 @@
+; ShowDialog.def : Declares the module parameters for the DLL.
+
+LIBRARY      "ShowDialog"
+DESCRIPTION  'ShowDialog Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+	DllCanUnloadNow PRIVATE
+	DllGetClassObject PRIVATE
+	DllRegisterServer PRIVATE
+
+    ShowLicense;显示许可证

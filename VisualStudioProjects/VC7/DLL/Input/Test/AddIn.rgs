@@ -1,0 +1,81 @@
+HKCR
+{
+	Test.Connect.1 = s 'Connect Class'
+	{
+		CLSID = s '{43EA3D7F-8257-4663-9EF1-7474DDD76F25}'
+	}
+	Test.Connect = s 'Connect Class'
+	{
+		CLSID = s '{43EA3D7F-8257-4663-9EF1-7474DDD76F25}'
+		CurVer = s 'Test.Connect.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove '{43EA3D7F-8257-4663-9EF1-7474DDD76F25}' = s 'Connect Class'
+		{
+			ProgID = s 'Test.Connect.1'
+			VersionIndependentProgID = s 'Test.Connect'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{97D3DA99-84E2-4EDE-9F9D-222EBE26E22F}'
+		}
+	}
+}
+
+HKCU
+{
+	NoRemove 'SOFTWARE'
+	{
+		NoRemove 'Microsoft'
+		{
+			NoRemove 'VSA'
+			{
+				NoRemove '8.0'
+				{
+					NoRemove 'AddIns'
+					{
+						ForceRemove 'Test.Connect'
+						{
+							val LoadBehavior = d 5
+							val CommandLineSafe = d 1
+							val CommandPreload = d 1
+							val FriendlyName = s 'Test - No Name provided.'
+							val Description = s 'Test - No Description provided.'
+							val AboutBoxDetails = s 'For more information about , see the  website at\r\nhttp://www..com\r\nFor customer support, call 1-800-xxx-xxxx.\r\nCopyright (c) 2006  Inc.'
+							val AboutBoxIcon = s '%MODULE%,1'
+						}
+					}
+				}
+			}
+		}
+	}
+	NoRemove 'SOFTWARE'
+	{
+		NoRemove 'Microsoft'
+		{
+			NoRemove 'VisualStudio'
+			{
+				NoRemove '8.0'
+				{
+					NoRemove 'AddIns'
+					{
+						ForceRemove 'Test.Connect'
+						{
+							val LoadBehavior = d 5
+							val CommandLineSafe = d 1
+							val CommandPreload = d 1
+							val FriendlyName = s 'Test - No Name provided.'
+							val Description = s 'Test - No Description provided.'
+							val AboutBoxDetails = s 'For more information about , see the  website at\r\nhttp://www..com\r\nFor customer support, call 1-800-xxx-xxxx.\r\nCopyright (c) 2006  Inc.'
+							val AboutBoxIcon = s '%MODULE%,1'
+						}
+					}
+				}
+			}
+		}
+	}
+
+}

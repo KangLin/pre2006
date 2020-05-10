@@ -1,0 +1,270 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>VC调用ACM音频压缩编程接口的方法</title>
+</head>
+
+<body>
+
+		<p align="center"><b><font color="#0000c0" size="7">VC调用ACM音频压缩编程接口的方法</font></b></p>
+		<p>音 频 和 视 频 
+		数 据 是 大 多 数 多 媒 体 应 用 程 序 向 用 户 提 供 信 息 的 主 要 方 式， 这 些 数 据 一 般 具 有 较 高 的 
+		采 样 速 率， 如 果 不 经 过 压 缩 的 话， 保 存 它 们 需 要 消 耗 大 量 的 存 贮 空 间， 在 网 络 上 进 行 传 
+		输 的 效 率 也 很 低， 因 此 
+		音 频 视 频 数 
+		字 压 缩 编 码 在 多 媒 体 技 术 中 占 有 很 重 要 的 地 位。 就 
+		音 频 数 据 而 
+		言， 目 前 常 用 的 压 缩 方 法 有 很 多 种， 不 同 的 方 法 具 有 不 同 的 压 缩 比 和 还 原 音 质， 编 码 的 
+		格 式 和 算 法 也 各 不 相 同， 其 中 某 些 压 缩 算 法 相 当 复 杂， 普 通 程 序 不 可 能 去 实 现 其 编 解 
+		码 算 法。 所 幸 的 是， 与Windows 3.x 相 比，Windows 95/NT 4.0 为 多 媒 体 应 用 程 序 提 供 了 
+		更 强 的 支 持， 引 入 了ACM（Audio Compression Manager， 
+		音 频 压 缩 管 
+		理 器） 和VCM（Video Compression Manager， 视 频 压 缩 管 理 器）， 它 们 负 责 管 理 系 统 中 所 
+		有 音 频 和 视 
+		频 编 解 码 器（Coder-Decoder， 简 称CODEC， 是 实 现 
+		音 频 视 频 数 
+		据 编 解 码 的 驱 动 程 序）， 应 用 程 序 可 以 通 过ACM 或VCM 提 供 的 编 程 接 口 调 用 这 些 系 统 中 
+		现 成 的 编 解 码 器 来 实 现 
+		音 频 或 视 频 
+		数 据 的 压 缩 和 解 压 缩。95/NT 4.0 系 统 自 带 的 
+		音 频CODECs 
+		支 持 一 些 早 期 的 音 
+		频 数 据 压 缩 标 准， 如ADPCM 等，Internet Explorer 4.0 等 应 用 程 序 包 含 的 
+		音 频CODECs 
+		支 持 一 些 比 较 新 的 压 缩 标 准， 如MPEG Layer 3 等。 在 控 制 面 板 的 多 媒 体 组 件 中 选 择“ 高 
+		级”， 打 开“ 音 频 
+		压 缩 的 编 码 解 码 器”， 就 可 列 出 系 统 中 安 装 的 所 有 
+		音 频CODECs。 
+		本 文 所 要 介 绍 的 就 是ACM
+		音 频 压 缩 接 
+		口 的 编 程 方 法， 所 用 编 程 工 具 为VC++ 5.0。 
+		</p>
+		<h3>获 取CODECs 的 信 息</h3>
+		---- ACM 的API 函 数 定 义 在 头 文 件msacm.h 中， 除 此 
+		之 外， 对ACM 编 程 还 必 须 包 含 头 文 件mmsystem.h，mmreg.h， 这 两 个 头 文 件 定 义 了 多 媒 体 
+		编 程 中 最 基 本 的 常 量 和 数 据 结 构。 为 了 避 免 有 些 高 版 本ACM 才 提 供 的 函 数 和 功 能 在 较 
+		低 版 本 的ACM 中 上 不 可 用， 程 序 中 应 调 用acmGetVersion 函 数 查 询 用 户 机 器 中ACM 的 版 
+		本 信 息。 
+		<p>---- 前 面 提 到， 在 控 制 面 板 中 可 以 查 看 系 统 
+		中CODECs 的 信 息，&nbsp; </p>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp; 而 在 应 用 程 序 中 也 常 常 需 要 知 道 某 种 
+		音 频CODECs 
+		是 否 存 在， 并 获 取 其 编 解 码 参 数 等 信 息， 这 一 点 可 以 通 过 调 用 下 面 两 个 函 数 来 实 现。 
+		</p>
+		<p>---- MMRESULT mmr=acmMetrics(NULL, 
+		ACM_METRIC_COUNT_CODECS, &amp;dwCodecs); </p>
+		<p>---- mmr = acmDriverEnum(CodecsEnumProc, 
+		0, 0); </p>
+		<p>---- acmMetrics() 函 数 可 以 获 取 许 多ACM 对 象 
+		的 有 用 信 息， 例 如 向 其 中 传 递ACM_METRIC_COUNT_CODECS 可 以 查 询 系 统 中 安 装 的 
+		音 频CODECs 
+		总 数。 函 数acmDriverEnum() 的 功 能 是 枚 举 所 有 的 
+		音 频CODECs， 
+		在acmDriverEnum() 的 参 数 中 指 定 回 调 函 数CodecsEnumProc() 可 以 进 一 步 查 询 每 
+		个CODEC 的 信 息。Windows 编 程 中 经 常 要 用 到 回 调 函 数， 下 面 是 枚 举 
+		音 频CODECs 
+		的 一 个 回 调 函 数 的 示 例。 </p>
+		<pre>BOOL CALLBACK CodecsEnumProc(HACMDRIVERID 
+
+hadid, DWORD dwInstance, DWORD fdwSupport) {
+
+DWORD dwSize = 0;
+
+if (fdwSupport &amp; ACMDRIVERDETAILS_SUPPORTF_CODEC)
+
+ printf(&quot;多格式转换\n&quot;);
+
+ACMDRIVERDETAILS add;
+
+acmdd.cbStruct = sizeof(acmdd);
+
+MMRESULT mmr = acmDriverDetails(hadid, &amp;acmdd, 0);
+
+if (mmr)  error_msg(mmr);
+
+else {
+
+printf(&quot; 全称:  %s\n&quot;, acmdd.szLongName);
+
+printf(&quot; 描述:   %s\n&quot;, acmdd.szFeatures);
+
+}
+
+HACMDRIVER had = NULL;
+
+mmr = acmDriverOpen(&amp;had, hadid, 0);	//打开驱动程序
+
+if (mmr)  error_msg(mmr);
+
+else {
+
+mmr = acmMetrics(had, ACM_METRIC_
+
+MAX_SIZE_FORMAT, &amp;dwSize);
+
+WAVEFORMATEX* pwf = (WAVEFORMATEX*) malloc(dwSize);
+
+memset(pwf, 0, dwSize);
+
+pwf-&gt;cbSize = LOWORD(dwSize) - sizeof(WAVEFORMATEX);
+
+pwf-&gt;wFormatTag = WAVE_FORMAT_UNKNOWN;
+
+ACMFORMATDETAILS fd;
+
+memset(&amp;fd, 0, sizeof(fd));
+
+fd.cbStruct = sizeof(fd);  fd.pwfx = pwf;  fd.cbwfx = dwSize;
+
+fd.dwFormatTag = WAVE_FORMAT_UNKNOWN;
+
+mmr = acmFormatEnum(had, &amp;fd, FormatEnumProc, 0, 0);  
+
+if (mmr)  error_msg(mmr);
+
+free(pwf);
+
+acmDriverClose(had, 0);
+}
+
+return TRUE; 
+}
+</pre>
+		<p>---- CodecsEnumProc() 共 有 三 个 参 数。 第 一 个 
+		参 数 是 驱 动 程 序 的ID 值； 第 二 个 参 数 是 实 例 数 据， 本 文 例 子 中 未 使 用； 第 三 个 参 数 描 述 
+		该 驱 动 程 序 所 支 持 的 功 能， 它 由 一 组 标 识 进 行 或 运 算 构 成， 例 如， 如 果 设 置 了 标 
+		识ACMDRIVERDETAILS_SUPPORTF_CODEC， 则 说 明 该 驱 动 程 序 可 以 将 一 种 编 码 格 式 的 
+		音 频 信 号 转 
+		换 成 另 一 种 编 码 格 式。 通 过acmDriverDetails() 函 数 可 以 获 得 对 该 驱 动 程 序 进 一 步 的 
+		信 息， 如CODEC 的 名 称、 简 单 描 述 等。 以 上 信 息 实 际 上 是 由ACM 收 集， 并 保 存 在ACM 内 部， 
+		所 以 查 询 以 上 信 息 时 并 未 真 正 将 驱 动 程 序 加 载 至 内 存。 而 要 获 得 每 一 种 驱 动 程 序 支 持 
+		的 音 频 格 式 
+		信 息， 则 必 须 将 驱 动 程 序 加 载 至 内 存， 这 是 通 过acmDriverOpen() 完 成 的， 在 退 
+		出CodecsEnumProc() 前， 还 要 用acmDriverClose() 来 关 闭 已 打 开 的 驱 动 程 序。 在 使 用 
+		音 频 格 式 枚 
+		举 函 数 前， 需 要 先 分 配 一 块 缓 冲 区 存 置 格 式 信 息， 缓 冲 区 的 大 小 可 通 过 调 
+		用acmMetrics() 查 询ACM_METRIC_MAX_SIZE_FORMAT 获 得， 格 式 信 息 中 的 
+		音 频 格 式 标 
+		识 设 为WAVE_FORMAT_UNKNOWN。 在 
+		音 频 格 式 枚 
+		举 中 同 样 使 用 了 回 调 函 数， 此 回 调 函 数 只 是 列 出 了 该 
+		音 频 格 式 的 
+		名 称 和 标 识 值。 </p>
+		<pre>BOOL CALLBACK FormatEnumProc
+
+(HACMDRIVERID hadid, LPACMFORMATDETAILS
+
+ pafd, DWORD dwInstance, DWORD fdwSupport) {
+
+printf(&quot;%4.4lXH, %s\n&quot;, pafd- &gt;dwFormatTag, pafd- &gt;szFormat);
+
+return TRUE; 
+}
+---- 上 面 介 绍 了 浏 览 系 统 中 所 有 音 频CODECs 及 每 种CODEC 所 支 持 的 音 频 格 式 的 方 法， 某 些 典 型 的 应 用 程 序 可 能 需 要 列 出 系 统 中 所 有 可 以 选 用 的CODECs， 并 由 用 户 来 选 择 使 用 哪 一 种CODEC 进 行 压 缩， 此 时 就 需 要 利 用 上 面 的 编 程 方 法 来 获 取CODECs 的 信 息。</pre>
+		<h3>音 频 数 
+		据 的 压 缩</h3>
+		---- 下 面 说 明 使 用 某 一CODEC 实 现 
+		音 频 压 缩 的 
+		过 程， 读 者 朋 友 只 需 稍 加 改 动 就 可 编 写 出 相 应 的 解 压 程 序。 假 设 源 信 号 为8K 采 
+		样、16bits PCM 编 码、 单 声 道、 长 度 为1 秒 的 
+		音 频 信 号。 
+		驱 动 程 序 采 用Windows 95 自 带 的TrueSpeech
+		音 频CODEC， 
+		它 能 实 现 大 约10：1 的 压 缩。 在 此 例 中，TrueSpeech CODEC 支 持 从 源 
+		音 频 格 式 到 
+		目 标 格 式 的 转 换， 而 在 实 际 应 用 中， 可 能 某 种CODEC 不 支 持 直 接 将 源 
+		音 频 格 式 转 
+		换 成 目 标 格 式， 这 时 可 以 采 取 两 步 转 换 法， 即 先 将 源 格 式 转 换 成 一 种 中 间 格 式， 再 将 此 
+		中 间 格 式 转 换 成 目 标 格 式， 因 为 线 性PCM 编 码 最 为 简 单， 且 为 绝 大 多 数CODEC 所 支 持， 所 
+		以 一 般 中 间 格 式 都 选 为 线 性PCM 格 式 的 一 种。 
+		<p>---- 在 进 行 压 缩 之 前 首 先 需 要 确 定TrueSpeech 
+		驱 动 程 序 的ID 值。 为 此 需 要 用 到acmDriverEnum() 函 数， 对 枚 举 到 的 每 一 个 驱 动 程 序， 
+		由acmDriverEnum() 指 定 的 回 调 函 数 将 检 查 其 支 持 的 所 有 
+		音 频 格 式， 
+		若 其 中 包 括wFormatTag 值 为WAVE_FORMAT_DSPGROUP_TRUESPEECH 的 
+		音 频 格 式， 
+		则 此 驱 动 程 序 就 是 要 寻 找 的TrueSpeech CODEC， 它 所 支 持 的 第 一 
+		种WAVE_FORMAT_DSPGROUP_TRUESPEECH
+		音 频 格 式 即 
+		为 目 标 音 频 
+		压 缩 格 式。 查 询 所 需 的CODEC 及 其 支 持 的 
+		音 频 格 式 的 
+		方 法 见 前 一 小 节 的 介 绍。 </p>
+		<p>---- 根 据 查 询 的 结 果， 设hadID 为TrueSpeech 
+		CODEC 的ID 值，pwfDrv 为 指 向 目 标WAVEFORMATEX 结 构 的 指 针， 接 下 来 利 用 获 得 的ID 值 
+		打 开 相 应 的 驱 动 程 序。 </p>
+		<pre>HACMDRIVER had = NULL;
+
+mmr = acmDriverOpen(&amp;had, hadID, 0);
+
+if(mmr) {  printf(&quot; 打开驱动程序失败\n&quot;); exit(1);  }
+
+---- 压 缩 和 解 压 缩 一 样， 都 是 将 音 频 信 号 从 一 种 音 频 格 式 转 换 成 另 一 种 格 式， 要 完 成 这 一 过 程， 首 先 要 打 开 转 换 流。 在 用acmStreamOpen 打 开 转 换 流 时， 我 们 指 定 了ACM_STREAMOPENF_NONREALTIME 标 志， 它 表 示 转 换 无 需 实 时 进 行。 因 为 很 多 压 缩 算 法 的 计 算 量 是 相 当 大 的， 实 时 完 成 几 乎 是 不 可 能 的， 例 如 在 本 例 中， 如 果 不 指 定 此 标 志，TrueSpeech CODEC 就 会 返 回“ 无 法 完 成” 的 错 误。</pre>
+		<pre>HACMSTREAM hstr = NULL;
+
+DWORD dwSrcBytes = dwSrcSamples * wfSrc.wBitsPerSample / 8;
+
+mmr = acmStreamOpen(&amp;hstr,had, //驱动程序句柄
+
+pwfSrc, //指向源音频格式的指针
+
+pwfDrv, //指向目标音频格式的指针
+
+NULL, //无过滤器
+
+NULL, //无回调函数
+
+0,ACM_STREAMOPENF_NONREALTIME);
+</pre>
+		<p>---- 在 真 正 进 行 转 换 之 前， 还 必 须 准 备 转 换 流 
+		的 信 息 头。 下 面 一 段 代 码 中， 先 利 用 源 数 据 的 大 小 以 及 目 标 格 式 的 平 均 数 据 率 估 算 目 
+		标 数 据 的 缓 存 区 大 小， 然 后 调 用acmStreamPrepareHeader 为 转 换 准 备 信 息 头。 </p>
+		<p>---- DWORD 
+		dwDstBytes=pwfDrv-&gt;nAvgBytesPerSec*dwSrcSamples/wfSrc.nSamplesPerSec;
+		</p>
+		<p>---- dwDstBytes = dwDstBytes*3/2; // 计 算 
+		压 缩 后 音 频 
+		数 据 大 小， 并 依 此 适 当 增 加 输 出 缓 冲 区 的 大 小。 </p>
+		<pre>BYTE* pDstData = new BYTE [dwDstBytes];
+
+
+
+ACMSTREAMHEADER shdr;
+
+memset(&amp;strhdr, 0, sizeof(shdr));
+
+shdr.cbStruct = sizeof(shdr);
+
+shdr.pbSrc = pSrcData; 	//源音频数据区
+
+shdr.cbSrcLength = dwSrcBytes;
+
+shdr.pbDst = pDstData; //压缩后音频数据缓冲区
+
+shdr.cbDstLength = dwDstBytes;
+
+mmr = acmStreamPrepareHeader(hstr, &amp;shdr, 0); 
+</pre>
+		<p>---- 语 音 数 据 真 正 的 压 缩 过 程 是 由 函 
+		数acmStreamConvert() 完 成 的。 在 调 用acmStreamConvert() 时 可 以 指 定 回 调 函 数， 以 
+		便 在 转 换 过 程 中 显 示 进 度 信 息 等。 在 本 例 中， 未 指 定 回 调 函 数， 只 是 简 单 地 等 待 压 缩 的 
+		结 束。 </p>
+		<p>---- mmr = acmStreamConvert(hstr, &amp;shdr, 
+		0); </p>
+		<p>---- 数 据 压 缩 完 毕 后， 应 用 程 序 就 可 以 把 缓 冲 
+		区 中 的 数 据 写 入 目 标 文 件 中。 </p>
+		<p>---- 最 后， 必 须 关 闭 转 换 流 和 驱 动 程 序。 </p>
+		<pre>mmr = acmStreamClose(hstr, 0);
+
+mmr = acmDriverClose(had, 0);
+</pre>
+		<p>---- 本 文 介 绍 了 利 用ACM 获 取 
+		音 频CODEC 
+		的 信 息 以 及 实 现 音 
+		频 压 缩 的 一 般 方 法 和 过 程， 对ACM 编 程 感 兴 趣 的 读 者 可 以 进 一 步 参 考VC++ 5 的 
+		联 机 帮 助 中 关 于ACM 的 信 息。 </td>
+	
+</body>
+
+</html>

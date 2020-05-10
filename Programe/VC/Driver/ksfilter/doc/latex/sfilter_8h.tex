@@ -1,0 +1,1257 @@
+\section{sfilter.h文件参考}
+\label{sfilter_8h}\index{sfilter.h@{sfilter.h}}
+{\tt \#include \char`\"{}ntifs.h\char`\"{}}\par
+{\tt \#include \char`\"{}ntdddisk.h\char`\"{}}\par
+{\tt \#include \char`\"{}ksfilter.h\char`\"{}}\par
+{\tt \#include \char`\"{}Array.h\char`\"{}}\par
+
+
+sfilter.h包含/依赖关系图：
+
+此图展示直接或间接包含该文件的文件：\subsection*{组合类型}
+\begin{CompactItemize}
+\item 
+struct {\bf \_\-SFILTER\_\-DEVICE\_\-EXTENSION}
+\item 
+struct {\bf \_\-FSCTRL\_\-COMPLETION\_\-CONTEXT}
+\item 
+struct {\bf \_\-GET\_\-NAME\_\-CONTROL}
+\item 
+struct {\bf \_\-FILTERFILE}
+\end{CompactItemize}
+\subsection*{宏定义}
+\begin{CompactItemize}
+\item 
+\#define {\bf Add2Ptr}(P, I)~((PVOID)((PUCHAR)(P) + (I)))
+\item 
+\#define {\bf MAX\_\-DEVNAME\_\-LENGTH}~64
+\item 
+\#define {\bf IS\_\-MY\_\-DEVICE\_\-OBJECT}(\_\-dev\-Obj)
+\item 
+\#define {\bf IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT}(\_\-dev\-Obj)
+\item 
+\#define {\bf IS\_\-DESIRED\_\-DEVICE\_\-TYPE}(\_\-type)
+\item 
+\#define {\bf VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER}(\_\-Fast\-Io\-Dispatch\-Ptr, \_\-Field\-Name)
+\item 
+\#define {\bf SFLT\_\-POOL\_\-TAG}~'tl\-FS'
+\item 
+\#define {\bf SF\_\-LOG\_\-PRINT}(\_\-dbg\-Level, \_\-string)
+\item 
+\#define {\bf DELAY\_\-ONE\_\-MICROSECOND}~(-10)
+\item 
+\#define {\bf DELAY\_\-ONE\_\-MILLISECOND}~(DELAY\_\-ONE\_\-MICROSECOND$\ast$1000)
+\item 
+\#define {\bf DELAY\_\-ONE\_\-SECOND}~(DELAY\_\-ONE\_\-MILLISECOND$\ast$1000)
+\item 
+\#define {\bf SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES}~0x00000001
+\item 
+\#define {\bf SFDEBUG\_\-DISPLAY\_\-CREATE\_\-NAMES}~0x00000002
+\item 
+\#define {\bf SFDEBUG\_\-GET\_\-CREATE\_\-NAMES}~0x00000004
+\item 
+\#define {\bf SFDEBUG\_\-DO\_\-CREATE\_\-COMPLETION}~0x00000008
+\item 
+\#define {\bf SFDEBUG\_\-ATTACH\_\-TO\_\-FSRECOGNIZER}~0x00000010
+\item 
+\#define {\bf SFDEBUG\_\-ATTACH\_\-TO\_\-SHADOW\_\-COPIES}~0x00000020
+\item 
+\#define {\bf SFDEBUG\_\-SET\_\-INFORMATION}~0x00000080
+\item 
+\#define {\bf SFDEBUG\_\-CREATE}~0x00000100
+\item 
+\#define {\bf SFDEBUG\_\-READWRITE}~0x00000200
+\item 
+\#define {\bf SFDEBUG\_\-DIRECTORYCONTROL}~0x00000400
+\item 
+\#define {\bf GET\_\-DEVICE\_\-TYPE\_\-NAME}(\_\-type)
+\end{CompactItemize}
+\subsection*{类型定义}
+\begin{CompactItemize}
+\item 
+typedef {\bf \_\-SFILTER\_\-DEVICE\_\-EXTENSION} {\bf SFILTER\_\-DEVICE\_\-EXTENSION}
+\item 
+typedef {\bf \_\-SFILTER\_\-DEVICE\_\-EXTENSION} $\ast$ {\bf PSFILTER\_\-DEVICE\_\-EXTENSION}
+\item 
+typedef {\bf \_\-FSCTRL\_\-COMPLETION\_\-CONTEXT} {\bf FSCTRL\_\-COMPLETION\_\-CONTEXT}
+\item 
+typedef {\bf \_\-FSCTRL\_\-COMPLETION\_\-CONTEXT} $\ast$ {\bf PFSCTRL\_\-COMPLETION\_\-CONTEXT}
+\item 
+typedef {\bf \_\-GET\_\-NAME\_\-CONTROL} {\bf GET\_\-NAME\_\-CONTROL}
+\item 
+typedef {\bf \_\-GET\_\-NAME\_\-CONTROL} $\ast$ {\bf PGET\_\-NAME\_\-CONTROL}
+\item 
+typedef {\bf \_\-FILTERFILE} {\bf FILTERFILE}
+\item 
+typedef {\bf \_\-FILTERFILE} $\ast$ {\bf PFILTERFILE}
+\end{CompactItemize}
+\subsection*{函数}
+\begin{CompactItemize}
+\item 
+PUNICODE\_\-STRING {\bf Sf\-Get\-File\-Name} (IN PFILE\_\-OBJECT File\-Object, IN NTSTATUS Create\-Status, IN OUT {\bf PGET\_\-NAME\_\-CONTROL} Name\-Control)
+\item 
+VOID {\bf Sf\-Get\-File\-Name\-Cleanup} (IN OUT {\bf PGET\_\-NAME\_\-CONTROL} Name\-Control)
+\item 
+NTSTATUS {\bf Driver\-Entry} (IN PDRIVER\_\-OBJECT Driver\-Object, IN PUNICODE\_\-STRING Registry\-Path)
+\item 
+NTSTATUS {\bf Sf\-Pass\-Through} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\item 
+NTSTATUS {\bf Sf\-Create} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\item 
+NTSTATUS {\bf Set\-Completion\-Routine} (IN PDEVICE\_\-OBJECT Attached\-Device\-Object, IN PIRP Irp)
+\begin{CompactList}\small\item\em Set Completion Routine \item\end{CompactList}\item 
+NTSTATUS {\bf Sf\-Completion\-Routine} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp, IN PVOID Context)
+\item 
+NTSTATUS {\bf Sf\-Cleanup\-Close} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\item 
+NTSTATUS {\bf Sf\-Read} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\item 
+NTSTATUS {\bf Sf\-Write} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\item 
+NTSTATUS {\bf Sf\-Directory\-Control} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\begin{CompactList}\small\item\em 目录控制派遣例程(IRP\_\-MJ\_\-DIRECTORY\_\-CONTROL) \item\end{CompactList}\item 
+NTSTATUS {\bf Sf\-Fs\-Control} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\item 
+NTSTATUS {\bf Sf\-Device\-Control} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\item 
+NTSTATUS {\bf Sf\-Set\-Information} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\item 
+NTSTATUS {\bf Sf\-Fs\-Control\-Mount\-Volume} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\item 
+VOID {\bf Sf\-Fs\-Control\-Mount\-Volume\-Complete\-Worker} (IN {\bf PFSCTRL\_\-COMPLETION\_\-CONTEXT} Context)
+\item 
+NTSTATUS {\bf Sf\-Fs\-Control\-Mount\-Volume\-Complete} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp, IN PDEVICE\_\-OBJECT New\-Device\-Object)
+\item 
+NTSTATUS {\bf Sf\-Fs\-Control\-Load\-File\-System} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\item 
+VOID {\bf Sf\-Fs\-Control\-Load\-File\-System\-Complete\-Worker} (IN {\bf PFSCTRL\_\-COMPLETION\_\-CONTEXT} Context)
+\item 
+NTSTATUS {\bf Sf\-Fs\-Control\-Load\-File\-System\-Complete} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\item 
+NTSTATUS {\bf Sf\-Fs\-Control\-Completion} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp, IN PVOID Context)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Check\-If\-Possible} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN BOOLEAN Wait, IN ULONG Lock\-Key, IN BOOLEAN Check\-For\-Read\-Operation, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Read} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN BOOLEAN Wait, IN ULONG Lock\-Key, OUT PVOID Buffer, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Write} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN BOOLEAN Wait, IN ULONG Lock\-Key, IN PVOID Buffer, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Query\-Basic\-Info} (IN PFILE\_\-OBJECT File\-Object, IN BOOLEAN Wait, OUT PFILE\_\-BASIC\_\-INFORMATION Buffer, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Query\-Standard\-Info} (IN PFILE\_\-OBJECT File\-Object, IN BOOLEAN Wait, OUT PFILE\_\-STANDARD\_\-INFORMATION Buffer, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Lock} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN PLARGE\_\-INTEGER Length, PEPROCESS Process\-Id, ULONG Key, BOOLEAN Fail\-Immediately, BOOLEAN Exclusive\-Lock, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Unlock\-Single} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN PLARGE\_\-INTEGER Length, PEPROCESS Process\-Id, ULONG Key, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Unlock\-All} (IN PFILE\_\-OBJECT File\-Object, PEPROCESS Process\-Id, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Unlock\-All\-By\-Key} (IN PFILE\_\-OBJECT File\-Object, PVOID Process\-Id, ULONG Key, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Device\-Control} (IN PFILE\_\-OBJECT File\-Object, IN BOOLEAN Wait, IN PVOID Input\-Buffer OPTIONAL, IN ULONG Input\-Buffer\-Length, OUT PVOID Output\-Buffer OPTIONAL, IN ULONG Output\-Buffer\-Length, IN ULONG Io\-Control\-Code, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+VOID {\bf Sf\-Fast\-Io\-Detach\-Device} (IN PDEVICE\_\-OBJECT Source\-Device, IN PDEVICE\_\-OBJECT Target\-Device)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Query\-Network\-Open\-Info} (IN PFILE\_\-OBJECT File\-Object, IN BOOLEAN Wait, OUT PFILE\_\-NETWORK\_\-OPEN\_\-INFORMATION Buffer, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Mdl\-Read} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN ULONG Lock\-Key, OUT PMDL $\ast$Mdl\-Chain, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Mdl\-Read\-Complete} (IN PFILE\_\-OBJECT File\-Object, IN PMDL Mdl\-Chain, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Prepare\-Mdl\-Write} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN ULONG Lock\-Key, OUT PMDL $\ast$Mdl\-Chain, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Mdl\-Write\-Complete} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN PMDL Mdl\-Chain, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Read\-Compressed} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN ULONG Lock\-Key, OUT PVOID Buffer, OUT PMDL $\ast$Mdl\-Chain, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, OUT struct \_\-COMPRESSED\_\-DATA\_\-INFO $\ast$Compressed\-Data\-Info, IN ULONG Compressed\-Data\-Info\-Length, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Write\-Compressed} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN ULONG Length, IN ULONG Lock\-Key, IN PVOID Buffer, OUT PMDL $\ast$Mdl\-Chain, OUT PIO\_\-STATUS\_\-BLOCK Io\-Status, IN struct \_\-COMPRESSED\_\-DATA\_\-INFO $\ast$Compressed\-Data\-Info, IN ULONG Compressed\-Data\-Info\-Length, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Mdl\-Read\-Complete\-Compressed} (IN PFILE\_\-OBJECT File\-Object, IN PMDL Mdl\-Chain, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Mdl\-Write\-Complete\-Compressed} (IN PFILE\_\-OBJECT File\-Object, IN PLARGE\_\-INTEGER File\-Offset, IN PMDL Mdl\-Chain, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+BOOLEAN {\bf Sf\-Fast\-Io\-Query\-Open} (IN PIRP Irp, OUT PFILE\_\-NETWORK\_\-OPEN\_\-INFORMATION Network\-Information, IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+VOID {\bf Sf\-Fs\-Notification} (IN PDEVICE\_\-OBJECT Device\-Object, IN BOOLEAN Fs\-Active)
+\item 
+NTSTATUS {\bf Sf\-Attach\-Device\-To\-Device\-Stack} (IN PDEVICE\_\-OBJECT Source\-Device, IN PDEVICE\_\-OBJECT Target\-Device, IN OUT PDEVICE\_\-OBJECT $\ast$Attached\-To\-Device\-Object)
+\item 
+NTSTATUS {\bf Sf\-Attach\-To\-File\-System\-Device} (IN PDEVICE\_\-OBJECT Device\-Object, IN PUNICODE\_\-STRING Device\-Name)
+\item 
+VOID {\bf Sf\-Detach\-From\-File\-System\-Device} (IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+NTSTATUS {\bf Sf\-Attach\-To\-Mounted\-Device} (IN PDEVICE\_\-OBJECT Device\-Object, IN PDEVICE\_\-OBJECT SFilter\-Device\-Object)
+\item 
+VOID {\bf Sf\-Cleanup\-Mounted\-Device} (IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+NTSTATUS {\bf Volume\-Device\-To\-Dos\-Name} (IN PVOID Volume\-Device\-Object, OUT PUNICODE\_\-STRING Dos\-Name)
+\item 
+VOID {\bf Sf\-Get\-Object\-Name} (IN PVOID Object, IN OUT PUNICODE\_\-STRING Name)
+\item 
+VOID {\bf Sf\-Get\-Base\-Device\-Object\-Name} (IN PDEVICE\_\-OBJECT Device\-Object, IN OUT PUNICODE\_\-STRING Device\-Name)
+\item 
+BOOLEAN {\bf Sf\-Is\-Attached\-To\-Device} (PDEVICE\_\-OBJECT Device\-Object, PDEVICE\_\-OBJECT $\ast$Attached\-Device\-Object OPTIONAL)
+\item 
+BOOLEAN {\bf Sf\-Is\-Attached\-To\-Device\-W2K} (PDEVICE\_\-OBJECT Device\-Object, PDEVICE\_\-OBJECT $\ast$Attached\-Device\-Object OPTIONAL)
+\item 
+BOOLEAN {\bf Sf\-Is\-Attached\-To\-Device\-WXPAnd\-Later} (PDEVICE\_\-OBJECT Device\-Object, PDEVICE\_\-OBJECT $\ast$Attached\-Device\-Object OPTIONAL)
+\item 
+VOID {\bf Sf\-Read\-Driver\-Parameters} (IN PUNICODE\_\-STRING Registry\-Path)
+\item 
+NTSTATUS {\bf Sf\-Is\-Shadow\-Copy\-Volume} (IN PDEVICE\_\-OBJECT Storage\-Stack\-Device\-Object, OUT PBOOLEAN Is\-Shadow\-Copy)
+\item 
+NTSTATUS {\bf Sf\-Query\-File\-Information} (PDEVICE\_\-OBJECT Device\-Object, PFILE\_\-OBJECT File\-Object, FILE\_\-INFORMATION\_\-CLASS File\-Information\-Class, PVOID File\-Info, ULONG File\-Info\-Length)
+\begin{CompactList}\small\item\em 查询文件信息 \item\end{CompactList}\item 
+NTSTATUS {\bf Sf\-Query\-File\-Information\-Completed} (PDEVICE\_\-OBJECT Device\-Object, PIRP Irp, PVOID Context)
+\item 
+NTSTATUS {\bf Sf\-Query\-File\-Basic\-Information} (PDEVICE\_\-OBJECT Device\-Object, PFILE\_\-OBJECT File\-Object, PFILE\_\-BASIC\_\-INFORMATION File\-Basic\-Info)
+\begin{CompactList}\small\item\em 查询文件基本信息 \item\end{CompactList}\item 
+NTSTATUS {\bf Sf\-Query\-File\-Name} (PDEVICE\_\-OBJECT Device\-Object, PFILE\_\-OBJECT File\-Object, PFILE\_\-NAME\_\-INFORMATION File\-Name, ULONG dw\-Len)
+\begin{CompactList}\small\item\em 得到文件名信息 \item\end{CompactList}\end{CompactItemize}
+\subsection*{变量}
+\begin{CompactItemize}
+\item 
+ULONG {\bf Sf\-Debug}
+\item 
+PDRIVER\_\-OBJECT {\bf g\-SFilter\-Driver\-Object}
+\item 
+PDEVICE\_\-OBJECT {\bf g\-SFilter\-Control\-Device\-Object}
+\item 
+FAST\_\-MUTEX {\bf g\-Sfilter\-Attach\-Lock}
+\end{CompactItemize}
+
+
+\subsection{宏定义文档}
+\index{sfilter.h@{sfilter.h}!Add2Ptr@{Add2Ptr}}
+\index{Add2Ptr@{Add2Ptr}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define Add2Ptr(P, I)~((PVOID)((PUCHAR)(P) + (I)))}\label{sfilter_8h_87e9d267e10ef615d112398c42c2ae23}
+
+
+
+
+在文件sfilter.h第83行定义。
+
+参考自 Sf\-Is\-Shadow\-Copy\-Volume().\index{sfilter.h@{sfilter.h}!DELAY_ONE_MICROSECOND@{DELAY\_\-ONE\_\-MICROSECOND}}
+\index{DELAY_ONE_MICROSECOND@{DELAY\_\-ONE\_\-MICROSECOND}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define DELAY\_\-ONE\_\-MICROSECOND~(-10)}\label{sfilter_8h_8f2ca9d5fb5cc5183e53885e0048388e}
+
+
+
+
+在文件sfilter.h第400行定义。\index{sfilter.h@{sfilter.h}!DELAY_ONE_MILLISECOND@{DELAY\_\-ONE\_\-MILLISECOND}}
+\index{DELAY_ONE_MILLISECOND@{DELAY\_\-ONE\_\-MILLISECOND}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define DELAY\_\-ONE\_\-MILLISECOND~(DELAY\_\-ONE\_\-MICROSECOND$\ast$1000)}\label{sfilter_8h_28feca3deb229b1231c69a404cfc94ab}
+
+
+
+
+在文件sfilter.h第401行定义。
+
+参考自 Sf\-Attach\-To\-Mounted\-Device().\index{sfilter.h@{sfilter.h}!DELAY_ONE_SECOND@{DELAY\_\-ONE\_\-SECOND}}
+\index{DELAY_ONE_SECOND@{DELAY\_\-ONE\_\-SECOND}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define DELAY\_\-ONE\_\-SECOND~(DELAY\_\-ONE\_\-MILLISECOND$\ast$1000)}\label{sfilter_8h_f9cdb5bdee454da0dab86d0152783e98}
+
+
+
+
+在文件sfilter.h第402行定义。\index{sfilter.h@{sfilter.h}!GET_DEVICE_TYPE_NAME@{GET\_\-DEVICE\_\-TYPE\_\-NAME}}
+\index{GET_DEVICE_TYPE_NAME@{GET\_\-DEVICE\_\-TYPE\_\-NAME}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define GET\_\-DEVICE\_\-TYPE\_\-NAME(\_\-type)}\label{sfilter_8h_d0dd036f7180150c7f0c458b99c4bd19}
+
+
+\textbf{值:}
+
+\begin{Code}\begin{verbatim}((((_type) > 0) && ((_type) < (sizeof(DeviceTypeNames) / sizeof(PCHAR)))) ? \
+                DeviceTypeNames[ (_type) ] : \
+                "[Unknown]")
+\end{verbatim}\end{Code}
+
+
+在文件sfilter.h第432行定义。
+
+参考自 Sf\-Attach\-To\-File\-System\-Device()、Sf\-Detach\-From\-File\-System\-Device()及Sf\-Fs\-Notification().\index{sfilter.h@{sfilter.h}!IS_DESIRED_DEVICE_TYPE@{IS\_\-DESIRED\_\-DEVICE\_\-TYPE}}
+\index{IS_DESIRED_DEVICE_TYPE@{IS\_\-DESIRED\_\-DEVICE\_\-TYPE}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define IS\_\-DESIRED\_\-DEVICE\_\-TYPE(\_\-type)}\label{sfilter_8h_174fa4d39f0f3550a114ad44daed0672}
+
+
+\textbf{值:}
+
+\begin{Code}\begin{verbatim}(((_type) == FILE_DEVICE_DISK_FILE_SYSTEM) || \
+     ((_type) == FILE_DEVICE_CD_ROM_FILE_SYSTEM) || \
+     ((_type) == FILE_DEVICE_NETWORK_FILE_SYSTEM))
+\end{verbatim}\end{Code}
+
+
+在文件sfilter.h第198行定义。
+
+参考自 Sf\-Attach\-To\-File\-System\-Device()及Sf\-Fs\-Control\-Mount\-Volume().\index{sfilter.h@{sfilter.h}!IS_MY_CONTROL_DEVICE_OBJECT@{IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT}}
+\index{IS_MY_CONTROL_DEVICE_OBJECT@{IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT(\_\-dev\-Obj)}\label{sfilter_8h_4df347508e5da1c53d4f40974a22c0c4}
+
+
+\textbf{值:}
+
+\begin{Code}\begin{verbatim}(((_devObj) == gSFilterControlDeviceObject) ? \
+            (ASSERT(((_devObj)->DriverObject == gSFilterDriverObject) && \
+                    ((_devObj)->DeviceExtension == NULL)), TRUE) : \
+            FALSE)
+\end{verbatim}\end{Code}
+
+
+在文件sfilter.h第188行定义。
+
+参考自 Sf\-Cleanup\-Close()、Sf\-Create()、Sf\-Device\-Control()、Sf\-Directory\-Control()、Sf\-Fs\-Control()、Sf\-Pass\-Through()、Sf\-Read()、Sf\-Set\-Information()及Sf\-Write().\index{sfilter.h@{sfilter.h}!IS_MY_DEVICE_OBJECT@{IS\_\-MY\_\-DEVICE\_\-OBJECT}}
+\index{IS_MY_DEVICE_OBJECT@{IS\_\-MY\_\-DEVICE\_\-OBJECT}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define IS\_\-MY\_\-DEVICE\_\-OBJECT(\_\-dev\-Obj)}\label{sfilter_8h_d214c8f1867c1e5ee90212b1cd290d29}
+
+
+\textbf{值:}
+
+\begin{Code}\begin{verbatim}(((_devObj) != NULL) && \
+     ((_devObj)->DriverObject == gSFilterDriverObject) && \
+      ((_devObj)->DeviceExtension != NULL))
+\end{verbatim}\end{Code}
+
+
+在文件sfilter.h第179行定义。
+
+参考自 Sf\-Attach\-To\-Mounted\-Device()、Sf\-Cleanup\-Close()、Sf\-Cleanup\-Mounted\-Device()、Sf\-Completion\-Routine()、Sf\-Create()、Sf\-Detach\-From\-File\-System\-Device()、Sf\-Directory\-Control()、Sf\-Fast\-Io\-Check\-If\-Possible()、Sf\-Fast\-Io\-Detach\-Device()、Sf\-Fast\-Io\-Device\-Control()、Sf\-Fast\-Io\-Lock()、Sf\-Fast\-Io\-Mdl\-Read()、Sf\-Fast\-Io\-Mdl\-Read\-Complete()、Sf\-Fast\-Io\-Mdl\-Read\-Complete\-Compressed()、Sf\-Fast\-Io\-Mdl\-Write\-Complete()、Sf\-Fast\-Io\-Mdl\-Write\-Complete\-Compressed()、Sf\-Fast\-Io\-Prepare\-Mdl\-Write()、Sf\-Fast\-Io\-Query\-Basic\-Info()、Sf\-Fast\-Io\-Query\-Network\-Open\-Info()、Sf\-Fast\-Io\-Query\-Open()、Sf\-Fast\-Io\-Query\-Standard\-Info()、Sf\-Fast\-Io\-Read()、Sf\-Fast\-Io\-Read\-Compressed()、Sf\-Fast\-Io\-Unlock\-All()、Sf\-Fast\-Io\-Unlock\-All\-By\-Key()、Sf\-Fast\-Io\-Unlock\-Single()、Sf\-Fast\-Io\-Write()、Sf\-Fast\-Io\-Write\-Compressed()、Sf\-Fs\-Control()、Sf\-Fs\-Control\-Completion()、Sf\-Fs\-Control\-Mount\-Volume()、Sf\-Is\-Attached\-To\-Device\-W2K()、Sf\-Pass\-Through()、Sf\-Read()、Sf\-Set\-Information()及Sf\-Write().\index{sfilter.h@{sfilter.h}!MAX_DEVNAME_LENGTH@{MAX\_\-DEVNAME\_\-LENGTH}}
+\index{MAX_DEVNAME_LENGTH@{MAX\_\-DEVNAME\_\-LENGTH}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define MAX\_\-DEVNAME\_\-LENGTH~64}\label{sfilter_8h_77a16f4884f9f28b4e3b22d82e78b6a2}
+
+
+
+
+在文件sfilter.h第90行定义。
+
+参考自 Sf\-Attach\-To\-File\-System\-Device()、Sf\-Fs\-Control\-Mount\-Volume()、Sf\-Fs\-Notification()及Sf\-Is\-Shadow\-Copy\-Volume().\index{sfilter.h@{sfilter.h}!SF_LOG_PRINT@{SF\_\-LOG\_\-PRINT}}
+\index{SF_LOG_PRINT@{SF\_\-LOG\_\-PRINT}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SF\_\-LOG\_\-PRINT(\_\-dbg\-Level, \_\-string)}\label{sfilter_8h_87969e3e9c8f8f6c26682dcb71bd59ed}
+
+
+\textbf{值:}
+
+\begin{Code}\begin{verbatim}(FlagOn(SfDebug,(_dbgLevel)) ?                          \
+        DbgPrint _string  :                                 \
+        ((void)0))
+\end{verbatim}\end{Code}
+
+
+在文件sfilter.h第390行定义。
+
+参考自 Sf\-Attach\-To\-File\-System\-Device()、Sf\-Attach\-To\-Mounted\-Device()、Sf\-Detach\-From\-File\-System\-Device()、Sf\-Display\-Create\-File\-Name()、Sf\-Fast\-Io\-Detach\-Device()、Sf\-Fs\-Control()、Sf\-Fs\-Control\-Load\-File\-System()、Sf\-Fs\-Control\-Load\-File\-System\-Complete()、Sf\-Fs\-Control\-Mount\-Volume()、Sf\-Fs\-Control\-Mount\-Volume\-Complete()及Sf\-Fs\-Notification().\index{sfilter.h@{sfilter.h}!SFDEBUG_ATTACH_TO_FSRECOGNIZER@{SFDEBUG\_\-ATTACH\_\-TO\_\-FSRECOGNIZER}}
+\index{SFDEBUG_ATTACH_TO_FSRECOGNIZER@{SFDEBUG\_\-ATTACH\_\-TO\_\-FSRECOGNIZER}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SFDEBUG\_\-ATTACH\_\-TO\_\-FSRECOGNIZER~0x00000010}\label{sfilter_8h_022dbaf4cae98fe0410776b2bf8c860b}
+
+
+
+
+在文件sfilter.h第418行定义。
+
+参考自 Sf\-Attach\-To\-File\-System\-Device().\index{sfilter.h@{sfilter.h}!SFDEBUG_ATTACH_TO_SHADOW_COPIES@{SFDEBUG\_\-ATTACH\_\-TO\_\-SHADOW\_\-COPIES}}
+\index{SFDEBUG_ATTACH_TO_SHADOW_COPIES@{SFDEBUG\_\-ATTACH\_\-TO\_\-SHADOW\_\-COPIES}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SFDEBUG\_\-ATTACH\_\-TO\_\-SHADOW\_\-COPIES~0x00000020}\label{sfilter_8h_8628697e55463529afcf5cdf120f9c44}
+
+
+
+
+在文件sfilter.h第419行定义。
+
+参考自 Sf\-Fs\-Control\-Mount\-Volume().\index{sfilter.h@{sfilter.h}!SFDEBUG_CREATE@{SFDEBUG\_\-CREATE}}
+\index{SFDEBUG_CREATE@{SFDEBUG\_\-CREATE}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SFDEBUG\_\-CREATE~0x00000100}\label{sfilter_8h_f67953ba1d92a0e43e8d630d01fcf864}
+
+
+
+
+在文件sfilter.h第421行定义。
+
+参考自 Sf\-Create().\index{sfilter.h@{sfilter.h}!SFDEBUG_DIRECTORYCONTROL@{SFDEBUG\_\-DIRECTORYCONTROL}}
+\index{SFDEBUG_DIRECTORYCONTROL@{SFDEBUG\_\-DIRECTORYCONTROL}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SFDEBUG\_\-DIRECTORYCONTROL~0x00000400}\label{sfilter_8h_4a86d4262a43aec9680a0a8eb59a2904}
+
+
+
+
+在文件sfilter.h第423行定义。
+
+参考自 Process\-File\-Both\-Directory\-Information()、Sf\-Directory\-Control()及Show\-File\-Both\-Directory\-Information().\index{sfilter.h@{sfilter.h}!SFDEBUG_DISPLAY_ATTACHMENT_NAMES@{SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES}}
+\index{SFDEBUG_DISPLAY_ATTACHMENT_NAMES@{SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES~0x00000001}\label{sfilter_8h_108bdd4fc3dcf0d05aca3f4556ad912f}
+
+
+
+
+在文件sfilter.h第414行定义。
+
+参考自 Sf\-Attach\-To\-File\-System\-Device()、Sf\-Attach\-To\-Mounted\-Device()、Sf\-Detach\-From\-File\-System\-Device()、Sf\-Fast\-Io\-Detach\-Device()、Sf\-Fs\-Control()、Sf\-Fs\-Control\-Load\-File\-System()、Sf\-Fs\-Control\-Load\-File\-System\-Complete()、Sf\-Fs\-Control\-Mount\-Volume()、Sf\-Fs\-Control\-Mount\-Volume\-Complete()及Sf\-Fs\-Notification().\index{sfilter.h@{sfilter.h}!SFDEBUG_DISPLAY_CREATE_NAMES@{SFDEBUG\_\-DISPLAY\_\-CREATE\_\-NAMES}}
+\index{SFDEBUG_DISPLAY_CREATE_NAMES@{SFDEBUG\_\-DISPLAY\_\-CREATE\_\-NAMES}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SFDEBUG\_\-DISPLAY\_\-CREATE\_\-NAMES~0x00000002}\label{sfilter_8h_70e0166cd05438955e357ccf67fc59e0}
+
+
+
+
+在文件sfilter.h第415行定义。
+
+参考自 Sf\-Create()及Sf\-Display\-Create\-File\-Name().\index{sfilter.h@{sfilter.h}!SFDEBUG_DO_CREATE_COMPLETION@{SFDEBUG\_\-DO\_\-CREATE\_\-COMPLETION}}
+\index{SFDEBUG_DO_CREATE_COMPLETION@{SFDEBUG\_\-DO\_\-CREATE\_\-COMPLETION}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SFDEBUG\_\-DO\_\-CREATE\_\-COMPLETION~0x00000008}\label{sfilter_8h_16eaf8b2565211604c194c97625b2f5f}
+
+
+
+
+在文件sfilter.h第417行定义。
+
+参考自 Sf\-Create().\index{sfilter.h@{sfilter.h}!SFDEBUG_GET_CREATE_NAMES@{SFDEBUG\_\-GET\_\-CREATE\_\-NAMES}}
+\index{SFDEBUG_GET_CREATE_NAMES@{SFDEBUG\_\-GET\_\-CREATE\_\-NAMES}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SFDEBUG\_\-GET\_\-CREATE\_\-NAMES~0x00000004}\label{sfilter_8h_fe2b12a6d5cfd1f6927cce751c4fbd2a}
+
+
+
+
+在文件sfilter.h第416行定义。
+
+参考自 Sf\-Create().\index{sfilter.h@{sfilter.h}!SFDEBUG_READWRITE@{SFDEBUG\_\-READWRITE}}
+\index{SFDEBUG_READWRITE@{SFDEBUG\_\-READWRITE}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SFDEBUG\_\-READWRITE~0x00000200}\label{sfilter_8h_d6923e5aa4f8c686b79aacba6bfda616}
+
+
+
+
+在文件sfilter.h第422行定义。
+
+参考自 Sf\-Read()及Sf\-Write().\index{sfilter.h@{sfilter.h}!SFDEBUG_SET_INFORMATION@{SFDEBUG\_\-SET\_\-INFORMATION}}
+\index{SFDEBUG_SET_INFORMATION@{SFDEBUG\_\-SET\_\-INFORMATION}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SFDEBUG\_\-SET\_\-INFORMATION~0x00000080}\label{sfilter_8h_51aad00ffc89de2595f6f198acc70cf1}
+
+
+
+
+在文件sfilter.h第420行定义。
+
+参考自 Sf\-Set\-Information().\index{sfilter.h@{sfilter.h}!SFLT_POOL_TAG@{SFLT\_\-POOL\_\-TAG}}
+\index{SFLT_POOL_TAG@{SFLT\_\-POOL\_\-TAG}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SFLT\_\-POOL\_\-TAG~'tl\-FS'}\label{sfilter_8h_a8e01de27ec6da56e0476449c5c75d81}
+
+
+
+
+在文件sfilter.h第354行定义。
+
+参考自 Allocate\-Buffer()、Driver\-Entry()、Free\-Buffer()、Sf\-Fs\-Control\-Load\-File\-System()、Sf\-Fs\-Control\-Load\-File\-System\-Complete\-Worker()、Sf\-Fs\-Control\-Mount\-Volume()、Sf\-Fs\-Control\-Mount\-Volume\-Complete\-Worker()及Sf\-Get\-File\-Name().\index{sfilter.h@{sfilter.h}!VALID_FAST_IO_DISPATCH_HANDLER@{VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER}}
+\index{VALID_FAST_IO_DISPATCH_HANDLER@{VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER(\_\-Fast\-Io\-Dispatch\-Ptr, \_\-Field\-Name)}\label{sfilter_8h_dd5d710fbc08153d3cbdbf1fc33782c4}
+
+
+\textbf{值:}
+
+\begin{Code}\begin{verbatim}(((_FastIoDispatchPtr) != NULL) && \
+     (((_FastIoDispatchPtr)->SizeOfFastIoDispatch) >= \
+            (FIELD_OFFSET(FAST_IO_DISPATCH, _FieldName) + sizeof(void *))) && \
+     ((_FastIoDispatchPtr)->_FieldName != NULL))
+\end{verbatim}\end{Code}
+
+
+在文件sfilter.h第207行定义。
+
+参考自 Sf\-Fast\-Io\-Check\-If\-Possible()、Sf\-Fast\-Io\-Device\-Control()、Sf\-Fast\-Io\-Lock()、Sf\-Fast\-Io\-Mdl\-Read()、Sf\-Fast\-Io\-Mdl\-Read\-Complete()、Sf\-Fast\-Io\-Mdl\-Read\-Complete\-Compressed()、Sf\-Fast\-Io\-Mdl\-Write\-Complete()、Sf\-Fast\-Io\-Mdl\-Write\-Complete\-Compressed()、Sf\-Fast\-Io\-Prepare\-Mdl\-Write()、Sf\-Fast\-Io\-Query\-Basic\-Info()、Sf\-Fast\-Io\-Query\-Network\-Open\-Info()、Sf\-Fast\-Io\-Query\-Open()、Sf\-Fast\-Io\-Query\-Standard\-Info()、Sf\-Fast\-Io\-Read()、Sf\-Fast\-Io\-Read\-Compressed()、Sf\-Fast\-Io\-Unlock\-All()、Sf\-Fast\-Io\-Unlock\-All\-By\-Key()、Sf\-Fast\-Io\-Unlock\-Single()、Sf\-Fast\-Io\-Write()及Sf\-Fast\-Io\-Write\-Compressed().
+
+\subsection{类型定义文档}
+\index{sfilter.h@{sfilter.h}!FILTERFILE@{FILTERFILE}}
+\index{FILTERFILE@{FILTERFILE}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \_\-FILTERFILE} {\bf FILTERFILE}}\label{sfilter_8h_297406d52248cd6a75d561cde43a0a31}
+
+
+\index{sfilter.h@{sfilter.h}!FSCTRL_COMPLETION_CONTEXT@{FSCTRL\_\-COMPLETION\_\-CONTEXT}}
+\index{FSCTRL_COMPLETION_CONTEXT@{FSCTRL\_\-COMPLETION\_\-CONTEXT}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \_\-FSCTRL\_\-COMPLETION\_\-CONTEXT}  {\bf FSCTRL\_\-COMPLETION\_\-CONTEXT}}\label{sfilter_8h_a8751bc0eede78fa25735913d33a13e9}
+
+
+\index{sfilter.h@{sfilter.h}!GET_NAME_CONTROL@{GET\_\-NAME\_\-CONTROL}}
+\index{GET_NAME_CONTROL@{GET\_\-NAME\_\-CONTROL}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \_\-GET\_\-NAME\_\-CONTROL}  {\bf GET\_\-NAME\_\-CONTROL}}\label{sfilter_8h_8d57889aabcb1a49492ba6ab13ad98c1}
+
+
+\index{sfilter.h@{sfilter.h}!PFILTERFILE@{PFILTERFILE}}
+\index{PFILTERFILE@{PFILTERFILE}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \_\-FILTERFILE} $\ast$ {\bf PFILTERFILE}}\label{sfilter_8h_a7db6fe32c10f70142e20908d06938ec}
+
+
+\index{sfilter.h@{sfilter.h}!PFSCTRL_COMPLETION_CONTEXT@{PFSCTRL\_\-COMPLETION\_\-CONTEXT}}
+\index{PFSCTRL_COMPLETION_CONTEXT@{PFSCTRL\_\-COMPLETION\_\-CONTEXT}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \_\-FSCTRL\_\-COMPLETION\_\-CONTEXT} $\ast$ {\bf PFSCTRL\_\-COMPLETION\_\-CONTEXT}}\label{sfilter_8h_54011ad8eeae430100a2a362392e3499}
+
+
+\index{sfilter.h@{sfilter.h}!PGET_NAME_CONTROL@{PGET\_\-NAME\_\-CONTROL}}
+\index{PGET_NAME_CONTROL@{PGET\_\-NAME\_\-CONTROL}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \_\-GET\_\-NAME\_\-CONTROL} $\ast$ {\bf PGET\_\-NAME\_\-CONTROL}}\label{sfilter_8h_2a70a676f401206f977462bd7c59d121}
+
+
+\index{sfilter.h@{sfilter.h}!PSFILTER_DEVICE_EXTENSION@{PSFILTER\_\-DEVICE\_\-EXTENSION}}
+\index{PSFILTER_DEVICE_EXTENSION@{PSFILTER\_\-DEVICE\_\-EXTENSION}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \_\-SFILTER\_\-DEVICE\_\-EXTENSION} $\ast$ {\bf PSFILTER\_\-DEVICE\_\-EXTENSION}}\label{sfilter_8h_d12829c453d42ba1bdc965461311e0ac}
+
+
+\index{sfilter.h@{sfilter.h}!SFILTER_DEVICE_EXTENSION@{SFILTER\_\-DEVICE\_\-EXTENSION}}
+\index{SFILTER_DEVICE_EXTENSION@{SFILTER\_\-DEVICE\_\-EXTENSION}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \_\-SFILTER\_\-DEVICE\_\-EXTENSION}  {\bf SFILTER\_\-DEVICE\_\-EXTENSION}}\label{sfilter_8h_1cebc3459537a737b57ef4788ae09e34}
+
+
+
+
+\subsection{函数文档}
+\index{sfilter.h@{sfilter.h}!DriverEntry@{DriverEntry}}
+\index{DriverEntry@{DriverEntry}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Driver\-Entry (IN PDRIVER\_\-OBJECT {\em Driver\-Object}, IN PUNICODE\_\-STRING {\em Registry\-Path})}\label{sfilter_8h_6502d781bd20234a06710b92d540baba}
+
+
+
+
+在文件sfilter.c第191行定义。
+
+参考 g\-File\-Name\-Array\-Head、g\-Sf\-Dynamic\-Functions、g\-Sfilter\-Attach\-Lock、g\-SFilter\-Control\-Device\-Object、g\-SFilter\-Driver\-Object、g\-Write\-Protect\-Data、Initial\-Array()、Sf\-Cleanup\-Close()、Sf\-Create()、Sf\-Device\-Control()、Sf\-Directory\-Control()、Sf\-Fast\-Io\-Check\-If\-Possible()、Sf\-Fast\-Io\-Detach\-Device()、Sf\-Fast\-Io\-Device\-Control()、Sf\-Fast\-Io\-Lock()、Sf\-Fast\-Io\-Mdl\-Read()、Sf\-Fast\-Io\-Mdl\-Read\-Complete()、Sf\-Fast\-Io\-Mdl\-Read\-Complete\-Compressed()、Sf\-Fast\-Io\-Mdl\-Write\-Complete()、Sf\-Fast\-Io\-Mdl\-Write\-Complete\-Compressed()、Sf\-Fast\-Io\-Prepare\-Mdl\-Write()、Sf\-Fast\-Io\-Query\-Basic\-Info()、Sf\-Fast\-Io\-Query\-Network\-Open\-Info()、Sf\-Fast\-Io\-Query\-Open()、Sf\-Fast\-Io\-Query\-Standard\-Info()、Sf\-Fast\-Io\-Read()、Sf\-Fast\-Io\-Read\-Compressed()、Sf\-Fast\-Io\-Unlock\-All()、Sf\-Fast\-Io\-Unlock\-All\-By\-Key()、Sf\-Fast\-Io\-Unlock\-Single()、Sf\-Fast\-Io\-Write()、Sf\-Fast\-Io\-Write\-Compressed()、Sf\-Fs\-Control()、Sf\-Fs\-Notification()、SFLT\_\-POOL\_\-TAG、Sf\-Pass\-Through()、Sf\-Read()、Sf\-Read\-Driver\-Parameters()、Sf\-Set\-Information()及Sf\-Write().\index{sfilter.h@{sfilter.h}!SetCompletionRoutine@{SetCompletionRoutine}}
+\index{SetCompletionRoutine@{SetCompletionRoutine}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Set\-Completion\-Routine (IN PDEVICE\_\-OBJECT {\em Attached\-Device\-Object}, IN PIRP {\em Irp})}\label{sfilter_8h_1e1bea04c44b3839282abd824f71c1a5}
+
+
+Set Completion Routine 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em IN}]PDEVICE\_\-OBJECT Attached\-Device\-Object：Lower Device Object \item[{\em IN}]PIRP Irp ： \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 NTSTATUS 。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-20 13:08:47 \end{Desc}
+
+
+在文件function.c第426行定义。
+
+参考 Sf\-Completion\-Routine().
+
+参考自 Sf\-Directory\-Control().\index{sfilter.h@{sfilter.h}!SfAttachDeviceToDeviceStack@{SfAttachDeviceToDeviceStack}}
+\index{SfAttachDeviceToDeviceStack@{SfAttachDeviceToDeviceStack}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Attach\-Device\-To\-Device\-Stack (IN PDEVICE\_\-OBJECT {\em Source\-Device}, IN PDEVICE\_\-OBJECT {\em Target\-Device}, IN OUT PDEVICE\_\-OBJECT $\ast$ {\em Attached\-To\-Device\-Object})}\label{sfilter_8h_892f7ce99d119a30b714b43f26663b43}
+
+
+
+
+在文件function.c第249行定义。
+
+参考 g\-Sf\-Dynamic\-Functions.
+
+参考自 Sf\-Attach\-To\-File\-System\-Device()、Sf\-Attach\-To\-Mounted\-Device()及Sf\-Fs\-Control\-Load\-File\-System\-Complete().\index{sfilter.h@{sfilter.h}!SfAttachToFileSystemDevice@{SfAttachToFileSystemDevice}}
+\index{SfAttachToFileSystemDevice@{SfAttachToFileSystemDevice}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Attach\-To\-File\-System\-Device (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PUNICODE\_\-STRING {\em Device\-Name})}\label{sfilter_8h_949e7ecbee68b8b05d1a4dc785b0b5bb}
+
+
+
+
+在文件File\-System\-Notification.c第26行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Link\-Symbol\-Name、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Link\-Symbol\-Name\-Buffer、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name\-Buffer、GET\_\-DEVICE\_\-TYPE\_\-NAME、g\-Sf\-Dynamic\-Functions、g\-SFilter\-Driver\-Object、IS\_\-DESIRED\_\-DEVICE\_\-TYPE、MAX\_\-DEVNAME\_\-LENGTH、SF\_\-LOG\_\-PRINT、Sf\-Attach\-Device\-To\-Device\-Stack()、Sf\-Cleanup\-Mounted\-Device()、Sf\-Debug、SFDEBUG\_\-ATTACH\_\-TO\_\-FSRECOGNIZER、SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES及Sf\-Get\-Object\-Name().
+
+参考自 Sf\-Fs\-Notification().\index{sfilter.h@{sfilter.h}!SfAttachToMountedDevice@{SfAttachToMountedDevice}}
+\index{SfAttachToMountedDevice@{SfAttachToMountedDevice}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Attach\-To\-Mounted\-Device (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PDEVICE\_\-OBJECT {\em SFilter\-Device\-Object})}\label{sfilter_8h_ad03c618eb6579155ef804653bd91a2a}
+
+
+
+
+在文件Volume.c第225行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、DELAY\_\-ONE\_\-MILLISECOND、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、IS\_\-MY\_\-DEVICE\_\-OBJECT、SF\_\-LOG\_\-PRINT、Sf\-Attach\-Device\-To\-Device\-Stack()、SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES及Sf\-Is\-Attached\-To\-Device().
+
+参考自 Sf\-Fs\-Control\-Mount\-Volume\-Complete().\index{sfilter.h@{sfilter.h}!SfCleanupClose@{SfCleanupClose}}
+\index{SfCleanupClose@{SfCleanupClose}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Cleanup\-Close (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{sfilter_8h_bcceec930b121c849d5a85c993ad6da0}
+
+
+
+
+在文件create.c第580行定义。
+
+参考 IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT及IS\_\-MY\_\-DEVICE\_\-OBJECT.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfCleanupMountedDevice@{SfCleanupMountedDevice}}
+\index{SfCleanupMountedDevice@{SfCleanupMountedDevice}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Cleanup\-Mounted\-Device (IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_9799df62b66e000ee65a25df795b3136}
+
+
+
+
+在文件sfilter.c第1773行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT.
+
+参考自 Sf\-Attach\-To\-File\-System\-Device()、Sf\-Detach\-From\-File\-System\-Device()、Sf\-Fast\-Io\-Detach\-Device()、Sf\-Fs\-Control\-Load\-File\-System\-Complete()及Sf\-Fs\-Control\-Mount\-Volume\-Complete().\index{sfilter.h@{sfilter.h}!SfCompletionRoutine@{SfCompletionRoutine}}
+\index{SfCompletionRoutine@{SfCompletionRoutine}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Completion\-Routine (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp}, IN PVOID {\em Context})}\label{sfilter_8h_1f6289d65346bebd11978411e5842c53}
+
+
+
+
+在文件function.c第478行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT.
+
+参考自 Set\-Completion\-Routine()及Sf\-Create().\index{sfilter.h@{sfilter.h}!SfCreate@{SfCreate}}
+\index{SfCreate@{SfCreate}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Create (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{sfilter_8h_a86a5ab4e343a4756037137246d488bb}
+
+
+
+
+在文件create.c第367行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Link\-Symbol\-Name、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT、IS\_\-MY\_\-DEVICE\_\-OBJECT、Sf\-Completion\-Routine()、Sf\-Debug、SFDEBUG\_\-CREATE、SFDEBUG\_\-DISPLAY\_\-CREATE\_\-NAMES、SFDEBUG\_\-DO\_\-CREATE\_\-COMPLETION、SFDEBUG\_\-GET\_\-CREATE\_\-NAMES、Sf\-Display\-Create\-File\-Name()、Sf\-Get\-File\-Name()及\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Storage\-Stack\-Device\-Object.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfDetachFromFileSystemDevice@{SfDetachFromFileSystemDevice}}
+\index{SfDetachFromFileSystemDevice@{SfDetachFromFileSystemDevice}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Detach\-From\-File\-System\-Device (IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_5380524b84b7b785bcfe3ff96a47627c}
+
+
+
+
+在文件File\-System\-Notification.c第245行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、GET\_\-DEVICE\_\-TYPE\_\-NAME、IS\_\-MY\_\-DEVICE\_\-OBJECT、SF\_\-LOG\_\-PRINT、Sf\-Cleanup\-Mounted\-Device()及SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES.
+
+参考自 Sf\-Fs\-Notification().\index{sfilter.h@{sfilter.h}!SfDeviceControl@{SfDeviceControl}}
+\index{SfDeviceControl@{SfDeviceControl}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Device\-Control (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{sfilter_8h_01e94873f8c63d593b777f941638a6c5}
+
+
+
+
+在文件sfilter.c第933行定义。
+
+参考 FSCTL\_\-GET\_\-POSITION\_\-FILE、FSCTL\_\-REMOVE\_\-PROTECT\_\-FILE、FSCTL\_\-SET\_\-PROTECT\_\-FILE、Get\-Element()、g\-File\-Name\-Array\-Head、Insert\-Element()、INT、IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT及Remove\-Element().
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfDirectoryControl@{SfDirectoryControl}}
+\index{SfDirectoryControl@{SfDirectoryControl}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Directory\-Control (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{sfilter_8h_6174dc959d65f9881e250e896b235a9b}
+
+
+目录控制派遣例程(IRP\_\-MJ\_\-DIRECTORY\_\-CONTROL) 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em IN}]PDEVICE\_\-OBJECT Device\-Object： \item[{\em IN}]PIRP Irp ： \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 NTSTATUS 。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-19 15:05:06 \end{Desc}
+
+
+在文件Directory\-Control.c第204行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、QUERYDIRECTORY::File\-Information\-Class、QUERYDIRECTORY::File\-Name、Free\-Unicode\-Buffer()、Get\-Full\-Path()、IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT、IS\_\-MY\_\-DEVICE\_\-OBJECT、QUERYDIRECTORY::Length、Process\-File\-Both\-Directory\-Information()、Set\-Completion\-Routine()、Sf\-Debug、SFDEBUG\_\-DIRECTORYCONTROL及Sf\-Pass\-Through().
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoCheckIfPossible@{SfFastIoCheckIfPossible}}
+\index{SfFastIoCheckIfPossible@{SfFastIoCheckIfPossible}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Check\-If\-Possible (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN BOOLEAN {\em Wait}, IN ULONG {\em Lock\-Key}, IN BOOLEAN {\em Check\-For\-Read\-Operation}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_d2d679a4b9cf2b33cb2f0393da6c936b}
+
+
+
+
+在文件Fast\-IO.c第11行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoDetachDevice@{SfFastIoDetachDevice}}
+\index{SfFastIoDetachDevice@{SfFastIoDetachDevice}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Fast\-Io\-Detach\-Device (IN PDEVICE\_\-OBJECT {\em Source\-Device}, IN PDEVICE\_\-OBJECT {\em Target\-Device})}\label{sfilter_8h_f6b4eabc5d5102d6ae998180272a4150}
+
+
+
+
+在文件Fast\-IO.c第833行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、IS\_\-MY\_\-DEVICE\_\-OBJECT、SF\_\-LOG\_\-PRINT、Sf\-Cleanup\-Mounted\-Device()及SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoDeviceControl@{SfFastIoDeviceControl}}
+\index{SfFastIoDeviceControl@{SfFastIoDeviceControl}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Device\-Control (IN PFILE\_\-OBJECT {\em File\-Object}, IN BOOLEAN {\em Wait}, IN PVOID Input\-Buffer {\em OPTIONAL}, IN ULONG {\em Input\-Buffer\-Length}, OUT PVOID Output\-Buffer {\em OPTIONAL}, IN ULONG {\em Output\-Buffer\-Length}, IN ULONG {\em Io\-Control\-Code}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_cc01a3a1688dac9a92280d0cb4302c88}
+
+
+
+
+在文件Fast\-IO.c第738行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoLock@{SfFastIoLock}}
+\index{SfFastIoLock@{SfFastIoLock}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Lock (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN PLARGE\_\-INTEGER {\em Length}, PEPROCESS {\em Process\-Id}, ULONG {\em Key}, BOOLEAN {\em Fail\-Immediately}, BOOLEAN {\em Exclusive\-Lock}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_35e4dc77ccd063e489599fd50b17d436}
+
+
+
+
+在文件Fast\-IO.c第421行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoMdlRead@{SfFastIoMdlRead}}
+\index{SfFastIoMdlRead@{SfFastIoMdlRead}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Mdl\-Read (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN ULONG {\em Lock\-Key}, OUT PMDL $\ast$ {\em Mdl\-Chain}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_957693ad39cf53728a66924848d36934}
+
+
+
+
+在文件Fast\-IO.c第965行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoMdlReadComplete@{SfFastIoMdlReadComplete}}
+\index{SfFastIoMdlReadComplete@{SfFastIoMdlReadComplete}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Mdl\-Read\-Complete (IN PFILE\_\-OBJECT {\em File\-Object}, IN PMDL {\em Mdl\-Chain}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_51236c0a17a98c81d5796ac16e3be6a0}
+
+
+
+
+在文件Fast\-IO.c第1046行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoMdlReadCompleteCompressed@{SfFastIoMdlReadCompleteCompressed}}
+\index{SfFastIoMdlReadCompleteCompressed@{SfFastIoMdlReadCompleteCompressed}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Mdl\-Read\-Complete\-Compressed (IN PFILE\_\-OBJECT {\em File\-Object}, IN PMDL {\em Mdl\-Chain}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_a608a30debc801c635109d02710e10ce}
+
+
+
+
+在文件Fast\-IO.c第1469行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoMdlWriteComplete@{SfFastIoMdlWriteComplete}}
+\index{SfFastIoMdlWriteComplete@{SfFastIoMdlWriteComplete}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Mdl\-Write\-Complete (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN PMDL {\em Mdl\-Chain}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_6b7501ec2585852408be5b79b8f678d3}
+
+
+
+
+在文件Fast\-IO.c第1192行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoMdlWriteCompleteCompressed@{SfFastIoMdlWriteCompleteCompressed}}
+\index{SfFastIoMdlWriteCompleteCompressed@{SfFastIoMdlWriteCompleteCompressed}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Mdl\-Write\-Complete\-Compressed (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN PMDL {\em Mdl\-Chain}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_4021a70e58c6e9560f64f03c6547f4a6}
+
+
+
+
+在文件Fast\-IO.c第1535行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoPrepareMdlWrite@{SfFastIoPrepareMdlWrite}}
+\index{SfFastIoPrepareMdlWrite@{SfFastIoPrepareMdlWrite}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Prepare\-Mdl\-Write (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN ULONG {\em Lock\-Key}, OUT PMDL $\ast$ {\em Mdl\-Chain}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_b5e49ca8d0a74909a6065adff3bdd68b}
+
+
+
+
+在文件Fast\-IO.c第1111行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoQueryBasicInfo@{SfFastIoQueryBasicInfo}}
+\index{SfFastIoQueryBasicInfo@{SfFastIoQueryBasicInfo}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Query\-Basic\-Info (IN PFILE\_\-OBJECT {\em File\-Object}, IN BOOLEAN {\em Wait}, OUT PFILE\_\-BASIC\_\-INFORMATION {\em Buffer}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_aaac01bb91208c2ceedbab51b4df686d}
+
+
+
+
+在文件Fast\-IO.c第271行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoQueryNetworkOpenInfo@{SfFastIoQueryNetworkOpenInfo}}
+\index{SfFastIoQueryNetworkOpenInfo@{SfFastIoQueryNetworkOpenInfo}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Query\-Network\-Open\-Info (IN PFILE\_\-OBJECT {\em File\-Object}, IN BOOLEAN {\em Wait}, OUT PFILE\_\-NETWORK\_\-OPEN\_\-INFORMATION {\em Buffer}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_71b6ee9bad3580d3e3c86843002191b1}
+
+
+
+
+在文件Fast\-IO.c第890行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoQueryOpen@{SfFastIoQueryOpen}}
+\index{SfFastIoQueryOpen@{SfFastIoQueryOpen}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Query\-Open (IN PIRP {\em Irp}, OUT PFILE\_\-NETWORK\_\-OPEN\_\-INFORMATION {\em Network\-Information}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_279844187adcc94c92382f67cbcb54b6}
+
+
+
+
+在文件Fast\-IO.c第1606行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoQueryStandardInfo@{SfFastIoQueryStandardInfo}}
+\index{SfFastIoQueryStandardInfo@{SfFastIoQueryStandardInfo}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Query\-Standard\-Info (IN PFILE\_\-OBJECT {\em File\-Object}, IN BOOLEAN {\em Wait}, OUT PFILE\_\-STANDARD\_\-INFORMATION {\em Buffer}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_54b4e30573ef11a08f2ba681e7972574}
+
+
+
+
+在文件Fast\-IO.c第346行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoRead@{SfFastIoRead}}
+\index{SfFastIoRead@{SfFastIoRead}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Read (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN BOOLEAN {\em Wait}, IN ULONG {\em Lock\-Key}, OUT PVOID {\em Buffer}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_1992d20737a4cf12d71fd03dec7ab924}
+
+
+
+
+在文件Fast\-IO.c第98行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoReadCompressed@{SfFastIoReadCompressed}}
+\index{SfFastIoReadCompressed@{SfFastIoReadCompressed}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Read\-Compressed (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN ULONG {\em Lock\-Key}, OUT PVOID {\em Buffer}, OUT PMDL $\ast$ {\em Mdl\-Chain}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, OUT struct \_\-COMPRESSED\_\-DATA\_\-INFO $\ast$ {\em Compressed\-Data\-Info}, IN ULONG {\em Compressed\-Data\-Info\-Length}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_9b3bba3c8e26f8f6d7c2784c84b49032}
+
+
+
+
+在文件Fast\-IO.c第1279行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoUnlockAll@{SfFastIoUnlockAll}}
+\index{SfFastIoUnlockAll@{SfFastIoUnlockAll}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Unlock\-All (IN PFILE\_\-OBJECT {\em File\-Object}, PEPROCESS {\em Process\-Id}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_d604294528d57a2b334a2198c47779ef}
+
+
+
+
+在文件Fast\-IO.c第594行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoUnlockAllByKey@{SfFastIoUnlockAllByKey}}
+\index{SfFastIoUnlockAllByKey@{SfFastIoUnlockAllByKey}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Unlock\-All\-By\-Key (IN PFILE\_\-OBJECT {\em File\-Object}, PVOID {\em Process\-Id}, ULONG {\em Key}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_85c8dd9d8e5419e9f4affa3f7dbaebeb}
+
+
+
+
+在文件Fast\-IO.c第665行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoUnlockSingle@{SfFastIoUnlockSingle}}
+\index{SfFastIoUnlockSingle@{SfFastIoUnlockSingle}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Unlock\-Single (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN PLARGE\_\-INTEGER {\em Length}, PEPROCESS {\em Process\-Id}, ULONG {\em Key}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_cda4fafbae494c0b791f89e87cffdf88}
+
+
+
+
+在文件Fast\-IO.c第512行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoWrite@{SfFastIoWrite}}
+\index{SfFastIoWrite@{SfFastIoWrite}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Write (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN BOOLEAN {\em Wait}, IN ULONG {\em Lock\-Key}, IN PVOID {\em Buffer}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_d189e99f7ad6929e0baeacdca5892aeb}
+
+
+
+
+在文件Fast\-IO.c第184行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFastIoWriteCompressed@{SfFastIoWriteCompressed}}
+\index{SfFastIoWriteCompressed@{SfFastIoWriteCompressed}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Fast\-Io\-Write\-Compressed (IN PFILE\_\-OBJECT {\em File\-Object}, IN PLARGE\_\-INTEGER {\em File\-Offset}, IN ULONG {\em Length}, IN ULONG {\em Lock\-Key}, IN PVOID {\em Buffer}, OUT PMDL $\ast$ {\em Mdl\-Chain}, OUT PIO\_\-STATUS\_\-BLOCK {\em Io\-Status}, IN struct \_\-COMPRESSED\_\-DATA\_\-INFO $\ast$ {\em Compressed\-Data\-Info}, IN ULONG {\em Compressed\-Data\-Info\-Length}, IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{sfilter_8h_3bd7144a5f91d93e226d595c3ca57075}
+
+
+
+
+在文件Fast\-IO.c第1374行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT及VALID\_\-FAST\_\-IO\_\-DISPATCH\_\-HANDLER.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFsControl@{SfFsControl}}
+\index{SfFsControl@{SfFsControl}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Fs\-Control (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{sfilter_8h_3e2192e85e83f20ec11b5ad2e4688c97}
+
+
+
+
+在文件sfilter.c第840行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT、IS\_\-MY\_\-DEVICE\_\-OBJECT、SF\_\-LOG\_\-PRINT、SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES、Sf\-Fs\-Control\-Load\-File\-System()及Sf\-Fs\-Control\-Mount\-Volume().
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfFsControlCompletion@{SfFsControlCompletion}}
+\index{SfFsControlCompletion@{SfFsControlCompletion}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Fs\-Control\-Completion (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp}, IN PVOID {\em Context})}\label{sfilter_8h_c0b5779db1381fd73a573aeeb16884de}
+
+
+
+
+在文件function.c第339行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT.
+
+参考自 Sf\-Fs\-Control\-Load\-File\-System()及Sf\-Fs\-Control\-Mount\-Volume().\index{sfilter.h@{sfilter.h}!SfFsControlLoadFileSystem@{SfFsControlLoadFileSystem}}
+\index{SfFsControlLoadFileSystem@{SfFsControlLoadFileSystem}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Fs\-Control\-Load\-File\-System (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{sfilter_8h_88a43670e720b9e781e0b298df38edf8}
+
+
+
+
+在文件sfilter.c第1068行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、\_\-FSCTRL\_\-COMPLETION\_\-CONTEXT::Device\-Object、\_\-FSCTRL\_\-COMPLETION\_\-CONTEXT::Irp、\_\-FSCTRL\_\-COMPLETION\_\-CONTEXT::New\-Device\-Object、SF\_\-LOG\_\-PRINT、SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES、Sf\-Fs\-Control\-Completion()、Sf\-Fs\-Control\-Load\-File\-System\-Complete()、Sf\-Fs\-Control\-Load\-File\-System\-Complete\-Worker()、SFLT\_\-POOL\_\-TAG及\_\-FSCTRL\_\-COMPLETION\_\-CONTEXT::Work\-Item.
+
+参考自 Sf\-Fs\-Control().\index{sfilter.h@{sfilter.h}!SfFsControlLoadFileSystemComplete@{SfFsControlLoadFileSystemComplete}}
+\index{SfFsControlLoadFileSystemComplete@{SfFsControlLoadFileSystemComplete}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Fs\-Control\-Load\-File\-System\-Complete (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{sfilter_8h_7299be792c8159407c587611781df738}
+
+
+
+
+在文件sfilter.c第1268行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、SF\_\-LOG\_\-PRINT、Sf\-Attach\-Device\-To\-Device\-Stack()、Sf\-Cleanup\-Mounted\-Device()及SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES.
+
+参考自 Sf\-Fs\-Control\-Load\-File\-System()及Sf\-Fs\-Control\-Load\-File\-System\-Complete\-Worker().\index{sfilter.h@{sfilter.h}!SfFsControlLoadFileSystemCompleteWorker@{SfFsControlLoadFileSystemCompleteWorker}}
+\index{SfFsControlLoadFileSystemCompleteWorker@{SfFsControlLoadFileSystemCompleteWorker}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Fs\-Control\-Load\-File\-System\-Complete\-Worker (IN {\bf PFSCTRL\_\-COMPLETION\_\-CONTEXT} {\em Context})}\label{sfilter_8h_124208819a6b2de77b7bfe4aec40799f}
+
+
+
+
+在文件sfilter.c第1239行定义。
+
+参考 Sf\-Fs\-Control\-Load\-File\-System\-Complete()及SFLT\_\-POOL\_\-TAG.
+
+参考自 Sf\-Fs\-Control\-Load\-File\-System().\index{sfilter.h@{sfilter.h}!SfFsControlMountVolume@{SfFsControlMountVolume}}
+\index{SfFsControlMountVolume@{SfFsControlMountVolume}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Fs\-Control\-Mount\-Volume (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{sfilter_8h_ffe498b3f7934ac0f937d1e7bfd9377d}
+
+
+
+
+在文件Volume.c第500行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Link\-Symbol\-Name、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Link\-Symbol\-Name\-Buffer、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name\-Buffer、\_\-FSCTRL\_\-COMPLETION\_\-CONTEXT::Device\-Object、g\-SFilter\-Driver\-Object、\_\-FSCTRL\_\-COMPLETION\_\-CONTEXT::Irp、IS\_\-DESIRED\_\-DEVICE\_\-TYPE、IS\_\-MY\_\-DEVICE\_\-OBJECT、MAX\_\-DEVNAME\_\-LENGTH、\_\-FSCTRL\_\-COMPLETION\_\-CONTEXT::New\-Device\-Object、SF\_\-LOG\_\-PRINT、Sf\-Debug、SFDEBUG\_\-ATTACH\_\-TO\_\-SHADOW\_\-COPIES、SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES、Sf\-Fs\-Control\-Completion()、Sf\-Fs\-Control\-Mount\-Volume\-Complete()、Sf\-Fs\-Control\-Mount\-Volume\-Complete\-Worker()、Sf\-Get\-Object\-Name()、Sf\-Is\-Shadow\-Copy\-Volume()、SFLT\_\-POOL\_\-TAG、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Storage\-Stack\-Device\-Object、Volume\-Device\-To\-Dos\-Name()及\_\-FSCTRL\_\-COMPLETION\_\-CONTEXT::Work\-Item.
+
+参考自 Sf\-Fs\-Control().\index{sfilter.h@{sfilter.h}!SfFsControlMountVolumeComplete@{SfFsControlMountVolumeComplete}}
+\index{SfFsControlMountVolumeComplete@{SfFsControlMountVolumeComplete}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Fs\-Control\-Mount\-Volume\-Complete (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp}, IN PDEVICE\_\-OBJECT {\em New\-Device\-Object})}\label{sfilter_8h_532367b2d2da69a7faa65cc0bf854349}
+
+
+
+
+在文件Volume.c第328行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、g\-Sfilter\-Attach\-Lock、SF\_\-LOG\_\-PRINT、Sf\-Attach\-To\-Mounted\-Device()、Sf\-Cleanup\-Mounted\-Device()、SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES、Sf\-Is\-Attached\-To\-Device()及\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Storage\-Stack\-Device\-Object.
+
+参考自 Sf\-Fs\-Control\-Mount\-Volume()及Sf\-Fs\-Control\-Mount\-Volume\-Complete\-Worker().\index{sfilter.h@{sfilter.h}!SfFsControlMountVolumeCompleteWorker@{SfFsControlMountVolumeCompleteWorker}}
+\index{SfFsControlMountVolumeCompleteWorker@{SfFsControlMountVolumeCompleteWorker}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Fs\-Control\-Mount\-Volume\-Complete\-Worker (IN {\bf PFSCTRL\_\-COMPLETION\_\-CONTEXT} {\em Context})}\label{sfilter_8h_bdf64b5ca7fbc25a7bdfff307e327914}
+
+
+
+
+在文件sfilter.c第1037行定义。
+
+参考 Sf\-Fs\-Control\-Mount\-Volume\-Complete()及SFLT\_\-POOL\_\-TAG.
+
+参考自 Sf\-Fs\-Control\-Mount\-Volume().\index{sfilter.h@{sfilter.h}!SfFsNotification@{SfFsNotification}}
+\index{SfFsNotification@{SfFsNotification}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Fs\-Notification (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN BOOLEAN {\em Fs\-Active})}\label{sfilter_8h_5d42062be3cb77ad61a710ab1649e0c8}
+
+
+
+
+在文件File\-System\-Notification.c第313行定义。
+
+参考 GET\_\-DEVICE\_\-TYPE\_\-NAME、MAX\_\-DEVNAME\_\-LENGTH、SF\_\-LOG\_\-PRINT、Sf\-Attach\-To\-File\-System\-Device()、SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES、Sf\-Detach\-From\-File\-System\-Device()及Sf\-Get\-Object\-Name().
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfGetBaseDeviceObjectName@{SfGetBaseDeviceObjectName}}
+\index{SfGetBaseDeviceObjectName@{SfGetBaseDeviceObjectName}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Get\-Base\-Device\-Object\-Name (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN OUT PUNICODE\_\-STRING {\em Device\-Name})}\label{sfilter_8h_152ab9462a7f1f05d7238d102afbd7ab}
+
+
+\index{sfilter.h@{sfilter.h}!SfGetFileName@{SfGetFileName}}
+\index{SfGetFileName@{SfGetFileName}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}PUNICODE\_\-STRING Sf\-Get\-File\-Name (IN PFILE\_\-OBJECT {\em File\-Object}, IN NTSTATUS {\em Create\-Status}, IN OUT {\bf PGET\_\-NAME\_\-CONTROL} {\em Name\-Control})}\label{sfilter_8h_6835b923064e1292e397753f9dcea32c}
+
+
+
+
+在文件create.c第17行定义。
+
+参考 SFLT\_\-POOL\_\-TAG.
+
+参考自 Sf\-Create()及Sf\-Display\-Create\-File\-Name().\index{sfilter.h@{sfilter.h}!SfGetFileNameCleanup@{SfGetFileNameCleanup}}
+\index{SfGetFileNameCleanup@{SfGetFileNameCleanup}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Get\-File\-Name\-Cleanup (IN OUT {\bf PGET\_\-NAME\_\-CONTROL} {\em Name\-Control})}\label{sfilter_8h_252a8c651b08c9151c4c6d630e579e88}
+
+
+
+
+在文件create.c第266行定义。
+
+参考自 Sf\-Display\-Create\-File\-Name().\index{sfilter.h@{sfilter.h}!SfGetObjectName@{SfGetObjectName}}
+\index{SfGetObjectName@{SfGetObjectName}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Get\-Object\-Name (IN PVOID {\em Object}, IN OUT PUNICODE\_\-STRING {\em Name})}\label{sfilter_8h_3b454fd8a7e2975e1e492f60470003e2}
+
+
+
+
+在文件sfilter.c第1800行定义。
+
+参考自 Sf\-Attach\-To\-File\-System\-Device()、Sf\-Fs\-Control\-Mount\-Volume()及Sf\-Fs\-Notification().\index{sfilter.h@{sfilter.h}!SfIsAttachedToDevice@{SfIsAttachedToDevice}}
+\index{SfIsAttachedToDevice@{SfIsAttachedToDevice}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Is\-Attached\-To\-Device (PDEVICE\_\-OBJECT {\em Device\-Object}, PDEVICE\_\-OBJECT $\ast$Attached\-Device\-Object {\em OPTIONAL})}\label{sfilter_8h_0955fe4c02fec72b67535055c0ef3e4d}
+
+
+
+
+在文件sfilter.c第1922行定义。
+
+参考 g\-Sf\-Dynamic\-Functions、Sf\-Is\-Attached\-To\-Device\-W2K()及Sf\-Is\-Attached\-To\-Device\-WXPAnd\-Later().
+
+参考自 Sf\-Attach\-To\-Mounted\-Device()及Sf\-Fs\-Control\-Mount\-Volume\-Complete().\index{sfilter.h@{sfilter.h}!SfIsAttachedToDeviceW2K@{SfIsAttachedToDeviceW2K}}
+\index{SfIsAttachedToDeviceW2K@{SfIsAttachedToDeviceW2K}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Is\-Attached\-To\-Device\-W2K (PDEVICE\_\-OBJECT {\em Device\-Object}, PDEVICE\_\-OBJECT $\ast$Attached\-Device\-Object {\em OPTIONAL})}\label{sfilter_8h_81a2a518d5ab12f8369721aed57556ae}
+
+
+
+
+在文件sfilter.c第1948行定义。
+
+参考 IS\_\-MY\_\-DEVICE\_\-OBJECT.
+
+参考自 Sf\-Is\-Attached\-To\-Device().\index{sfilter.h@{sfilter.h}!SfIsAttachedToDeviceWXPAndLater@{SfIsAttachedToDeviceWXPAndLater}}
+\index{SfIsAttachedToDeviceWXPAndLater@{SfIsAttachedToDeviceWXPAndLater}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOLEAN Sf\-Is\-Attached\-To\-Device\-WXPAnd\-Later (PDEVICE\_\-OBJECT {\em Device\-Object}, PDEVICE\_\-OBJECT $\ast$Attached\-Device\-Object {\em OPTIONAL})}\label{sfilter_8h_612bc90618b91201bb17fb7d9c1965d3}
+
+
+
+
+参考自 Sf\-Is\-Attached\-To\-Device().\index{sfilter.h@{sfilter.h}!SfIsShadowCopyVolume@{SfIsShadowCopyVolume}}
+\index{SfIsShadowCopyVolume@{SfIsShadowCopyVolume}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Is\-Shadow\-Copy\-Volume (IN PDEVICE\_\-OBJECT {\em Storage\-Stack\-Device\-Object}, OUT PBOOLEAN {\em Is\-Shadow\-Copy})}\label{sfilter_8h_87259c2d52020c1a86319233f2be2354}
+
+
+
+
+在文件Volume.c第16行定义。
+
+参考 Add2Ptr及MAX\_\-DEVNAME\_\-LENGTH.
+
+参考自 Sf\-Fs\-Control\-Mount\-Volume().\index{sfilter.h@{sfilter.h}!SfPassThrough@{SfPassThrough}}
+\index{SfPassThrough@{SfPassThrough}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Pass\-Through (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{sfilter_8h_04687906cd50418c25caa2039b6c26c3}
+
+
+
+
+在文件sfilter.c第764行定义。
+
+参考 IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT及IS\_\-MY\_\-DEVICE\_\-OBJECT.
+
+参考自 Driver\-Entry()、Sf\-Directory\-Control()、Sf\-Read()、Sf\-Set\-Information()及Sf\-Write().\index{sfilter.h@{sfilter.h}!SfQueryFileBasicInformation@{SfQueryFileBasicInformation}}
+\index{SfQueryFileBasicInformation@{SfQueryFileBasicInformation}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Query\-File\-Basic\-Information (PDEVICE\_\-OBJECT {\em Device\-Object}, PFILE\_\-OBJECT {\em File\-Object}, PFILE\_\-BASIC\_\-INFORMATION {\em File\-Basic\-Info})}\label{sfilter_8h_11310193351015be725bdd4135cceaed}
+
+
+查询文件基本信息 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PDEVICE\_\-OBJECT}]Device\-Object ：设备对象 \item[{\em PFILE\_\-OBJECT}]File\-Object ：要查询的文件对象 \item[{\em PFILE\_\-BASIC\_\-INFORMATION}]File\-Basic\-Info：文件基本信息结构指针 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]NTSTATUS \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-16 13:26:01 \end{Desc}
+
+
+在文件function.c第658行定义。
+
+参考 Sf\-Query\-File\-Information().
+
+参考自 Sf\-Set\-Information().\index{sfilter.h@{sfilter.h}!SfQueryFileInformation@{SfQueryFileInformation}}
+\index{SfQueryFileInformation@{SfQueryFileInformation}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Query\-File\-Information (PDEVICE\_\-OBJECT {\em Device\-Object}, PFILE\_\-OBJECT {\em File\-Object}, FILE\_\-INFORMATION\_\-CLASS {\em File\-Information\-Class}, PVOID {\em File\-Info}, ULONG {\em File\-Info\-Length})}\label{sfilter_8h_a2d0026bd282343a641e0651016c4c99}
+
+
+查询文件信息 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PDEVICE\_\-OBJECT}]Device\-Object ：设备对象 \item[{\em PFILE\_\-OBJECT}]File\-Object ：要查询信息的文件对象 \item[{\em FILE\_\-INFORMATION\_\-CLASS}]File\-Information\-Class：要查询的类 \item[{\em PVOID}]File\-Info ：文件信息指针 \item[{\em ULONG}]File\-Info\-Length ：文件信息的长度 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 NTSTATUS 。成功返回 STATUS\_\-SUCCESS,否则返回错误代码。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-16 13:10:27 \end{Desc}
+
+
+在文件function.c第540行定义。
+
+参考 Sf\-Query\-File\-Information\-Completed().
+
+参考自 Sf\-Query\-File\-Basic\-Information()及Sf\-Query\-File\-Name().\index{sfilter.h@{sfilter.h}!SfQueryFileInformationCompleted@{SfQueryFileInformationCompleted}}
+\index{SfQueryFileInformationCompleted@{SfQueryFileInformationCompleted}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Query\-File\-Information\-Completed (PDEVICE\_\-OBJECT {\em Device\-Object}, PIRP {\em Irp}, PVOID {\em Context})}\label{sfilter_8h_36ec784badcda35555ff8d48866b7efe}
+
+
+
+
+在文件function.c第611行定义。
+
+参考自 Sf\-Query\-File\-Information().\index{sfilter.h@{sfilter.h}!SfQueryFileName@{SfQueryFileName}}
+\index{SfQueryFileName@{SfQueryFileName}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Query\-File\-Name (PDEVICE\_\-OBJECT {\em Device\-Object}, PFILE\_\-OBJECT {\em File\-Object}, PFILE\_\-NAME\_\-INFORMATION {\em p\-File\-Name}, ULONG {\em dw\-Len})}\label{sfilter_8h_8d4b58ddd66dae1d617bd75aef1fecf7}
+
+
+得到文件名信息 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PDEVICE\_\-OBJECT}]Device\-Object ：设备对象 \item[{\em PFILE\_\-OBJECT}]File\-Object ：要查询的文件对象 \item[{\em PFILE\_\-NAME\_\-INFORMATION}]File\-Name：文件名信息缓存指针 \item[{\em ULONG}]dw\-Len ：缓存的长度 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 NTSTATUS 。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-21 10:02:19 \end{Desc}
+
+
+在文件function.c第687行定义。
+
+参考 Sf\-Query\-File\-Information().\index{sfilter.h@{sfilter.h}!SfRead@{SfRead}}
+\index{SfRead@{SfRead}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Read (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{sfilter_8h_eafc467b6d7f109d637a8dfdee202add}
+
+
+
+
+在文件Read.c第3行定义。
+
+参考 IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT、IS\_\-MY\_\-DEVICE\_\-OBJECT、Sf\-Debug、SFDEBUG\_\-READWRITE及Sf\-Pass\-Through().
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfReadDriverParameters@{SfReadDriverParameters}}
+\index{SfReadDriverParameters@{SfReadDriverParameters}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Read\-Driver\-Parameters (IN PUNICODE\_\-STRING {\em Registry\-Path})}\label{sfilter_8h_a57754630d18bbc1eeb122c378b72a10}
+
+
+
+
+在文件function.c第166行定义。
+
+参考 Sf\-Debug.
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfSetInformation@{SfSetInformation}}
+\index{SfSetInformation@{SfSetInformation}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Set\-Information (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{sfilter_8h_755ad5ff948068ad78816fb9a29ade12}
+
+
+
+
+在文件Set\-Information.c第16行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、Compare\-Call\-Back()、Compare\-Dir\-Call\-Back()、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Link\-Symbol\-Name、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、Free\-Unicode\-Buffer()、Get\-Full\-Path()、IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT、IS\_\-MY\_\-DEVICE\_\-OBJECT、Sf\-Debug、SFDEBUG\_\-SET\_\-INFORMATION、Sf\-Is\-Disable\-Delete\-File()、Sf\-Pass\-Through()及Sf\-Query\-File\-Basic\-Information().
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!SfWrite@{SfWrite}}
+\index{SfWrite@{SfWrite}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Write (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{sfilter_8h_26e2ec087e84d1f996b0b1c67ed510df}
+
+
+
+
+在文件Write.c第4行定义。
+
+参考 Compare\-Call\-Back()、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Link\-Symbol\-Name、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、Free\-Unicode\-Buffer()、Get\-Full\-Path()、IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT、IS\_\-MY\_\-DEVICE\_\-OBJECT、Sf\-Debug、SFDEBUG\_\-READWRITE、Sf\-Is\-Disable\-Delete\-File()及Sf\-Pass\-Through().
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!VolumeDeviceToDosName@{VolumeDeviceToDosName}}
+\index{VolumeDeviceToDosName@{VolumeDeviceToDosName}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Volume\-Device\-To\-Dos\-Name (IN PVOID {\em Volume\-Device\-Object}, OUT PUNICODE\_\-STRING {\em Dos\-Name})}\label{sfilter_8h_3e378358e8677e31d304a03ebd12b895}
+
+
+
+
+在文件function.c第144行定义。
+
+参考 g\-Sf\-Dynamic\-Functions.
+
+参考自 Sf\-Fs\-Control\-Mount\-Volume().
+
+\subsection{变量文档}
+\index{sfilter.h@{sfilter.h}!gSfilterAttachLock@{gSfilterAttachLock}}
+\index{gSfilterAttachLock@{gSfilterAttachLock}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}FAST\_\-MUTEX {\bf g\-Sfilter\-Attach\-Lock}}\label{sfilter_8h_516ea10428dbeb2d1f567c419d95de93}
+
+
+
+
+在文件sfilter.c第98行定义。
+
+参考自 Driver\-Entry()及Sf\-Fs\-Control\-Mount\-Volume\-Complete().\index{sfilter.h@{sfilter.h}!gSFilterControlDeviceObject@{gSFilterControlDeviceObject}}
+\index{gSFilterControlDeviceObject@{gSFilterControlDeviceObject}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}PDEVICE\_\-OBJECT {\bf g\-SFilter\-Control\-Device\-Object}}\label{sfilter_8h_53af98760ec031df9eb8a2b0ff73cdf6}
+
+
+
+
+在文件sfilter.c第84行定义。
+
+参考自 Driver\-Entry().\index{sfilter.h@{sfilter.h}!gSFilterDriverObject@{gSFilterDriverObject}}
+\index{gSFilterDriverObject@{gSFilterDriverObject}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}PDRIVER\_\-OBJECT {\bf g\-SFilter\-Driver\-Object}}\label{sfilter_8h_09925ed761964ac1285a3717f2a3f628}
+
+
+
+
+在文件sfilter.c第76行定义。
+
+参考自 Driver\-Entry()、Sf\-Attach\-To\-File\-System\-Device()及Sf\-Fs\-Control\-Mount\-Volume().\index{sfilter.h@{sfilter.h}!SfDebug@{SfDebug}}
+\index{SfDebug@{SfDebug}!sfilter.h@{sfilter.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ULONG {\bf Sf\-Debug}}\label{sfilter_8h_9488bc45c2275c0da3ef6a54bdbfb1b5}
+
+
+
+
+在文件sfilter.c第111行定义。
+
+参考自 Process\-File\-Both\-Directory\-Information()、Sf\-Attach\-To\-File\-System\-Device()、Sf\-Create()、Sf\-Directory\-Control()、Sf\-Fs\-Control\-Mount\-Volume()、Sf\-Read()、Sf\-Read\-Driver\-Parameters()、Sf\-Set\-Information()、Sf\-Write()及Show\-File\-Both\-Directory\-Information().

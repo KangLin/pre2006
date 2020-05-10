@@ -1,0 +1,64 @@
+1、压缩在什么地方?
+答：在下列位置：
+    （1）在注册表中的：[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Drivers32] 下。
+     "midimapper"="midimap.dll"
+     "msacm.imaadpcm"="imaadp32.acm"
+     "msacm.msadpcm"="msadp32.acm"
+     "msacm.msg711"="msg711.acm"
+     "msacm.msgsm610"="msgsm32.acm"
+     "msacm.trspch"="tssoft32.acm"
+     "vidc.cvid"="iccvid.dll"
+     "VIDC.I420"="msh263.drv"
+     "vidc.iv31"="ir32_32.dll"
+     "vidc.iv32"="ir32_32.dll"
+     "VIDC.IYUV"="iyuv_32.dll"
+     "vidc.mrle"="msrle32.dll"
+     "vidc.msvc"="msvidc32.dll"
+     "VIDC.UYVY"="msyuv.dll"
+     "VIDC.YUY2"="msyuv.dll"
+     "VIDC.YVU9"="tsbyuv.dll"
+     "VIDC.YVYU"="msyuv.dll"
+     "wavemapper"="msacm32.drv"
+     "midi"="wdmaud.drv"
+     "msacm.msg723"="msg723.acm"
+     "vidc.M263"="msh263.drv"
+     "vidc.M261"="msh261.drv"
+     "msacm.msaudio1"="msaud32.acm"
+     "msacm.sl_anet"="sl_anet.acm"
+     "wave"="wdmaud.drv"
+     "midi1"="wdmaud.drv"
+     "mixer"="wdmaud.drv"
+     "SENTINEL"="snti386.dll"
+     "MSVideo8"="VfWWDM32.dll"
+     "VIDC.MPG4"="mpg4c32.dll"
+     "VIDC.MP42"="mpg4c32.dll"
+     "vidc.DIV3"="DIVXc32.dll"
+     "vidc.DIV4"="DIVXc32f.dll"
+     "msacm.l3acm"="L3codeca.acm"
+     (2) 在 SYSTEM。INI 文件中。
+
+2、如何在程序中安装指定的压缩器
+答：调用 ICStall 函数。
+/*******************************************************************************************************
+函数名：InstallDevice
+功  能：安装压缩器驱动程序,
+        默认安装为 Divx MPEG-4(Fast-Motion),
+		其动态链接库 divxc32f.dll 应与执行文件在同一目录
+参  数：无
+返回值：成功返回 TRUE,否则返回 FALSE
+作  者：康  林
+版  本：1.0.0.1
+日  期：2004-11-11
+时  间：13:23:06
+*******************************************************************************************************/
+BOOL CCompressor::InstallDevice()
+{
+	CFileEx fex;
+	TCHAR szFileName[1024];
+	fex.GetModuleFileName(szFileName, 1024);
+	fex.GetFilePath(szFileName, 1024);
+	_tcscat(szFileName, _T("\\DivXc32f.dll"));
+	INT result = ICInstall ( ICTYPE_VIDEO, mmioFOURCC('D','I','V','4'), (LPARAM)szFileName, NULL, ICINSTALL_DRIVER); 
+	TRACE(_T("压缩器安装返回值为:%d.\n"), result);
+	return TRUE;
+}

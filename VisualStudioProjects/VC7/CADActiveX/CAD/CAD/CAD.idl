@@ -1,0 +1,52 @@
+// CAD.idl : type library source for ActiveX Control project.
+
+// This file will be processed by the MIDL compiler tool to
+// produce the type library (CAD.tlb) that will become a resource in
+// CAD.ocx.
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(DFF5400B-BAE8-4569-A9A5-D8DDB8DD1DA4), version(1.0),
+  helpfile("CAD.hlp"),
+  helpstring("CAD ActiveX Control module"),
+  control ]
+library CADLib
+{
+	importlib(STDOLE_TLB);
+
+	//  Primary dispatch interface for CCADCtrl
+
+	[ uuid(8BE7099A-B453-41F2-B525-4F8D073A0177),
+	  helpstring("Dispatch interface for CAD Control")]
+	dispinterface _DCAD
+	{
+		properties:
+		methods:
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  Event dispatch interface for CCADCtrl
+
+	[ uuid(240C81B7-FFBC-4FC6-A62E-AF83A17A4A5C),
+	  helpstring("Event interface for CAD Control") ]
+	dispinterface _DCADEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+	};
+
+	//  Class information for CCADCtrl
+
+	[ uuid(7958C036-FFCF-4D83-9955-283EEAB9ADE3),
+	  helpstring("CAD Control"), control ]
+	coclass CAD
+	{
+		[default] dispinterface _DCAD;
+		[default, source] dispinterface _DCADEvents;
+	};
+
+};

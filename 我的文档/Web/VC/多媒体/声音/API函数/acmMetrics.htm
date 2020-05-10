@@ -1,0 +1,159 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>acmMetrics</title>
+</head>
+
+<body>
+
+<h1 align="center"><font size="7">acmMetrics</font></h1>
+<p align="center">康&nbsp; 林</p>
+<p>返回与ACM对象相关的各种信息。</p>
+<pre><code><b>MMRESULT acmMetrics(
+  HACMOBJ</b><i> hao</i><b>,   </b>
+<b>  UINT</b><i> uMetric</i><b>,  </b>
+<b>  LPVOID</b><i> pMetric </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>hao</i> </dt>
+	<dd>由参数<i> uMetric </i>指定的要查询的信息的 ACM 对象的句柄。对一些查询，这个参数可以是 NULL。 
+	</dd>
+	<dt><i>uMetric</i> </dt>
+	<dd>将在参数 <i>pMetric</i> 中返回的要查询的信息索引。<dl>
+		<dt>ACM_METRIC_COUNT_CODECS </dt>
+		<dd>返回在系统中全局的 ACM 压缩或解压缩器驱动程序的数量。这时参数 <i>hao</i> 必须是 NULL，参数 <i>pMetric</i> 
+		必须是指向一个双字（DWORD值）的缓存区的指针。</dd>
+		<dt>ACM_METRIC_COUNT_CONVERTERS </dt>
+		<dd>返回系统中全局 ACM 转换器驱动程序的数量。这时参数 <i>hao</i> 必须是 NULL，参数 <i>pMetric</i> 
+		必须是指向一个双字（DWORD值）的缓存区的指针。</dd>
+		<dt>ACM_METRIC_COUNT_DISABLED </dt>
+		<dd>返回系统中全局 ACM 失效的驱动程序的数量。这时参数 <i>hao</i> 必须是 NULL，参数 <i>pMetric</i> 
+		必须是指向一个双字（DWORD值）的缓存区的指针。当这个参数是 ACM_METRIC_COUNT_DRIVERS 和 
+		ACM_METRIC_COUNT_DISABLED 得到的数量的总和是全局已安装的 ACM 驱动程序的值。</dd>
+		<dt>ACM_METRIC_COUNT_DRIVERS </dt>
+		<dd>返回系统中全局 ACM 有效的驱动程序的数量。这时参数 <i>hao</i> 必须是 NULL，参数 <i>pMetric</i> 
+		必须是指向一个双字（DWORD值）的缓存区的指针。</dd>
+		<dt>ACM_METRIC_COUNT_FILTERS </dt>
+		<dd>返回系统中全局 ACM 过滤器的驱动程序的数量。这时参数 <i>hao</i> 必须是 NULL，参数 <i>pMetric</i> 
+		必须是指向一个双字（DWORD值）的缓存区的指针。 
+		</dd>
+		<dt>ACM_METRIC_COUNT_HARDWARE </dt>
+		<dd>返回系统中全局 ACM 硬件的驱动程序的数量。这时参数 <i>hao</i> 必须是 NULL，参数 <i>pMetric</i> 
+		必须是指向一个双字（DWORD值）的缓存区的指针。</dd>
+		<dt>ACM_METRIC_COUNT_LOCAL_CODECS </dt>
+		<dd>返回系统中本地 ACM 压缩驱动程序、解压缩驱动程序的数量，或正在执行的压缩/解压缩驱动程序的数量。这时参数 <i>hao</i> 
+		必须是 NULL，参数 <i>pMetric</i> 必须是指向一个双字（DWORD值）的缓存区的指针。</dd>
+		<dt>ACM_METRIC_COUNT_LOCAL_CONVERTERS </dt>
+		<dd>返回系统中本地 ACM 转换器驱动程序的数量。这时参数 <i>hao</i> 必须是 NULL，参数 <i>pMetric</i> 
+		必须是指向一个双字（DWORD值）的缓存区的指针。</dd>
+		<dt>ACM_METRIC_COUNT_LOCAL_DISABLED </dt>
+		<dd>返回系统中本地 ACM 失效的驱动程序的数量。这时参数 <i>hao</i> 必须是 NULL，参数 <i>pMetric</i> 
+		必须是指向一个双字（DWORD值）的缓存区的指针。当这个参数是 ACM_METRIC_COUNT_DRIVERS 和 
+		ACM_METRIC_COUNT_DISABLED 得到的数量的总和是本地已安装的 ACM 驱动程序的值。</dd>
+		<dt>ACM_METRIC_COUNT_LOCAL_DRIVERS </dt>
+		<dd>返回系统中本地 ACM 有效的驱动程序的数量。这时参数 <i>hao</i> 必须是 NULL，参数 <i>pMetric</i> 
+		必须是指向一个双字（DWORD值）的缓存区的指针。</dd>
+		<dt>ACM_METRIC_COUNT_LOCAL_FILTERS </dt>
+		<dd>返回系统中本地 ACM 过滤器的驱动程序的数量。这时参数 <i>hao</i> 必须是 NULL，参数 <i>pMetric</i> 
+		必须是指向一个双字（DWORD值）的缓存区的指针。</dd>
+		<dt>ACM_METRIC_DRIVER_PRIORITY </dt>
+		<dd>返回指定驱动程序的优先级的值。参数 <i>hao</i> 必须是一个有效的 ACM 驱动程序 <b>HACMDRIVERID</b> 
+		结构的标识。参数 <i>pMetric </i>必须指向一个缓存区的大小（一个双字值）。</dd>
+		<dt>ACM_METRIC_DRIVER_SUPPORT </dt>
+		<dd>返回一个指定驱动程序的 <b>fdwSupport</b> 标识.参数 <i>hao</i> 必须是一个有效的 ACM 驱动程序的 
+		HACMDRIVERID 数据类型的标识。参数 <i>pMetric</i> 必须指向一个缓存大小（等于一个双字的值）。  
+		</dd>
+		<dt>ACM_METRIC_HARDWARE_WAVE_INPUT </dt>
+		<dd>返回一个与指定设备相联系的波形输入设备的ID值。参数 <i>hao</i> 必须是一个有效的 ACM 驱动支持 
+		ACMDRIVERDETAILS_SUPPORTF_HARDWARE 标识的 <b>HACMDRIVERID</b> 
+		数据类型的标识符。如果没有波形输入设备与这个驱动程序相联系，那么它返回 MMSYSERR_NOTSUPPORTED 。参数 <i>pMetric</i> 
+		必须指向一个缓存区大小等于一个双字的值。  
+		</dd>
+		<dt>ACM_METRIC_HARDWARE_WAVE_OUTPUT </dt>
+		<dd>Returned value is the waveform-audio output device identifier 
+		associated with the specified driver. The <i>hao</i> parameter must be a 
+		valid ACM driver identifier of the <b>HACMDRIVERID</b> data type that 
+		supports the ACMDRIVERDETAILS_SUPPORTF_HARDWARE flag. If no 
+		waveform-audio output device is associated with the driver, 
+		MMSYSERR_NOTSUPPORTED is returned. The <i>pMetric</i> parameter must 
+		point to a buffer of a size equal to a doubleword value. 
+		</dd>
+		<dt>ACM_METRIC_MAX_SIZE_FILTER </dt>
+		<dd>Returned value is the size of the largest
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_7trm.htm">
+		<b>WAVEFILTER</b></a> structure. If <i>hao</i> is NULL, the return value 
+		is the largest <b>WAVEFILTER</b> structure in the system. If <i>hao</i> 
+		identifies an open instance of an ACM driver of the <b>HACMDRIVER</b> 
+		data type or an ACM driver identifier of the <b>HACMDRIVERID</b> data 
+		type, the largest <b>WAVEFILTER</b> structure for that driver is 
+		returned. The <i>pMetric</i> parameter must point to a buffer of a size 
+		equal to a doubleword value. This metric is not allowed for an ACM 
+		stream handle of the <b>HACMSTREAM</b> data type. 
+		</dd>
+		<dt>ACM_METRIC_MAX_SIZE_FORMAT </dt>
+		<dd>返回一个最大
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_625u.htm">
+		<b>WAVEFORMATEX</b></a> 结构的大小。如果参数 <i>hao</i> 是 NULL, 这个返回值是系统中最大的 <b>WAVEFORMATEX</b> 
+		结构。如果参数 <i>
+		hao</i> 标识一个 HACMDRIVER 结构的打开的 ACM 驱动程序的实例，或者是一个 HACMDRIVERID 结构类型的 ACM 
+		驱动程序的标识符，返回这个驱动程序的最大的 <b>WAVEFORMATEX</b> 结构。参数 <i>pMetric</i> parameter 
+		必须指向一个缓存区的大小（等于一个双字的大小）。这个 metric 不能是一个 HACMSTREAM 结构的 ACM 流的句柄。 
+		</dd>
+	</dl>
+	</dd>
+	<dt><i>pMetric</i> </dt>
+	<dd>Address of the buffer to receive the metric details. The exact 
+	definition depends on the <i>uMetric</i> index. </dd>
+</dl>
+<h4>Return Values</h4>
+<p>Returns zero if successful or an error otherwise. Possible error values 
+include the following:</p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="48%">Value</th>
+		<th align="left" width="52%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">ACMERR_NOTPOSSIBLE</td>
+		<td width="52%">The index specified in <i>uMetric</i> cannot be returned 
+		for the specified <i>hao</i>.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_INVALHANDLE</td>
+		<td width="52%">The specified handle is invalid.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_INVALPARAM</td>
+		<td width="52%">At least one parameter is invalid.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_NOTSUPPORTED</td>
+		<td width="52%">The index specified in <i>uMetric</i> is not supported.</td>
+	</tr>
+</table>
+<br>
+　<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in msacm.h.<br>
+<b>&nbsp;&nbsp;Import Library: </b>Use msacm32.lib.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/audcomp_3kc2.htm">
+Audio Compression Manager Overview</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/audcomp_6x9v.htm">
+Audio Compression Functions</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_7trm.htm">
+<b>WAVEFILTER</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_625u.htm">
+<b>WAVEFORMATEX</b></a> </p>
+<p>　</p>
+
+</body>
+
+</html>

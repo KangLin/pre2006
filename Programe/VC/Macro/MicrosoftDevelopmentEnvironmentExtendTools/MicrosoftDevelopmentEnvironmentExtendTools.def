@@ -1,0 +1,13 @@
+; MicrosoftDevelopmentEnvironmentExtendTools.def : Declares the module parameters for the DLL.
+
+LIBRARY      "MICROSOFTDEVELOPMENTENVIRONMENTEXTENDTOOLS"
+DESCRIPTION  'MICROSOFTDEVELOPMENTENVIRONMENTEXTENDTOOLS Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+	DllCanUnloadNow PRIVATE
+	DllGetClassObject PRIVATE
+	DllRegisterServer PRIVATE
+	DllUnregisterServer PRIVATE
+
+ 

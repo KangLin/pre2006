@@ -1,0 +1,70 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>VcExtend文档</title>
+</head>
+
+<body topmargin="0" leftmargin="0">
+<script language="javascript" src="/js/header.js"></script>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td height="20"></td>
+    </tr>
+  </table>
+  </center>
+</div>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td width="100%">
+        <div align="center">
+          <table border="0" width="680">
+            <tr>
+              <td align="right" height="18">VcExtend文档
+                <hr size="1" color="#000080">
+              </td>
+            </tr>
+            <tr>
+              <td align="center" height="10"></td>
+            </tr>
+            <tr>
+              <td align="center"><b>四、与清爽干净的代码为伴----类框架生成</b></td>
+            </tr>
+            <tr>
+              <td height="10"></td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp; 如果你象我一样，喜欢清爽干净的代码，那么，用ClassNew来生成新类是一个不错的选择，尤其是生成CObject的子类。<br>
+                <br>
+                &nbsp;&nbsp;&nbsp; 先用一下试试，点击ClassNew，在输入框中输一个类名：CMyClass，确定，感觉怎么样？
+                <p>&nbsp;&nbsp;&nbsp; ClassNew很简单易用，但还是有一些需要说明的。</p>
+                <p>&nbsp;&nbsp;&nbsp; 首先是一些可选项，请根据你的需要来填写，如继承自某一个类的，就加:BaseName，不指定则会认为以CObject为基类；要指定文件名，就加#FileName，不能有后缀，因为.cpp和.h和.inl都会共用这个文件名，不指定则会以类名去掉前缀C作为文件名，我主张不指定为好；至于目录名，现在不理它吧，很少用，以后会提到的；最后就是宏选项了，如果是可序列化的类，就加/S，消息类就加/M，加了这些选项就会生成相应的宏。除了类名在最前面外，所有的选项都不需要考虑输入的顺序。</p>
+                <p>&nbsp;&nbsp;&nbsp; 你还可以修改代码模板，Txt目录下的cpp.txt,hpp.txt,inl.txt就是生成新类框架的模板，可以按自已的喜好来修改。</p>
+                <p>&nbsp;&nbsp;&nbsp; ClassNew有一个显著的缺陷，就是生成的类不会自动加入工程，也不会加入到ClassWizard中，要使用Project->Add To Project->Files功能手工把它加入工程，如果要加入到ClassWizard中，可以删掉工程的.clw文件，再重新编译。一个更简单的办法是，先用VC的New CLass功能生成一个类，再用ClassNew重新生成一遍，这样就不会有这些缺陷了。</p>
+                <p>&nbsp;&nbsp;&nbsp; 不是使用ClassNew生成的类，也完全可以使用VcExtend的功能，只不过首次使用的时候会要求你输入类名和基类名而已，唯一的问题是代码跳转，偶尔可能会找不到，不过很少见。</p>
+                <p>&nbsp;&nbsp;&nbsp; 如果你用VC的AppWizard新建了一个工程，想把VC生成的代码改为用ClassNew来生成，也很简单的。先把工程另存一份，并启动另一个VC打开另存的工程。用ClassNew重新生成各个类，并从另存的工程中把所缺少的代码拷过来。最好是先拷头文件的代码，拷完后点一下CodeCleanUp生成函数体，再拷函数体的内容。每做完一个类后编译并运行工程看有没有问题，没问题再做下一个类。APP类千万不要忘了拷CMyApp theApp这一行。</p>
+                </td>
+            </tr>
+            <tr>
+              <td height="30"></td>
+            </tr>
+            <tr>
+              <td align="right"><a href="index.htm">返回目录页</a>&nbsp;&nbsp; 
+                下一节：<a href="codecleanup.htm">生成函数体与数据接口----好用的代码整理功能</a></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+  </center>
+</div>
+<script language="javascript" src="/js/tail.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>VcExtend文档</title>
+</head>
+
+<body topmargin="0" leftmargin="0">
+<script language="javascript" src="/js/header.js"></script>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td height="20"></td>
+    </tr>
+  </table>
+  </center>
+</div>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td width="100%">
+        <div align="center">
+          <table border="0" width="680">
+            <tr>
+              <td align="right" height="18">VcExtend文档
+                <hr size="1" color="#000080">
+              </td>
+            </tr>
+            <tr>
+              <td align="center" height="10"></td>
+            </tr>
+            <tr>
+              <td align="center"><b>六、让你爱上写注释----注释可隐可现，文档自动生成</b></td>
+            </tr>
+            <tr>
+              <td height="10"></td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp; Comment会让你觉得写注释是一件让人愉快的事情。<br> 
+                <br>
+                &nbsp;&nbsp;&nbsp; Comment的基本用法已经在前面说过了。它是一个开关式的多功能的命令，当你光标下的函数还没有注释时，使用它会生成注释模板，当已经有注释时，使用它会保存并隐藏注释，当你的函数已有注释但隐藏了时，会调出注释供你阅读和修改，当你在编辑cpp或inl文件时，也可以用它调出注释来查看或修改，当你的光标在头文件的类声明行或其上方的任一行时，操作的就是类注释！ 
+                <p>&nbsp;&nbsp;&nbsp; 注释项分为三部份，一是全自动处理的，完全不用理会它。包括：类注释的类名，基类名，文件名；函数注释的函数名，函数原形，这部分不会在源文件中显示出来，但可以在文档中显示。二是必选项，包括类注释的简述，函数注释的简述，简述就是最简单的功能描述，如果连这个都不写的话，你这个注释也就没什么意义了。函数注释的返回值和参数项也属于这一类，但不写这两项注释还比较无所谓。三是可选项，你可以增删一些项目，如说明就是可选的。可选项的增删方法参见后面的关于选项的章节。</p> 
+                <p>&nbsp;&nbsp;&nbsp; 生成注释模板时，Comment并不是直接贴个模板了事，而是先进行了一些分析的。重载函数会当作一个函数，所有的参数都会收集起来。如果你为多个重载函数写了多份注释，后保存的就会覆盖先保存的。同名的函数，即使不是连续声明，也会当作重载函数。</p> 
+                <p>&nbsp;&nbsp;&nbsp; 类模板中的[]内的返回类型或参数，千万不要删掉它。你的注释加在它后面就是了。用空格隔开比较好看一些。</p> 
+                <p>&nbsp;&nbsp;&nbsp; 如果你修改了函数，如加了参数，或加了重载的函数，可以把当前的注释保存，再调出来，就会把新加的参数加入模板。</p> 
+                <p>&nbsp;&nbsp;&nbsp; 当注释隐藏时，实际上是保存到Doc目录下的Doc.xml文件上去了。隐藏和保存是同时进行的，所以修改后最好隐藏一下，虽然你不隐藏，注释还在你的源文件上，不会丢失，但当你在cpp文件上打开相应的注释时，只会调出已经保存过的内容，并且，没保存的注释不会出现在文档上。这些操作，可以使用注释批处理功能，参见后续章节。 
+		    	</p>
+                <p>&nbsp;&nbsp;&nbsp; 每一个注释项都是以///$加标签名开头的，如果要换行，从第二行开始，要用///开头，千万不要用///$，否则会当作是一个新的项，也不要用//开头，否则会认为格式不规范而拒绝存入。如果注释较长，应该分多行来写，就象代码一样。多行注释可以先写成普通文字，写完后用MultiLineComment命令来处理。因为注释是要用来生成文档的，而文档的显示环境与在源文件中不一样，写注释时的分行，文档中会忽略。如果分档中要强制分行，必须加\r，要强制分行并空一行，就加\r\r。下面是一个多行注释项的例子：&nbsp;
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; ///$说明：&nbsp;<br>
+                &nbsp;&nbsp;&nbsp; ///这是第一行，&nbsp;<br>
+                &nbsp;&nbsp;&nbsp; ///这是第二行，在文档中不会强制换行。&nbsp;<br>
+                &nbsp;&nbsp;&nbsp; ///\r这是第二段，在文档中会强制换行，但\r不会显示出来。&nbsp;<br>
+                &nbsp;&nbsp;&nbsp; ///\r\r这是第三段，在文档中会在前面插一个空行。&nbsp;
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 写完以后选中注释，注意不要选中///$那一行，点击MultiLineComment，就会按标准格式排版。保存前是什么样子的注释，以后调出来还是什么样子。
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 注释与函数声明（或类注释与类声明）之间不能有空行。
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 注释将存成XML文件，这样内容和显示可以完全分开。如果你对XML比较熟悉，可以定义自己的XSL文件来显示文档。不过，使用我写的文档显示工具也不错啊，虽然我对XML不熟悉，但是费了很多心血的。考虑到VC程序员比较习惯MSDN的风格，所以基本上是按照MSDN的格式来显示文档的，如果你喜欢漂亮一点，可以加一些配色或图片。
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 文档的显示其实只使用一个文件Doc.htm，具体内容完全是用脚本和xsl模板来实现的，所以IE的前进后退刷新之类的功能无法使用。 
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 还有一个不错的功能：你也可以象MSDN一样，对函数进行分类。同一类的函数的声明要放在一起，并且在每类的第一个函数的注释上加分类这一项。用手工加上这一项&nbsp;<br>
+                <br>
+                &nbsp;&nbsp;&nbsp; ///$分类：类名
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 
+                注意是中文的分号。象访问控制符一样，后面的函数都会当作是这一类的，直到定义了另一个分类。同一类的函数只能在第一个加分类这个注释项，如果你定了多个同名的类，我可不帮你合并。如果不明白，打开CShow类的头文件，点击CommentDetail调出全部注释，可以很清楚的看到是如何将函数分类的，再看一下CShow的文档，可以看到分类的效果。
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 后面还提供一些自动化功能，帮你高效地处理注释和文档。
+		        </p>
+                </td>
+            </tr>
+            <tr>
+              <td height="30"></td>
+            </tr>
+            <tr>
+              <td align="right"><a href="index.htm">返回目录页</a>&nbsp;&nbsp; 
+                下一节：<a href="autobak.htm">注释批处理的魔法----省时高效、随心所欲</a></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+  </center>
+</div>
+<script language="javascript" src="/js/tail.js"></script>
+</body>
+
+</html>

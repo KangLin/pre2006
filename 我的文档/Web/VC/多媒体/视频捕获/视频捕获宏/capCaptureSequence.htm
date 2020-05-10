@@ -1,0 +1,71 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>capCaptureSequence</title>
+</head>
+
+<body>
+
+<h1 align="center">capCaptureSequence</h1>
+<p align="center">康&nbsp; 林</p>
+<p>你能用这个宏或者明确发送 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_71gl.htm">
+WM_CAP_SEQUENCE</a> 消息到AVICap视窗口，开始捕获视频流和音频流到一个文件。</p>
+<pre><code><b>BOOL capCaptureSequence(
+ </b><i> hwnd  </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>hwnd</i> </dt>
+	<dd>捕获窗口句柄。</dd>
+</dl>
+<h4>返回值：</h4>
+<p>如果成功返回 TRUE，否则，返回 FALSE。</p>
+<p>如果一个错误出现并且已经用 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_2jsi.htm">
+<b>capSetCallbackOnError</b></a> 宏设置了错误回调函数，那么这个错误回调函数被调用。</p>
+<h4>注释：</h4>
+<p>如果你想改变参数控制捕获流，那么在捕获开始前用 
+<b><a href="capcapturesetsetup.htm">capCaptureSetSetup</a></b> 设置。</p>
+<p>在默认情况下在一个捕获窗口正在捕获运行期间，不允许其它捕获应用程序继续运行。要改就这个，要么设置结构&nbsp; 
+<b><a href="../结构.htm#CAPTUREPARMS">CAPTUREPARMS</a></b> 中的成员函数 fYield 的值为 TRUE，或者安装一个产生（yield)回调函数。</p>
+<p>在捕获流期间，捕获窗口能明确地向你的应用程序传送指明类型的（specific types of 
+conditions）通知。要为这些通知安装回调函数，用下面的宏：</p>
+<p><b>capSetCallbackOnError<br>
+capSetCallbackOnStatus<br>
+capSetCallbackOnVideoStream<br>
+capSetCallbackOnWaveStream<br>
+capSetCallbackOnYield</b></p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in vfw.h.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_8xyd.htm">
+Video Capture Overview</a>,
+<a href="index.htm">Video Capture Macros</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_6568.htm">
+<b>capCaptureSetSetup</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_2jsi.htm">
+<b>capSetCallbackOnError</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_3hrn.htm">
+<b>capSetCallbackOnStatus</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_8vql.htm">
+<b>capSetCallbackOnVideoStream</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_9r8t.htm">
+<b>capSetCallbackOnWaveStream</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_2pr8.htm">
+<b>capSetCallbackOnYield</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_6eia.htm">
+<b>CAPTUREPARMS</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_71gl.htm">
+WM_CAP_SEQUENCE</a></p>
+
+</body>
+
+</html>

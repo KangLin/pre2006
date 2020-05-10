@@ -1,0 +1,177 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>CToolTipCtrl的使用</title>
+</head>
+
+<body>
+
+<div align="justify">
+	<table class="font" height="57" width="100%" border="0">
+		<tr>
+			<td class="bigfont" borderColor="#800080" align="middle" width="27%" bgColor="#b8cfe7" height="6">
+			<font color="#800080">VC知识库（五）</font> </td>
+			<td class="bigfont" borderColor="#800080" align="middle" width="73%" bgColor="#b8cfe7" height="6">
+			<font color="#800080">www.vckbase.com</font> </td>
+		</tr>
+		<tr>
+			<td class="header" vAlign="top" align="middle" width="100%" colSpan="2" height="4">
+			<hr></td>
+		</tr>
+		<tr>
+			<td class="header" vAlign="top" align="middle" width="100%" colSpan="2" height="17">
+			CToolTipCtrl使用详细解说 </td>
+		</tr>
+		<tr>
+			<td class="info" align="middle" width="100%" colSpan="2" height="17">
+			<small><a href="mailto:wyy_cq@188.net">闻怡洋</a>&nbsp;
+			<a href="http://www.vchelp.com">http://www.vchelp.com</a></small> 
+			</td>
+		</tr>
+		<tr>
+			<td class="font" width="100%" colSpan="2" height="22"><hr></td>
+		</tr>
+		<tr>
+			<td class="font" width="100%" colSpan="2" height="5">
+			<p align="left"><font size="3">
+			ToolTip是Win32中一个通用控件，MFC中为其生成了一个类CToolTipCtrl，总的说来其使用方法是较简单的，下面讲一下它的一般用法和高级用法。</font></p>
+			<p align="left"><strong><font size="3">一般用法步骤：</font></strong></p>
+			<ol>
+				<li>
+				<p align="left"><font size="3">添加CToolTipCtrl成员变量 m_tt。</font></li>
+				<li>
+				<p align="left"><font size="3">在父窗口中调用EnableToolTips(TRUE);</font></li>
+				<li>
+				<p align="left"><font size="3">
+				在窗口的OnCreate（或者其他适当的位置）中向ToolTip中添加需要显示Tip的子窗口，并同时指定相应的显示字串CToolTipCtrl::AddTool(pWnd,&quot;string 
+				to display&quot;)。</font></li>
+				<li>
+				<p align="left"><font size="3">重载父窗口的 BOOL 
+				PreTranslateMessage(MSG* pMsg) ，在函数中调用 m_tt.RelayEvent(pMsg)。</font></li>
+			</ol>
+			<p align="left"><font size="3">下面假设在窗口CWndYour中使用CToolTipCtrl</font></p>
+			<pre><font size="3">在类定义中添加变量说明：
+
+class CWndYour:xxx
+
+{
+
+	CToolTipCtrl m_tt;
+
+}
+
+在OnCreate中添加需要显示Tip的子窗口
+
+CWndYour::OnCreate(....)
+
+{
+
+	EnableToolTips(TRUE);
+
+	m_tt.Create(this);
+
+	m_tt.Activate(TRUE);
+
+
+
+	CWnd* pW=GetDlgItem(IDC_CHECK1);//得到窗口指针
+
+	m_tooltip.AddTool(pW,&quot;Check1&quot;);//添加
+
+........
+
+}
+
+在BOOL PreTranslateMessage(MSG* pMsg)中添加代码
+
+BOOL CWndYour::PreTranslateMessage(MSG* pMsg)
+
+{
+
+	{
+
+		m_tt.RelayEvent(pMsg);
+
+	}
+
+	return CParentClass::PreTranslateMessage(pMsg);
+
+}
+
+</font></pre>
+			<p align="left"><font size="3">这样当鼠标移动到相应的子窗口上时会显示出相应的ToolTip。</font></p>
+			<p align="left"><strong><font size="3">动态改变ToolTip的显示内容的方法及步骤：</font></strong></p>
+			<ol>
+				<li>
+				<p align="left"><font size="3">上面所讲的1、2、4步骤。</font></li>
+				<li>
+				<p align="left"><font size="3">
+				在增加ToolTip时不指定显示的字串，而是使用LPSTR_TEXTCALLBACK。</font></li>
+				<li>
+				<p align="left"><font size="3">在窗口中增加消息映射 ON_NOTIFY_EX( 
+				TTN_NEEDTEXT, 0, SetTipText )。</font></li>
+				<li>
+				<p align="left"><font size="3">在窗口中增加一个函数用于动态提供显示内容，其原型为 BOOL 
+				SetTipText( UINT id, NMHDR * pTTTStruct, LRESULT * pResult 
+				)，下面的代码可以根据传入的参数判定应该显示的内容。</font></li>
+			</ol>
+			<pre><font size="3">
+
+BOOL CWndYour::SetTipText( UINT id, NMHDR * pTTTStruct, LRESULT * pResult )
+
+{
+
+	TOOLTIPTEXT *pTTT = (TOOLTIPTEXT *)pTTTStruct;    
+
+	UINT nID =pTTTStruct-&gt;idFrom; //得到相应窗口ID，有可能是HWND
+
+	if (pTTT-&gt;uFlags &amp; TTF_IDISHWND)    //表明nID是否为HWND
+
+	{
+
+	        nID = ::GetDlgCtrlID((HWND)nID);//从HWND得到ID值，当然你也可以通过HWND值来判断
+
+		switch(nID)
+
+		case(IDC_YOUR_CONTROL1)        
+
+			strcpy(pTTT-&gt;lpszText,your_string1);//设置
+
+			return TRUE;
+
+		break;
+
+		case(IDC_YOUR_CONTROL2)
+
+			//设置相应的显示字串
+
+			return TRUE;
+
+		break;
+
+	}
+
+	return(FALSE);
+
+}</font></pre>
+			</td>
+		</tr>
+		<tr>
+			<td class="font" width="100%" colSpan="2" height="12"></td>
+		</tr>
+		<tr>
+			<td class="font" width="100%" colSpan="2" height="6"></td>
+		</tr>
+		<tr>
+			<td class="font" width="100%" colSpan="2" height="8"></td>
+		</tr>
+		<tr>
+			<td class="font" width="100%" colSpan="2" height="17"></td>
+		</tr>
+	</table>
+</div>
+
+</body>
+
+</html>

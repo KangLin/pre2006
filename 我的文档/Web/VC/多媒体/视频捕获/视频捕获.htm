@@ -1,0 +1,848 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>视频捕获</title>
+</head>
+
+<body>
+
+<div align="justify">
+	<p align="center"><b><font size="6">用 VFW 视 频 捕 获</font></b></p>
+	<p align="center">康&nbsp; 林</p>
+	<p><b><font size="4">用VFW视频捕获的步骤</font></b>：</p>
+	<table border="0" width="747">
+		<tr>
+			<td><span style="background-color: #FFFF00">
+			一、//创建一个捕获窗口(实际上就是一个窗口类的实例)</span><br>
+&nbsp;&nbsp;&nbsp; m_hCapWnd = capCreateCaptureWindow(_T(&quot;视频捕获窗口&quot;), <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WS_POPUP,// | 
+			WS_OVERLAPPEDWINDOW | WS_VISIBLE,//设置这此参数后就和普通的窗口一样<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, 0, 160, 120, 0, 
+			0);<br>
+&nbsp;&nbsp;&nbsp; if(m_hCapWnd == NULL)<br>
+&nbsp;&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; log.WriteString(_T(&quot;不能建立捕获窗口。\n&quot;));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return FALSE;<br>
+&nbsp;&nbsp;&nbsp; }
+			<p><span style="background-color: #FFFF00">二、/*设置用户数据</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 作用是：把用户数据保存到捕获窗口，以便在回调函数中，能用 capGetUserData 
+			得到这个用户数据。<br>
+&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; if(!capSetUserData(m_hCapWnd, this))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			log.WriteString(_T(&quot;错误,捕获流正在执行。不能设置用户数据。\n&quot;));</p>
+			<p><span style="background-color: #FFFF00">三、//设置捕获窗口的回调函数</span>，这一步也可放到设置捕获窗口参数中去<br>
+&nbsp;&nbsp;&nbsp; //设置捕获时的视频回调函数<br>
+&nbsp;&nbsp;&nbsp; //注意：在 Destroy 函数中要断开回调函数<br>
+&nbsp;&nbsp;&nbsp; if(!capSetCallbackOnVideoStream(m_hCapWnd, OnCaptureVideo))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; log.WriteString(_T(&quot;视频流回调函数安装失败。\n&quot;));</p>
+			<p><span style="background-color: #FFFF00">四、//得到捕获驱动的描述，</span><br>
+&nbsp;&nbsp;&nbsp; //capGetDriverDescription 先查找即插即用的捕获设备的驱动，<br>
+&nbsp;&nbsp;&nbsp; //再查注册表中的捕获驱动列表，再查文件 SYSTEM。INI 中的设备驱动列表<br>
+&nbsp;&nbsp;&nbsp; //范围[0，9]<br>
+&nbsp;&nbsp;&nbsp; //可以用一个枚举出系统中所有捕获设备驱动的列表。<br>
+&nbsp;&nbsp;&nbsp; //例如：<br>
+&nbsp;&nbsp;&nbsp; //for(int i = 0; i &lt; 10; i++)<br>
+&nbsp;&nbsp;&nbsp; //{<br>
+&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp;&nbsp; capGetDriverDescription(i, devname, 100, 
+			devversion,100);<br>
+&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp;&nbsp; TRACE(_T(&quot;设备驱动程序名 = %s 版本号 = %s \n&quot;), 
+			devname, devversion);<br>
+&nbsp;&nbsp;&nbsp; //}<br>
+&nbsp;&nbsp;&nbsp; if(!capGetDriverDescription(index, devname, 100, devversion, 
+			100))<br>
+&nbsp;&nbsp;&nbsp; log.WriteString(_T(&quot;系统中没有视频捕获设备。\n&quot;));<br>
+&nbsp;&nbsp;&nbsp; sprintf(str, _T(&quot;设备驱动程序名 = %s 版本号 = %s \n&quot;), devname, 
+			devversion);<br>
+&nbsp;&nbsp;&nbsp; log.WriteString(str);</p>
+			<p><span style="background-color: #FFFF00">五、//捕捕获窗口和捕获驱动连接</span><br>
+&nbsp;&nbsp;&nbsp; if(!capDriverConnect(m_hCapWnd, index))<br>
+&nbsp;&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //设备可能已经找开或者它在最后时没有适当的关闭。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AfxMessageBox(_T(&quot;不能打开视频捕获驱动。&quot;));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; log.WriteString(_T(&quot;不能打开视频捕获驱动。\n&quot;));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m_hCapWnd=NULL;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return FALSE;<br>
+&nbsp;&nbsp;&nbsp; }</p>
+			<p><span style="background-color: #FFFF00">六、//设置捕获参数，</span><font color="#FF0000">注意：捕获参数在开始捕获前设置，开始捕获后不能再设置参数。如果要重新设置参数，请先取消捕获操作(capCaptureAbort)，再设置捕获参数。</font><br>
+			//6.1</p>
+			<p>//6.2</p>
+			<p>//6.3</p>
+			<p>//6.4</p>
+			<p>//6.5</p>
+			<p><span style="background-color: #FFFF00">七、//开始捕获</span><br>
+			/*******************************************************************************************************<br>
+			函数名：StartCapture<br>
+			功 能：开始从 webcam 捕获帧<br>
+			参 数：<br>
+			bToFile:为TRUE捕获流发送到文件,为FALSE捕获流不发送到文件。默认值为FALSE。<br>
+			返回值：成功返回 TRUE，否则返回 FALSE<br>
+			作 者：康 林<br>
+			版 本：1.0.0.1<br>
+			日 期：2004-11-2<br>
+			时 间：16:45:31<br>
+			*******************************************************************************************************/<br>
+			BOOL CVideoCapture::StartCapture(BOOL bToFile)<br>
+			{<br>
+&nbsp;&nbsp;&nbsp;&nbsp; //开始捕获……<br>
+			<br>
+&nbsp;&nbsp;&nbsp;&nbsp; if(bToFile)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; { //不捕获到文件<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(capCaptureSequenceNoFile(m_hCapWnd) == 
+			FALSE)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			log.WriteString(_T(&quot;顺序捕获失败...\n&quot;));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return FALSE;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp; else//捕获到文件中<br>
+&nbsp;&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(capCaptureSequence(m_hCapWnd) == 
+			FALSE)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			log.WriteString(_T(&quot;顺序捕获失败...\n&quot;));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return FALSE;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; }<br>
+			<br>
+&nbsp;&nbsp;&nbsp; return TRUE;<br>
+			}</p>
+			<p><span style="background-color: #FFFF00">八、//在回调函数中加入处理代码</span><br>
+			//8.1处理视频流回调函数<br>
+			/*******************************************************************************************************<br>
+			函数名：OnCaptureVideo<br>
+			功 能：当视频帧被驱动程序捕获时调用此函数。<br>
+			参 数：<br>
+			HWND hwnd：捕获窗口的句柄<br>
+			LPVIDEOHDR lphdr：回传的一个 VIDEDHDR 结构<br>
+			返回值：<br>
+			作 者：康 林<br>
+			版 本：1.0.0.1<br>
+			日 期：2004-11-2<br>
+			时 间：17:50:22<br>
+			*******************************************************************************************************/<br>
+			LRESULT CALLBACK OnCaptureVideo(HWND hwnd, LPVIDEOHDR lphdr)<br>
+			{<br>
+			CVideoCapture *vidcap = (CVideoCapture *)capGetUserData(hwnd);<br>
+			if(vidcap != NULL )<br>
+			{<br>
+			//TODO:在这里加入对视频帧频的数据的处理代码<br>
+			((CPlayVideoWnd*) (vidcap-&gt;m_wndDisplay))-&gt;Display(lphdr-&gt;lpData, 
+			lphdr-&gt;dwBytesUsed);<br>
+			}<br>
+			return TRUE;<br>
+			}</p>
+			<p>//8.1.1把视频帧显示出来<br>
+			//8.1.1.1初始化DrawDib<br>
+				//设置自己的位图结构 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			m_bmpInfo.bmiHeader.biSize=sizeof(BITMAPINFOHEADER);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			m_bmpInfo.bmiHeader.biWidth=IMAGE_WIDTH;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			m_bmpInfo.bmiHeader.biHeight=IMAGE_HEIGHT;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m_bmpInfo.bmiHeader.biPlanes=1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m_bmpInfo.bmiHeader.biBitCount=24;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m_bmpInfo.bmiHeader.biCompression=0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m_bmpInfo.bmiHeader.biSizeImage=0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			m_bmpInfo.bmiHeader.biXPelsPerMeter=0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			m_bmpInfo.bmiHeader.biYPelsPerMeter=0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m_bmpInfo.bmiHeader.biClrUsed=0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m_bmpInfo.bmiHeader.biClrImportant=0;</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //或者从捕获窗口中得到位图结构<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; capGetVideoFormat(m_hCapWnd, 
+			&amp;m_bmpInfo, sizeof(BITMAPINFO));</p>
+			<p>	m_hdib =::DrawDibOpen();//打开DrawDib库<br>
+			<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //得到显示窗口的 HDC<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m_hdc = this-&gt;GetDC()-&gt;m_hDC;<br>
+			<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //为画图初始化 DIB ...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //m_hdib =::DrawDibOpen();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(m_hdib != NULL)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			::DrawDibBegin(m_hdib,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			m_hdc,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			-1, // 不进行缩放<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			-1, // 不进行缩放<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			&amp;m_bmpInfo.bmiHeader,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			IMAGE_WIDTH, //图像的宽度 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			IMAGE_HEIGHT, //图像的高度 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			0 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+			<p>//8.1.1.2在屏幕上显示数据<br>
+			void CPlayVideoWnd::Display(BYTE *pData, int iSize)<br>
+			{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ::DrawDibDraw(m_hdib,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m_hdc,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, // dest : left pos<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, // dest : top pos<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m_wndWidth,//-1, // don't zoom x<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m_wndHeight,//-1, // don't zoom y<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;m_bmpInfo.bmiHeader, // bmp header info<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pData, // bmp data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, // src :left<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, // src :top<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMAGE_WIDTH, // src : width<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMAGE_HEIGHT, // src : height<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DDF_SAME_DRAW // use prev params....<br>
+			);<br>
+			<br>
+			//TODO:在此可加入其它对捕获流数据操作的代码……<br>
+			<br>
+			}</p>
+			<p>//8.1.1.3结束给图<br>
+			if(m_hdib != NULL)<br>
+			{<br>
+&nbsp;&nbsp;&nbsp; if(!::DrawDibEnd(m_hdib))<br>
+&nbsp;&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TRACE(_T(&quot;DrawDibEnd失败!\n&quot;));<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; if(!::DrawDibClose(m_hdib))<br>
+&nbsp;&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TRACE(_T(&quot;DrawDibClose失败!\n&quot;));<br>
+&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+			}</p>
+			<p>//8.2处理视频流状态</p>
+			<p>//8.3处理视频流错误</p>
+			<p>//8.4</p>
+			<p>//8.5</p>
+			<p>//8.6</p>
+			<p>　</p>
+			<p><span style="background-color: #FFFF00">九、//停止捕获</span><br>
+			//capCaptureStop与capCaptureAbort不同之处<br>
+			//在于后者在消息被发送前，停止音频捕获。<br>
+			capCaptureStop(m_hCapWnd);<br>
+			<font color="#FF0000">capCaptureAbort</font>(m_hCapWnd);//取消息捕获操作<br>
+			Sleep(500); </p>
+			<p><span style="background-color: #FFFF00">十、//结束</span><br>
+&nbsp;&nbsp;&nbsp; if(m_hCapWnd == NULL) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;<br>
+&nbsp;&nbsp;&nbsp; //10.1停止捕获<br>
+&nbsp;&nbsp;&nbsp; capCaptureStop(m_hCmpWnd);<br>
+&nbsp;&nbsp;&nbsp; capCaptureAbort(m_hCapWnd);</p>
+			<p>&nbsp;&nbsp;&nbsp; //10.2断开视频捕获回调函数<br>
+&nbsp;&nbsp;&nbsp; capSetCallbackOnVideoStream(m_hCapWnd, NULL);<br>
+&nbsp;&nbsp;&nbsp; Sleep(300); // 延时</p>
+			<p>&nbsp;&nbsp;&nbsp; //10.3断开捕获窗口与捕获驱动的连接<br>
+&nbsp;&nbsp;&nbsp; if(!capDriverDisconnect(m_hCapWnd))<br>
+&nbsp;&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			log.WriteString(_T(&quot;不能把捕获窗口与捕获驱动断开。\n&quot;));<br>
+&nbsp;&nbsp;&nbsp; }</p>
+			<p>&nbsp;&nbsp;&nbsp; //10.4注意:<font color="#FF0000">关闭并销毁捕获窗口</font>,否则的话调试时结束时出现异常<br>
+&nbsp;&nbsp;&nbsp; ::SendMessage(m_hCapWnd, WM_CLOSE, NULL, NULL);&nbsp;&nbsp;&nbsp;
+			</td>
+		</tr>
+	</table>
+	<table class="font" height="57" width="65%" border="0">
+		<tr>
+			<td width="100%" height="6">
+			<p align="center">前 言 </td>
+		</tr>
+		<tr>
+			<td width="100%" height="12">
+			视频捕获是指由专用的视频采集卡捕获声频和视频信息，然后将其进行数据化处理，再经过软件的压缩进行处理，这时就可对这些数据进行保存、回放、传输等各种操作。<br>
+			Windows专门提供了Video for 
+			Windows来对视频处理进行支持，提供的接口可以被大多数的视频采集卡支持，并有多种视频压缩驱动供选择（当然视频压缩可以自己开发），采集卡支持摄像头，ＴＶ等多种输入。 
+			</td>
+		</tr>
+	</table>
+	<table class="font" height="57" width="65%" border="0">
+		<tr>
+			<td width="100%" height="6">
+			<p align="center">一. 视频捕获快速入门 </td>
+		</tr>
+		<tr>
+			<td width="100%" height="12">视频捕捉将一个视频流和音频流数字化, 然后存储在硬盘或其他存储介质上.&nbsp;<br>
+			一个AVICap视窗口句柄描述了声频与视频流的细节, 这样就使你的应用程序从AVI文件格式, 声频视频缓冲管理, 
+			低层声频视频驱动访问等等解脱出来, AVICap为应用程序提供了一个灵活的介面, 
+			你可以仅仅使用如下几行代码就可以将视频捕捉加入你的程序:<br>
+			hWndC = capCreateCaptureWindow ( &quot;My Own Capture Window&quot;,&nbsp;<br>
+			WS_CHILD | WS_VISIBLE , 0, 0, 160, 120, hwndParent, nID);<br>
+			SendMessage (hWndC, WM_CAP_DRIVER_CONNECT, 0 /* wIndex */, 0L);<br>
+			SendMessage (hWndC, WM_CAP_SEQUENCE, 0, 0L);<br>
+			一个宏其实也是使用SendMessage, 只不过提供给程序一个更易读的代码而已, 下面的这些示例就是使用宏的方法将视频捕捉加入程序:<br>
+			hWndC = capCreateCaptureWindow ( &quot;My Own Capture Window&quot;,&nbsp;<br>
+			WS_CHILD | WS_VISIBLE , 0, 0, 160, 120, hwndParent, nID);<br>
+			capDriverConnect (hWndC, 0);<br>
+			capCaptureSequence (hWndC);&nbsp;<br>
+			<br>
+			当你创建了一个AVICap类的捕捉窗口并将它连接到一个视频驱动时, 此捕捉窗口即可以开始捕捉数据, 
+			你的程序可以简单的发送WM_CAP_SEQUENCE消息(或者使用capCaptureSequence宏)来开始捕捉.<br>
+			如果是缺省的设置, WM_CAP_SEQUENCE会开始捕捉视频音频流到CAPTURE.AVI文件中, 直到下面的某一事件发生为止:<br>
+			用户按下了ESC键或者一个鼠标键<br>
+			你的应用程序终止或异常中断捕捉操作<br>
+			磁盘已满<br>
+			<br>
+			在一个应用程序里, 你可以发送WM_CAP_STOP消息来终止捕捉数据(或者使用capCaptureStop宏), 
+			你也可以发送WM_CAP_ABORT消息(或者使用capCaptureAbort宏)来终止. </td>
+		</tr>
+	</table>
+	<table class="font" height="57" width="65%" border="0">
+		<tr>
+			<td width="100%" height="6">
+			<p align="center">二.基本的捕获设置 </td>
+		</tr>
+		<tr>
+			<td width="100%" height="12">
+			基本的捕获设置包括：设置捕获速度（每秒捕获多少帧），是否同时捕获声频，捕获缓冲，允许最大丢失多少帧，是否使用ＤＯＳ内存，以及用键盘的哪个键或鼠标的哪个键来终止捕获等等。这些基本的设置都可以使用ＣＡＰＴＵＲＥＰＡＲＡＭＳ结构来描述，你可以使用capCaptureGetSetup宏来得到当前的设置，然后改变此结构的成员变量，再使用capCaptureSetSetup宏设置新的设置。<br>
+			例如：<br>
+			<b>１．设置捕获速度：<br>
+			</b>捕捉速度是指捕捉任务每秒钟捕获的帧数, 
+			你可以发送WM_CAP_GET_SEQUENCE_SETUP消息(或者使用capCaptureGetSetup宏)来得到当前的捕捉速度, 
+			当前的捕捉速度保存在CAPTUREPARAMS结构的dwRequestMicroSecPerFrame成员变量中, 
+			你可以通过设置此变量来改变当前设置, 单位是每毫秒连续的帧数, 
+			你可以发送WM_CAP_SET_SEQUENCE_SETUP消息(或者使用capCaptureSetSetup宏), 
+			dwRequestMicroSecPerFrame的值是66667, 相当于每秒15帧.<br>
+			<br>
+			<b>２．设置终止捕获</b><br>
+			你可以允许用户按下某键或某组合键或者鼠标的左右键来终止一个捕获任务, 如果是实时的捕获, 则捕获的文件将会被丢弃; 如果是单步捕获, 
+			在终止之前所捕获的内容将会被保存.<br>
+			你可以通过发送WM_CAP_GETQUENCE_SETUP消息(或者使用capCaptureGetSetup宏)来得到当前的设置, 
+			当前的按键设置保存在CAPTUREPARAMS的vKeyAbort成员中, 
+			当前的鼠标设置保存在fAbortLeftMouse和fAbortRightMouse成员中. 你可以设置新的按键或按键组合, 
+			或者鼠标左右键, 
+			当你修改的CAPTUREPARAMS后,应该发送WM_CAP_SET_SEQUENCE_SETUP消息来进行更新(或者使用capCaptureSetSetup宏). 
+			缺省的按键是VK_ESCAPE. 你必须在指定按键之前使用RegisterHotKey函数, 
+			鼠标缺省的值是fAbortLeftMouse和fAbortRightMouse都为TRUE.<br>
+			<br>
+			<b>３．捕获的时间限制</b><br>
+			CAPTUREPARAMS结构中的fLimitEnabled指示是否有时间限度, wTimeLimit指示最大的持续时间, 单位为秒.<br>
+			得到fLimitEnabled和wTimeLimit的值可以发送WM_CAP_GET_SEQUENCE_SETUP消息(或使用capCatureGetSetup宏), 
+			当设置了这些成员变量后, 
+			应该发送消息WM_CAP_SET_SEQUENCE_SETUP消息(或capCaptureSetSetup宏)来更新CAPTUREPARAMS结构. 
+			</td>
+		</tr>
+		<tr>
+			<td vAlign="top" align="left" width="100%" height="17"></td>
+		</tr>
+		<tr>
+			<td vAlign="top" align="middle" width="100%" height="22">　</td>
+		</tr>
+		<tr>
+			<td vAlign="top" align="left" width="100%" height="1"></td>
+		</tr>
+		<tr>
+			<td width="100%" height="17"></td>
+		</tr>
+	</table>
+	<table class="font" height="57" width="65%" border="0">
+		<tr>
+			<td width="100%" height="6">
+			<p align="center">三.关于捕获窗口 </td>
+		</tr>
+		<tr>
+			<td width="100%" height="12">&nbsp;&nbsp;&nbsp; 在捕获之前必须创建一个捕获窗口（capture 
+			window），在发送消息或使用宏的过程中都需要使用此窗口。<br>
+			<b>１.创建一个AVICap捕获窗口</b><br>
+			你可以使用capCreateCaptureWindow函数来创建一个AVICap捕获窗口, 此函数将会返回一个句柄, 
+			此句柄以后在发送消息时要用.<br>
+			你可以在一个程序里创建一个或多个捕获窗口, 然后给每一个窗口连接不同的捕获设置.<br>
+			<br>
+			<b>２．将一个捕获窗口连接至捕获设备</b><br>
+			你可以动态的在一个捕获窗口与一个捕获设备之前连接或断接, 
+			你可以发送WM_CAP_DRIVER_CONNECT(或capDriverConnect宏)消息来使一个捕获窗口与一个捕获设备连接或关联. 
+			当连接上以后, 你就可以通过捕获窗口向捕获设备发送各种消息.<br>
+			如果你的系统里装有多个捕获设备, 你可以在发送WM_CAP_DRIVER_CONNECT消息时用wParam参数指定使用哪一个, 
+			此参数是登记在SYSTEM.INI文件的[drivers]一节里的列表中的某一项, 0为第一个.<br>
+			你可以使用capGetDriverDescription函数来得到已安装的捕获设备的名称及版本, 
+			这样你的程序就可以列举所有已安装的捕获设备和驱动, 这样用户就可以选择其中的一个来与你的捕获窗口连接.<br>
+			你可以发送WM_CAP_DRIVER_GET_NAME消息(或capDriverGetName宏)来得到连接到捕获窗口的捕获设备的名称, 
+			得到版本发送WM_CAP_DRIVER_GET_VERSION消息(或capDriverGetVersion宏)<br>
+			你可以发送WM_CAP_DRIVER_DISCONNECT消息(或capDriverDisconnect宏)来断接.<br>
+			<br>
+			<b>３． 父窗口与子窗口的交互</b><br>
+			一些象WM_PALETTECHANGED和WM_QUERYNEWPALETTE的系统级消息只能发送到顶级窗口或OVERLAPPED窗口, 
+			如果一个捕获窗口是子窗口,就必须通过父窗口转送.<br>
+			同样的, 如果父窗口的尺寸改变了, 它就需要通知捕获窗口, 相反地, 如果捕获窗口的尺寸改变了, 捕获窗口就需要发送消息给父窗口, 
+			一个简单的方法就是始终保持捕获窗口的尺寸与视频流的尺寸一致, 并随时将尺寸的改变通知父窗口.<br>
+			<br>
+			<b>４．捕获窗口的状态</b><br>
+			你可以发送WM_CAP_GET_STATUS消息(或capGetStatus宏)来得到当前捕获窗口的状态, 
+			得到的是一个CAPSTATUS结构的拷贝, 它包含图片的尺寸, 卷轴的当前位置, overlay和preview是否已设置.<br>
+			因为CAPSTATUS信息是动态的, 你的程序应该只要捕获的视频流的尺寸或格式可能发生了改变就应该进行刷新(例如: 
+			显示了捕获设备的视频格式以后).<br>
+			改变捕获窗口的尺寸并不影响实际的捕获的视频流的尺寸, 视频捕获设备的格式对话框捕获频流的尺寸. </td>
+		</tr>
+		<tr>
+			<td vAlign="top" align="left" width="100%" height="17"></td>
+		</tr>
+		<tr>
+			<td vAlign="top" align="middle" width="100%" height="22">　</td>
+		</tr>
+		<tr>
+			<td vAlign="top" align="left" width="100%" height="1"></td>
+		</tr>
+		<tr>
+			<td width="100%" height="17"></td>
+		</tr>
+	</table>
+	<div align="justify">
+		<table class="font" height="57" width="71%" border="0">
+			<tr>
+				<td width="100%" height="6">
+				<p align="center">四.视频捕获驱动和音频驱动 </td>
+			</tr>
+			<tr>
+				<td width="100%" height="12"><b>１．视频捕获驱动的性能:</b><br>
+				你可以通过发送WM_CAP_DRIVER_GET_CAPS消息(或者capDriverGetCaps宏)来得到当前连接的视频驱动的硬件性能. 
+				得到的信息保存在CAPDRIVERCAPS结构中.<br>
+				<br>
+				<b>２．视频对话框:</b><br>
+				每一个视频驱动能够提供四个对话框来控制视频捕获和数字化处理, 定义压缩品质等, 这些对话框都定义在视频捕获驱动中.<br>
+				<a name="Video_Source">Video Source</a>对话框用于控制选择视频来源, 
+				此对话框列举了此视频捕获卡连接的所有视频源(典型的例如:SVHS和合成输入), 并提供了改变色调, 对比度, 饱和度. 
+				如果视频驱动支持此对话框, 你就可以显示并更新它, 
+				使用WM_CAP_DLG_VIDEOSOURCE消息(或capDlgVideoSource宏).<br>
+				<a name="Video_Format">Video Format</a>对话框定义视频帧的尺寸以及精度, 视频捕获卡的压缩设置. 如果卡支持的话, 
+				可以发送消息WM_CAP_DLG_VIDEOFORMAT消息或(capDlgVideoFormat宏).<br>
+				<a name="Video_Display">Video Display</a>对话框控制在视频捕获期间在显示器上的显示, 此控制不会影响视频数字数据, 
+				但是他们可能会影响数字信号的表现形式, 例如: 如果捕获设备支持 overlay, 可能允许改变色调和饱和度, 关键色彩 
+				或者overlay队列. 如果卡支持, 
+				你可以发送WM_CAP_DLG_VIDEODISPLAY消息(或者使用capDlgVideoDisplay宏).<br>
+				<a name="Video_Compression">Video Compression</a>对话框控制压缩品质, 如果卡支持, 
+				发送消息WM_CAP_DLG_VIDEOCOMPRESSION(或capDlgVideoCompression宏).<br>
+				<br>
+				<b>３．Preview 和 Overlay 模式:</b><br>
+				一个视频捕获驱动对进入的视频流有两种工作模式: Preview模式和overlay模式, 如果一个捕获驱动能够执行两种方法, 
+				用户可以在其中选择一种.<br>
+				Preview模式把从捕获硬件传来的数据送入系统内存并使用图形设备介面(GDI)将数字化帧显示在捕获窗口内. 
+				应用程序可以在父窗口失去焦点时减缓显示速度, 当重新又得到焦点后加快显示速度, 此种模式要占用大量CPU时间.<br>
+				有三种消息控制Preview操作:<br>
+				WM_CAP_SET_PREIVEW消息(capPreview宏)允许或禁止preview模式<br>
+				WM_CAP_SET_PREVIEWRATE(capPreviewRate宏)当帧在preview模式显示时设置速度.<br>
+				WM_CAP_SET_SCALE(capPreviewScale宏)允许或禁止preview视频的缩放比例.<br>
+				当preview和scaling同时使用, 捕获的视频帧将会根据捕获窗口的尺寸自动缩放, 
+				允许preview模式会自动关闭overlay模式.<br>
+				overlay模式是一个硬件函数它将数据送入捕获缓冲区中因而不占用CPU资源. 
+				你可以发送消息WM_CAP_SET_OVERLAY(或capOverlay宏)给捕获窗口来启用或终止overlay模式, 
+				允许overlay模式会自动禁止preview模式.<br>
+				你同时也可以在preview模式或overlay模式里发送WM_CAP_SET_SCROLL消息(或capSetScrollPos宏)来设置视频帧的客户区卷轴位置.<br>
+				<br>
+				<b>４．视频格式</b><br>
+				你可以通过发送WM_CAP_GET_VIDEOFORMAT消息(或capGetVideoFormat和capGetVideoFormatSize宏)来得到视频格式的结构或结构的尺寸. 
+				你可以通过发送CAP_SET_VIDEOFORMAT消息(或capSetVideoFormat宏)来设置视频格式.<br>
+				<br>
+				<b>５．视频捕获设置</b><br>
+				CAPTUREPARMS结构包含了对视频捕获流的控制参数, 你可以完成以下这些任务:<br>
+				指定帧数<br>
+				指定分配多少视频缓冲<br>
+				允许或禁止声频捕获<br>
+				指定捕获的时间间隔<br>
+				指定在捕获的过程中是否使用MCI设置(VCR或者videodisc)<br>
+				指定终止流的键盘或鼠标<br>
+				specify the type of video averaging applied during capture.<br>
+				<br>
+				得到:WM_CAP_GET_SEQUENCE_SETUP消息(或capCaptureGetSetup宏)<br>
+				设置:WM_CAP_SET_SEQUENCE_SETUP消息(或capCaptureSetSetup宏)<br>
+				<br>
+				<b>６．声频格式</b><br>
+				你可以通过发送WM＿CAP＿GET＿AUDIOFORMAT消息（或capGetAudioFormat宏和capGetAudioFormatSize宏）来得到当前捕获音频数据的格式或尺寸格式。缺省的声频格式是：单声道、8位、11kHz 
+				PCM。 当你使用WM＿CAP＿GET＿AUDIOFORMAT时，总是使用WAVEFORMATEX结构。<br>
+				设置发送消息WM＿CAP＿SET＿AUDIOFORMAT消息（或capSetAudioFormat宏），可以传送WAVEFORMAT，WAVEFORMATEX，PCMWAVEFORMAT结构指针。 
+				</td>
+			</tr>
+			<tr>
+				<td vAlign="top" align="left" width="100%" height="17"></td>
+			</tr>
+			<tr>
+				<td vAlign="top" align="middle" width="100%" height="22">　</td>
+			</tr>
+			<tr>
+				<td vAlign="top" align="left" width="100%" height="1"></td>
+			</tr>
+			<tr>
+				<td width="100%" height="17"></td>
+			</tr>
+		</table>
+		<table class="font" height="57" width="90%" border="0">
+			<tr>
+				<td width="100%" height="6">
+				<p align="center">五．使用视频捕获 </td>
+			</tr>
+			<tr>
+				<td width="100%" height="12"><b>1.创建捕获窗口(Creating a Capture 
+				Window)<br>
+				</b>hWndC = capCreateCaptureWindow (<br>
+				(LPSTR) &quot;My Capture Window&quot;, // window name if pop-up&nbsp;<br>
+				WS_CHILD | WS_VISIBLE, // window style&nbsp;<br>
+				0, 0, 160, 120, // window position and dimensions<br>
+				(HWND) hwndParent,&nbsp;<br>
+				(int) nID /* child ID */);&nbsp;<br>
+				<br>
+				<b>2.连接到捕获驱动(Connecting to a Capture Driver)</b><br>
+				下面的例子是将MSVIDEO驱动连接到句柄为hWndC的捕获窗口, 然后调用capDriverDisconnect宏来断接.<br>
+				fOK = SendMessage (hWndC, WM_CAP_DRIVER_CONNECT, 0, 0L);&nbsp;<br>
+				//&nbsp;<br>
+				// Or, use the macro to connect to the MSVIDEO driver:&nbsp;<br>
+				// fOK = capDriverConnect(hWndC, 0);&nbsp;<br>
+				//&nbsp;<br>
+				// Place code to set up and capture video here.&nbsp;<br>
+				//&nbsp;<br>
+				capDriverDisconnect (hWndC);&nbsp;<br>
+				<br>
+				<b>3.列举所有已安装的捕获驱动(Enumerating Installed Capture Drivers)</b><br>
+				下面的例子使用capGetDriverDescription函数得到已安装的捕获驱动的名称及版本:<br>
+				char szDeviceName[80];<br>
+				char szDeviceVersion[80];<br>
+				<br>
+				for (wIndex = 0; wIndex &lt; 10; wIndex++)&nbsp;<br>
+				{<br>
+				if (capGetDriverDescription (wIndex, szDeviceName,&nbsp;<br>
+				sizeof (szDeviceName), szDeviceVersion,&nbsp;<br>
+				sizeof (szDeviceVersion))&nbsp;<br>
+				{<br>
+				// Append name to list of installed capture drivers<br>
+				// and then let the user select a driver to use.<br>
+				}<br>
+				}<br>
+				<br>
+				<b>4.得到捕获驱动的性能(Obtaining the Capabilities of a Capture Driver)</b><br>
+				发送WM_CAP_DRIVER_GET_CAPS消息可以得到捕获驱动的性能,并保存入一个CAPDRIVERCAPS结构.每当程序连接一个新的捕获驱动到一个捕获窗口时, 
+				就应该更新CAPDRIVERCAPS结构. 下面的程序举例说明了如何使用capDriverGetCaps宏来得到捕获驱动的性能:<br>
+				<br>
+				CAPDRIVERCAPS CapDrvCaps;&nbsp;<br>
+				SendMessage (hWndC, WM_CAP_DRIVER_GET_CAPS,&nbsp;<br>
+				sizeof (CAPDRIVERCAPS), (LONG) (LPVOID) &amp;CapDrvCaps);&nbsp;<br>
+				// Or, use the macro to retrieve the driver capabilities.&nbsp;<br>
+				// capDriverGetCaps(hWndC, &amp;CapDrvCaps, sizeof (CAPDRIVERCAPS));<br>
+				<br>
+				<b>5.得到捕获窗口的状态(Obtaining the Status of a Capture Window)</b><br>
+				下面的例子使用SetWindowPos函数使捕获窗口与进来的视频流尺寸保持一致, 
+				视频流的基本信息是使用capGetStatus宏得到的, 保存在CAPSTATUS结构中.<br>
+				<br>
+				CAPSTATUS CapStatus;<br>
+				capGetStatus(hWndC, &amp;CapStatus, sizeof (CAPSTATUS));&nbsp;<br>
+				SetWindowPos(hWndC, NULL, 0, 0, CapStatus.uiImageWidth,&nbsp;<br>
+				CapStatus.uiImageHeight, SWP_NOZORDER | SWP_NOMOVE);&nbsp;<br>
+				<br>
+				<b>6.显示对话框设置视频特征(Displaying Dialog Boxes to Set Video 
+				Characteristics)</b><br>
+				每个视频捕获卡一般能提供三个不同的对话框用于控制视频捕获及数字化处理. 下面的例子说明如何显示这些对话框, 
+				在显示这些对话框之前,使用了capDriverGetCaps宏来检查CAPDRIVERCAPS结构, 
+				以检测该卡是否有显示这些对话框:<br>
+				<br>
+				CAPDRIVERCAPS CapDrvCaps;&nbsp;<br>
+				capDriverGetCaps(hWndC, &amp;CapDrvCaps, sizeof (CAPDRIVERCAPS));&nbsp;<br>
+				<br>
+				// Video source dialog box.&nbsp;<br>
+				if (CapDriverCaps.fHasDlgVideoSource)<br>
+				capDlgVideoSource(hWndC);&nbsp;<br>
+				<br>
+				// Video format dialog box.&nbsp;<br>
+				if (CapDriverCaps.fHasDlgVideoFormat)&nbsp;<br>
+				{<br>
+				capDlgVideoFormat(hWndC);&nbsp;<br>
+				// Are there new image dimensions?<br>
+				capGetStatus(hWndC, &amp;CapStatus, sizeof (CAPSTATUS));<br>
+				// If so, notify the parent of a size change.<br>
+				}&nbsp;<br>
+				<br>
+				// Video display dialog box.&nbsp;<br>
+				if (CapDriverCaps.fHasDlgVideoDisplay)<br>
+				capDlgVideoDisplay(hWndC);&nbsp;<br>
+				<br>
+				<b>7.得到和设置视频格式(Obtaining and Setting the Video Format)</b><br>
+				BITMAPINFO结构的长度既适应于标准的也适应于压缩的数据格式, 
+				所有程序必须总是询问此结构的尺寸以便在得到当前的视频格式之前分配内存. 
+				下面的例子就是使用capGetVideoFormatSize宏来得到缓冲区尺寸并调用capGetVideoFormat宏来得到当前的视频格式.<br>
+				<br>
+				LPBITMAPINFO lpbi;<br>
+				DWORD dwSize;<br>
+				dwSize = capGetVideoFormatSize(hWndC);<br>
+				lpbi = GlobalAllocPtr (GHND, dwSize);<br>
+				capGetVideoFormat(hWndC, lpbi, dwSize);&nbsp;<br>
+				<br>
+				// Access the video format and then free the allocated memory.<br>
+				<br>
+				程序可以使用capSetVideoFormat宏(或WM_CAP_SET_VIDEOFORMAT消息)发送一个BITMAPINFO头结构给捕获窗口, 
+				因为视频格式是设备细节, 你的程序应该检查返回值以便确定此格式是否已被接受.<br>
+				<br>
+				<b>8. 预览视频(Previewing Video)</b><br>
+				下面的例子使用capPreviewRate宏来设置每66毫秒显示一帧, 并使用capPreview宏将它放置在捕获窗口里.<br>
+				<br>
+				capPreviewRate(hWndC, 66); // rate, in milliseconds<br>
+				capPreview(hWndC, TRUE); // starts preview&nbsp;<br>
+				// Preview<br>
+				capPreview(hWnd, FALSE); // disables preview&nbsp;<br>
+				<br>
+				<b>9.将视频设置为overlay模式(Enabling Video Overlay)</b><br>
+				下面的例子: capDriverGetCaps宏确定此捕获卡是否有overlay功能, 如果有就使用宏来设置它<br>
+				<br>
+				CAPDRIVERCAPS CapDrvCaps;&nbsp;<br>
+				capDriverGetCaps(hWndC, &amp;CapDrvCaps, sizeof (CAPDRIVERCAPS));&nbsp;<br>
+				<br>
+				if (CapDrvCaps.fHasOverlay)&nbsp;<br>
+				capOverlay(hWndC, TRUE);<br>
+				<br>
+				<b>10.命名捕获文件(Naming the Capture File)</b><br>
+				下面的例子: 使用capFileSetCaptureFile宏来指定预备文件名为:MYCAP.AVI, 
+				capFileAlloc宏预先指定它的大小为5M.<br>
+				<br>
+				char szCaptureFile[] = &quot;MYCAP.AVI&quot;;<br>
+				capFileSetCaptureFile( hWndC, szCaptureFile);&nbsp;<br>
+				capFileAlloc( hWndC, (1024L * 1024L * 5));&nbsp;<br>
+				<br>
+				<b>11.格式化声频捕获(Formatting Audio Capture)</b><br>
+				下面的例子使用capSetAudioFormat来设置声频格式为:11kHz, PCM 8位, 立体声<br>
+				<br>
+				WAVEFORMATEX wfex;<br>
+				wfex.wFormatTag = WAVE_FORMAT_PCM;<br>
+				wfex.nChannels = 2; // Use stereo<br>
+				wfex.nSamplesPerSec = 11025;<br>
+				wfex.nAvgBytesPerSec = 22050;<br>
+				wfex.nBlockAlign = 2;<br>
+				wfex.wBitsPerSample = 8;<br>
+				wfex.cbSize = 0;<br>
+				<br>
+				capSetAudioFormat(hWndC, &amp;wfex, sizeof(WAVEFORMATEX));&nbsp;<br>
+				<br>
+				<b>12.改变视频捕获设置(Changing a Video Capture Setting)</b><br>
+				下面的例子使用capCaptureGetSetup和capCaptureSetSetup宏得将捕获帧数从缺省的15帧改成每秒10帧.<br>
+				<br>
+				CAPTUREPARMS CaptureParms;<br>
+				float FramesPerSec = 10.0;<br>
+				<br>
+				capCaptureGetSetup(hWndC, &amp;CaptureParms, sizeof(CAPTUREPARMS));<br>
+				<br>
+				CaptureParms.dwRequestMicroSecPerFrame = (DWORD) (1.0e6 
+				/FramesPerSec);<br>
+				capCaptureSetSetup(hWndC, &amp;CaptureParms, sizeof 
+				(CAPTUREPARMS));&nbsp;<br>
+				<br>
+				<b>13.捕获数据(Capturing Data)</b><br>
+				下面的例子使用capCaptureSequence宏来开始捕获视频并使用capFileSaveAs宏来将捕获的数据拷贝至NEWFILE.AVI文件中.<br>
+				<br>
+				char szNewName[] = &quot;NEWFILE.AVI&quot;;<br>
+				// Set up the capture operation.<br>
+				capCaptureSequence(hWndC);&nbsp;<br>
+				// Capture.<br>
+				capFileSaveAs(hWndC, szNewName);<br>
+				<br>
+				<b>14.增加一个信息块(Adding an Information Chunk)</b><br>
+				如果你需要在你的程序捕获的声频和视频数据中加入你的其他信息, 你可以创建一个信息块并将它们插入捕获文件中, 
+				信息块可以包含一些典型的信息, 例如:版权信息,视频来源, 外部定位信息等. 
+				下面的例子使用capFileSetInfoChunk宏来插入一个信息块, 里面包含了一个SMPTE的时间代码.<br>
+				<br>
+				// This example assumes the application controls&nbsp;<br>
+				// the video source for preroll and postroll.&nbsp;<br>
+				CAPINFOCHUNK cic;<br>
+				// .&nbsp;<br>
+				// .&nbsp;<br>
+				// .&nbsp;<br>
+				cic.fccInfoID = infotypeSMPTE_TIME;<br>
+				cic.lpData = &quot;00:20:30:12&quot;;&nbsp;<br>
+				cic.cbData = strlen (cic.lpData) + 1;<br>
+				capFileSetInfoChunk (hwndC, &amp;cic);&nbsp;<br>
+				<br>
+				<b>15.在程序中加入一个回调函数(Adding Callback Functions to an Application)</b><br>
+				一个程序可以为捕获窗口登记一个回调函数以便在以下的这些情况下通知程序.<br>
+				<br>
+				状态改变<br>
+				错误发生<br>
+				视频框架和声频缓冲区变得可用<br>
+				程序应用在捕获视频流的过程中接收<br>
+				<br>
+				下面的例子创建一个捕获窗口并登记状态,错误,视频流和框架回调函数在消息处理对列中, 也包括了一个终止回调函数的说明.&nbsp;<br>
+				<br>
+				case WM_CREATE:&nbsp;<br>
+				{&nbsp;<br>
+				char achDeviceName[80] ;&nbsp;<br>
+				char achDeviceVersion[100] ;&nbsp;<br>
+				char achBuffer[100] ;&nbsp;<br>
+				WORD wDriverCount = 0 ;&nbsp;<br>
+				WORD wIndex ;&nbsp;<br>
+				WORD wError ;&nbsp;<br>
+				HMENU hMenu ;&nbsp;<br>
+				<br>
+				// Create a capture window using the capCreateCaptureWindow 
+				macro.<br>
+				ghWndCap = capCreateCaptureWindow((LPSTR)&quot;Capture Window&quot;,&nbsp;<br>
+				WS_CHILD | WS_VISIBLE, 0, 0, 160, 120, (HWND) hWnd, (int) 0);&nbsp;<br>
+				<br>
+				// Register the error callback function using the&nbsp;<br>
+				// capSetCallbackOnError macro.&nbsp;<br>
+				capSetCallbackOnError(ghWndCap, fpErrorCallback);&nbsp;<br>
+				<br>
+				// Register the status callback function using the&nbsp;<br>
+				// capSetCallbackOnStatus macro.&nbsp;<br>
+				capSetCallbackOnStatus(ghWndCap, fpStatusCallback);&nbsp;<br>
+				<br>
+				// Register the video-stream callback function using the<br>
+				// capSetCallbackOnVideoStream macro.&nbsp;<br>
+				capSetCallbackOnVideoStream(ghWndCap, fpVideoCallback);&nbsp;<br>
+				<br>
+				// Register the frame callback function using the<br>
+				// capSetCallbackOnFrame macro.&nbsp;<br>
+				capSetCallbackOnFrame(ghWndCap, fpFrameCallback);&nbsp;<br>
+				<br>
+				// Connect to a capture driver&nbsp;<br>
+				<br>
+				break;&nbsp;<br>
+				}&nbsp;<br>
+				case WM_CLOSE:&nbsp;<br>
+				{&nbsp;<br>
+				// Use the capSetCallbackOnFrame macro to&nbsp;<br>
+				// disable the frame callback. Similar calls exist for the 
+				other&nbsp;<br>
+				// callback functions.<br>
+				<br>
+				capSetCallbackOnFrame(hWndC, NULL);&nbsp;<br>
+				<br>
+				break;&nbsp;<br>
+				}&nbsp;<br>
+				<br>
+				<b>16.创建一个状态回调函数(Creating a Status Callback Function)</b><br>
+				下面的例子是创建一个简单的状态回调函数,登记此回调函数使用capSetCallbackOnStatus宏.<br>
+				<br>
+				// StatusCallbackProc: status callback function&nbsp;<br>
+				// hWnd: capture window handle&nbsp;<br>
+				// nID: status code for the current status&nbsp;<br>
+				// lpStatusText: status text string for the current status&nbsp;<br>
+				//&nbsp;<br>
+				LRESULT PASCAL StatusCallbackProc(HWND hWnd, int nID,&nbsp;<br>
+				LPSTR lpStatusText)&nbsp;<br>
+				{&nbsp;<br>
+				if (!ghWndMain)&nbsp;<br>
+				return FALSE;&nbsp;<br>
+				<br>
+				if (nID == 0) { // Clear old status messages.&nbsp;<br>
+				SetWindowText(ghWndMain, (LPSTR) gachAppName);&nbsp;<br>
+				return (LRESULT) TRUE;&nbsp;<br>
+				}&nbsp;<br>
+				// Show the status ID and status text...&nbsp;<br>
+				wsprintf(gachBuffer, &quot;Status# %d: %s&quot;, nID, lpStatusText);&nbsp;<br>
+				<br>
+				SetWindowText(ghWndMain, (LPSTR)gachBuffer);&nbsp;<br>
+				return (LRESULT) TRUE;&nbsp;<br>
+				}&nbsp;<br>
+				<br>
+				<b>17.创建一个错误回调函数( Creating an Error Callback Function)</b><br>
+				下面的例子是创建一个简单的错误回调函数,登记此回调函数使用capsetCallbackOnError宏:<br>
+				<br>
+				// ErrorCallbackProc: error callback function&nbsp;<br>
+				// hWnd: capture window handle&nbsp;<br>
+				// nErrID: error code for the encountered error&nbsp;<br>
+				// lpErrorText: error text string for the encountered error&nbsp;<br>
+				//&nbsp;<br>
+				LRESULT PASCAL ErrorCallbackProc(HWND hWnd, int nErrID,<br>
+				LPSTR lpErrorText)&nbsp;<br>
+				{&nbsp;<br>
+				if (!ghWndMain)&nbsp;<br>
+				return FALSE;&nbsp;<br>
+				<br>
+				if (nErrID == 0) // Starting a new major function.&nbsp;<br>
+				return TRUE; // Clear out old errors.&nbsp;<br>
+				<br>
+				// Show the error identifier and text.&nbsp;<br>
+				wsprintf(gachBuffer, &quot;Error# %d&quot;, nErrID);&nbsp;<br>
+				<br>
+				MessageBox(hWnd, lpErrorText, gachBuffer,&nbsp;<br>
+				MB_OK | MB_ICONEXCLAMATION);&nbsp;<br>
+				<br>
+				return (LRESULT) TRUE;&nbsp;<br>
+				}&nbsp;<br>
+				<br>
+				<b>18.创建一个框架回调函数(Creating a Frame Callback Function)</b><br>
+				登记此回调函数使用capSetCallbackOnFrame宏:<br>
+				<br>
+				// FrameCallbackProc: frame callback function&nbsp;<br>
+				// hWnd: capture window handle&nbsp;<br>
+				// lpVHdr: pointer to struct containing captured&nbsp;<br>
+				// frame information&nbsp;<br>
+				//&nbsp;<br>
+				LRESULT PASCAL FrameCallbackProc(HWND hWnd, LPVIDEOHDR lpVHdr)&nbsp;<br>
+				{&nbsp;<br>
+				if (!ghWndMain)&nbsp;<br>
+				return FALSE;&nbsp;<br>
+				<br>
+				wsprintf(gachBuffer, &quot;Preview frame# %ld &quot;, gdwFrameNum++);&nbsp;<br>
+				SetWindowText(ghWndMain, (LPSTR)gachBuffer);&nbsp;<br>
+				return (LRESULT) TRUE ;&nbsp;<br>
+				} </td>
+			</tr>
+		</table>
+		<table class="font" height="57" width="90%" border="0">
+			<tr>
+				<td width="100%" height="6">
+				<p align="center">六．将四个标准对话框改成函数调用形式 </td>
+			</tr>
+			<tr>
+				<td width="100%" height="12">系统提供了四个标准的对话框：AudioFormat, 
+				VideoFormat, VideoSource, Video 
+				Compression，但有时程序希望通过函数控制它们，而不是使用系统提供的那个单一的对话框，此时就应该使用函数调用的方法：<br>
+				<br>
+				AudioFormat对话框<br>
+				可以通过使用capSetAudioFormat来实现，此时要使用WAVEFORMATEX结构。<br>
+				例如：改成ＰＣＭ格式，立体声，１６声道，12.05kHz，则：<br>
+				WAVEFORMATEX audioFormat;<br>
+				// 确定宽度<br>
+				acmMetrics(NULL, ACM_METRIC_MAX_SIZE_FORMAT,&amp;dwSize);<br>
+				dwSize = max (dwSize, capGetAudioFormatSize (m_hwCapCapturing));<br>
+				// 设置参数<br>
+				audioFormat.wFormatTag = WAVE_FORMAT_PCM;<br>
+				audioFormat.nChannels = 2;<br>
+				audioFormat.nSamplesPerSec = 120500;<br>
+				audioFormat.wBitsPerSample =16;<br>
+				audioFormat.nBlockAlign = nBitsPerSample * nChannels / 8;<br>
+				audioFormat.nAvgBytesPerSec =&nbsp;<br>
+				audioFormat.nBlockAlign * nSamplesPerSec;<br>
+				// 更新<br>
+				capSetAudioFormat(ghCapWnd,&amp;audioFormat,dwSize);<br>
+				VideoFormat对话框<br>
+				可以通过使用capSetVideoFormat来实现，此时要使用BITMAPINFOHEADER结构。<br>
+				例如：设置图片大小为ＲＧＢ２４位岁，大小为２３０Ｘ１６０<br>
+				BITMAPINFOHEADER bi;<br>
+				DWORD dwSize,dw;<br>
+				bi.biSize = sizeof(BITMAPINFOHEADER);<br>
+				bi.biWidth = 320; // 起作用<br>
+				bi.biHeight = 160; // 起作用<br>
+				bi.biPlanes = 1;<br>
+				bi.biBitCount = 24;<br>
+				bi.biCompression = BI_RGB;<br>
+				bi.biSizeImage = 0;<br>
+				bi.biXPelsPerMeter = 176;<br>
+				bi.biYPelsPerMeter = 144;<br>
+				bi.biClrUsed = 0;<br>
+				bi.biClrImportant = 0;<br>
+				dwSize = bi.biSize + ((bi.biBitCount &gt; 8 || bi.biClrUsed) ? 
+				(bi.biClrUsed * sizeof(PALETTEENTRY)) : (2 ^ bi.biBitCount * 
+				sizeof(PALETTEENTRY)));<br>
+				dw = capSetVideoFormat(m_hwCapCapturing, &amp;bi, dwSize);<br>
+				VideoSource对话框<br>
+				没有找到现成的方法，但视频捕获卡提供的ＣＤ里面有一个动态链接库可以实现。<br>
+				Video Compression对话框<br>
+				可以通过使用ICOpen,ICInfo等函数联合起来，得到当前系统里面的视频压缩驱动的列表，并可选择其一，ＭＳＤＮ里面有一个程序示范了此用户，程序名叫：ICWalk。<br>
+				<br>
+				注：此文绝大部分是我译自ＭＳＤＮ的资料。 
+				</td>
+			</tr>
+			<tr>
+				<td vAlign="top" align="left" width="100%" height="17"></td>
+			</tr>
+		</table>
+		<p>　</p>
+		<p>　</div>
+	<p>　</p>
+	<p>　</div>
+
+</body>
+
+</html>

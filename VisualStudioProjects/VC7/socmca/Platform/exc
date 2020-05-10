@@ -1,0 +1,10 @@
+
+echo "start...."
+aclocal
+autoheader
+autoconf
+libtoolize --force --copy
+automake -a
+./configure
+echo "end"
+

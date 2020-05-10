@@ -1,0 +1,26 @@
+// AddIn.idl : IDL source for AddIn
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (AddIn.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(C12EED36-AD05-4E6E-9EB5-F8BE407BF995),
+	version(1.0),
+	helpstring("Test 1.0 Type Library")
+]
+library TestLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(ACB9E7EC-5930-46D2-B84B-58D9A4FECE08),
+		helpstring("Connect Class")
+	]
+	coclass Connect
+	{
+		[default] interface IUnknown;
+	};
+};

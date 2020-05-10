@@ -1,0 +1,108 @@
+\section{Instdrv.cpp文件参考}
+\label{_instdrv_8cpp}\index{Instdrv.cpp@{Instdrv.cpp}}
+{\tt \#include \char`\"{}stdafx.h\char`\"{}}\par
+{\tt \#include $<$windows.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
+{\tt \#include $<$Winsvc.h$>$}\par
+
+
+Instdrv.cpp包含/依赖关系图：\subsection*{函数}
+\begin{CompactItemize}
+\item 
+BOOL {\bf Install\-Driver} (IN SC\_\-HANDLE Sch\-SCManager, IN LPCTSTR Driver\-Name, IN LPCTSTR Service\-Exe)
+\item 
+BOOL {\bf Start\-Driver} (IN SC\_\-HANDLE Sch\-SCManager, IN LPCTSTR Driver\-Name)
+\item 
+BOOL {\bf Open\-Device} (IN LPCTSTR Driver\-Name, HANDLE $\ast$lph\-Device)
+\item 
+BOOL {\bf Stop\-Driver} (IN SC\_\-HANDLE Sch\-SCManager, IN LPCTSTR Driver\-Name)
+\item 
+BOOL {\bf Remove\-Driver} (IN SC\_\-HANDLE Sch\-SCManager, IN LPCTSTR Driver\-Name)
+\item 
+BOOL {\bf Unload\-Device\-Driver} (const TCHAR $\ast$Name, const TCHAR $\ast$Machine)
+\item 
+BOOL {\bf Load\-Device\-Driver\-And\-Open} (const TCHAR $\ast$Name, const TCHAR $\ast$Path, HANDLE $\ast$lph\-Device, PDWORD Error)
+\item 
+BOOL {\bf Load\-Device\-Driver} (const TCHAR $\ast$Name, const TCHAR $\ast$Path, const TCHAR $\ast$Machine)
+\end{CompactItemize}
+
+
+\subsection{函数文档}
+\index{Instdrv.cpp@{Instdrv.cpp}!InstallDriver@{InstallDriver}}
+\index{InstallDriver@{InstallDriver}!Instdrv.cpp@{Instdrv.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL Install\-Driver (IN SC\_\-HANDLE {\em Sch\-SCManager}, IN LPCTSTR {\em Driver\-Name}, IN LPCTSTR {\em Service\-Exe})}\label{_instdrv_8cpp_9bebce948cbc5ca112740ae57dc6a779}
+
+
+
+
+在文件Instdrv.cpp第29行定义。
+
+参考自 Load\-Device\-Driver()及Load\-Device\-Driver\-And\-Open().\index{Instdrv.cpp@{Instdrv.cpp}!LoadDeviceDriver@{LoadDeviceDriver}}
+\index{LoadDeviceDriver@{LoadDeviceDriver}!Instdrv.cpp@{Instdrv.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL Load\-Device\-Driver (const TCHAR $\ast$ {\em Name}, const TCHAR $\ast$ {\em Path}, const TCHAR $\ast$ {\em Machine})}\label{_instdrv_8cpp_c3b94d12730a9d025f53a7816705ba65}
+
+
+
+
+在文件Instdrv.cpp第268行定义。
+
+参考 Install\-Driver()、Remove\-Driver()及Start\-Driver().
+
+参考自 Ctest\-Dlg::On\-Bn\-Clicked\-Button1().\index{Instdrv.cpp@{Instdrv.cpp}!LoadDeviceDriverAndOpen@{LoadDeviceDriverAndOpen}}
+\index{LoadDeviceDriverAndOpen@{LoadDeviceDriverAndOpen}!Instdrv.cpp@{Instdrv.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL Load\-Device\-Driver\-And\-Open (const TCHAR $\ast$ {\em Name}, const TCHAR $\ast$ {\em Path}, HANDLE $\ast$ {\em lph\-Device}, PDWORD {\em Error})}\label{_instdrv_8cpp_616abfd3621bc91cc777885a02784b08}
+
+
+
+
+在文件Instdrv.cpp第243行定义。
+
+参考 Install\-Driver()、Open\-Device()、Remove\-Driver()及Start\-Driver().\index{Instdrv.cpp@{Instdrv.cpp}!OpenDevice@{OpenDevice}}
+\index{OpenDevice@{OpenDevice}!Instdrv.cpp@{Instdrv.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL Open\-Device (IN LPCTSTR {\em Driver\-Name}, HANDLE $\ast$ {\em lph\-Device})}\label{_instdrv_8cpp_c71986146818f5734d9e4eb07e578c75}
+
+
+
+
+在文件Instdrv.cpp第101行定义。
+
+参考自 Load\-Device\-Driver\-And\-Open().\index{Instdrv.cpp@{Instdrv.cpp}!RemoveDriver@{RemoveDriver}}
+\index{RemoveDriver@{RemoveDriver}!Instdrv.cpp@{Instdrv.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL Remove\-Driver (IN SC\_\-HANDLE {\em Sch\-SCManager}, IN LPCTSTR {\em Driver\-Name})}\label{_instdrv_8cpp_9cbb78f3c9c14304c547668a65413c4a}
+
+
+
+
+在文件Instdrv.cpp第188行定义。
+
+参考自 Load\-Device\-Driver()、Load\-Device\-Driver\-And\-Open()及Unload\-Device\-Driver().\index{Instdrv.cpp@{Instdrv.cpp}!StartDriver@{StartDriver}}
+\index{StartDriver@{StartDriver}!Instdrv.cpp@{Instdrv.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL Start\-Driver (IN SC\_\-HANDLE {\em Sch\-SCManager}, IN LPCTSTR {\em Driver\-Name})}\label{_instdrv_8cpp_74529f53840c26813ce0a161c1fe31ae}
+
+
+
+
+在文件Instdrv.cpp第71行定义。
+
+参考自 Load\-Device\-Driver()及Load\-Device\-Driver\-And\-Open().\index{Instdrv.cpp@{Instdrv.cpp}!StopDriver@{StopDriver}}
+\index{StopDriver@{StopDriver}!Instdrv.cpp@{Instdrv.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL Stop\-Driver (IN SC\_\-HANDLE {\em Sch\-SCManager}, IN LPCTSTR {\em Driver\-Name})}\label{_instdrv_8cpp_987c037c186435226cbe5927776ab847}
+
+
+
+
+在文件Instdrv.cpp第163行定义。
+
+参考自 Unload\-Device\-Driver().\index{Instdrv.cpp@{Instdrv.cpp}!UnloadDeviceDriver@{UnloadDeviceDriver}}
+\index{UnloadDeviceDriver@{UnloadDeviceDriver}!Instdrv.cpp@{Instdrv.cpp}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL Unload\-Device\-Driver (const TCHAR $\ast$ {\em Name}, const TCHAR $\ast$ {\em Machine})}\label{_instdrv_8cpp_b43f95471b924dd094d5550e309a4d2b}
+
+
+
+
+在文件Instdrv.cpp第216行定义。
+
+参考 Remove\-Driver()及Stop\-Driver().
+
+参考自 Ctest\-Dlg::On\-Bn\-Clicked\-Button2().

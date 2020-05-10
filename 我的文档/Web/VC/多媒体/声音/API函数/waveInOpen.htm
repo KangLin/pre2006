@@ -1,0 +1,136 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>waveInOpen</title>
+</head>
+
+<body>
+
+<h1 align="center">waveInOpen</h1>
+<p align="center">康&nbsp; 林</p>
+<p>这个函数为录音打开一个输入设备。</p>
+<pre><code><b>MMRESULT waveInOpen(
+  LPHWAVEIN</b><i> phwi</i><b>,          //指定音频输入设备句柄的指针  </b>
+<b>  UINT</b><i> uDeviceID</i><b>,          //输入设备的标志符  </b>
+<b>  LPWAVEFORMATEX</b><i> pwfx</i><b>,    //WAVFORMATEX结构  </b>
+<b>  DWORD</b><i> dwCallback</i><b>,          </b>
+<b>  DWORD</b><i> dwCallbackInstance</i><b>,  </b>
+<b>  DWORD</b><i> fdwOpen            </i><b>//标志</b><i>  </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>phwi</i> </dt>
+	<dd>一个放置打开的音频设备的句柄的缓存的指针。当调用其它的音频输入设备函数时用这个句柄。如果在参数 <i>fdwOpen</i> 设置了 
+	WAVE_FORMAT_QUERY 标志,这个参数可以为 NULL。 
+	</dd>
+	<dt><i>uDeviceID</i> </dt>
+	<dd>打开音频输入设备的标志符。它能是一个设备标志符或是一个已打开音频设备的句柄。你能用下面的标志替代设备标志符： 
+	<dl>
+		<dt>WAVE_MAPPER </dt>
+		<dd>这个函数自动选择最适合指定音频格式的输入设备。 </dd>
+	</dl>
+	</dd>
+	<dt><i>pwfx</i> </dt>
+	<dd>一个标识想得到的音频数据格式的 
+	<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_625u.htm">
+	<b>WAVEFORMATEX</b></a> 结构的地址。当 waveInOpen 返回后你应立即释放这个结构。</dd>
+	<dt><i>dwCallback</i> </dt>
+	<dd>可以是在音频输入时处理与录入处理有关的消息的回调函数，一个事件句柄，一个窗口句柄，或是一个线程式的标识符。如果回调函数不是必须的，这个值可以是0 
+	</dd>
+	<dt><i>dwCallbackInstance</i> </dt>
+	<dd>传递给回调函数的用户数据，这个参数在窗口回调机制时不用。 
+	</dd>
+	<dt><i>fdwOpen</i> </dt>
+	<dd>打开设备的标识：<dl>
+		<dt>CALLBACK_EVENT </dt>
+		<dd>说明 <i>dwCallback</i> 参数是一个事件句柄</dd>
+		<dt>CALLBACK_FUNCTION </dt>
+		<dd>说明 <i>dwCallback</i> 参数是一个回调用过程的地址</dd>
+		<dt>CALLBACK_NULL </dt>
+		<dd>没有回调机制，这是默认值。</dd>
+		<dt>CALLBACK_THREAD </dt>
+		<dd>说明 <i>dwCallback</i> 参数是一个线程的标识符</dd>
+		<dt>CALLBACK_WINDOW </dt>
+		<dd>说明 <i>dwCallback</i> 参数得一个窗口句柄</dd>
+		<dt>WAVE_FORMAT_DIRECT </dt>
+		<dd>如果这个标识被指定，那么 ACM 驱动程序不转换音频数据。</dd>
+		<dt>WAVE_FORMAT_QUERY </dt>
+		<dd>这个函数查询设备是否支持指定的格式，但是不打开这个设备。 
+		</dd>
+		<dt>WAVE_MAPPED </dt>
+		<dd>这个 <i>uDeviceID</i> 自动查找音频输入设备</dd>
+	</dl>
+	</dd>
+</dl>
+<h4>Return Values</h4>
+<p>如果成功返回 MMSYSERR_NOERROR ，否则返回下列错误之一：</p>
+<table cellSpacing="4" cols="3">
+	<tr vAlign="top">
+		<th align="left" width="48%">Value</th>
+		<th align="left" width="51%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_ALLOCATED</td>
+		<td width="52%" colSpan="2">指定的资源已经分配</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_BADDEVICEID</td>
+		<td width="52%" colSpan="2">指定的设备标识符超出了标识符的范围</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_NODRIVER</td>
+		<td width="52%" colSpan="2">没有驱动程序</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_NOMEM</td>
+		<td width="52%" colSpan="2">不能分配或内存锁定</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">WAVERR_BADFORMAT</td>
+		<td width="52%" colSpan="2">试图打开一个不支持的音频格式</td>
+	</tr>
+</table>
+<br>
+　<h4>Remarks</h4>
+<p>用 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_5oj7.htm">
+<b>waveInGetNumDevs</b></a> 得到系统中现有音频输入设备的数量。 参数 <i>uDeviceID</i> 
+指定的标识符是从0到音频输入设备的数量减一。常量 WAVE_MAPPER 被用于一个设备标识符。</p>
+<p>If you choose to have a window or thread receive callback information, the 
+following messages are sent to the window procedure or thread to indicate the 
+progress of waveform-audio input: MM_WIM_OPEN, MM_WIM_CLOSE, and MM_WIM_DATA.</p>
+<p>If you choose to have a function receive callback information, the following 
+messages are sent to the function to indicate the progress of waveform-audio 
+input: WIM_OPEN, WIM_CLOSE, and WIM_DATA. </p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Requires version 2.0 or later.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in mmsystem.h.<br>
+<b>&nbsp;&nbsp;Import Library: </b>Use winmm.lib.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/wave_7jcf.htm">
+Waveform Audio Overview</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/wave_4i2b.htm">
+Waveform Functions</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_625u.htm">
+<b>WAVEFORMATEX</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_5oj7.htm">
+<b>waveInGetNumDevs</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_7j8j.htm">
+<b>waveInProc</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_8xbi.htm">
+MM_WIM_OPEN</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_4ip1.htm">
+MM_WIM_CLOSE</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_5tnl.htm">
+MM_WIM_DATA</a></p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<HTML>
+	<HEAD>
+		<TITLE></TITLE>
+		<META NAME="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+	</HEAD>
+	<BODY>
+		<P align="center"><FONT face="宋体" size="7"><STRONG>语法分析</STRONG></FONT></P>
+		<P align="center"><FONT face="宋体">康&nbsp; 林&nbsp; 2005年5月</FONT></P>
+		<P class="a" style="MARGIN-LEFT: 0cm; TEXT-INDENT: 0cm; mso-list: l0 level1 lfo1"><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial">一、<FONT color="#ff0066">在程序块的结束行右方加注释标记，以表明某程序块的结束。</FONT></SPAN></P>
+		<P class="a" style="MARGIN-LEFT: 0cm; TEXT-INDENT: 0cm; mso-list: l0 level1 lfo1"><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial">if、while、do... 
+while、for</SPAN></P>
+		<P class="a" style="MARGIN-LEFT: 0cm; TEXT-INDENT: 0cm; mso-list: l0 level1 lfo1"><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial">if(bFlag)<BR>{<BR>&nbsp;&nbsp;&nbsp; 
+return;<BR>}</SPAN></P>
+		<UL>
+			<LI>
+				<DIV class="a" style="MARGIN-LEFT: 0cm; TEXT-INDENT: 0cm; mso-list: l0 level1 lfo1"><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial">输入完整的条件行:<BR></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial">输入 
+if(bFlag) 自动完成:<BR>if(bFlag)<BR><FONT color="#00ff66">{<BR>
+							<BR>
+							}//if(bFlag)</FONT></SPAN></DIV>
+			<LI>
+				<DIV class="a" style="MARGIN-LEFT: 0cm; TEXT-INDENT: 0cm; mso-list: l0 level1 lfo1"><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial"></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial"><FONT>输入'{':<BR>
+							if(bFlag){&nbsp;自动完成:<BR>
+							if(bFlag)<BR>
+							<FONT color="#00ff33">{<BR>
+								<BR>
+								}//if(bFlag)</FONT></FONT></SPAN></DIV>
+			<LI>
+				<DIV class="a" style="MARGIN-LEFT: 0cm; TEXT-INDENT: 0cm; mso-list: l0 level1 lfo1"><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial"><FONT>输入完整行:<BR>
+							if(bFlag){return;} 自动完成:<BR>
+							<FONT color="#00ff33">if(bFlag)<BR>
+								{<BR>
+								&nbsp;&nbsp;&nbsp; return;<BR>
+								}//if(bFlag)</FONT></FONT></SPAN></DIV>
+			</LI>
+		</UL>
+		<P class="a" style="MARGIN-LEFT: 0cm; TEXT-INDENT: 0cm; mso-list: l0 level1 lfo1"><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial"><FONT><FONT>条件行分为多行输入:<BR>
+					</FONT></FONT>
+			</SPAN><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial"><FONT>输入
+					<BR>
+				</FONT>
+			</SPAN><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial"><FONT>if(a == b<BR>
+					&nbsp;&nbsp; &amp;&amp; c == d)<BR>
+					自动完成:<BR>
+				</FONT>
+			</SPAN><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial"><FONT><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial"><FONT size="+0">if(a 
+							== b<BR>
+							&nbsp;&nbsp; &amp;&amp; c == d)<BR>
+						</FONT>
+					</SPAN><FONT color="#33ff33">{<BR>
+						<BR>
+						}//</FONT><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial"><FONT size="+0"><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial"><FONT color="#33ff33" size="+0">if(a 
+									== b<BR>
+								</FONT>
+							</SPAN></FONT></SPAN></FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial"><FONT></FONT></SPAN></P>
+		<P class="a" style="MARGIN-LEFT: 0cm; TEXT-INDENT: 0cm; mso-list: l0 level1 lfo1"><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial"><FONT>二、当修改 
+					一 中的语句时，自动修改相应的大括号后的注释。（2005年06月23日）
+					<BR>
+					&nbsp;只考虑了在关键行修改的情况。例如：<BR>
+					if(a == b)改成 if(a != b),则相应大括号后的注释进行修改。<BR>
+					但是不在关键字行修改时，不进行相应的修改。例如：<BR>
+					if(a&nbsp;== b
+					<BR>
+					&nbsp;&nbsp;&nbsp; &amp;&amp; c == d)//在这行修改时，相应的注释行不进行修改。</FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-hansi-font-family: Arial"><FONT></P>
+		</FONT></SPAN>
+	</BODY>
+</HTML>

@@ -1,0 +1,38 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>SHGetPathFromIDList</title>
+</head>
+
+<body>
+
+<blockquote class="body">
+	<h1>SHGetPathFromIDList</h1>
+	<pre>WINSHELLAPI BOOL WINAPI SHGetPathFromIDList(
+    LPCITEMIDLIST pidl,
+    LPSTR pszPath
+);
+</pre>
+	<p>转换一个项目标志成文件系统路径。 </p>
+	<ul>
+		<li>成功返回TRUE，否则返回FALSE。</li>
+	</ul>
+	<dl>
+		<dt><i>pidl</i> </dt>
+		<dd>Address of an item identifier list that specifies a file or 
+		directory location relative to the root of the namespace (the desktop). 
+		</dd>
+		<dt><i>pszPath</i> </dt>
+		<dd>Address of a buffer to receive the file system path. This buffer 
+		must be at least MAX_PATH characters in size. </dd>
+	</dl>
+	<p>If the location specified by the <i>pidl</i> parameter is not part of the 
+	file system, this function will fail. <!--CONTENTS_END --><!-- START PAGE FOOTER -->
+	</p>
+</blockquote>
+
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+[OPTIONS]
+Auto Index=Yes
+Binary TOC=Yes
+Compatibility=1.1
+Compiled file=..\..\..\..\..\..\我的文档\我的网站\Production\微软开发环境扩展工具集.chm
+Contents file=Table of Contents1.hhc
+Default Window=windows
+Default topic=用户手册.html
+Display compile progress=Yes
+Flat=Yes
+Full-text search=Yes
+Index file=Index.hhk
+Language=0x804 中文(中国)
+Title=Microsoft Development Environment 7.1 扩展工具集
+
+[WINDOWS]
+windows="微软开发环境扩展工具集","Table of Contents1.hhc","Index.hhk","用户手册.html",,,,,,0x2520,,0x300e,,,,,,,,
+
+
+[FILES]
+用户手册.html

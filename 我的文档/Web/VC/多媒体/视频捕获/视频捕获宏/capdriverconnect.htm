@@ -1,0 +1,47 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>capDriverConnect</title>
+</head>
+
+<body>
+
+<h1 align="center">capDriverConnect</h1>
+<p align="center">康&nbsp; 林</p>
+<p>你能用此宏或者明确发送 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_0hx0.htm">
+WM_CAP_DRIVER_CONNECT</a> 消息，把捕获窗口联接到捕获驱动。</p>
+<pre><code><b>BOOL capDriverConnect(
+ </b><i> hwnd</i><b>,  </b>
+<b> </b><i> iIndex </i>
+<b>);</b>
+ </code></pre>
+<dl>
+	<dt>参数：</dt>
+	<dt>　</dt>
+	<dt><i>iIndex</i> </dt>
+	<dd>捕获驱动的索引值。范围[0，9]。</dd>
+	<dt><i>hwnd</i> </dt>
+	<dd>捕获窗口句柄。</dd>
+</dl>
+<h4>返回值：</h4>
+<p>如果成功返回 TRUE，如果指定的捕获驱动不能被除捕获窗口联接，返回FALSE。</p>
+<h4>注释：</h4>
+<p>当捕获驱动与捕获窗口联接时，捕获窗口自动断开与前面的捕获驱动的联接。</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in vfw.h.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_8xyd.htm">
+Video Capture Overview</a>, <a href="index.htm">Video Capture Macros</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_0hx0.htm">
+WM_CAP_DRIVER_CONNECT</a></p>
+
+</body>
+
+</html>

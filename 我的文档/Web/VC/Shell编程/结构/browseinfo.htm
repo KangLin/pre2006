@@ -1,0 +1,123 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>BROWSEINFO</title>
+</head>
+
+<body>
+
+<blockquote class="body">
+	<h1>BROWSEINFO</h1>
+	<pre>typedef struct _browseinfo { 
+    HWND hwndOwner; 
+    LPCITEMIDLIST pidlRoot; 
+    LPSTR pszDisplayName; 
+    LPCSTR lpszTitle; 
+    UINT ulFlags; 
+    BFFCALLBACK lpfn; 
+    LPARAM lParam; 
+    int iImage; 
+} BROWSEINFO, *PBROWSEINFO, *LPBROWSEINFO; 
+</pre>
+	<p>Contains parameters for the
+	<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHBrowseForFolder.htm#SHBrowseForFolder">
+	SHBrowseForFolder</a> function and receives information about the folder 
+	selected by the user. </p>
+	<dl>
+		<dt><b>hwndOwner</b> </dt>
+		<dd>这个对话所有者窗口的句柄。</dd>
+		<dt><b>pidlRoot</b> </dt>
+		<dd>指定一个从此位置浏览的根文件夹的 ITEMIDLIST 
+		结构的指针。这个指定的文件夹和它的子文件夹将显示在对话框中。这个成员能是NULL。也就是这个名字空间的根文件夹（桌面文件夹）将被运用。Address 
+		of an
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/structures/ITEMIDLIST.htm#ITEMIDLIST">
+		ITEMIDLIST</a> structure specifying the location of the root folder from 
+		which to browse. Only the specified folder and its subfolders appear in 
+		the dialog box. This member can be NULL; in that case, the namespace 
+		root (the desktop folder) is used. 
+		</dd>
+		<dt><b>pszDisplayName</b> </dt>
+		<dd>一个由用户选择的文件夹名的缓存空间。它的大小假设为 MAX_PATH。 
+		</dd>
+		<dt><b>lpszTitle</b> </dt>
+		<dd>Address of a null-terminated string that is displayed above the tree 
+		view control in the dialog box. This string can be used to specify 
+		instructions to the user. 
+		</dd>
+		<dt><b>ulFlags</b> </dt>
+		<dd>对话框的标志选项。它能包括 0 或下列值的组合。 
+		<table>
+			<tr>
+				<td>BIF_BROWSEFORCOMPUTER </td>
+				<td>Only return computers. If the user selects anything other 
+				than a computer, the OK button is grayed. </td>
+			</tr>
+			<tr>
+				<td>BIF_BROWSEFORPRINTER </td>
+				<td>Only return printers. If the user selects anything other 
+				than a printer, the OK button is grayed. </td>
+			</tr>
+			<tr>
+				<td>BIF_BROWSEINCLUDEFILES </td>
+				<td>The browse dialog will display files as well as folders. 
+				</td>
+			</tr>
+			<tr>
+				<td>BIF_DONTGOBELOWDOMAIN </td>
+				<td>Do not include network folders below the domain level in the 
+				tree view control. </td>
+			</tr>
+			<tr>
+				<td>BIF_EDITBOX </td>
+				<td><b>Version 4.71</b>. The browse dialog includes an edit 
+				control in which the user can type the name of an item. </td>
+			</tr>
+			<tr>
+				<td>BIF_RETURNFSANCESTORS </td>
+				<td>Only return file system ancestors. If the user selects 
+				anything other than a file system ancestor, the OK button is 
+				grayed. </td>
+			</tr>
+			<tr>
+				<td>BIF_RETURNONLYFSDIRS </td>
+				<td>Only return file system directories. If the user selects 
+				folders that are not part of the file system, the OK button is 
+				grayed. </td>
+			</tr>
+			<tr>
+				<td>BIF_STATUSTEXT </td>
+				<td>Include a status area in the dialog box. The callback 
+				function can set the status text by sending messages to the 
+				dialog box. </td>
+			</tr>
+			<tr>
+				<td>BIF_VALIDATE </td>
+				<td><b>Version 4.71</b>. If the user types an invalid name into 
+				the edit box, the browse dialog will call the application's
+				<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/BrowseCallbackProc.htm#BrowseCallbackProc">
+				BrowseCallbackProc</a> with the BFFM_VALIDATEFAILED message. 
+				This flag is ignored if BIF_EDITBOX is not specified. </td>
+			</tr>
+		</table>
+		</dd>
+		<dt><b>lpfn</b> </dt>
+		<dd>Address of an application-defined function that the dialog box calls 
+		when an event occurs. For more information, see the
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/BrowseCallbackProc.htm#BrowseCallbackProc">
+		BrowseCallbackProc</a> function. This member can be NULL. 
+		</dd>
+		<dt><b>lParam</b> </dt>
+		<dd>Application-defined value that the dialog box passes to the callback 
+		function, if one is specified. 
+		</dd>
+		<dt><b>iImage</b> </dt>
+		<dd>Variable to receive the image associated with the selected folder. 
+		The image is specified as an index to the system image list. </dd>
+	</dl>
+</blockquote>
+
+</body>
+
+</html>

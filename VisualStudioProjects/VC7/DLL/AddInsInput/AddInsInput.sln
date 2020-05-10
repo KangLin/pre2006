@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AddInsInput", "AddInsInput\AddInsInput.vcproj", "{3AD63A33-B797-44B6-9384-A64B56CDA917}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcproj", "{BBD01555-D1C0-4C80-801F-F397B71A8654}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3AD63A33-B797-44B6-9384-A64B56CDA917} = {3AD63A33-B797-44B6-9384-A64B56CDA917}
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup1", "Setup1\Setup1.vdproj", "{10891D00-8566-4070-8F74-AE7E199C9E5D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3AD63A33-B797-44B6-9384-A64B56CDA917}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3AD63A33-B797-44B6-9384-A64B56CDA917}.Debug|Win32.Build.0 = Debug|Win32
+		{3AD63A33-B797-44B6-9384-A64B56CDA917}.Release|Win32.ActiveCfg = Release|Win32
+		{3AD63A33-B797-44B6-9384-A64B56CDA917}.Release|Win32.Build.0 = Release|Win32
+		{BBD01555-D1C0-4C80-801F-F397B71A8654}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BBD01555-D1C0-4C80-801F-F397B71A8654}.Debug|Win32.Build.0 = Debug|Win32
+		{BBD01555-D1C0-4C80-801F-F397B71A8654}.Release|Win32.ActiveCfg = Release|Win32
+		{BBD01555-D1C0-4C80-801F-F397B71A8654}.Release|Win32.Build.0 = Release|Win32
+		{10891D00-8566-4070-8F74-AE7E199C9E5D}.Debug|Win32.ActiveCfg = Debug
+		{10891D00-8566-4070-8F74-AE7E199C9E5D}.Release|Win32.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

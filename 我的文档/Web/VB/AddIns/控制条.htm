@@ -1,0 +1,88 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>控制条</title>
+</head>
+
+<body>
+
+<p align="center"><b><font size="6">控制条、菜单</font></b></p>
+<p align="center">康&nbsp; 林</p>
+<p>一、命令集合（Commands)</p>
+<p>&nbsp;&nbsp;&nbsp; 得到命令集合<br>
+&nbsp;&nbsp;&nbsp; Dim objCommands as Commands<br>
+&nbsp;&nbsp;&nbsp; objCommands = DTE.Commands</p>
+<p>二、命令(Command)</p>
+<p>&nbsp;&nbsp;&nbsp; 得到命令：<br>
+&nbsp;&nbsp;&nbsp; Dim objCommand as Command<br>
+&nbsp;&nbsp;&nbsp; objCommand = objCommands.AddNamedCommand(objAddIn, 
+&quot;AboutExtendTools&quot;, &quot;关于微软扩展工具集&quot;, &quot;关于微软扩展工具集&quot;, True, 49, Nothing, 1 + 2) '1+2 == 
+vsCommandStatusSupported+vsCommandStatusEnabled</p>
+<p>&nbsp;&nbsp;&nbsp; 删除命令：<br>
+&nbsp;&nbsp;&nbsp; 
+objCommands.Item(&quot;VisualStudioNetExtendTools.Connect.AboutExtendTools&quot;).Delete()</p>
+<p>三、命令条集合（<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vbaof10/html/ofobjCommandBars.htm">CommandBars</a>)</p>
+<p>&nbsp;&nbsp;&nbsp; 得到命令条集合<br>
+&nbsp;&nbsp;&nbsp; Dim objCommandBars as CommandBars<br>
+&nbsp;&nbsp;&nbsp; objCommandBars = DTE.CommandBars</p>
+<p>四、命令条(<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vbaof10/html/ofobjCommandBar.htm">CommandBar</a>)</p>
+<p>建立命令条：<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vsintro7/html/vxlrfAddCommandBarMethod.htm">AddCommandBar</a></p>
+<ol>
+   <li>
+      有三种形式：
+		<ul>
+		  <li>菜单条：<br>得到当前活动菜单条：<br>Dim objMeun as CommandBar<br>objMenu = DTE.CommandBars.ActiveMenuBar '当前菜单栏</li>
+	      <li>弹出菜单条：</li>
+		  <li>工具条：<br>得到命令名：<br>Dim objCommandBar as CommandBar<br>objCommandBar = objCommands.AddCommandBar(&quot;删除&quot;, 
+	vsCommandBarType.vsCommandBarTypeToolbar)</li>
+      </ul>
+	</li>
+
+	<li>
+		删除命令条：<br>
+		DTE.Commands.RemoveCommandBar(cmdBar)
+	</li>
+		
+	</ol>
+
+<p>五、命令按钮对象(<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vbaof10/html/ofobjcommandbarbutton.htm">CommandBarButton</a>)</p>
+<ol>
+	<li>
+	<a href="ms-help://MS.VSCC.2003/MS.MSDNQTR.2003FEB.2052/vbaof10/html/ofproStyle.htm">样式</a>：</li>
+	MsoButtonStyle<ol>
+		<li>位图：msoButtonIcon</li>
+		<li>文本：msoButtonCaption</li>
+		<li>位图和文本：msoButtonIconAndCaption</li>
+	</ol>
+	<p>设置命令条中按钮样式：</p>
+	<table id="table1" width="787" border="0">
+		<tr>
+			<td>Dim objComBarBut As CommandBarButton<br>
+			For Each objComBarBut In 
+			applicationObject.CommandBars.Item(&quot;删除&quot;).Controls<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; objComBarBut.Style = MsoButtonStyle.msoButtonIcon<br>
+			Next</td>
+		</tr>
+	</table>
+	<li>添加分隔栏：<br>
+	<code>Sub AddToolbarItem()<br>
+&nbsp;&nbsp;&nbsp; Dim btnNew As CommandBarButton<br>
+&nbsp;&nbsp;&nbsp; CustomizationContext = NormalTemplate<br>
+&nbsp;&nbsp;&nbsp; Set btnNew = CommandBars(&quot;Standard&quot;).Controls.Add _<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Type:=msoControlButton, ID:=792, 
+	Before:=6)<br>
+&nbsp;&nbsp;&nbsp; With btnNew<br>
+	<font color="#ff00ff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .BeginGroup 
+	= True '设置组</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .FaceId = 700<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .TooltipText = &quot;Word Count&quot;<br>
+&nbsp;&nbsp;&nbsp; End With<br>
+	End Sub</code></li>
+	</ol>
+	
+
+</body>
+
+</html>

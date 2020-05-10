@@ -1,0 +1,8 @@
+LIBRARY	"SystemInfo"
+
+EXPORTS
+	DoInitalize
+	DoCommand
+	DoEnd
+
+	SetContext

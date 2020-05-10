@@ -1,0 +1,49 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>网页的制作技巧</title>
+</head>
+
+<body>
+
+<p align="center"><b><font size="7">网页的制作技巧</font></b></p>
+<p align="center">康&nbsp; 林</p>
+<ol>
+	<li>
+	<p align="left"><b>如何按原格式复制一个程序段?</b><br>
+&nbsp; 菜单-&gt;编辑-&gt;选择性粘贴<br>
+	<img border="0" src="picture/转换文本.gif"><br>
+	其实在代码中用标签&lt;pre&gt;&lt;/pre&gt;实现.</li>
+	<li>
+	<p align="left"><b>列表项目是用标签&lt;ol&gt;&lt;/ol&gt;实现.</b>例如:<br>
+	&lt;ol&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;li&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;p 
+	align=&quot;left&quot;&gt;&lt;b&gt;组件：&lt;/b&gt;是一个接口的集合。&lt;/p&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;/li&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;li&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;p 
+	align=&quot;left&quot;&gt;&lt;b&gt;接口：&lt;/b&gt;是一个包含一个函数接针数组的内存结构。每一个数组元素包含的是一个由组件所实现的函数的地址。&lt;/p&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;/li&gt;<br>
+	&lt;/ol&gt;</li>
+	<li>
+	<p align="left"><b>使光标变成手形。</b>在标签中加入类型：style =&quot;cursor:hand&quot;。例如：<br>
+	&lt;span style=&quot;cursor:hand&quot;&gt;手形光标&lt;/span&gt;</li>
+</ol>
+
+<p align="left">　</p>
+<p align="left">4、禁止复制网页</p>
+<p align="left">&lt;body leftmargin=&quot;2&quot; topmargin=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; 
+oncontextmenu=&quot;return false&quot; ondragstart=&quot;return false&quot; onselectstart =&quot;return 
+false&quot; onselect=&quot;document.selection.empty()&quot; oncopy=&quot;document.selection.empty()&quot; 
+onbeforecopy=&quot;return false&quot; onmouseup=&quot;document.selection.empty()&quot;&gt;</p>
+<p align="left">&lt;/body&gt;</p>
+<p align="left">5、禁止保存网页</p>
+<p align="left">加入以下脚本：</p>
+<p align="left">&lt;noscript&gt;&lt;iframe src=*&gt;&lt;/iframe&gt;&lt;/noscript&gt;</p>
+
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\sfilter.res \
+    $(_OBJ_DIR)\i386\sfilter.obj \
+    $(_OBJ_DIR)\i386\function.obj \
+    $(_OBJ_DIR)\i386\volume.obj \
+    $(_OBJ_DIR)\i386\filesystemnotification.obj \
+    $(_OBJ_DIR)\i386\create.obj \
+    $(_OBJ_DIR)\i386\fastio.obj \
+    $(_OBJ_DIR)\i386\setinformation.obj \
+    $(_OBJ_DIR)\i386\support.obj \
+    $(_OBJ_DIR)\i386\array.obj \
+    $(_OBJ_DIR)\i386\memory.obj \
+    $(_OBJ_DIR)\i386\read.obj \
+    $(_OBJ_DIR)\i386\write.obj \
+    $(_OBJ_DIR)\i386\directorycontrol.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\sfilter.res \
+    $(_OBJ_DIR)\ia64\sfilter.obj \
+    $(_OBJ_DIR)\ia64\function.obj \
+    $(_OBJ_DIR)\ia64\volume.obj \
+    $(_OBJ_DIR)\ia64\filesystemnotification.obj \
+    $(_OBJ_DIR)\ia64\create.obj \
+    $(_OBJ_DIR)\ia64\fastio.obj \
+    $(_OBJ_DIR)\ia64\setinformation.obj \
+    $(_OBJ_DIR)\ia64\support.obj \
+    $(_OBJ_DIR)\ia64\array.obj \
+    $(_OBJ_DIR)\ia64\memory.obj \
+    $(_OBJ_DIR)\ia64\read.obj \
+    $(_OBJ_DIR)\ia64\write.obj \
+    $(_OBJ_DIR)\ia64\directorycontrol.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\sfilter.res \
+    $(_OBJ_DIR)\amd64\sfilter.obj \
+    $(_OBJ_DIR)\amd64\function.obj \
+    $(_OBJ_DIR)\amd64\volume.obj \
+    $(_OBJ_DIR)\amd64\filesystemnotification.obj \
+    $(_OBJ_DIR)\amd64\create.obj \
+    $(_OBJ_DIR)\amd64\fastio.obj \
+    $(_OBJ_DIR)\amd64\setinformation.obj \
+    $(_OBJ_DIR)\amd64\support.obj \
+    $(_OBJ_DIR)\amd64\array.obj \
+    $(_OBJ_DIR)\amd64\memory.obj \
+    $(_OBJ_DIR)\amd64\read.obj \
+    $(_OBJ_DIR)\amd64\write.obj \
+    $(_OBJ_DIR)\amd64\directorycontrol.obj
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\sfilter.res \
+    $(_OBJ_DIR)\arm\sfilter.obj \
+    $(_OBJ_DIR)\arm\function.obj \
+    $(_OBJ_DIR)\arm\volume.obj \
+    $(_OBJ_DIR)\arm\filesystemnotification.obj \
+    $(_OBJ_DIR)\arm\create.obj \
+    $(_OBJ_DIR)\arm\fastio.obj \
+    $(_OBJ_DIR)\arm\setinformation.obj \
+    $(_OBJ_DIR)\arm\support.obj \
+    $(_OBJ_DIR)\arm\array.obj \
+    $(_OBJ_DIR)\arm\memory.obj \
+    $(_OBJ_DIR)\arm\read.obj \
+    $(_OBJ_DIR)\arm\write.obj \
+    $(_OBJ_DIR)\arm\directorycontrol.obj
+
+PASS0_ARM_OBJECTS=
+

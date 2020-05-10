@@ -1,0 +1,70 @@
+\section{File\-System\-Notification.c文件参考}
+\label{_file_system_notification_8c}\index{FileSystemNotification.c@{FileSystemNotification.c}}
+当文件系统加载或卸载时的通知与处理函数 
+
+{\tt \#include \char`\"{}sfilter.h\char`\"{}}\par
+
+
+File\-System\-Notification.c包含/依赖关系图：\subsection*{函数}
+\begin{CompactItemize}
+\item 
+NTSTATUS {\bf Sf\-Attach\-To\-File\-System\-Device} (IN PDEVICE\_\-OBJECT Device\-Object, IN PUNICODE\_\-STRING Device\-Name)
+\item 
+VOID {\bf Sf\-Detach\-From\-File\-System\-Device} (IN PDEVICE\_\-OBJECT Device\-Object)
+\item 
+VOID {\bf Sf\-Fs\-Notification} (IN PDEVICE\_\-OBJECT Device\-Object, IN BOOLEAN Fs\-Active)
+\end{CompactItemize}
+
+
+\subsection{详细描述}
+当文件系统加载或卸载时的通知与处理函数 
+
+\begin{Desc}
+\item[警告:]版权所有 (C) 2007 康林工作室；保留所有权利。\end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 ({\tt kl222@126.com}) \end{Desc}
+\begin{Desc}
+\item[日期:]2007年5月17日 13:13:21 \end{Desc}
+\begin{Desc}
+\item[编译器:]Microsoft Visual Studio 8.0 —— C/C++ 8.0 \end{Desc}
+
+
+在文件{\bf File\-System\-Notification.c}中定义。
+
+\subsection{函数文档}
+\index{FileSystemNotification.c@{File\-System\-Notification.c}!SfAttachToFileSystemDevice@{SfAttachToFileSystemDevice}}
+\index{SfAttachToFileSystemDevice@{SfAttachToFileSystemDevice}!FileSystemNotification.c@{File\-System\-Notification.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Attach\-To\-File\-System\-Device (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PUNICODE\_\-STRING {\em Device\-Name})}\label{_file_system_notification_8c_949e7ecbee68b8b05d1a4dc785b0b5bb}
+
+
+
+
+在文件File\-System\-Notification.c第26行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Link\-Symbol\-Name、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Link\-Symbol\-Name\-Buffer、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name\-Buffer、GET\_\-DEVICE\_\-TYPE\_\-NAME、g\-Sf\-Dynamic\-Functions、g\-SFilter\-Driver\-Object、IS\_\-DESIRED\_\-DEVICE\_\-TYPE、MAX\_\-DEVNAME\_\-LENGTH、SF\_\-LOG\_\-PRINT、Sf\-Attach\-Device\-To\-Device\-Stack()、Sf\-Cleanup\-Mounted\-Device()、Sf\-Debug、SFDEBUG\_\-ATTACH\_\-TO\_\-FSRECOGNIZER、SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES及Sf\-Get\-Object\-Name().
+
+参考自 Sf\-Fs\-Notification().\index{FileSystemNotification.c@{File\-System\-Notification.c}!SfDetachFromFileSystemDevice@{SfDetachFromFileSystemDevice}}
+\index{SfDetachFromFileSystemDevice@{SfDetachFromFileSystemDevice}!FileSystemNotification.c@{File\-System\-Notification.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Detach\-From\-File\-System\-Device (IN PDEVICE\_\-OBJECT {\em Device\-Object})}\label{_file_system_notification_8c_5380524b84b7b785bcfe3ff96a47627c}
+
+
+
+
+在文件File\-System\-Notification.c第245行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、GET\_\-DEVICE\_\-TYPE\_\-NAME、IS\_\-MY\_\-DEVICE\_\-OBJECT、SF\_\-LOG\_\-PRINT、Sf\-Cleanup\-Mounted\-Device()及SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES.
+
+参考自 Sf\-Fs\-Notification().\index{FileSystemNotification.c@{File\-System\-Notification.c}!SfFsNotification@{SfFsNotification}}
+\index{SfFsNotification@{SfFsNotification}!FileSystemNotification.c@{File\-System\-Notification.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Fs\-Notification (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN BOOLEAN {\em Fs\-Active})}\label{_file_system_notification_8c_5d42062be3cb77ad61a710ab1649e0c8}
+
+
+
+
+在文件File\-System\-Notification.c第313行定义。
+
+参考 GET\_\-DEVICE\_\-TYPE\_\-NAME、MAX\_\-DEVNAME\_\-LENGTH、SF\_\-LOG\_\-PRINT、Sf\-Attach\-To\-File\-System\-Device()、SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES、Sf\-Detach\-From\-File\-System\-Device()及Sf\-Get\-Object\-Name().
+
+参考自 Driver\-Entry().

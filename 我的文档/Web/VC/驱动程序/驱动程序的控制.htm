@@ -1,0 +1,55 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>驱动程序的控制</title>
+</head>
+
+<body>
+
+<p align="center"><b><font size="6">驱动程序的控制</font></b></p>
+<p align="center">康林</p>
+<p>　</p>
+
+<p>驱动程序信息在注册表中保存的位置：HKEY_LOCAL_MACHINE\system\currentcontrolset</p>
+<p>驱动的类型：</p>
+<ol>
+	<li>BUS驱动(BUS driver)：（设备必须）</li>
+	<li>功能驱动(Function driver)：（设备必须）驱动一个单一的设备。</li>
+	<li>过滤驱动(Filter driver)：(可选)为一个设备或一个设备类或BUS，过滤一个I/O请求。</li>
+</ol>
+<p>设备的类型：</p>
+<ol>
+	<li>物理设备对象（PDO-Physical Device Object）</li>
+	<li>功能设备对象（FDO-Functional Device Object）</li>
+	<li>过滤设备对象（filter DO-Filter Device Object）</li>
+</ol>
+<p>设备的标志：</p>
+
+<p>一个驱动程序支持PNP和电源管理必须有下面条件：</p>
+<ol>
+	<li>.INF文件用于安装驱动程序。</li>
+	<li>一个包含WHQL的数字签名包的.cat文件。</li>
+	<li>一个DriverEntry例程，用于初始化驱动。</li>
+	<li>一个AddDevice例程，用于初始化设备。</li>
+	<li>一个DispatchPnp例程，用于处理PNP操作的IRPs(例如：开始、停止、移除设备）。</li>
+	<li>一个DispatchPower例程，用于处理电源的IRPs。</li>
+	<li>一个Unload例程，用于释放驱动在DriverEntry安装的资源。</li>
+</ol>
+<p>　</p>
+<p>　</p>
+<p>建立WDM编程环境：</p>
+<p>VC6.0、WINDOWS 2000 DDK、NUMEGA DRIVERSTUDIO 2.6, 在安装DriverWorks之前，需要先安装DDK。</p>
+<p><img border="0" src="picture/驱动1.jpg"></p>
+<p>
+由于DriverWorks所用的类库是在DDK库函数的基础上生成的，下一步还必须在VC中打开DriverWorks\source下的VdwLibs.dsw。选项Batch 
+Build菜单选中 VdwLibs Win32 的所有选项，进行编译。否则编译WDM程序时，会产生编译错误：LLINK:fatal error 
+LNK1181:connot open input file &quot;...\free\vdw_wdm.lib&quot;。</p>
+<p>单击DriverStudio-&gt;Driver Build Settings来设置DDK目录。</p>
+<p>　</p>
+<p>　</p>
+
+</body>
+
+</html>

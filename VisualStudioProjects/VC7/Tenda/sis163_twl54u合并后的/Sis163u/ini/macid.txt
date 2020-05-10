@@ -1,0 +1,22 @@
+# MAC Address values file
+#
+# NOTE: The MAC ADDR OUI is pulled from the calsetup.txt
+#
+# Values read in hex
+
+[MACADDR]
+MAC_PRE_HEADER=00E02A; # MAC address OUI in hex
+MAC_CURR_ADDR=4F2F7A
+
+start=BEEFAD;
+limit=DFFFFF;
+current=bef118;
+
+IPstart=E00000;
+IPlimit=EFFFFF;
+
+
+
+[GOLB_VAR]
+Additional =11
+

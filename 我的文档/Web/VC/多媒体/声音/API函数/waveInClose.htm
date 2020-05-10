@@ -1,0 +1,74 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>waveInClose</title>
+</head>
+
+<body>
+
+<h1>waveInClose</h1>
+<p>The <b>waveInClose</b> function closes the given waveform-audio input device.</p>
+<pre><code><b>MMRESULT waveInClose(
+  HWAVEIN</b><i> hwi  </i>
+<b>);</b>
+ </code></pre>
+<h4>Parameters</h4>
+<dl>
+	<dt><i>hwi</i> </dt>
+	<dd>Handle of the waveform-audio input device. If the function succeeds, the 
+	handle is no longer valid after this call. </dd>
+</dl>
+<h4>Return Values</h4>
+<p>Returns MMSYSERR_NOERROR if successful or an error otherwise. Possible error 
+values include the following:</p>
+<table cellSpacing="4" cols="3">
+	<tr vAlign="top">
+		<th align="left" width="48%">Value</th>
+		<th align="left" width="51%">Description</th>
+	</tr>
+	<tr>
+		<td width="48%">MMSYSERR_INVALHANDLE</td>
+		<td width="52%">指定的设备句柄无效</td>
+	</tr>
+	<tr>
+		<td width="48%">MMSYSERR_NODRIVER</td>
+		<td width="52%">无当前指定的设备</td>
+	</tr>
+	<tr>
+		<td width="48%">MMSYSERR_NOMEM</td>
+		<td width="52%">内在锁定或不能分配</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">WAVERR_STILLPLAYING</td>
+		<td width="52%">在缓存队列中还有缓存</td>
+	</tr>
+</table>
+<br>
+　<h4>Remarks</h4>
+<p>If there are input buffers that have been sent with the <b>waveInAddBuffer</b> 
+function and that haven't been returned to the application, the close operation 
+will fail. Call the <b>waveInReset</b> function to mark all pending buffers as 
+done.</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Requires version 2.0 or later.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in mmsystem.h.<br>
+<b>&nbsp;&nbsp;Import Library: </b>Use winmm.lib.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/wave_7jcf.htm">
+Waveform Audio Overview</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/wave_4i2b.htm">
+Waveform Functions</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_7aya.htm">
+<b>waveInAddBuffer</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_8p84.htm">
+<b>waveInReset</b></a></p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

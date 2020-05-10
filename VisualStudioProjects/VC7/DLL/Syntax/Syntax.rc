@@ -1,0 +1,227 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#include ""res\\Syntax.rc2""  // 不是由 Microsoft Visual C++ 编辑过的资源\r\n"
+    "#include ""afxres.rc""     // 标准组件\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 2005,8,0,0
+ PRODUCTVERSION 2005,8,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080403a8"
+        BEGIN
+            VALUE "Comments", "作者：康林   Email：kl222@126.com"
+            VALUE "CompanyName", "康林工作室"
+            VALUE "FileDescription", "C/C++语法"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "Syntax.dll"
+            VALUE "LegalCopyright", "版权所有 (C)  2005 康林工作室；保留所有权利。"
+            VALUE "LegalTrademarks", "KL"
+            VALUE "OriginalFilename", "Syntax.dll"
+            VALUE "ProductName", "Microsoft Development Environment  扩展工具集"
+            VALUE "ProductVersion", "2005.0.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 936
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_RELATIVEPATH DIALOGEX 0, 0, 345, 105
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "得到相对路径"
+FONT 9, "宋体", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "确定",IDOK,60,73,50,16
+    PUSHBUTTON      "取消",IDCANCEL,232,74,50,16
+    LTEXT           "源路径：",IDC_STATIC,19,15,39,12
+    LTEXT           "目的文件：",IDC_STATIC,17,33,55,12
+    LTEXT           "相对路径：",IDC_STATIC,19,51,65,12
+    EDITTEXT        IDC_EDIT_SOURCE,65,14,221,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_DESTINATION,65,31,221,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_RELATIVE,65,48,221,13,ES_AUTOHSCROLL | WS_DISABLED
+    PUSHBUTTON      "浏览",IDC_BUTTON_SOURCE,291,15,40,14
+    PUSHBUTTON      "浏览",IDC_BUTTON_DESTINATION,291,31,40,14
+END
+
+IDD_REGIST DIALOGEX 0, 0, 361, 197
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "注册"
+FONT 9, "宋体", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "取消",IDCANCEL,231,149,50,16
+    LTEXT           "你的机器码：",IDC_STATIC,73,31,50,12
+    EDITTEXT        IDC_EDIT1,138,29,140,13,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    LTEXT           "你的注册号：",IDC_STATIC,73,50,50,11
+    EDITTEXT        IDC_EDIT2,138,49,141,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "注册",IDOK,69,149,55,16
+    CTEXT           "作者：康林",IDC_AUTHOR,79,89,198,13
+    CTEXT           "版权所有（C）2004 - 2005 康林工作室；保留所有权力",IDC_STATIC,75,107,206,14
+    CONTROL         "每次启动时都显示此对话框",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,118,127,125,9
+    EDITTEXT        IDC_EDIT3,111,71,146,15,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+END
+
+IDD_INCLUDEFILE DIALOGEX 0, 0, 406, 98
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "打开头文件"
+FONT 9, "宋体", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "确定",IDOK,97,65,50,16
+    PUSHBUTTON      "取消",IDCANCEL,253,64,50,16
+    LTEXT           "包含文件：",IDC_STATIC,41,34,45,12
+    EDITTEXT        IDC_EDIT_INPUTFILE,85,30,240,17,ES_AUTOHSCROLL
+    PUSHBUTTON      "浏览",IDC_BUTTON_BROWN,342,33,47,13
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_RELATIVEPATH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 338
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 98
+    END
+
+    IDD_REGIST, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 354
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 190
+    END
+
+    IDD_INCLUDEFILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 399
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 91
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_KL                  ICON                    "res\\KL.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_SYNTAX              REGISTRY                "Syntax.rgs"
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+#pragma code_page(936)
+#include "res\Syntax.rc2"  // 不是由 Microsoft Visual C++ 编辑过的资源
+#include "afxres.rc"     // 标准组件
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

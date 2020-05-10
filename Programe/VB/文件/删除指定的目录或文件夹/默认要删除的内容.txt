@@ -1,0 +1,8 @@
+debug
+release
+bin
+obj
+temp
+Debug_Unicode
+IncludeLocalDatabase.txt
+*.ncb

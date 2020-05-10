@@ -1,0 +1,806 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>字符串</title>
+</head>
+
+<body>
+
+<p align="center"><b><font size="6">字&nbsp; 符&nbsp; 串</font></b></p>
+<p align="center">翻译：康&nbsp; 林</p>
+<p>目录</p>
+<p><a href="#BSTR">BSTR</a></p>
+<p><a href="#C_类型字符串_LPSTR、LPWSTR">C类型字符串 LPSTR 和 LPWSTR </a></p>
+<p><a href="#字符串术语">字符串术语</a></p>
+<h2 class="dtH1"><span style="font-weight: 400"><a href="#Tools_for_Exploring_Strings">
+<font size="3">Tools for Exploring 
+Strings</font></a></span></h2>
+<ul>
+	<li><a href="#Visual_Basic_StrConv_函数">Visual Basic StrConv 函数</a></li>
+	<li><a href="#函数_Len_和_LenB">函数 Len 和 LenB</a></li>
+	<li><a href="#函数_Chr、ChrB、ChrW">函数 Chr、ChrB、ChrW</a></li>
+	<li><a href="#函数_Asc、AscB、AscW">函数 Asc、AscB、AscW</a></li>
+	<li><a href="#空字符串、零字符">零字符串、零字符</a></li>
+	<li><a href="#VarPtr_和_StrPtr">VarPtr 和 StrPtr</a></li>
+	<li><a href="#用_VB_转换字符串">用 VB 转换字符串</a></li>
+</ul>
+<p><a href="#准备BSTR">准备BSTR</a></p>
+<p><a href="#返回_BSTR">返回 BSTR</a></p>
+<p><a href="#如何调用">如何调用</a></p>
+<ul>
+	<li><a href="#Windows_9x下">Windows 9x下</a></li>
+	<li><a href="#Windows_NT_下">Windows NT 下</a></li>
+</ul>
+<p><a href="#Unicode_入口点例子">Unicode 入口点例子</a></p>
+<p><a href="#传递字符串到_Win32_API">传递字符串到 Win32 API</a></p>
+<ul>
+	<li>
+	<p align="left"><a href="#ByVal_与_ByRef_">ByVal 与 ByRef</a></li>
+	<li>
+	<p align="left"><a href="#输入和输出字符串参数">输入和输出字符串参数</a></p></li>
+	<li>
+	<p align="left"><a href="#处理输入参数">处理输入参数</a></p></li>
+	<li>
+	<p align="left"><a href="#处理输出参数">处理输出参数</a></p></li>
+	<li>
+	<b><a href="#一个输入输出的例子——用_any_作为参数">一个输入输出的例子——用 any 作为参数</a></b></li>
+</ul>
+<p>　</p>
+<p>主要的问题是在 Microsoft&reg; Visual Basic&reg; (&quot;VB&quot;) 中至少用两种方法实现字符串！</p>
+<p>那么在 Visual Basic 中什么是字符串呢？根据 VB 文档，它是：</p>
+<p>A data type consisting of a sequence of contiguous characters that represent 
+the characters themselves rather than their numeric values.</p>
+<p>（由邻近的字符序列组成的数据类型，描绘字符用于字符的数目。）</p>
+<p>好象 Microsoft 试图说字符串数据类型根本的规定是有限长度字符序列。就 Visual Basic 而言，所有的字符是由两字节的 Unicode 
+描述的。VB 用 Unicode 描述字符串中的字符。例如：用 ASCII 描述字符 h 是 &amp;H68，而用 Unicode 描述则是 
+&amp;H0068，在内存中表现为 68 00。</p>
+<p>因而，字符串 &quot;help&quot; 描述为：</p>
+<p>00 68 00 65 00 6C 00 70</p>
+<p>注意：可是，一个字在内存中是翻转写入的，字符串 &quot;help&quot; 在<b><i>内存</i></b>中的表现为：</p>
+<p>68 00 65 00 6C 00 70 00</p>
+<p>This is fine, but it is definitely <i>not</i> how we should think of strings 
+in VB programming.为了避免任何可能的含糊，we will refer to this type of object as a <i>Unicode character array</i> which is, after all, 
+	precisely what it is! This also helps distinguish it from an <i>ANSI 
+	character array</i>, 换句话说，一个字符数组是由单个字节的 ANSI 码描述的。</p>
+<p>现在的关键是理解字符串：当我们写如下代码：</p>
+	<pre class="code">Dim str As String
+str = &quot;help&quot;
+</pre>
+<p>Here is the key to understanding strings: when we write the code:</p>
+<pre class="code">Dim str As String
+str = &quot;help&quot;</pre>
+<p>我们不定义一个 Unicode 字符数组本身。我们定义一个叫 BSTR 的数据类型的成员，它是一个简略的 Basic 字符串。BSTR 
+实际上是，指向一个包含终结符的 Unicode 字符数组（并加上4个字节区域）。我们将在这详细说明。</p>
+<p><b><font size="5"><a name="BSTR">BSTR</a></font></b></p>
+<p>实际上，VB中的字符串类型是用如下方法定义：</p>
+<p>Dim str As String</p>
+<p>在 Visual Baice 3和4 版本之间的一个最根本的改变，使这个类型更兼容 Win32 操作系统。（underwent a radical 
+change between versions 3 and 4 of Visual Basic, due in part to an effort to 
+make the type more compatible with the Win32 operating system.）</p>
+<p>Just for comparison (and to show that we are more fortunate now),图一显示了在 
+Visual Basic 3中的VB字符串数据类型。一个叫HLSTR（High-Level String)。</p>
+<p align="center">
+<img border="0" src="picture/字符串1.bmp" width="502" height="178"></p>
+<p align="center">图一:<b>The high-level string format (HLSTR) used by VB3</b></p>
+<p align="left">HLSTR 格式是一个指向一个字符串描述结构的指针。这个描述
+结构包含2字节表示字符串长度区域和一个指向字符数组（用的是ANSI格式）的指针。</p>
+<pre>struct _HLSTR
+{
+       int iSize;//字符长度
+       char* szChar; //指向字符串的指针
+}</pre>
+<p>对于 Win32 API 来说，这个字符串格式是可怕的。Visual Basic 4以后，VB 字符串数据类型已改变了。这个新的数据类型叫 
+BSTR，如图二所示：</p>
+<p align="center">
+<img border="0" src="picture/字符串2.bmp" width="502" height="142"></p>
+<p align="center">图二:<b>A BSTR </b></p>
+<p align="left">这个数据类型实际上是在 OLE 2.0 规范中定义的。也就是，它是 Microsoft's ActiveX 规范的一部分。</p>
+<p align="left">关于 BSTR 数据类型有以下几个重要的事项须注意：</p>
+<ul>
+	<li>
+	<p align="left"><span style="background-color: #FFFF00">BSTR 
+	实际上是一个指针变量。象所有指针一样，它的大小是 32 位（bit)，它指向一个 Unicode 字符数组。一个 Unicode 字符数组和一个 
+	BSTR 不是一回事。BSTR 仅仅是引用一个字符串（或者 VB 字符串），不幸的是，一个 Unicode 
+	字符数组也经常叫做字符串！因而，我们不简单地把BSTR说是一个字符串——我们将明确的称它的名称——BSTR。</span></p></li>
+	<li>
+	<p align="left"><span style="background-color: #FFFF00">由 BSTR 指向的 Unicode 
+	数组必须是由加上4字节区域和终结符（由2字节NULL组成）组成。</span></p></li>
+	<li>
+	<p align="left"><span style="background-color: #FFFF00">尽管在 Unicode 
+	字符数组里加有终结符，然而，我们不能参依靠终结符作为字符数组的结束。也就是为什么长度区域是至关重要的。</span></p></li>
+	<li>
+	<p align="left"><span style="background-color: #FFFF00">
+	再者，一个指针指向一个字符数组的开始，而不是指向在这个数组之前的4字节长度区域。As we will see, this is critical to 
+	interpreting a BSTR as a VC++-style string.</span></p></li>
+	<li>
+	<p align="left"><span style="background-color: #FFFF00">
+	这个长度区域包含的是字符数组的字节数（而不是字符数），终结符排除在外。即然这个数组是 Unicode,这个字符数是这个字节数的一半。</span></p>
+	</li>
+	<li>
+	<p align="left"><font color="#FF0000">
+	<span style="background-color: #FFFF00">译者注：但是在 VB.NET 中以 UNICODE 调用 API 
+	时（当然在 VB.NET 中的字符串也是这样)，这个长度区域包含的是这个字符串的字符数长度（而不是字符数组的字节数）。</span></font></p>
+	</li>
+</ul>
+<p align="left">我们强调，<font color="#FF0000">一个 Unicode 的零字符（NULL）是一个16-bit 的 
+0，而不是 8-bit 的0。当在测试一个在 Unicode 数组中的零字符时，要注意这个。</font></p>
+<p>Note that it is common practice to speak of &quot;the BSTR `help'&quot; or to say that 
+a BSTR may contain embedded null characters when what is really being referred 
+to is the <i>character</i> <i>array</i> pointed to by the BSTR.</p>
+<p align="left">因为一个 BSTR 可能包含一个内在的零字符（NULL），这个终结符不是一定有用的，at least <i>as far as 
+VB is concerned.</i>然而它的存在对 Win32 是非常重要的。原因是一个 Win32 （由 LPWSTR 表示的）Unicode 
+版本的字符串被定义为一个指向一个以终结符（NULL）结束的 Unicode 字符数组（也不是，它不允许包含内存的零字符（NULL）。</p>
+<p align="left">这说明了为什么 BSTR 有终结符。<font color="#FF0000">一个不包含零字符（NULL）的 BSTR 
+也就是一个 LPWSTR。</font>我们将在 C++ 字符串中谈论。</p>
+<p align="left">让我们着重讨论下面代码：</p>
+<p align="left">Dim str As String<br>
+str = &quot;help&quot;</p>
+<p align="left">意思是：str 是一个 BSTR 的名称，并不是一个 Unicode 字符数组。换句话说，str 
+是一个保存着地址（xxxx)的变量名。见图二。</p>
+<p align="left">这里作个简单的实验，我们能测试这样一个事实：a VB string is a <i>pointer</i> <i>to</i> 
+a character array and not a character array.考虑下面代码，定义一个成员是字符串的结构：</p>
+<pre class="code">Private Type utTest
+   astring As String
+   bstring As String
+End Type
+
+Dim uTest As utTest
+Dim s as String
+
+s = &quot;testing&quot;
+uTest.astring = &quot;testing&quot;
+uTest.bstring = &quot;testing&quot;
+
+Debug.Print Len(s)
+Debug.Print Len(uTest)
+</pre>
+<p align="left">这段代码的输出是：</p>
+<p align="left">7<br>
+8<br>
+　</p>
+<p align="left">变量为 s 时，函数 Len 得到字符数组的长度。既然这样，那么字符串 &quot;testing&quot; 的长度是 7 个字符。然而在变量为 
+uTest 时，函数 Len 实际得到的是结构的长度（单位：字节）。返回值 8 明确指示出两个 BSTRS 中每个长度是 4，这是因为 BSTR 是一个指针！</p>
+<p align="left"><b><font size="5"><a name="C_类型字符串_LPSTR、LPWSTR">C 类型字符串 
+LPSTR、LPWSTR</a></font></b></p>
+<p align="left">VC++ 和 Win32用的字符串数据类型是 LPSTR、LPWSTR。</p>
+<p align="left">LPSTR：是一个指向一个终结符的 ANSI 字符数据指针。我们根据终结符的位置判断 LPSTR 字符串的结束。<font color="#FF0000">LPSTR 
+字符串不允许包含零字符（NULL）。</font>同样的，<font color="#FF0000">LPWSTR是一个指向包含终结符而不包含零字符（NULL）的 
+Unicode 字符串的指针。</font>（LP<font color="#FF0000">W</font>STR 中的 W 是 Wide，是 
+Microsoft 用于说明是 Unicode 的方法。）这个字符串数据类型见图三：</p>
+<p align="center">
+<img border="0" src="picture/字符串3.bmp" width="502" height="245"></p>
+<p align="center">图三：<b>LPSTR 和 LPWSTR 数据类型</b></p>
+<p align="left">我们也遇到过数据类型 LP<font color="#FF0000">C</font>STR 和 LP<font color="#FF0000">C</font>WSTR。中间这个 
+C 指的是常量（constant），意思是：任何调用这个类型的 API 函数，不能改变这个数据类型的实例。然而，LPCSTR 与 LPSTR 
+同样，同样的，LPCWSTR 与LPWSTR 一样。</p>
+<p align="left">最后，LPTSTR 是用于有条件编译的。象 TCHAR 一样，在单个源文件中转换为 ANSI 或 UNICODE。下面是定义：</p>
+<pre class="code">#ifdef  UNICODE
+
+typedef LPWSTR LPTSTR;      // LPTSTR is synonym for LPWSTR under Unicode
+typedef LPCWSTR LPCTSTR;    // LPCTSTR is synonym for LPCWSTR under Unicode
+
+#else   
+
+typedef LPSTR LPTSTR;       // LPTSTR is synonym for LPSTR under ANSI
+typedef LPCSTR LPCTSTR;     // LPTCSTR is synonym for LPCSTR under ANSI
+
+#endif
+</pre>
+<p align="left">见图四的总结。</p>
+<p align="center">
+<img border="0" src="picture/字符串4.bmp" width="502" height="125"></p>
+<p align="center">图四：<b>The LP... STR mess.</b></p>
+<p align="left"><b><a name="字符串术语"><font size="5">字符串术语</font></a></b></p>
+<p align="left">为了避免可能引起的混乱，我们将用术语 BSTR，Unicode 字符数组和 ANSI 
+字符数组。当我们用字符串术语时，我们将修改它，VB字符串（意思为 BSTR）或 VC++ 字符串（意思为 LP??STR）。我们避免使用没有修改的术语字符串。</p>
+<p align="left">然而，在 VB 的翻译文档中，你将看到不合格的字符串术语经常地被使用。这要由你决定它是一个 BSTR 或是一个字符数组。</p>
+<h2 class="dtH1"><a name="Tools_for_Exploring_Strings">Tools for Exploring 
+Strings</a></h2>
+<p class="dtH1">如果我位将使用字符串，我们将需要一些工具，我们已经讨论了 API 函数 CopyMemory 
+。让我们看看其它的处理字符串的函数。</p>
+<p><b><a name="Visual_Basic_StrConv_函数">Visual Basic StrConv 函数</a></b></p>
+<p>函数 StrConv 用于字符数组从一种格式到另一种格式的转换。它的语法为：</p>
+<p>StrConv(string, conversion, LCID)</p>
+<p>参数：string：是一个 BSTR，conversion 是一个常数（稍后说明），LCID 是一个可选的本地标识（我们可以忽略）。</p>
+<p>在这些常数当中，我依次为只对下面的感兴趣：</p>
+<ul>
+	<li>vbUnicode(which should have been <code class="ce">vbToUnicode</code>) 
+	</li>
+	<li>vbFromUnicode</li>
+</ul>
+<p>这些常数在 Unicode 和 ANSI 之间转换一个 BSTR 字符数组。</p>
+<p>但是现在有一个问题(which really should have been addressed by the official 
+documentation)。是没有一个 ANSI BSTR。按照定义，<font color="#FF0000">一个由 BSTR 指向的字符数组是一个 Unicode 数组。</font></p>
+<p>然而，我们能按照图二把一个 Unicode 字符数组用一个 ANSI 数组替换。我们用术语 ABSTR 代替 ANSI 
+BSTR，但是你应该注意到这个术语是在本书外官方未认可的。</p>
+<p>我们现在能用 StrConv 两种的合法的形式：</p>
+<p>StrConv(aBSTR, vbFromUnicode)&nbsp;&nbsp;&nbsp; ' returns an ABSTR<br>
+StrConv(anABSTR, vbUnicode)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' returns a BSTR<br>
+　</p>
+<p>具有讽刺意思的是，VB 却不能认识它自己函数的返回值！考虑下面代码：</p>
+<p>s = &quot;help&quot;<br>
+Debug.Print s<br>
+Debug.Print StrConv(s, vbFromUnicode)<br>
+　</p>
+<p>返回：</p>
+<p>help<br>
+??</p>
+<p>因为 VB 试图把 ABSTR 翻译为 BSTR，看以下代码：</p>
+<p>s = &quot;h&quot; &amp; vbNullChar &amp; &quot;e&quot; &amp; vbNullChar &amp; &quot;l&quot; &amp; vbNullChar &amp; &quot;p&quot; &amp; <br>
+&nbsp;&nbsp; vbNullChar<br>
+Debug.Print s<br>
+Debug.Print StrConv(s, vbFromUnicode)</p>
+<p>返回值：</p>
+<p>h e l p <br>
+help</p>
+<p>这里我们用填充 Unicode 字符数组欺骗 VB，因此，当函数 StrConv 转换后。返回值是一个合法的 ABSTR 翻译成 BSTR！</p>
+<p>它表明函数 StrConv 对 BSTRs 和 ABSTRs 不能正确理解。无论你在 s 
+中放入什么，它都表示一个字符数组，并且它对这个数组进行转换。就如我们看到的，任何其它函数都有类似的行为。也就是说，你能用 BSTR 或 
+ABSTR——它们是一个以终结符结尾的字节数组的指针。</p>
+<p><b><a name="函数_Len_和_LenB">函数 Len 和 LenB</a></b></p>
+<p>Visual Basic 有两个得到字符串长度的函数：Len 和 LenB 它们分别返回 BSTR 或 ABSTR 的长度。下面的代码告诉我们：</p>
+<p>s = &quot;help&quot;<br>
+Debug.Print Len(s), LenB(s)<br>
+Debug.Print Len(StrConv(s, vbFromUnicode)), LenB(StrConv(s, vbFromUnicode))</p>
+<p>输出：</p>
+<p>&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+8 <br>
+&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+4 <br>
+　</p>
+<p>这个显示函数 Len 返回字符数，函数 LenB 返回 BSTR 的字节数。</p>
+<p><b><a name="函数_Chr、ChrB、ChrW">函数 Chr、ChrB、ChrW</a></b></p>
+<p>这三个函数有不同的输出范围并产生不同的输出。注意下面定义：</p>
+<ul>
+	<li>Chr 用一个范围在 0 到 255 的变量 x，返回一个长度为 1 的 BSTR。这个由 BSTR 指向的字符是一个等于 x 的 
+	Unicode 代码。（也就是说，Unicode 和 ANSI 值实际上是相等的。）依据最近的文档，Chr 和 Chr$ 是不同的。</li>
+	<li>ChrB 用一个范围在 0 到 255 的变量 x，返回一个长度为 1 的 ABSTR（字节）。这个 ABSTR 指向的字节是等于 x 的 
+	ASNI 代码。</li>
+	<li>ChrW 用一个范围在 0 到 65535 的变量 x，返回一个长度为 1 的 BSTR。这个由 BSTR 指向的字符是一个等于 x 的 
+	Unicode 代码。</li>
+</ul>
+<p><b><a name="函数_Asc、AscB、AscW">函数 Asc、AscB、AscW</a></b></p>
+<p>这些函数是函数 Chr 相反的。例如:AscB 用一个单字符（字节）ABSTR，返回一个等于 ANSI 
+代码的字节。这个返回类型是一个字节，试运行下面代码：</p>
+<p>Debug.Print VarType(AscB(&quot;h&quot;)) = vbByte</p>
+<p>输出是：True。它显示 AscB 将抗逆性一个 BSTR 作为输出。但是事实上，它仅仅用 BSTR 的第一个字节。</p>
+<p>函数 Asc 用一个 BSTR（不是一个 ABSTR），返回一个等于字符 Unicode 代码的整数。</p>
+<p><a name="空字符串、零字符"><b>零</b></a><b><a name="空字符串、零字符">字符串、零字符</a></b></p>
+<p>VB 不允许空 BSTR。这些代码：</p>
+<p>Dim s As String<br>
+s = vbNullString<br>
+Debug.Print VarPtr(s)<br>
+Debug.Print StrPtr(s)</p>
+<p>产生下面输出（在你的机器上可能不同）：</p>
+<p>&nbsp;1243948 <br>
+&nbsp;0 </p>
+<p>这些代码显示一个 零BSTR 是一个内容为 0 的指针。（过一会我们讨论 StrPtr 的意思。）在 Win32 和 VC++ 
+中，这叫做零指针。你也许明白 vbNullString 和 vbNullChar 之间的不同。vbNullChar 不是指针——它是一个值为 0 的 
+Unicode 字符。因而，就位来说，vbNullString 和 vbNullChar 是相同的。但是，他们的解释是不同的，所以他们实际上是不同的。</p>
+<p>不要混淆 零BSTR 和 空BSTR（通常用两个邻近的引号表示——&quot;&quot;）：</p>
+<p>Dim s As String<br>
+Dim t As String<br>
+s = vbNullString<br>
+t = &quot;&quot;</p>
+<p>不同于零字符串（null string），空BSTR t是一个指向非零内存地址的指针。这个地址保存着零字符的终结符。它的长度区的内容是 0。</p>
+<h3 class="dtH1"><a name="VarPtr_和_StrPtr">VarPtr 和 StrPtr</a></h3>
+<p>我们已讨论了函数 VarPtr，但是与字符串无关。函数 VarPtr 和 StrPtr 没有在 Microsoft 
+文档中，但它们是非常有用的，所以我们经常用。</p>
+<p>如果 var 是一个变量，我们看下面代码：</p>
+<p>VarPtr(var)</p>
+<p>是一个变量的地址，返回一个长整数。如果 str 是一个 BSTR 变量，那么：</p>
+<p>StrPtr(str)</p>
+<p>得到 BSTR 的内容！这个内容是由 BSTR 指向的 Unicode 字符数组的地址。</p>
+<p>详细描述见图五。</p>
+<p align="center">
+<img border="0" src="picture/字符串5.bmp" width="502" height="130"></p>
+<p align="center">图五：<b>A BSTR </b></p>
+<p align="left">代码描述是简单的：</p>
+<p align="left">Dim str As String<br>
+str = &quot;help&quot;</p>
+<p align="left">注意：变量 str 定位在地址 aaaa 并且字符数组开始在地址 xxxx，变量 str 指针的内容是：</p>
+<p align="left">VarPtr = aaaa<br>
+StrPtr = xxxx</p>
+<p align="left">运行下面代码：</p>
+<pre class="code">Dim lng As Long
+Dim i As Integer
+Dim s As String
+Dim b(1 To 10) As Byte
+Dim sp As Long, vp As Long
+
+s = &quot;help&quot;
+
+sp = StrPtr(s)
+Debug.Print &quot;StrPtr:&quot; &amp; sp
+
+vp = VarPtr(s)
+Debug.Print &quot;VarPtr:&quot; &amp; vp
+
+' Verify that sp = xxxx and vp = aaaa
+' by moving the long pointed to by vp (which is xxxx)
+' to the variable lng and then comparing it to sp
+CopyMemory lng, ByVal vp, 4
+Debug.Print lng = sp
+
+' To see that sp contains address of char array,
+' copy from that address to a byte array and print
+' the byte array. We should get &quot;help&quot;.
+CopyMemory b(1), ByVal sp, 10
+For i = 1 To 10
+   Debug.Print b(i);
+Next
+</pre>
+<p>输出:</p>
+<pre class="code">StrPtr:1836612
+VarPtr:1243988
+True
+ 104  0  101  0  108  0  112  0  0  0 </pre>
+<p>这个再一次显示 BSTR 字符数组是 Unicode 格式。</p>
+	<pre class="code">Dim ct As Long
+CopyMemory ct, ByVal sp - 4, 4
+Debug.Print &quot;Length field: &quot; &amp; ct
+</pre>
+	<p>这个后面行：</p>
+<p>sp = StrPtr(s)<br>
+Debug.Print &quot;StrPtr:&quot; &amp; sp</p>
+<p>我们得到输出：</p>
+<p>Length field: 8</p>
+<p>这显示长度区域包含字节数而不是字符数。</p>
+<p>就象前面提到的，如果你不愿意用非正式的函数（谁能为这个责备你呢？），你能用附随光盘中的 rpiAPI.dll 库中的函数 
+rpiVarPtr。你也能象下面一样模拟 StrPtr:</p>
+<p>' Simulate StrPtr<br>
+Dim lng As Long<br>
+CopyMemory lng, ByVal VarPtr(s), 4<br>
+' lng = StrPtr(s)</p>
+<p>就如你看到的一样，这段代码复制 BSTR 指针的内容，到一个长整数 lng。</p>
+<p><b><a name="用_VB_转换字符串">用 VB 转换字符串</a></b></p>
+<p>现在我们来如何通过 BSTRs 到外部的 DLL 函数。</p>
+<p>就如我们看到的一样，VB 内部用 Unicode；就是说，BSTRS 用 Unicode 格式。Windows NT 也用 Unicode 
+做为它的本地字符代码。然而，Windows 9x不支持 Unicode(因为一些异常）。让我们检查 BSTR 到一个外部 DLL 函数的通道（Win32 API 
+或其它的）。</p>
+<p>为兼容 Windows 95,VB 总是（即使当运行在 Windows NT 下）建立一个 ABSTR，用于转换 BSTR 的 Unicode 字符数组到 
+ANSI，并替换在 ABSTR 的字符数组中转换了的字符。VB 然后通过 ABSTR 传给外部函数。就如我们将看到的，即使当在 Window NT 
+下正在调用 Unicode 入口点时也是如此。</p>
+<p><b><a name="准备BSTR"><font size="5">准备BSTR</font></a></b></p>
+<p>在把 BSTR 发送到外部 DLL 函数前，VB 在本地生成一个新的不同于原始 BSTR 的 ABSTR 字符串。然后它传递到 DLL 
+函数。图六是这个复制/变化过程。</p>
+<p align="center">
+<img border="0" src="picture/字符串6.bmp" width="502" height="245"></p>
+<p align="center">图六：转换 BSTR 到 ABSTR</p>
+<p align="left">当我们首次提到函数 CopyMemory，我们用它示范了从 Unicode 到 ANSI 
+的转换过程。再让我们用一种不同的方法。在 rpiAPI.dll 库中包含一个叫 rpiBSTRtoByteArray 的函数，它的用途是返回传递给 DLL 
+函数字符串的 VarPtr 和 
+StrPtr 的值，。VB 中的申明为：</p>
+<p align="left">Public Declare Function rpiBSTRtoByteArray Lib &quot;???\rpiAPI.dll&quot; 
+( _<br>
+&nbsp;&nbsp; ByRef pBSTR As String, _<br>
+&nbsp;&nbsp; ByRef bArray As Byte, _<br>
+&nbsp;&nbsp; pVarPtr As Long, _<br>
+&nbsp;&nbsp; pStrPtr As Long<br>
+) As Long</p>
+<p align="left">第一个参数，是一个由引用传递的 BSTR。因此，BSTR 的地址被传送，不是字符组的地址。（
+也就是说，我们传递的是一个字符数组指针的指针。）</p>
+<p align="left">第二个参数，是一个字节数组的第一个字节，调用者必须分配足够的空间以能容下 BSTR 的所有字节。如果不这要，将导致应用程序的崩溃。</p>
+<p align="left">最后两个参数是 OUT 参数，意思是调用者申明一对长整型变量，这个函数将填充它。参数 pVarPtr 将由 BSTR 
+的地址填充。参数 pStrPtr 将由 BSTR 的内容填充（即字符数组的地址）。我们看到了VB是如何传递到DLL的！</p>
+<p align="left">这个函数返回原始字符串的长度（单位：字节）。为了确定我们的事情是做过的，这个函数改变原始字符串的第一个字符为 X。</p>
+<p align="left">下面是一个运行测试（函数 VBGetTarget 我们在第三章已讨论过了）</p>
+<pre class="code">Sub BSTRTest()
+
+Dim i As Integer
+Dim sString As String
+Dim bBuf(1 To 10) As Byte
+Dim pVarPtr As Long
+Dim pStrPtr As Long
+Dim bTarget As Byte
+Dim lTarget As Long
+
+sString = &quot;help&quot;
+
+' Print the BSTR's initial address and contents
+Debug.Print &quot;VarPtr:&quot; &amp; VarPtr(sString)
+Debug.Print &quot;StrPtr:&quot; &amp; StrPtr(sString)
+
+' Call the external function
+Debug.Print &quot;Function called. Return value:&quot; &amp; _
+   rpiBSTRToByteArray(sString, bBuf(1), pVarPtr, pStrPtr)
+
+' Print what the DLL sees, which is the temp ABSTR
+' Its address and contents are:
+Debug.Print &quot;Address of temp ABSTR as DLL sees it: &quot; &amp; pVarPtr
+Debug.Print &quot;Contents of temp ABSTR as DLL sees it: &quot; &amp; pStrPtr
+
+' Print the buffer pointed to by temp ABSTR
+Debug.Print &quot;Temp character array: &quot;;
+For i = 1 To 10
+   Debug.Print bBuf(i);
+Next
+Debug.Print
+
+' Now that we have returned from the DLL function call
+' check status of the passed string buffer -- it has been deallocated
+VBGetTarget lTarget, pVarPtr, 4
+Debug.Print &quot;Contents of temp ABSTR after DLL returns: &quot; &amp; lTarget
+
+' Check the string for altered character
+Debug.Print &quot;BSTR is now: &quot; &amp; sString
+
+End Sub
+</pre>
+<p>Here is the output:</p>
+<pre class="code">VarPtr:1242736
+StrPtr:2307556
+Function called. Return value:4
+Address of temp ABSTR as DLL sees it: 1242688
+Contents of temp ABSTR as DLL sees it: 1850860
+Temp character array:  104  101  108  112  0  0  0  0  0  0 
+Contents of temp ABSTR after DLL returns: 0
+BSTR is now: Xelp</pre>
+<p>这个代码首先显示了原始 BSTR 的地址（VarPtr）和内容（StrPtr)。然后调用这个函数，函数填充字节缓存区（bArrary)和 OUT 参数(pVarPtr，pStrPtr)。接着显示缓存区和 
+OUT 参数。重要的一点，注意 &quot;sString&quot;（DLL 函数返回，不是原始的值）的地址和内容。这标识 VB 已经传递了一个不同的对象到 
+DLL。实事上，缓存区是 ANSI 格式，即，对象是 ABSTR。</p>
+<p>接下来，我们显示 DLL 返回的传递出来的 ABSTR 的内容，它是 0，标识这个临时 ABSTR 已经未被分配的。（虽然暂时说 ABSTR 
+是空字符串，但这是不正确的——事实上，ABSTR 是不存在的！）</p>
+<p>最后，这段代码均等在 Windows NT 下——即使 Windows NT 支持 Unicode ，这个转换仍然发生。</p>
+<p><b><font size="5"><a name="返回_BSTR">返回 BSTR</a></font></b></p>
+<p>传递给 DLL 函数的 BSTR 被转换了，并且返回给调用者，是常见的。</p>
+<p>图七显示出的情形： DLL 函数修改了 ABSTR 后，这个转换过程式是倒过来的。因而，原来的 BSTR str 现在指向一个和 API 函数的 
+output 的 Unicode 字符数组。注意，无论如何，这个字符数组不可能被返回到它原来的分配位置。例如，正如我们看到的， API 函数 
+GetWindowText 似乎移动这个数组。这点是我们不能依靠保留在 BSTR 中没改变的内容，仅仅是它的地址。这个事实是非常重要的，它影响我们以后章的讨论。</p>
+<p align="center">
+<img border="0" src="picture/字符串7.bmp" width="502" height="336"></p>
+<p align="center">图七：返回转换</p>
+
+<p align="left"><b><a name="如何调用"><font size="5">如何调用</font></a></b></p>
+<p align="left">虽然 Windows 9x 不支持 Unicode API 入口点。由于兼容性原因，你可能在你的应用程序中只有 ANSI API 
+入口点。例如，你调用 SendMessageA，不用 SendMessageW(虽然如此，稍后我们将介绍 Unicode 入口点的例子。）</p>
+<h2 class="dtH1">The Whole String Trip</h2>
+	Let's take a look at the entire round trip that a BSTR takes when passed to 
+	an external DLL.<p class="dtH1">假设我们调用一个带字符串参数并且修改返回字符串的 DLL 函数。CharUpper 
+API 函数是一个好的例子。这个函数把字符串的字符转换成大写。VB 的一个 ANSI 版本的申明：</p>
+<p align="left">Declare Function CharUpperA Lib &quot;user32&quot; ( _<br>
+&nbsp;&nbsp; ByVal lpsz As String _<br>
+) As Long</p>
+<p align="left"><b><a name="Windows_9x下">Windows 9x下</a></b></p>
+<p align="left">在 Windows 9x 下，the following happens to the string argument. 
+Remember that it is the character array <i>pointers</i> that are being passed 
+back and forth, not the actual character arrays:</p>
+<ul>
+	<li>
+	<p align="left">BSTR lpsz 是由 VB 作为一个 ABSTR 复制出的，把这个复制品传递给函数 CharUpperA，CharUpperA 
+	把它视为 LPSTR。</p></li>
+	<li>
+	<p align="left">函数处理这个 LPSTR 并把值传给 VB。</p></li>
+	<li>
+	<p align="left">VB 把 LPSTR 转换回 BSTR。</p></li>
+</ul>
+<p align="left">注意，虽然许多 API 函数把 BSTRs 视为 LPSTRs，也就是说，它忽略长度区域，我们不能确定这个区域总是正确的。就 
+CharUpper 来说，这个长度是不变的。所以它正保留的是正确的。但是另外 API 函数改变字符数组的长度。除非明确指明写入格式为 BSTR，这个函数得到新的有终结符的字符数组，
+但不更新长度区域。因而，我们不能依靠长度区域定是有效的。</p>
+<p align="left"><b><a name="Windows_NT_下">Windows NT 下</a></b></p>
+	<p>Under Windows NT, our string argument will go through the following 
+	machinations: </p>
+	<ol>
+		<li>
+		<p align="left">字符串由 VB 从 BSTR 转换到 ABSTR，并传递给函数 CharUpperA，把它视为 LPSTR。</p>
+		</li>
+		<li>
+		<p align="left">这个函数转换 LPSTR 为 LPWSTR，并把 LPWSTR 传递给 Unicode 入口点的 
+		CharUpperW。</p></li>
+		<li>
+		<p align="left">Unicode 函数 CharUpperW 处理 LPWSTR，并产生 LPWSTR 输出，返回给 
+		CharUpperA。</p></li>
+		<li>
+		<p align="left">函数 CharUpperA 把 LPWSTR 转换回 LPSTR，并把它传递给 VB，VB 认为它是一个 
+		ABSTR。</p></li>
+		<li>
+		<p align="left">VB 把 ABSTR 转换回 BSTR！</p></li>
+</ol>
+<p align="left"><b><a name="Unicode_入口点例子"><font size="5">Unicode 入口点例子</font></a></b></p>
+<p align="left">在 Windows NT 下，我们能调用一个 Unicode 入口点，并能预料返回的结果。然而，VB 仍然做 
+BSTR-到-ABSTR 的转换，我们必须抵消这种转换。这里是一个 ANSI 版本的 CharUpperA 调用：</p>
+<p align="left">s = &quot;d:\temp&quot;<br>
+Debug.Print s<br>
+CharUpperA s<br>
+Debug.Print s</p>
+<p align="left">在 Windows9x 和 Windows NT 下，我们预料的结果是：</p>
+<p align="left">d:\temp<br>
+D:\TEMP</p>
+<p align="left">在 Windows NT 下，能使用 Unicode 版本的：</p>
+<p align="left">s = &quot;d:\temp&quot;<br>
+Debug.Print s<br>
+CharUpperW s<br>
+Debug.Print s</p>
+<p align="left">但结果是：</p>
+<p align="left">d:\temp<br>
+d:\temp</p>
+<p align="left">明显的，这是错误的。附带的，说明一下在函数 CharUpper 中的错误。</p>
+<p align="left">“这里没有标志成功或挫败。失败是很少的。这不是从这个函数伸出来的错误信息；不能调用 GetLastError。”</p>
+<p align="left">虽然如此，这个问题是 VB 进行 BSTR-to-ABSTR 转换引起的。所以让我们试试下面代码：</p>
+<p align="left">s = &quot;d:\temp&quot;<br>
+Debug.Print s<br>
+s = StrConv(s, vbUnicode)<br>
+Debug.Print s<br>
+CharUpperW s<br>
+Debug.Print s<br>
+s = StrConv(s, vbFromUnicode)<br>
+Debug.Print s</p>
+<p align="left">输出是：</p>
+<p align="left">d:\temp<br>
+d : \ t e m p<br>
+D : \ T E M P <br>
+D:\TEMP</p>
+<p align="left">在这里我们将做的是：首先把我们的 BSTR 扩大为 ABSTR。真正地，第一次调用函数 StrConv 
+只是简单地把每个字节扩展为 Unicode 格式。它并不知道这个字符已经是 Unicode 格式了。</p>
+<p align="left">考虑这个实例，第一个 Unicode 字符 d。它的 Unicode 代码是0064（16进制），在内存中表示为 64 
+00。每个字节被 StrConv 转换为 Unicode，它的值为0064 0000（在内存中的表示为64 00 00 00）。这个结果是在原来的 
+Unicode 字符串中的每个 Unicode 字符之间放入一个零字符。</p>
+<p align="left">现在，为传递给 CharUpperW 字符串准备好了，VB 仍扩大字符串，并把它从 Unicode 转换为 
+ANSI，因而返回它到它的原来的 Unicode 情况。这样，CharUpperW 能搞清它，并把它转换成大写。一旦这个转换了的字符从 CharUpperW 
+返回，VB 把结果“转换”成 Unicode，因而，用这个内在的零字符扩展它。我们必须把结果转换成 ANSI 移除额外的填充。</p>
+<p align="left"><b><a name="传递字符串到_Win32_API"><font size="5">传递字符串到 Win32 API</font></a></b></p>
+<p align="left">现在我们讨论字符串传递的应用方面。</p>
+<p align="left"><b><a name="ByVal_与_ByRef_">ByVal 与 ByRef</a></b></p>
+<p align="left">一些作者喜欢说关键字 ByVal 是重载字符串，意思是当它应用于字符串与应用于其它变量具有不同的含意。Frankly, I 
+don't see it. Writing:</p>
+<p align="left">ByVal str As String
+　</p>
+<p align="left">告诉 VB 传递一个 BSTR 的内容（实际上是一个 ABSTR），是指向字符数组的指针。因而，ByVal 
+正常地起作用——它仅仅发生在 BSTR 的内容是其它对象的指针时，所以这个模拟一个引用传递。类似于：</p>
+<p align="left">ByRef str As String</p>
+<p align="left">象预想的一样，传递的是 BSTR 的地址。</p>
+<p align="left"><b><a name="输入和输出字符串参数">输入和输出字符串参数</a></b></p>
+<p align="left">有些 API 函数需要或返回字符串。差不多，这些函数处理 C 类型字符串，就是，LPSTRs 或 LPWSTRs。一些 
+OLE-有关系的函数需要 BSTRs。作为例子，下列的函数是 Microsoft Web Publishing API 的一部分。注意它用 
+BSTRs。（还要注意这个声明要告我们输入参数和输出参数。这也是很少的。）(Note also that the declaration is kind 
+enough to tell us which parameters are IN parameters and which are OUT 
+parameters. This is all too rare.)</p>
+<p align="left">HRESULT WpPostFile(<br>
+&nbsp;&nbsp;&nbsp; [in]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LONG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+hWnd<br>
+&nbsp;&nbsp;&nbsp; [in]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BSTR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+bstrLocalPath<br>
+&nbsp;&nbsp;&nbsp; [in, out]&nbsp;&nbsp; LONG *&nbsp;&nbsp;&nbsp; 
+plSiteNameBufLen<br>
+&nbsp;&nbsp;&nbsp; [in, out]&nbsp;&nbsp; BSTR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+bstrSiteName<br>
+&nbsp;&nbsp;&nbsp; [in, out]&nbsp;&nbsp; LONG *&nbsp;&nbsp;&nbsp; 
+plDestURLBufLen<br>
+&nbsp;&nbsp;&nbsp; [in, out]&nbsp;&nbsp; BSTR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+bstrDestURL<br>
+&nbsp;&nbsp;&nbsp; [in]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LONG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+lFlags<br>
+&nbsp;&nbsp;&nbsp; [out, retval]&nbsp;&nbsp; LONG *&nbsp;&nbsp; plRetCode<br>
+&nbsp;&nbsp;&nbsp; );</p>
+<p align="left">一般的，API 函数用以下三种方法使用字符串：</p>
+<ul>
+	<li>
+	<p align="left">他们在输入参数中会要求一个字符串作为输入。</p></li>
+	<li>
+	<p align="left">他们在输出函数中会要求一个字符串作为输出。</p></li>
+	<li>
+	<p align="left">在一些参数或个别参数中，他们会有以上两种要求。</p></li>
+</ul>
+<p align="left">举例说明，例子 6-1 显示了这三种 API 声明。</p>
+<p align="left">例子 6-1：三个声明例子</p>
+<p align="left">// IN parameter example<br>
+HWND FindWindow(<br>
+&nbsp; LPCTSTR lpClassName,&nbsp; // pointer to class name<br>
+&nbsp; LPCTSTR lpWindowName&nbsp; // pointer to window name<br>
+);<br>
+<br>
+// OUT parameter example<br>
+int GetWindowText(<br>
+&nbsp;&nbsp; HWND hWnd,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+// handle to window or control with text <br>
+&nbsp;&nbsp; LPTSTR lpString,&nbsp;&nbsp;&nbsp;&nbsp; // address of buffer for 
+text <br>
+&nbsp;&nbsp; int nMaxCount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+// maximum number of characters to copy<br>
+);<br>
+<br>
+// IN/OUT parameter example<br>
+LPTSTR CharUpper(<br>
+&nbsp; LPTSTR lpsz&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+// single character or pointer to string<br>
+);</p>
+<p align="left">函数 FindWindow 返回与指定字符串相配的类名和/或窗口名的顶层窗口的句柄。既然这样，这两个参数是输入参数。</p>
+<p align="left">函数 GetWindowText 在输出参数 lpString 
+中返回窗口标题栏中的文本。它还返回这个标题的字符串度作为它的返回值。</p>
+<p align="left">函数 CharUpper 
+转换一个字符串或单个字符为大写。当这个参数是一个字符串，这个函数在适当的位置转换字符数组中的字符，也就是参数是输入（IN）/输出的（OUT）。</p>
+<p align="left">我们如何把这三个函数的声明转换成 VB 的声明？</p>
+<p align="left">我们简单地用 VB 类型替换 C 类型：</p>
+<p align="left">ByVal str As String </p>
+<p align="left">声明，是一个 BSTR 数据类型。无论如何，有些警告。</p>
+<p align="left"><b><a name="处理输入参数">处理输入参数</a></b></p>
+<p align="left">例子 6-1 中的第一个声明：</p>
+<p align="left">HWND FindWindow(<br>
+&nbsp; LPCTSTR lpClassName,&nbsp; // pointer to class name<br>
+&nbsp; LPCTSTR lpWindowName&nbsp; // pointer to window name<br>
+);</p>
+<p align="left">转换为下面：</p>
+<p align="left">Declare Function FindWindow Lib &quot;user32&quot; Alias &quot;FindWindowA&quot; ( _<br>
+&nbsp;&nbsp; ByVal lpClassName As String, _<br>
+&nbsp;&nbsp; ByVal lpWindowName As String _<br>
+) As Long</p>
+<p align="left">它能很好的工作。虽然函数 FindWindow 不处理这个参数的内容（注意 LPCTSTR 中的 C），BSTRs 将由 
+Win32 作为 LPSTRs 处理，一般来讲，当处理一个常数 LPSTR，我们能用 BSTR。</p>
+<p align="left">我们还注意到函数允许这些字符参数的一个（不是两个）被设置，剩下的参数设置为零。在 Win32 
+中，程序参数不选择由零指针（也就是指针值为0）描述的东西。当然，0 不是一个有效的地址，所以一个空指针是一个非常特殊的指针类型，Win32 用这种方法处理。</p>
+<p align="left">幸运的，VB 有一个关键字 vbNullString,它是一个零 BSTR（也就是一个零 
+LPWSTR）。它被用于任何需要零字符串的地方。实际上，this is not as trivial an issue as it might seem at 
+first.在 Visual Basic（我们认为 VB 4）介绍 vbNullString 以前，我们需要象下面这样做：</p>
+<p align="left">FindWindow(0&amp;,. . .)</p>
+<p align="left">在第一个参数中模拟零字符串。The problem is that VB would issue a type mismatch 
+error, because a long 0 is not a string. The solution was to declare <i>three</i> 
+separate aliases just to handle the two extra cases of null parameters. With the 
+introduction of <code class="ce">vbNullString</code>, this annoyance went away.</p>
+<p align="left">例如，为得到标题为 &quot;Microsoft Word - API.doc&quot; 的窗口的句柄。我们能写：</p>
+<pre class="code">Dim sTitle As String
+Dim hnd As Long
+sTitle = &quot;Microsoft Word - API.doc&quot;
+hnd = FindWindow(vbNullString, sTitle)
+</pre>
+<p>or more simply:</p>
+<pre class="code">Dim hnd As Long
+hnd = FindWindow(vbNullString, &quot;Microsoft Word - API.doc&quot;)</pre>
+<p><b><a name="处理输出参数">处理输出参数</a></b></p>
+<p>现在考虑例子 6-1 的第二个声明：</p>
+<p>int GetWindowText(<br>
+&nbsp;&nbsp; HWND hWnd,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // handle to window 
+or control with text <br>
+&nbsp;&nbsp; LPTSTR lpString, // address of buffer for text <br>
+&nbsp;&nbsp; int nMaxCount&nbsp;&nbsp;&nbsp; // maximum number of characters to 
+copy<br>
+);</p>
+<p>这个能转换为下面的 VB 声明：</p>
+<p>Declare Function GetWindowText Lib &quot;user32&quot; Alias &quot;GetWindowTextA&quot; ( _<br>
+&nbsp;&nbsp; ByVal hwnd As Long, _<br>
+&nbsp;&nbsp; ByVal lpString As String, _<br>
+&nbsp;&nbsp; ByVal cch As Long _<br>
+) As Long</p>
+<p>hwnd 是一个长整数值，作为一个 C 类型 int（整数）。既然这样，这个字符串参数是一个输出参数，意思是函数将用一些有用的东西（也就是，在参数 
+hwnd 中的句柄的窗口标题）填充这个字符串。</p>
+<p>下面是一个调用这个函数的例子：</p>
+<pre class="code">Sub GetWindowTitle()
+
+Dim sText As String
+Dim hnd As Long
+Dim cTitle As Integer
+Dim lngS As Long, lngV As Long
+
+' Allocate string buffer
+sText = String$(256, vbNullChar)
+
+' Save the BSTR and Unicode character array locations
+lngV = VarPtr(sText)
+lngS = StrPtr(sText)
+
+' Search for window with a given class
+hnd = FindWindow(&quot;ThunderRT5Form&quot;, vbNullString)
+
+' If window found, get title
+If hnd &gt; 0 Then
+   cTitle = GetWindowText(hnd, sText, 255)
+   sText = Left$(sText, cTitle)
+   Debug.Print sText
+   ' Compare the BSTR and character array locations
+   ' to look for changes
+   Debug.Print VarPtr(sText), lngV
+   Debug.Print StrPtr(sText), lngS
+Else
+   Debug.Print &quot;No window with this class name.&quot;, vbInformation
+End If
+
+End Sub
+The output of one run is:
+RunHelp - Unregistered Copy  -  Monday, December 7, 1998     10:11:53 AM
+ 1243480       1243480
+ 2165764       2012076
+</pre>
+<p></p>
+<p></p>
+<p></p>
+<p>我们先为窗口标题分配字符串缓存。我们将会讨论这个重点。我们用 FindWindow 查找一个类名为 ThunderRIForm 
+的运行窗口。如果这个窗口被发现，它的句柄将被返回到参数 hnd 中。我们然后再调用 GetWindowText,传递 hnd 和 sText 
+和它的大小。GetWindowText 将返回放入到缓冲区中的字符数，不包括终结符，也就是说这个窗口的标题，我们能用函数 Left 从字符缓冲区中得到标题。</p>
+<p>注意，同栏我们已经保存了 BSTR 地址（在 lngV 中)和字符数组地址(在 lngS 中)，所以我们能比较这些值与调用 GetWindowText 
+后的值是一样的。瞧， BSTR 没有被移动，但是它的内容被改变了，也就是说，象我们早些讨论的一样，这个字符数组没有被移动。</p>
+<p>Incidentally, since 
+	the returned string is null terminated and contains no embedded nulls, the 
+	following function also extracts the portion of the buffer that contains the 
+	title. This little utility is generic, and I use it often (in this book as 
+	well as in my programs).</p>
+<p>Public Function Trim0(sName As String) As String<br>
+&nbsp;&nbsp; ' Right trim string at first null.<br>
+&nbsp;&nbsp; Dim x As Integer<br>
+&nbsp;&nbsp; x = InStr(sName, vbNullChar)<br>
+&nbsp;&nbsp; If x &gt; 0 Then Trim0 = Left$(sName, x - 1) Else Trim0 = sName<br>
+End Function</p>
+<p>当输出字符串参数时，得到处理的结果，是比较棘手的。它要求我们设置字符串缓存区，也就是说，一个 BSTR 有足够的空间以容纳由 API 
+函数处理后得到的数据。大多数 Win32 API 函数不建立字符串——它们仅仅只是填充调用者建立的字符串。我们不能用简单的字符串声明：</p>
+<p>Dim sText As String</p>
+<p>我们必须分配空间，例如：</p>
+<p>sText = String$(256, vbNullChar)</p>
+<p>因而必须记得：当处理输出字符串时，必须分配足够的字符串缓存区。</p>
+<p>在同样的例子中，如 GetWindowText 
+,这个函数提供一个为指定缓存区大小的输入参数。它实际上指示函数替换字符串缓存区的字符数不能大于我们指定的大小。(I often give the buffer 
+an extra character that the function doesn't know about. Usually, the function 
+includes the terminating null in its reckoning, but why take chances?)</p>
+<p>注意在其它一些例子中，是不提供设置长度的，所以我们必须小心。</p>
+<p>考虑例子 SendMessage，例如， Win32 文档说，LB_GETTEXT 消息，能在一个例框条目中接收返回的字符串。</p>
+<p>一个应用程序发送一个 LB_GETTEXT 消息从一个例表框中返回一个字符串。</p>
+<p><code class="ce">wParam = (WPARAM) index;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+// item index [0-based]<br>
+lParam = (LPARAM) (LPCTSTR) lpszBuffer; // address of buffer </code></p>
+<p>参数 lpszbuffer 是一个指向接收字符串的缓存区的指针。这个缓存区必须有足够的空间以容纳字符串和终结符。消息 LB_GETTEXTLEN 能够在 
+LB_GETTEXT 消息前得到接收字符串的长度（字符串的字符数）。</p>
+<p>
+既然这样，就不再要输入参数做为一个安全设置。如果我们分配足够缓存空间失败，这个函数将写出我们缓存区的结尾。如果幸运的话，我们的程序将崩溃。不幸的话它将覆盖其它的数据，可能导致我们程序的逻辑错误。</p>
+<p>可是，在 Windows 案例中是不可能完全避免的。所以它提供一个 LB_GETTEXTLEN 
+消息为我们得到所需要的缓存区的大小。用这个值，我们能分配足够的缓存区大小。例子 6-2 显示出的一些代码。这些代码从列表框中分离条目并且在我们的列表框 
+lstMain 中放置它们。我们将在16章中详细地介绍。</p>
+<p>例子 6-2 用 LB_GETTEXT</p>
+<div id="nstext" style="PADDING-RIGHT: 20px; OVERFLOW: auto; WIDTH: 584px; TOP: 0px; HEIGHT: 359px" valign="bottom">
+	<pre class="code">Public Sub ExtractFromListBox(hControl As Long)
+
+Dim cItems As Integer
+Dim i As Integer
+Dim sBuf As String
+Dim cBuf As Long
+Dim lResp As Long
+
+' Get item count from control
+cItems = SendMessageByLong(hControl, LB_GETCOUNT, 0&amp;, 0&amp;)
+
+If cItems &lt;= 0 Then Exit Sub
+
+' Put items into list box
+For i = 0 To cItems - 1
+   
+   ' Get length of item
+   cBuf = SendMessageByString(hControl, LB_GETTEXTLEN, CLng(i), vbNullString)
+   
+   ' Allocate buffer to hold item
+   sBuf = String$(cBuf + 1, &quot; &quot;)
+   
+   ' Send message to get item
+   lResp = SendMessageByString(hControl, LB_GETTEXT, CLng(i), sBuf)
+   
+   ' Add item to local list box
+   If lResp &gt; 0 Then
+      Form1.lstMain.AddItem Left$(sBuf, lResp)
+   End If
+
+Next i
+
+Form1.lstMain.Refresh
+ 
+End Sub</pre>
+</div>
+<p><b><a name="一个输入输出的例子——用_any_作为参数">一个输入输出的例子——用 any 作为参数</a></b></p>
+<p>考虑到例子 6-1 中的第三个和最后一个函数。</p>
+<p>PTSTR CharUpper(<br>
+&nbsp; LPTSTR lpsz&nbsp;&nbsp; // single character or pointer to string<br>
+);</p>
+<p>　</p>
+<p>　</p>
+<div id="nstext0" style="PADDING-RIGHT: 20px; OVERFLOW: auto; WIDTH: 584px; TOP: 0px; HEIGHT: 359px" valign="bottom">
+	One problem here is that, despite the declaration of <i>lpsz</i> as an 
+	LPTSTR, the function allows the parameter to be filled with a non-LPTSTR. To 
+	wit, the documentation states that the <i>lpsz</i> parameter is a:<blockquote class="dtBlock">
+		Pointer to a null-terminated string or specifies a single character. If 
+		the high-order word of this parameter is zero, the low-order word must 
+		contain a single character to be converted.</blockquote>
+	<p>For use with string input, we can translate this into VB as:</p>
+	<pre class="code">Declare </pre>
+</div>
+<p>　</p>
+
+
+</body>
+
+</html>

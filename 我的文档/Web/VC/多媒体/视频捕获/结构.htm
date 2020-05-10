@@ -1,0 +1,285 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>结构</title>
+</head>
+
+<body>
+
+<h1 align="center">结&nbsp;&nbsp; 构</h1>
+<p align="center">康&nbsp; 林</p>
+<h1><a name="CAPTUREPARMS">CAPTUREPARMS</a></h1>
+<p>The <b>CAPTUREPARMS</b> structure contains parameters that control the 
+streaming video capture process. This structure is used to get and set 
+parameters that affect the capture rate, the number of buffers to use while 
+capturing, and how capture is terminated.</p>
+<pre><code>typedef struct { 
+    DWORD dwRequestMicroSecPerFrame; 
+    BOOL  fMakeUserHitOKToCapture; 
+    UINT  wPercentDropForError; 
+    BOOL  fYield; 
+    DWORD dwIndexSize; 
+    UINT  wChunkGranularity; 
+    BOOL  fUsingDOSMemory; 
+    UINT  wNumVideoRequested; 
+    BOOL  fCaptureAudio; 
+    UINT  wNumAudioRequested; 
+    UINT  vKeyAbort; 
+    BOOL  fAbortLeftMouse; 
+    BOOL  fAbortRightMouse; 
+    BOOL  fLimitEnabled; 
+    UINT  wTimeLimit; 
+    BOOL  fMCIControl; 
+    BOOL  fStepMCIDevice; 
+    DWORD dwMCIStartTime; 
+    DWORD dwMCIStopTime; 
+    BOOL  fStepCaptureAt2x; 
+    UINT  wStepCaptureAverageFrames; 
+    DWORD dwAudioBufferSize; 
+    BOOL  fDisableWriteCache; 
+    UINT  AVStreamMaster; 
+} CAPTUREPARMS; 
+ </code></pre>
+<h4>Members</h4>
+<dl>
+	<dt><b>dwRequestMicroSecPerFrame</b> </dt>
+	<dd>被请求的帧率，单位为毫秒。默认值为 66667，相当于每秒 15 帧。</dd>
+	<dt><b>fMakeUserHitOKToCapture</b>&nbsp; </dt>
+	<dd>用户初始化视频捕获标志。如果成员为 TRUE, AVICap 显示一个对话框提示用户初始化视频捕获。默认值为 FALSE. 
+	</dd>
+	<dt><b>wPercentDropForError</b> </dt>
+	<dd>Maximum allowable percentage of dropped frames during capture. Values 
+	range from 0 to 100. The default value is 10. 
+	</dd>
+	<dt><b>fYield</b> </dt>
+	<dd>产生标志. 如果这个成员设为 TRUE, 那么捕获窗口产生一个独立的后台线程去完成单步捕获和流。它默认值为 FALSE. 
+	<p>应用程序设置这个标志，必须处理在一个进程中执行捕获时应用程序不能丧失对它的控制而引发潜在的的重入问题。</dd>
+	<dt><b>dwIndexSize</b> </dt>
+	<dd>Maximum number of index entries in an AVI file. Values range from 1800 
+	to 324,000. If set to 0, a default value of 34,952 (32K frames plus a 
+	proportional number of audio buffers) is used. 
+	<p>Each video frame or buffer of waveform-audio data uses one index entry. 
+	The value of this entry establishes a limit for the number of frames or 
+	audio buffers that can be captured. </dd>
+	<dt><b>wChunkGranularity</b> </dt>
+	<dd>Logical block size, in bytes, of an AVI file. The value 0 indicates the 
+	current sector size is used as the granularity. 
+	</dd>
+	<dt><b>fUsingDOSMemory</b> </dt>
+	<dd>是否使用ＤＯＳ内存，在 Win32 应用程序中不用。</dd>
+	<dt><b>wNumVideoRequested</b> </dt>
+	<dd>分配的最大的视频缓冲区块数。如果为 0，则自动计算。The memory area to place the buffers is 
+	specified with <b>fUsingDOSMemory</b>. The actual number of buffers 
+	allocated might be lower if memory is unavailable. 
+	</dd>
+	<dt><b>fCaptureAudio</b> </dt>
+	<dd>捕获音频标志。如果成员设置为 TRUE, 音频将被捕获。如果安装了声音硬件，它就是默认值（TRUE）。 
+	</dd>
+	<dt><b>wNumAudioRequested</b> </dt>
+	<dd>分配的音频缓冲块的最大值。如果为0，则自动计算。这个缓冲块的最大值为 10。 
+	</dd>
+	<dt><b>vKeyAbort</b> </dt>
+	<dd>用于停止捕获流的热键。默认为 VK_ESCAPE。You must call the
+	<object id="alink_1" type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+		<param NAME="Width" VALUE="0">
+		<param NAME="Height" VALUE="0">
+		<param NAME="Command" VALUE="ALink,MENU">
+		<param NAME="Item1" VALUE>
+		<param NAME="Item2" VALUE="_">
+	</object>
+	<a href="JavaScript:alink_1.Click()"><b>RegisterHotKey</b></a> function 
+	before specifying a keystroke that can abort a capture session. 
+	<p>You can combine keycodes that include ctrl and shift keystrokes by using 
+	the logical OR operator with the keycodes for ctrl (0x8000) and shift 
+	(0x4000). </dd>
+	<dt><b>fAbortLeftMouse</b> </dt>
+	<dd>Abort flag for left mouse button. If this member is TRUE, streaming 
+	capture stops if the left mouse button is pressed. The default value is 
+	TRUE. 
+	</dd>
+	<dt><b>fAbortRightMouse</b> </dt>
+	<dd>Abort flag for right mouse button. If this member is TRUE, streaming 
+	capture stops if the right mouse button is pressed. The default value is 
+	TRUE. 
+	</dd>
+	<dt><b>fLimitEnabled</b> </dt>
+	<dd>Time limit enabled flag. If this member is TRUE, streaming capture stops 
+	after the number of seconds in <b>wTimeLimit</b> has elapsed. The default 
+	value is FALSE. 
+	</dd>
+	<dt><b>wTimeLimit</b> </dt>
+	<dd>Time limit for capture, in seconds. This parameter is used only if <b>
+	fLimitEnabled</b> is TRUE. 
+	</dd>
+	<dt><b>fMCIControl</b> </dt>
+	<dd>MCI device capture flag. If this member is TRUE, AVICap controls an <br>
+	MCI-compatible video source during streaming capture. MCI-compatible video 
+	sources include VCRs and laserdiscs. 
+	</dd>
+	<dt><b>fStepMCIDevice</b> </dt>
+	<dd>MCI device step capture flag. If this member is TRUE, step capture using 
+	an MCI device as a video source is enabled. If it is FALSE, real-time 
+	capture using an MCI device is enabled. (If <b>fMCIControl</b> is FALSE, 
+	this member is ignored.) 
+	</dd>
+	<dt><b>dwMCIStartTime</b> </dt>
+	<dd>Starting position, in milliseconds, of the MCI device for the capture 
+	sequence. (If <b>fMCIControl</b> is FALSE, this member is ignored.) 
+	</dd>
+	<dt><b>dwMCIStopTime</b> </dt>
+	<dd>Stopping position, in milliseconds, of the MCI device for the capture 
+	sequence. When this position in the content is reached, capture ends and the 
+	MCI device stops. (If <b>fMCIControl</b> is FALSE, this member is ignored.) 
+	</dd>
+	<dt><b>fStepCaptureAt2x</b> </dt>
+	<dd>Double-resolution step capture flag. If this member is TRUE, the capture 
+	hardware captures at twice the specified resolution. (The resolution for the 
+	height and width is doubled.) 
+	<p>Enable this option if the hardware does not support hardware-based 
+	decimation and you are capturing in the RGB format. </dd>
+	<dt><b>wStepCaptureAverageFrames</b> </dt>
+	<dd>Number of times a frame is sampled when creating a frame based on the 
+	average sample. A typical value for the number of averages is 5. 
+	</dd>
+	<dt><b>dwAudioBufferSize</b> </dt>
+	<dd>Audio buffer size. If the default value of zero is used, the size of 
+	each buffer will be the maximum of 0.5 seconds of audio or 10K bytes. 
+	</dd>
+	<dt><b>fDisableWriteCache</b> </dt>
+	<dd>Not used in Win32 applications. 
+	</dd>
+	<dt><b>AVStreamMaster</b> </dt>
+	<dd>Indicates whether the audio stream controls the clock when writing an 
+	AVI file. If this member is set to AVSTREAMMASTER_AUDIO, the audio stream is 
+	considered the master stream and the video stream duration is forced to 
+	match the audio duration. If this member is set to AVSTREAMMASTER_NONE, the 
+	durations of audio and video streams can differ. </dd>
+</dl>
+<h4>Remarks</h4>
+<p>The WM_CAP_GET_SEQUENCE_SETUP message or <b>capCaptureGetSetup</b> macro is 
+used to retrieve the current capture parameters. The WM_CAP_SET_SEQUENCE_SETUP 
+message or <b>capCaptureSetSetup</b> macro is used to set the capture 
+parameters.</p>
+<p>The
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_2w1c.htm">
+WM_CAP_GET_SEQUENCE_SETUP</a> message or
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_3wkw.htm">
+<b>capCaptureGetSetup</b></a> macro is used to retrieve the current capture 
+parameters. The
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_5hyo.htm">
+WM_CAP_SET_SEQUENCE_SETUP</a> message or
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_6568.htm">
+<b>capCaptureSetSetup</b></a> macro is used to set the capture parameters.</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in vfw.h.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_8xyd.htm">
+Video Capture Overview</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_0qcy.htm">
+Video Capture Structures</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_3wkw.htm">
+<b>capCaptureGetSetup</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmacro_6568.htm">
+<b>capCaptureSetSetup</b></a>,
+<object id="alink_2" type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param NAME="Width" VALUE="0">
+	<param NAME="Height" VALUE="0">
+	<param NAME="Command" VALUE="ALink,MENU">
+	<param NAME="Item1" VALUE>
+	<param NAME="Item2" VALUE="_">
+</object>
+<a href="JavaScript:alink_2.Click()"><b>RegisterHotKey</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_2w1c.htm">
+WM_CAP_GET_SEQUENCE_SETUP</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_5hyo.htm">
+WM_CAP_SET_SEQUENCE_SETUP</a></p>
+<font face="ARIAL,HELVETICA" >
+<h2><a name="VIDEOHDR">VIDEOHDR</a></h2>
+<pre><font face="Courier" >typedef struct {
+LPBYTE lpData;
+DWORD dwBufferLength;
+DWORD dwBytesUsed;
+DWORD dwTimeCaptured;
+DWORD dwUser;
+DWORD dwFlags;
+DWORD dwReserved[4];
+} VIDEOHDR;</font></pre>
+<p>The VIDEOHDR structure describes a client-supplied buffer for receiving video 
+capture data. Drivers receive this structure along with
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/ntddk.chm::/native/ddk/sg/src/vcap_53.htm">
+DVM_STREAM_ADDBUFFER</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/ntddk.chm::/native/ddk/sg/src/vcap_60.htm">
+DVM_STREAM_PREPAREHEADER</a>, and
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/ntddk.chm::/native/ddk/sg/src/vcap_64.htm">
+DVM_STREAM_UNPREPAREHEADER</a> messages. The structure is defined in <i>
+msvideo.h</i>. </p>
+<h5>Members</h5>
+<dl>
+	<dt><b>lpData</b> </dt>
+	<dd>缓冲区指针。 <br>
+　</dd>
+	<dt><b>dwBufferLength</b> </dt>
+	<dd>缓冲区长度<br>
+　</dd>
+	<dt><b>dwBytesUsed</b> </dt>
+	<dd>缓冲区被用数</dd>
+	<dt>　</dt>
+	<dt><b>dwTimeCaptured</b> </dt>
+	<dd>捕获帖的时间。单位：毫秒。相对于捕获流捕获第一帧的时间。 <br>
+　</dd>
+	<dt><b>dwUser</b> </dt>
+	<dd>一个客户指定的32位的数据。</dd>
+	<dt>　</dt>
+	<dt><b>dwFlags</b> </dt>
+	<dd>下列标志：<table>
+		<tr vAlign="top">
+			<td><font face="ARIAL,HELVETICA" size="2"><b>Flag</b> </font></td>
+			<td><font face="ARIAL,HELVETICA" size="2"><b>Definition</b> </font>
+			</td>
+		</tr>
+		<tr vAlign="top">
+			<td><font face="ARIAL,HELVETICA" size="2">VHDR_DONE </font></td>
+			<td><font face="ARIAL,HELVETICA" size="2">Set by the device driver 
+			to indicate it is finished with the data buffer and is returning the 
+			buffer to the client. </font></td>
+		</tr>
+		<tr vAlign="top">
+			<td><font face="ARIAL,HELVETICA" size="2">VHDR_PREPARED </font></td>
+			<td><font face="ARIAL,HELVETICA" size="2">Indicates whether or not 
+			the buffer has been prepared for use. See
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/ntddk.chm::/native/ddk/sg/src/vcap_60.htm">
+			DVM_STREAM_PREPAREHEADER</a>. </font></td>
+		</tr>
+		<tr vAlign="top">
+			<td><font face="ARIAL,HELVETICA" size="2">VHDR_INQUEUE </font></td>
+			<td><font face="ARIAL,HELVETICA" size="2">Set by the driver to 
+			indicate the buffer is in the driver’s buffer queue. </font></td>
+		</tr>
+		<tr vAlign="top">
+			<td><font face="ARIAL,HELVETICA" size="2">VHDR_KEYFRAME </font></td>
+			<td><font face="ARIAL,HELVETICA" size="2">Set by the device driver 
+			to indicate a key frame. </font></td>
+		</tr>
+	</table>
+	</dd>
+	<dt><b>dwReserved[4]</b> </dt>
+	<dd>保留给设备驱动程序使用。典型地，驱动程序用这个区域维持一个缓冲区队列 </dd>
+</dl>
+<h5>注释：</h5>
+<p>The client supplies values for the <b>lpData</b>, <b>dwBufferLength</b>, and
+<b>dwUser</b> members. The driver fills in the <b>dwBytesUsed</b>, <b>
+dwTimeCaptured</b>, and <b>dwFlags</b>&nbsp;members. Drivers
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/ntddk.chm::/native/ddk/sg/src/vcap_18.htm">
+using <i>VCUser.lib</i></a> do not need to maintain the <b>dwFlags</b>&nbsp;member, 
+because code within <i>VCUser.lib</i> handles the flags. </p>
+<p></font></p>
+
+</body>
+
+</html>

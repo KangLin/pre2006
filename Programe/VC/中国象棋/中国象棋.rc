@@ -1,0 +1,789 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\中国象棋.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#include ""l.chs\\afxprint.rc""        // printing/print preview resources\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_VIDEO_TMPL          ICON                    "res\\picture\\象棋.ICO"
+IDR_MAINFRAME           ICON                    "res\\picture\\象棋.ICO"
+IDI_CONNECT             ICON                    "res\\picture\\NETHOOD.ICO"
+IDI_TEXTMESSAGE         ICON                    "res\\picture\\MAIL12.ICO"
+IDI_SEND                ICON                    "res\\picture\\ARW09LT.ICO"
+IDI_CLOSE               ICON                    "res\\picture\\Close.ico"
+IDR_DESKVIEW_TMPL       ICON                    "res\\picture\\idr_main.ico"
+IDI_VIDEO               ICON                    "res\\picture\\Video.ico"
+IDR_CHESSTYPE           ICON                    "res\\picture\\idr_desk.ico"
+IDI_EXIT                ICON                    "res\\picture\\Exit.ico"
+IDI_REPENT              ICON                    "res\\picture\\Undo.ico"
+IDI_LOGON               ICON                    "res\\picture\\Key manager.ico"
+IDI_TIME                ICON                    "res\\picture\\Time.ico"
+IDI_KL                  ICON                    "res\\picture\\kl.ico"
+IDI_LEFTHAND            ICON                    "res\\picture\\lhand.ico"
+IDI_RIGHTHAND           ICON                    "res\\picture\\rhand.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+IDB_KL                  BITMAP                  "res\\picture\\KL.BMP"
+IDB_SKY                 BITMAP                  "res\\picture\\Sky.bmp"
+IDB_GRASSPLOT           BITMAP                  "res\\picture\\草地.bmp"
+IDB_LEFTCHAIR           BITMAP                  "res\\picture\\左边椅子.bmp"
+IDB_RIGHTCHAIR          BITMAP                  "res\\picture\\右边椅子.bmp"
+IDB_DESK                BITMAP                  "res\\picture\\桌面.bmp"
+IDB_HELP                BITMAP                  "res\\picture\\HELP.bmp"
+IDB_DESKCHAIR           BITMAP                  "res\\picture\\桌子.bmp"
+IDB_START               BITMAP                  "res\\picture\\start1.bmp"
+IDB_STANDOFF            BITMAP                  "res\\picture\\求和.bmp"
+IDB_STOP                BITMAP                  "res\\picture\\停止1.bmp"
+IDB_REPENT              BITMAP                  "res\\picture\\悔棋1.bmp"
+IDB_GIVEUP              BITMAP                  "res\\picture\\认输.bmp"
+IDB_BSHUAI              BITMAP                  "res\\picture\\BShuai.bmp"
+IDB_RSHUAI              BITMAP                  "res\\picture\\RShuai.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    SEPARATOR
+    BUTTON      ID_EDIT_COPY
+    SEPARATOR
+    BUTTON      ID_EDIT_PASTE
+    BUTTON      ID_FILE_PRINT
+    SEPARATOR
+    BUTTON      ID_APP_ABOUT
+    BUTTON      ID_CONTEXT_HELP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU 
+BEGIN
+    POPUP "文件(&F)"
+    BEGIN
+        MENUITEM "登录(&C)",                    IDM_FILE_LOGON
+        MENUITEM SEPARATOR
+        MENUITEM "退出(&E)",                    ID_APP_EXIT
+    END
+    POPUP "查看(&V)"
+    BEGIN
+        MENUITEM "工具栏",                      ID_VIEW_TOOLBAR
+        MENUITEM "状态栏",                      ID_VIEW_STATUS_BAR
+        MENUITEM SEPARATOR
+        MENUITEM "消息窗口(&S)",                IDM_TEXTMESSAGE
+        MENUITEM SEPARATOR
+        MENUITEM "象棋(&C)",                    IDM_CHESS
+        MENUITEM "桌面(&D)",                    IDM_DESK
+    END
+    POPUP "操作(&O)"
+    BEGIN
+        MENUITEM "开始(&T)",                    IDM_CHESS_START
+        MENUITEM "设置(&E)",                    IDM_CHESS_SET
+        MENUITEM SEPARATOR
+        MENUITEM "悔棋(&R)",                    IDM_CHESS_REPENT
+        MENUITEM "求和(&S)",                    IDM_CHESS_STANDOFF
+        MENUITEM "认输(&G)",                    IDM_CHESS_GIVEUP
+        MENUITEM SEPARATOR
+        MENUITEM "结束这盘棋(&E)",              IDM_CHESS_CLOSE
+    END
+    POPUP "帮助(&H)"
+    BEGIN
+        MENUITEM "关于(&A)",                    ID_APP_ABOUT
+    END
+END
+
+IDR_DESKVIEW_TMPL MENU 
+BEGIN
+    POPUP "文件(&F)"
+    BEGIN
+        MENUITEM "登录(&L)",                    IDM_FILE_LOGON
+        MENUITEM SEPARATOR
+        MENUITEM "退出(&E)",                    ID_APP_EXIT
+    END
+    POPUP "查看(&V)"
+    BEGIN
+        MENUITEM "工具栏",                      ID_VIEW_TOOLBAR
+        MENUITEM "状态栏",                      ID_VIEW_STATUS_BAR
+        MENUITEM SEPARATOR
+        MENUITEM "消息窗口(&S)",                IDM_TEXTMESSAGE
+        MENUITEM SEPARATOR
+        MENUITEM "象棋(&C)",                    IDM_CHESS
+        MENUITEM "桌面(&D)",                    IDM_DESK
+    END
+    POPUP "帮助(&H)"
+    BEGIN
+        MENUITEM "关于(&A)",                    ID_APP_ABOUT
+    END
+END
+
+IDM_CHAIR MENU 
+BEGIN
+    POPUP "椅子(&C)"
+    BEGIN
+        MENUITEM "查看用户信息(&I)",            IDM_CHAIR_USERINFO
+        MENUITEM "发送消息(&M)",                IDM_CHAIR_SENDMESSAGE
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS 
+BEGIN
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT
+    VK_F1,          ID_HELP,                VIRTKEY 
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG  0, 0, 310, 160
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于 中国象棋 -  康林工作室"
+FONT 9, "宋体"
+BEGIN
+    CONTROL         130,IDC_STATIC,"Static",SS_BITMAP,140,32,21,21
+    CTEXT           "作者:康林",IDC_STATIC,91,74,119,8,SS_NOPREFIX
+    CTEXT           "版权所有 (C) 2004",IDC_STATIC,91,90,119,8
+    DEFPUSHBUTTON   "确定",IDOK,128,119,50,14,WS_GROUP
+    CTEXT           "中国象棋 1.0 版",IDC_STATIC,93,60,119,8,SS_NOPREFIX
+END
+
+IDD_VIDEO DIALOGEX 0, 0, 190, 104
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "宋体", 0, 0, 0x0
+BEGIN
+    CONTROL         "",IDC_DISPLAYVIDEO,
+                    "{AFD9EC81-5CED-4D82-BA94-819086C4D569}",WS_TABSTOP,65,
+                    14,50,25
+    COMBOBOX        IDC_COMBO_USERNAME,19,67,76,156,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_TEXTMESSAGE DIALOGEX 0, 0, 314, 309
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "宋体", 0, 0, 0x0
+BEGIN
+    CONTROL         "",IDC_RICHTEXTRECEIVE,
+                    "{3B7C8860-D78F-101B-B9B5-04021C009402}",WS_TABSTOP,54,
+                    44,147,53
+    CONTROL         "",IDC_RICHTEXTSEND,
+                    "{3B7C8860-D78F-101B-B9B5-04021C009402}",WS_TABSTOP,49,
+                    114,165,85
+    COMBOBOX        IDC_USERNAME,40,244,92,107,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_USERINFO DIALOG  0, 0, 320, 201
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "宋体"
+BEGIN
+END
+
+IDD_CHESS_FORM DIALOGEX 0, 0, 346, 264
+STYLE DS_SETFONT | WS_CHILD
+FONT 9, "宋体", 0, 0, 0x0
+BEGIN
+    CTEXT           "红方用户名",IDC_REDUSERNAME,176,19,67,12,NOT WS_VISIBLE,
+                    WS_EX_TRANSPARENT
+    CTEXT           "黑方用户名",IDC_BLACKUSERNAME,170,239,77,14,NOT 
+                    WS_VISIBLE,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_XQ,"{071AD322-22BA-45BF-9E1F-154EFAF4E42B}",
+                    WS_TABSTOP,117,74,169,119
+END
+
+IDD_DESKVIEW_FORM DIALOG  0, 0, 320, 200
+STYLE DS_SETFONT | WS_CHILD | WS_VSCROLL | WS_HSCROLL
+FONT 9, "宋体"
+BEGIN
+END
+
+IDD_VIDEOCONNECTDLG_DIALOG DIALOGEX 0, 0, 268, 123
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "视频连接"
+FONT 9, "宋体", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "确定(&O)",IDOK,37,85,50,14
+    PUSHBUTTON      "取消(&C)",IDCANCEL,165,83,50,14
+    EDITTEXT        IDC_EDITVIDEOCONNECTUSERNAME,43,25,176,16,ES_CENTER | 
+                    ES_AUTOHSCROLL,WS_EX_TRANSPARENT
+    CTEXT           "请求视频，是否同意？",IDC_STATIC,37,63,183,13
+END
+
+IDD_LOGONDLG_DIALOG DIALOG  0, 0, 320, 201
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "登录"
+FONT 9, "宋体"
+BEGIN
+    DEFPUSHBUTTON   "确定(&O)",IDOK,63,151,50,14
+    PUSHBUTTON      "取消(&C)",IDCANCEL,205,151,50,14
+    LTEXT           "主机IP：",IDC_STATIC,45,31,34,11
+    LTEXT           "主机Port:",IDC_STATIC,45,51,38,11
+    EDITTEXT        IDC_EDITREMOTEPORT,94,49,50,12,ES_RIGHT | ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    LTEXT           "用户名：",IDC_STATIC,45,76,35,11
+    LTEXT           "密码：",IDC_STATIC,45,93,40,13
+    LTEXT           "验证码：",IDC_STATIC,45,112,44,13
+    EDITTEXT        IDC_EDITUSERNAME,94,74,120,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDITPASSWORD,94,91,120,12,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDITVALIDATE,94,109,52,12,ES_RIGHT | ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    EDITTEXT        IDC_EDITVALIDATECODE,167,111,48,10,ES_AUTOHSCROLL | 
+                    ES_NUMBER | WS_DISABLED
+    PUSHBUTTON      "注册(&R)",IDC_REGIST,135,151,50,14
+    EDITTEXT        IDC_EDITREMOTEIP,94,31,120,11,ES_AUTOHSCROLL
+END
+
+IDD_REGISTDLG_DIALOG DIALOG  0, 0, 320, 201
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "注册"
+FONT 9, "宋体"
+BEGIN
+    DEFPUSHBUTTON   "确定(&O)",IDOK,69,159,50,14
+    PUSHBUTTON      "取消(&C)",IDCANCEL,185,158,50,14
+    LTEXT           "用户名：",IDC_STATIC,36,15,40,11
+    LTEXT           "密码：",IDC_STATIC,36,33,40,13
+    EDITTEXT        IDC_EDITUSERNAME,85,13,118,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDITPASSWORD,85,31,119,12,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDITPASSWORD2,85,51,119,12,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    LTEXT           "性别:",IDC_STATIC,36,76,40,10
+    COMBOBOX        IDC_COMBOSEX,85,76,34,40,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "年龄:",IDC_STATIC,151,77,30,11
+    EDITTEXT        IDC_EDITAGE,182,74,32,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "头像:",IDC_STATIC,36,104,40,12
+    COMBOBOX        IDC_COMBOIMAGE,85,104,130,150,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_SETDLG DIALOGEX 0, 0, 209, 199
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "对话框"
+FONT 9, "宋体", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "确定",IDOK,33,167,50,16
+    PUSHBUTTON      "取消",IDCANCEL,125,167,50,16
+    LTEXT           "每步间隔时间：",IDC_STATIC,34,22,57,13
+    EDITTEXT        IDC_TIME_STEP,95,19,74,14,ES_AUTOHSCROLL
+    LTEXT           "赢棋加分值：",IDC_STATIC,34,41,52,11
+    EDITTEXT        IDC_EDIT_POINT,95,40,74,12,ES_AUTOHSCROLL
+    LTEXT           "输棋减分值：",IDC_STATIC,35,59,59,12
+    EDITTEXT        IDC_EDIT_INCPOINT,95,57,74,11,ES_AUTOHSCROLL
+END
+
+IDD_SHOWRESULT DIALOGEX 0, 0, 256, 105
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "比赛结果"
+FONT 9, "宋体", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "确定",IDOK,96,78,50,16
+    LTEXT           "积分",IDC_STATIC,144,12,18,12
+    LTEXT           "用户",IDC_STATIC,84,12,18,12
+    EDITTEXT        IDC_EDIT_WIN_USER,66,30,48,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_LOSS_USER,66,48,48,12,ES_AUTOHSCROLL | 
+                    ES_READONLY,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_EDIT_WIN,132,30,42,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_LOSS,132,48,42,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "赢方：",IDC_STATIC,30,30,30,8
+    LTEXT           "输方：",IDC_STATIC,30,48,36,12
+    EDITTEXT        IDC_EDIT_ADD,192,30,30,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_INC,192,48,30,12,ES_AUTOHSCROLL | ES_READONLY
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404b0"
+        BEGIN
+            VALUE "Comments", "中国象棋  作者：康林"
+            VALUE "CompanyName", "康林工作室"
+            VALUE "FileDescription", "中国象棋"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "中国象棋"
+            VALUE "LegalCopyright", "版权所有 (C) 2004-2005 康林工作室；保留所有权力。"
+            VALUE "OriginalFilename", "中国象棋.EXE"
+            VALUE "ProductName", "中国象棋"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 303
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 153
+    END
+
+    IDD_VIDEO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 183
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 97
+    END
+
+    IDD_TEXTMESSAGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 302
+    END
+
+    IDD_USERINFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 313
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 194
+    END
+
+    IDD_DESKVIEW_FORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 181
+    END
+
+    IDD_VIDEOCONNECTDLG_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 261
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 116
+    END
+
+    IDD_LOGONDLG_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 313
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 194
+    END
+
+    IDD_REGISTDLG_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 313
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 194
+    END
+
+    IDD_SETDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 202
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 192
+    END
+
+    IDD_SHOWRESULT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 249
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 98
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_HELP                CURSOR                  "res\\picture\\HELP.CUR"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_VIDEO DLGINIT
+BEGIN
+    IDC_DISPLAYVIDEO, 0x376, 20, 0
+0x0000, 0x0000, 0x0000, 0x0001, 0x07c0, 0x0000, 0x03ed, 0x0000, 0x0000, 
+0x0000, 
+    0
+END
+
+IDD_TEXTMESSAGE DLGINIT
+BEGIN
+    IDC_RICHTEXTRECEIVE, 0x37a, 161, 0
+0x0017, 0x0000, 0x0020, 0x0071, 0x0068, 0x006a, 0x0020, 0x005a, 0x0074, 
+0x0075, 0x0051, 0x0068, 0x0061, 0x003b, 0x006a, 0x0064, 0x0066, 0x006e, 
+0x005b, 0x0069, 0x0061, 0x0065, 0x0074, 0x0072, 0x0020, 0x0023, 0x0000, 
+0x0001, 0x0000, 0x001b, 0x0000, 0x0001, 0x8001, 0x0000, 0x000a, 0x0000, 
+0x001a, 0x0000, 0x0002, 0x8001, 0x0001, 0x0000, 0x2100, 0x3443, 0x0812, 
+0x0000, 0xd700, 0x0016, 0x4500, 0x0008, 0x2100, 0x3443, 0x0112, 0x0600, 
+0x3000, 0x0000, 0x0000, 0xff00, 0x00ff, 0xff00, 0xffff, 0xffff, 0x00ff, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0500, 0x0000, 0x0080, 0x0000, 
+0x0000, 0x0100, 0x0300, 0x0100, 0x0100, 0x0200, 0x0000, 0x0000, "\000" 
+    IDC_RICHTEXTSEND, 0x37a, 161, 0
+0x0017, 0x0000, 0x0020, 0x0071, 0x0068, 0x006a, 0x0020, 0x005a, 0x0074, 
+0x0075, 0x0051, 0x0068, 0x0061, 0x003b, 0x006a, 0x0064, 0x0066, 0x006e, 
+0x005b, 0x0069, 0x0061, 0x0065, 0x0074, 0x0072, 0x0020, 0x0023, 0x0000, 
+0x0001, 0x0000, 0x001b, 0x0000, 0x0001, 0x8001, 0x0000, 0x000a, 0x0000, 
+0x001a, 0x0000, 0x0002, 0x8001, 0x0001, 0x0000, 0x2100, 0x3443, 0x0812, 
+0x0000, 0xa200, 0x0019, 0x3b00, 0x000d, 0x2100, 0x3443, 0x0112, 0x0600, 
+0x3000, 0x0000, 0x0000, 0xff00, 0x00ff, 0xff00, 0xffff, 0xffff, 0x00ff, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0500, 0x0000, 0x0080, 0x0000, 
+0x0000, 0x0100, 0x0300, 0x0100, 0x0100, 0x0200, 0x0000, 0x0000, "\000" 
+    0
+END
+
+IDD_REGISTDLG_DIALOG DLGINIT
+BEGIN
+    IDC_COMBOSEX, 0x403, 3, 0
+0xd0c4, "\000" 
+    IDC_COMBOSEX, 0x403, 3, 0
+0xaec5, "\000" 
+    0
+END
+
+IDD_CHESS_FORM DLGINIT
+BEGIN
+    IDC_XQ, 0x376, 38, 0
+0x0000, 0x0000, 0x0000, 0x0001, 0x1a40, 0x0000, 0x1280, 0x0000, 0x0040, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x00ff, 0xff00, 0x0002, 0x0000, 0x0000, 
+0x0000, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// WAVE
+//
+
+IDW_1                   WAVE                    "res\\Sound\\1.wav"
+IDW_2                   WAVE                    "res\\Sound\\2.wav"
+IDW_3                   WAVE                    "res\\Sound\\3.wav"
+IDW_4                   WAVE                    "res\\Sound\\4.wav"
+IDW_5                   WAVE                    "res\\Sound\\5.wav"
+IDW_6                   WAVE                    "res\\Sound\\6.wav"
+IDW_7                   WAVE                    "res\\Sound\\7.wav"
+IDW_8                   WAVE                    "res\\Sound\\8.wav"
+IDW_9                   WAVE                    "res\\Sound\\9.wav"
+IDW_10                  WAVE                    "res\\Sound\\10.wav"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDP_SOCKETS_INIT_FAILED "Windows 通信端口初始化失败。"
+    IDR_VIDEO_TMPL          "Video\n\nVideo\nVideo Files (*.vid)\n.vid\nVideo.Document\nVideo Document"
+END
+
+STRINGTABLE 
+BEGIN
+    IDR_MAINFRAME           "中国象棋\n中国象棋\n\n象棋文件 (*.xq)\n.xq\nChess.Document\nChess Document"
+    IDI_TEXTMESSAGE         "显示/隐藏发送消息\n显示/隐藏发送消息"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "中国象棋"
+    AFX_IDS_IDLEMESSAGE     "如需帮助，请按F1键"
+    AFX_IDS_HELPMODEMESSAGE "选定一个要得到帮助的对象"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_EXT        "扩展名"
+    ID_INDICATOR_CAPS       "大写"
+    ID_INDICATOR_NUM        "数字"
+    ID_INDICATOR_SCRL       "滚动"
+    ID_INDICATOR_OVR        "改写"
+    ID_INDICATOR_REC        "记录"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_NEW             "建立新文档\n新建"
+    ID_FILE_OPEN            "打开一个现有文档\n打开"
+    ID_FILE_CLOSE           "关闭活动文档\n关闭"
+    ID_FILE_SAVE            "保存活动文档\n保存"
+    ID_FILE_SAVE_AS         "将活动文档以一个新文件名保存\n另存为"
+    ID_FILE_PAGE_SETUP      "改变打印选项\n页面设置"
+    ID_FILE_PRINT_SETUP     "改变打印机及打印选项\n打印设置"
+    ID_FILE_PRINT           "打印活动文档\n打印"
+    ID_FILE_PRINT_PREVIEW   "显示整页\n打印预览"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_APP_ABOUT            "显示程序信息，版本号和版权\n关于"
+    ID_APP_EXIT             "退出应用程序\n退出"
+    ID_HELP_INDEX           "打开帮助\n帮助主题"
+    ID_HELP_FINDER          "列出帮助主题\n帮助主题"
+    ID_HELP_USING           "显示关于如何使用帮助的指令\n帮助"
+    ID_CONTEXT_HELP         "显示对按钮、菜单和窗口执行单击操作的帮助\n帮助"
+    ID_HELP                 "显示对当前任务或命令的帮助\n帮助"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "打开该文档"
+    ID_FILE_MRU_FILE2       "打开该文档"
+    ID_FILE_MRU_FILE3       "打开该文档"
+    ID_FILE_MRU_FILE4       "打开该文档"
+    ID_FILE_MRU_FILE5       "打开该文档"
+    ID_FILE_MRU_FILE6       "打开该文档"
+    ID_FILE_MRU_FILE7       "打开该文档"
+    ID_FILE_MRU_FILE8       "打开该文档"
+    ID_FILE_MRU_FILE9       "打开该文档"
+    ID_FILE_MRU_FILE10      "打开该文档"
+    ID_FILE_MRU_FILE11      "打开该文档"
+    ID_FILE_MRU_FILE12      "打开该文档"
+    ID_FILE_MRU_FILE13      "打开该文档"
+    ID_FILE_MRU_FILE14      "打开该文档"
+    ID_FILE_MRU_FILE15      "打开该文档"
+    ID_FILE_MRU_FILE16      "打开该文档"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_NEXT_PANE            "切换到下一个窗格\n下一窗格"
+    ID_PREV_PANE            "切换回前一个窗格\n前一窗格"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "将活动的窗口分隔成窗格\n分隔"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_CLEAR           "删除被选对象\n删除"
+    ID_EDIT_CLEAR_ALL       "全部删除\n全部删除"
+    ID_EDIT_COPY            "复制被选对象并将其置于剪贴板上\n复制"
+    ID_EDIT_CUT             "剪切被选对象并将其置于剪贴板上\n剪切"
+    ID_EDIT_FIND            "查找指定的正文\n查找"
+    ID_EDIT_PASTE           "插入剪贴板内容\n粘贴"
+    ID_EDIT_REPEAT          "重复上一步操作\n重复"
+    ID_EDIT_REPLACE         "用不同的正文替换指定的正文\n替换"
+    ID_EDIT_SELECT_ALL      "选择整个文档\n选择全部"
+    ID_EDIT_UNDO            "撤消最后一步操作\n撤消"
+    ID_EDIT_REDO            "重新执行先前已撤消的操作\n重新执行"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "显示或隐藏工具栏\n显隐工具栏"
+    ID_VIEW_STATUS_BAR      "显示或隐藏状态栏\n显隐状态栏"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "改变窗口大小"
+    AFX_IDS_SCMOVE          "改变窗口位置"
+    AFX_IDS_SCMINIMIZE      "将窗口缩小成图标"
+    AFX_IDS_SCMAXIMIZE      "把窗口放大到最大尺寸"
+    AFX_IDS_SCNEXTWINDOW    "切换到下一个文档窗口"
+    AFX_IDS_SCPREVWINDOW    "切换到先前的文档窗口"
+    AFX_IDS_SCCLOSE         "关闭活动的窗口并提示保存所有文档"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "把窗口恢复到正常大小"
+    AFX_IDS_SCTASKLIST      "激活任务表"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_PREVIEW_CLOSE   "关闭打印预览模式\n取消预阅"
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_TEXTMESSAGE         "显示或隐藏消息窗口\n显示或隐藏消息窗口"
+    IDM_SENDTEXTMESSAGE     "显示或隐藏发送消息\n显示或隐藏发送消息"
+    IDM_CHESS               "象棋\n象棋"
+    IDM_DESK                "显示或隐藏桌面\n显示或隐藏桌面"
+END
+
+STRINGTABLE 
+BEGIN
+    IDR_DESKVIEW_TMPL       "中国象棋\n桌面\nDeskView\nDeskVi Files (*.des)\n.des\nDeskView.Document\nDeskVi Document"
+END
+
+STRINGTABLE 
+BEGIN
+    IDM_FILE_LOGON          "登录\n登录"
+    IDM_CHESS_START         "开始下棋\n开始下棋"
+    IDM_CHESS_REPENT        "悔棋\n悔棋"
+    IDM_CHESS_STANDOFF      "求和\n求和"
+    IDM_CHESS_GIVEUP        "认输\n认输"
+    IDM_CHESS_CLOSE         "结束象棋\n结束象棋"
+    IDM_CHESS_SET           "设置\n设置"
+END
+
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "res\中国象棋.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#include "l.chs\afxprint.rc"        // printing/print preview resources
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,178 @@
+<HTML>
+	<HEAD>
+		<TITLE></TITLE>
+		<META content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+	</HEAD>
+	<BODY>
+		<P align="center"><FONT face="宋体" size="7"><STRONG>VC++词法分析</STRONG></FONT></P>
+		<P align="center"><FONT face="宋体">康&nbsp; 林 2005年5月</FONT></P>
+		<P><FONT face="宋体">一、界符： </FONT>
+		</P>
+		<P><FONT face="宋体">1、引号（双、单引号）：保留原格式<BR>
+				考虑 \' 和 \" 的情况，如：char s="I am \"Chinese\".";<BR>
+			</FONT><FONT face="宋体">遇到第一个引号时，设置标志为TRUE，引号后的输入字符直接输出。当遇到第二个引号时，设置标志为FALSE。再按正常操作。<BR>
+				例如：char s = "I am Chinese.";</FONT></P>
+		<P><FONT face="宋体">2、空格、制表符</FONT></P>
+		<UL>
+			<LI>
+				<FONT face="宋体">是行开始时，保留。</FONT>
+			<LI>
+				<FONT face="宋体"><FONT size="+0">注释（// 或 /* */）<FONT>：如果前面没有空格，则加一个。有，则保留所有空格</FONT></FONT></FONT>&nbsp;
+				<FONT face="宋体">（BUG 4)</FONT>
+			<LI>
+				<FONT face="宋体">是行开始时，后面一个输入字符是分号、逗号、小括号、指针符号（*）、取地址(&amp;)时，直接输出，上一个输出字符设置为分号、逗号、小括号、指针符号（*）、取地址(&amp;)。</FONT>&nbsp;
+			<LI>
+				<FONT face="宋体">不是行开始时，制表符替换为空格。删除多余的空格，只保留一个空格。</FONT>
+			<LI>
+				上输出字符串的顶是空格、小括号、不保留。<BR>
+			例如：void main ( void);&nbsp; ——&gt; void main(void);</FONT>
+			<LI>
+				如果此空格是行最后的，则删除。</LI></UL>
+		<P><FONT face="宋体">3、分号、逗号</FONT></P>
+		<UL>
+			<LI>
+				<FONT face="宋体">上一个输出字符是空格或制表符（不是行开始时），替换前一个字符。并在后面加一个空格。</FONT>
+			<LI>
+				<FONT face="宋体">其它情况保留不变，在后面加入一个空格。</FONT>
+			<LI>
+				<FONT face="宋体">for(int i; i &lt; 10; i++)</FONT></LI></UL>
+		<P><FONT face="宋体">4、括号<BR>
+				4.1、小括号、中括号<BR>
+			</FONT>
+		</P>
+		<UL>
+			<LI>
+				<FONT face="宋体">上一个输出字符为空格或制表符时，替换上一个输出字符（不是行开始时）。</FONT>
+			<LI>
+				<FONT face="宋体">其它情况保持不变。<BR>
+					例如：extern "C" BOOL WINAPI Quotation(LPTSTR* lppIn, LPTSTR* lppOut, LPTSTR* 
+					lppStack);</FONT>
+			<LI>
+				<FONT face="宋体">例如:delete []p;</FONT></LI></UL>
+		<P><FONT face="宋体"> 4.2、大括号</FONT></P>
+		<UL>
+			<LI>
+				<FONT face="宋体">本行只有大括号（空格、制表符、<FONT>注释除</FONT>外）,不变。</FONT>
+			<LI>
+				<FONT face="宋体">本行大括号前没有其它字符（空格、制表符、注释除外）,后面有其它字符（空格、制表符、注释除外）,在大括号后加回车、换行符。</FONT>
+			<LI>
+				<FONT face="宋体">本行大括号前有其它字符（空格、制表符、注释除外），后面没有其它字符（空格、制表符、注释除外），在大括号前加回车、换行符。</FONT>
+			<LI>
+				<FONT face="宋体">大括号前后都有其它字符（空格、制表符、注释除外），在前、后各加上一个回车、换行符</FONT></LI></UL>
+		<P><FONT face="宋体">二、运算符</FONT></P>
+		<P><FONT face="宋体">1、加号</FONT></P>
+		<UL>
+			<LI>
+				<FONT face="宋体">加号（+）：在前后各加一个空格。动作：检查输出字符串的顶是否是空格，不是，加入一个空格。是，输出加号。再输出一个空格。</FONT>
+			<LI>
+				<FONT face="宋体">正号（+）：<FONT color="#ff0066">前面加上一个空格，后面不加空格</FONT></FONT><FONT>
+					<UL>
+						<LI>
+							<FONT face="宋体">赋值时：a = +2;</FONT>
+						<LI>
+							<FONT face="宋体">传递函数参数时：a(b, *c); a(*b, c)</FONT>
+				</FONT>
+			</LI>
+		</UL>
+		</FONT>
+		<LI>
+			<FONT face="宋体">自增（++）：保留原格式。</FONT>
+			<UL>
+				<LI>
+					<FONT face="宋体">前缀（++j):</FONT>
+				<LI>
+					<FONT face="宋体">后缀（j++):</FONT></LI></UL>
+		<LI>
+			<FONT face="宋体">赋值（+=)：前后各加一个空格。</FONT></LI></UL>
+		<P><FONT face="宋体">2、减号与加号相同</FONT></P>
+		<P><FONT face="宋体">指针成员(-&gt;):保留格式。</FONT></P>
+		<P><FONT face="宋体">3、等号</FONT></P>
+		<UL>
+			<LI>
+				<FONT face="宋体">赋值（=）：前后各加一个空格</FONT>
+			<LI>
+				<FONT face="宋体">等号（==）：前后各加一个空格</FONT></LI></UL>
+		<P><FONT face="宋体">&nbsp;&nbsp;&nbsp;例如：a = b;<BR>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(c == d)</FONT></P>
+		<FONT face="宋体">
+			<P><FONT face="宋体">4、除号：与等号相同</FONT></P>
+			<UL>
+				<LI>
+					<FONT face="宋体"><FONT>注释（// 或 /* */）<FONT>：如果前面没有空格，则加一个。有，则保留所有空格。</FONT></FONT></FONT><FONT face="宋体">
+						<LI>
+							<FONT face="宋体">赋值（/=)：前后各加一个空格。</FONT>
+						<LI>
+							除号（/）：前后各加一个空格。</LI></UL>
+			<P>5、\</P>
+			<UL>
+				<LI>
+					\'：单引号</LI>
+				<LI>
+					\"：双引号</LI>
+				<LI>
+			\：整除号</FONT></LI></UL>
+		<P>6、取余(%)：与等号相同</P>
+		<P>
+			7、乘号</FONT></P>
+		<UL>
+			<LI>
+				<FONT face="宋体">乘号（*）：前后各加一个空格。</FONT>
+			<LI>
+				<FONT face="宋体" color="#ff0066">指针（*）：保留原格式。</FONT>
+				<UL>
+					<LI>
+						<FONT face="宋体">赋值时：a = *p;</FONT>
+					<LI>
+						<FONT face="宋体">传递函数参数时：a(b, *c); a(*b, c)</FONT>
+					<LI>
+						<FONT face="宋体">*p = 1</FONT>
+					<LI>
+						<FONT face="宋体">运算符后</FONT></FONT></LI></UL>
+			<LI>
+				<FONT face="宋体">赋值（*=）：前后各加一个空格。</FONT></LI></UL>
+		<P><FONT face="宋体">8、与号（&amp;)</FONT></P>
+		<UL>
+			<LI>
+				<FONT face="宋体" color="#ff0066">取地址（&amp;）：保留格式。</FONT>
+				<ul>
+					<LI>
+						<FONT face="宋体">赋值时：p = &amp;a;</FONT>
+					<LI>
+						<FONT face="宋体">传递函数参数时：a(b, &amp;c); a(&amp;b, c);</FONT>&nbsp;</LI>
+				</ul>
+			<LI>
+				<FONT face="宋体">位与（&amp;)：前后各加一个空格。</FONT>
+			<LI>
+				<FONT face="宋体">逻辑与（&amp;&amp;)：前后各加一个空格。</FONT>
+			<LI>
+				<FONT face="宋体">赋值（&amp;=):前后各加一个空格。</FONT></LI></UL>
+		<P><FONT face="宋体">9、或号（|）：前后各加一个空格。与等号同操作。</FONT></P>
+		<UL>
+			<LI>
+				<FONT face="宋体">位或（|）：</FONT>
+			<LI>
+				<FONT face="宋体">逻辑或（||）：</FONT>
+			<LI>
+				<FONT face="宋体">赋值（|=）：</FONT></LI></UL>
+		<P><FONT face="宋体">10、逻辑非（!）：</FONT></P>
+		<UL>
+			<LI>
+				<FONT face="宋体">逻辑非（!）：保留格式。</FONT>
+			<LI>
+				<FONT face="宋体">不等于（!=）：前后各加一个空格。</FONT></LI></UL>
+		<P><FONT face="宋体">11、位异或（^）：与等号相同。</FONT></P>
+		<P><FONT face="宋体">12、大于号（&gt;）：前后各加一个空格。</FONT></P>
+		<UL>
+			<LI>
+				<FONT face="宋体">大于（&gt;）：</FONT>
+			<LI>
+				<FONT face="宋体">大于或等于（&gt;=）：</FONT>
+			<LI>
+				<FONT face="宋体">位运算（&gt;&gt;）：</FONT>
+			<LI>
+				<FONT face="宋体">赋值（&gt;&gt;=）：</FONT></LI></UL>
+		<P><FONT face="宋体">13、小于号（&lt;）：与大于号相同。</FONT></FONT></P>
+		<P><FONT face="宋体">三、字符替换</FONT></P>
+		<P><FONT face="宋体">；，。（）？这个不能替换，因为它们是 UNICODE 字符。</FONT></P>
+	</BODY>
+</HTML>

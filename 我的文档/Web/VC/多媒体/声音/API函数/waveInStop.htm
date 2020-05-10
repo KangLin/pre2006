@@ -1,0 +1,65 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>waveInStop</title>
+</head>
+
+<body>
+
+<h1 align="center">waveInStop</h1>
+<p align="center">　</p>
+<p align="center">康&nbsp; 林</p>
+<p>停止音频输入</p>
+<pre><code><b>MMRESULT waveInStop(
+  HWAVEIN</b><i> hwi  </i>
+<b>);</b>
+ </code></pre>
+<h4>参数:</h4>
+<dl>
+	<dt><i>hwi</i> </dt>
+	<dd>音频输入设备的句柄.</dd>
+</dl>
+<h4>返回值:</h4>
+<p>如果成功返回 MMSYSERR_NOERROR ,否则返回一个错误值:</p>
+<table cellSpacing="4" cols="3">
+	<tr vAlign="top">
+		<th align="left" width="48%">Value</th>
+		<th align="left" width="51%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_INVALHANDLE</td>
+		<td width="52%" colSpan="2">指定的设备句柄是无效的</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_NODRIVER</td>
+		<td width="52%" colSpan="2">指定设备不存在</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_NOMEM</td>
+		<td width="52%" colSpan="2">内在锁定或不能分配</td>
+	</tr>
+</table>
+<br>
+　<h4>注释：</h4>
+<p>如果在录音缓存队列中还有缓存块，那么当前的这块缓存将被设置为 WAVEIN_DONE,其中成员 dwBytesRecorded 
+包含已使用缓存的数量,而其它空的缓存块仍保留在录音缓存队列中。</p>
+<p>当没有开始录音前调用这个函数是没有影响的，它返回0。</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Requires version 2.0 or later.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in mmsystem.h.<br>
+<b>&nbsp;&nbsp;Import Library: </b>Use winmm.lib.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/wave_7jcf.htm">
+Waveform Audio Overview</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/wave_4i2b.htm">
+Waveform Functions</a> </p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

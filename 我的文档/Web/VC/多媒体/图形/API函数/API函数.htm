@@ -1,0 +1,129 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>新建网页 1</title>
+<link rel="stylesheet" type="text/css" href="../../../../../Scrpit/样式.css">
+</head>
+<script language="vbscript" src="../../../../../Scrpit/webscrpit.bas"></script>
+
+
+
+<body>
+<p>关键字:窗口位置、位图、图形</p>
+<span class="ShowLink" onclick="Call ShowALL()" id="showall1">显示全部文字</span>
+</p>
+<p>位置函数:</p>
+<p><b>
+<span class="ShowLink" onclick ="Call Show(GetWindowRectTable)"><font size="4">
+<a name="GetWindowRect">GetWindowRect</a></font></span></b><a name="GetWindowRect">:</a><font style="FONT: 12px 宋体" color="black">该函数返回指定窗口的边框矩形的尺寸。该尺寸以相对于屏幕坐标左上角的屏幕坐标给出。<br>
+		　</font></p>
+<table border="1" width="100%" class="TableStyle" id="GetWindowRectTable" style="display:none">
+	<tr>
+		<td><font style="FONT: 12px 宋体" color="black">
+		&nbsp;函数功能：该函数返回指定窗口的边框矩形的尺寸。该尺寸以相对于屏幕坐标左上角的屏幕坐标给出。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;函数原型：BOOL GetWindowRect（HWND hWnd，LPRECTlpRect）；<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;参数：<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;hWnd:窗口句柄。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;lpRect：指向一个RECT结构的指针，该结构接收窗口的左上角和右下角的屏幕坐标。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;返回值：如果函数成功，返回值为非零：如果函数失败，返回值为零。若想获得更多错误信息，请调用GetLastError函数。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;速查：Windows NT：3.1以上版本：Windows：95以上版本；Windows 
+		CE：1.0以上版本；头文件：Winuser.h；库文件：User32.lib。</font></td>
+	</tr>
+</table>
+
+<p>
+<span  class ="ShowLink" onclick="Call Show(GetClientRectTable)">
+<a name="GetClientRect">
+<b><font size="4">GetClientRect</font></b></a></span><span onclick="Call Show(GetClientRectTable)">:</span><font style="FONT: 12px 宋体" color="black">该函数获取窗口客户区的坐标。客户区坐标指定客户区的左上角和右下角。由于客户区坐标是相对子窗口客户区的左上角而言的，因此左上角坐标为（0，0）<br>
+		　</font><table border="1" width="100%" class="TableStyle" id="GetClientRectTable" style="display:none"">
+	<tr>
+		<td><font style="FONT: 12px 宋体" color="black">
+		&nbsp;&nbsp;&nbsp;&nbsp;函数功能：该函数获取窗口客户区的坐标。客户区坐标指定客户区的左上角和右下角。由于客户区坐标是相对子窗口客户区的左上角而言的，因此左上角坐标为（0，0）<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;函数原型：BOOL GetClientRect（HWND hWnd，LPRECT lpRect）；<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;参数：<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;GetLastError 函数。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;备注：Windows CE：命令条包含在客户区中。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;速查：Windows NT: 3.1以上版本：Windows：95以上版本： Windows 
+		CE：1.0以上版本：头文件：winuser.h；库文件：user32.lib</font></td>
+	</tr>
+</table>
+<p>位图函数:</p>
+<p><a href="LoadImage.htm" name="LoadImage">LoadImage</a> :<font size="+0">该函数从文件装载目标，光标，或位图。</font></p>
+<p>
+<span class ="ShowLink" onclick="Call Show(EXtractlcontable)">
+<a name="Extractlcon">Extractlcon</a></span>:从文件中分离出图标。</p>
+<table border="1" width="100%" class="TableStyle" id="EXtractlcontable" style="display:none">
+	<tr>
+		<td><font style="FONT: 12px 宋体" color="black">
+		&nbsp;&nbsp;&nbsp;&nbsp;函数功能：该函数从限定的可执行文件，动态链接库（DLL）；或者图标文件中恢复图标句柄．为恢复大或小的图标句柄数组，使用ExtractlconEx函数。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;函数原型：HICON Extractlcon（HINSTANCE hlnst，LPCTSTR lpszExeFileName，UINT 
+		nlconlndex）；<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;参数：<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;hlnst：调用函数的应用程序的事例句柄。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;IpszExeFileName:代表可执行文件，DLL，或者图标文件的文件名的空结束字符串指针。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;nlconlndex:指定要恢复图标基于零的变址。例如，如果值是0,函数返回限定的文件中第一个图标的句柄，如值是O函数返回限定文件中图标的总数；如果文件是可执行文件或DLL返回值为RT_GROUP_ICON资源的数目:如果文件是一个.ICO文件，返回值是1；在Windows95，WindowsNT4.0和更高版本中，如果值为不等于向-l的负数，函数返回限定文件图标句柄，该文件的资源标识符等于nlconlndex绝对值。例如，使用-3来获取资源标识符为3的图标。为获取资源标识符为1的图标，可采用ExtractlconEx函数。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;返回值：返回值是图标句柄。如果限定的文件不是可执行文件，DLL，或者图标文件返回是1；如果发现在文件中没有图标，返回值是NULL。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;备注：必须调用Destroyclon函数来清除由Extractlcon函数返回的图标句柄。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;速查：Windows NT：3.1及以上版本；Windows:95及以上版本；Windows 
+		CE:不支持;头文件：shellapi.h;库文件：shell32.lib;Unicode:在Windows 
+		NT上实现为Unicode和ANSI两种版本。</font></td>
+	</tr>
+</table>
+<p><span  class ="ShowLink" onclick="Call Show(extractlcoahextable)">
+<a name="EXtractlcohEX">EXtractlcohEX</a></span>:从可执行文件中分离出图标。</p>
+<table border="1" class ="TableStyle"id="extractlcoahextable" style ="display:none">
+	<tr>
+		<td><font style="FONT: 12px 宋体" color="black">
+		&nbsp;&nbsp;&nbsp;&nbsp;函数功能：该函数从限定的可执行文件；动态链接库（DLL），或者图标文件中生成图标句柄数组。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;函数原型：UINT EXtractlcohEX（LPCTSTR IpSZFile，int nlconlndex,HICON 
+		FAR*PhiCORLarge，HICON FAR'*phiconSmall,UINT nlcons）；<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;参数：<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;IpszFile:定义可获取图标的可执行文件，DLL,或者图标文件的名字的空结束字符串指针。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;nlconlndex:指定抽取第一个图标基于零的变址；例如，如果该值是零；函数在限定的文件中抽取第一图标；如该值是C1且phlconLarge和phiconSmall参数均为NULL，函数返回限定文件中图标的总数；如果文件是可执行文件或DLL；返回值是RT_GROUP_ICON资源的数目；如果文件是一个ICO文件，返回值是1；在Windows95，WindowsNT4.0,和更高版本中，如果值为负数且phlconLarge和phiconSmall均不为NULL，函数从获取图标开始，该图标的资源标识符等于nlconlndex绝对值。例如，使用-3来获取资源标识符为3的图标。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;phiconLarge:指向图标句柄数组的指针，它可接收从文件获取的大图标的句柄。如果该参数是NULL没有从文件抽取大图标。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;phiconSmall：指向图标句柄数组的指针，它可接收从文件获取的小图标的句柄。如果该参数是NULL，没有从文件抽取小图标。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;nlcons:指定要从文件中抽取图标的数目。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;返回值：如果nlconlndex参数是-1，PhiconLarge和PhiconSmall参数是NULL，返回值是包含在指定文件中的图标数目；否则，返回值是成功地从文件中获取图标的数目。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;备注：必须调用Destroylcon函数来清除由ExtractlconEx函数返回的图标。为恢复大小图标尺寸,可使用SM_CXICON,SM_CYICON,SM_CXSMICON,SM_CYSMICON标记来调用GetSystemMetrics函数。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;Windows CE：nlconlndex参数必须是零或CN（N是指定的资源标识符）；nlcons参数必须是1。<br>
+		<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;速查：Windows NT：3.1及以上版本；Windows：95及以上版本；Windows 
+		CE：1.0及以上版本；头文件：shellspi.h；库文件：shell32.lib；Unicodg：在Windows 
+		NT上实现为Unicode和ANSI两种版本。</font></td>
+	</tr>
+</table>
+<p></p>
+<span class="ShowLink" onclick="Call ShowALL()" id="showall1">显示全部文字</span>
+</body>
+
+</html>

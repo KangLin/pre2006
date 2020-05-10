@@ -1,0 +1,61 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>waveInReset</title>
+</head>
+
+<body>
+
+<h1 align="center">waveInReset</h1>
+<p align="center">康&nbsp; 林</p>
+<p>停止指定的输入设备输入，并重新设置当前位置为0。标识所有的未用缓存为已用，即设置缓存 WAVEHDR 结构中的成员 dwFlags 为 
+WAVE_DONE.并返回到应用程序。</p>
+<pre><code><b>MMRESULT waveInReset(
+  HWAVEIN</b><i> hwi  </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>hwi</i> </dt>
+	<dd>输入设备的句柄</dd>
+</dl>
+<h4>返回值：</h4>
+<p>成功返回 MMSYSERR_NOERROR ，失败返回一个错误值：</p>
+<table cellSpacing="4" cols="3">
+	<tr vAlign="top">
+		<th align="left" width="48%">Value</th>
+		<th align="left" width="51%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_INVALHANDLE</td>
+		<td width="52%" colSpan="2">指定的设备句柄无效</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_NODRIVER</td>
+		<td width="52%" colSpan="2">无当前指定的设备</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_NOMEM</td>
+		<td width="52%" colSpan="2">内在锁定或不能分配</td>
+	</tr>
+</table>
+<br>
+　<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Requires version 2.0 or later.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in mmsystem.h.<br>
+<b>&nbsp;&nbsp;Import Library: </b>Use winmm.lib.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/wave_7jcf.htm">
+Waveform Audio Overview</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/wave_4i2b.htm">
+Waveform Functions</a> </p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

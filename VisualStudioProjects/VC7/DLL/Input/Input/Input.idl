@@ -1,0 +1,10 @@
+// Input.idl : type library source for Input.dll
+// This file will be processed by the MIDL compiler to produce the
+// type library (Input.tlb).
+
+[ uuid(5CA163BD-06E9-43FE-B720-1AC9714EC843), version(1.0) ]
+library Input
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+};

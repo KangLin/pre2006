@@ -1,0 +1,37 @@
+\section{KSFilter\-Control.cpp文件参考}
+\label{_k_s_filter_control_8cpp}\index{KSFilterControl.cpp@{KSFilterControl.cpp}}
+用于控制 KSFilter 设备的库 
+
+{\tt \#include \char`\"{}stdafx.h\char`\"{}}\par
+{\tt \#include $<$winioctl.h$>$}\par
+{\tt \#include \char`\"{}..$\backslash$ksfilter$\backslash$ksfilter.h\char`\"{}}\par
+{\tt \#include \char`\"{}KSFilter\-Control.h\char`\"{}}\par
+{\tt \#include $<$Atl\-Base.h$>$}\par
+{\tt \#include $<$Atl\-Conv.h$>$}\par
+
+
+KSFilter\-Control.cpp包含/依赖关系图：
+
+\subsection{详细描述}
+用于控制 KSFilter 设备的库 
+
+\begin{Desc}
+\item[警告:]版权所有 (C) 2007 康林工作室；保留所有权利。\end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 ({\tt kl222@126.com}) \end{Desc}
+\begin{Desc}
+\item[日期:]2007年5月13日 17:57:04 \end{Desc}
+\begin{Desc}
+\item[编译器: ]Microsoft Visual Studio 8.0 —— C/C++ 8.0 \end{Desc}
+\begin{Desc}
+\item[注解:]\begin{itemize}
+\item 1、如果调用默认构造函数 CKSFilter\-Control() ,则一定要执行下面调用： 接着调用 Set\-Config\-Name() 设置要保护的文件的配置文件名。\par
+ 调用 Load\-Config() 从配置文件中加载要保护的文件名。\par
+ \item 2、CKSFilter\-Control(psz\-File)\par
+ \item 3、退出时，调用Save\-Config()把驱动中的保护的文件名保存到配置文件中去。这一步在类的析构函数中 \end{itemize}
+\end{Desc}
+
+
+在文件{\bf KSFilter\-Control.cpp}中定义。

@@ -1,0 +1,73 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>VcExtend文档</title>
+</head>
+
+<body topmargin="0" leftmargin="0">
+<script language="javascript" src="/js/header.js"></script>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td height="20"></td>
+    </tr>
+  </table>
+  </center>
+</div>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td width="100%">
+        <div align="center">
+          <table border="0" width="680">
+            <tr>
+              <td align="right" height="18">VcExtend文档
+                <hr size="1" color="#000080">
+              </td>
+            </tr>
+            <tr>
+              <td align="center" height="10"></td>
+            </tr>
+            <tr>
+              <td align="center"><b>七、注释批处理的魔法----省时高效、随心所欲</b></td>
+            </tr>
+            <tr>
+              <td height="10"></td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp; 注释批处理包括四个命令，它们帮你随心所欲地摆弄注释，并尽可能节省时间。<br> 
+                <br>
+                &nbsp;&nbsp;&nbsp; CommentDetail 显示/隐藏全部注释。这个很简单，试用一下就知道了。 
+                <p>&nbsp;&nbsp;&nbsp; CommentDesc 显示/隐藏注释摘要。这个功能会把所有函数注释的简述部份作为普通注释加在函数声明后面。这样有两方面的作用，一是帮助读者快速的理解类的功能，避免了注释隐藏后完全没有注释的极端，也不会让大量的注释掩没了有效的代码，第二呢，猜到了吗？这是供VC调用的，就是在对象成员列表中弹出函数注释。怎么样？想得很细吧。我的建议是，当一个类的代码完成后，就调用CommentDesc，然后作为最终代码保存。</p> 
+                <p>&nbsp;&nbsp;&nbsp; CommentDetail和CommentDesc是“不兼容”的，互相都会把对方显示的注释先隐藏掉，以避免太多的注释。两者都是开关式的，使用它们，你可以很方便地让你的源文件完全没有注释（成员变量除外），显示全部注释，或是只显示注释摘要。</p>
+                <p>&nbsp;&nbsp;&nbsp; 值得注意的一点是，CommentDesc仅仅是显示注释摘要，在这里作修改，是无法保存到文档中去的。</p> 
+                <p>&nbsp;&nbsp;&nbsp; AttributeComment 为成员变量的读写接口生成注释。如果你给的成员变量写了注释，如： 
+				CString m_strName; //RW 主角的名字。 
+				并调用AttributeComment，那么GetName和SetName函数都会自动生成注释，即使你还没有调用CodeCleanUp生成GetSet函数。注释包括简述和返回值注释和参数注释。生成的注释也许并不太合你的心意，但是修改它总比完全重新写它要省时得多。生成的注释会直接保存到文档，而不会在源文件中显示出来，可以调用CommentDetail全部调出来并修改它。不管有多少成员变量，都会一次性生成注释。已经修改并保存的注释，不会重新生成，以免删掉了你的工作成果。
+				</p>
+                <p>&nbsp;&nbsp;&nbsp; DocCleanUp 文档整理，这个功能会把多余的文档删掉，比如说函数已经删除了，调用这个命令就会把相关的文档删除。另外，这个命令会把文档按函数声明的顺序重排序。如果你看到文档有些混乱，就调用这个命令试一下。 
+		    	</p>
+                </td>
+            </tr>
+            <tr>
+              <td height="30"></td>
+            </tr>
+            <tr>
+              <td align="right"><a href="index.htm">返回目录页</a>&nbsp;&nbsp;  
+                下一节：<a href="mini.htm">还有一些小玩意，喜欢吗？</a></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+  </center>
+</div>
+<script language="javascript" src="/js/tail.js"></script>
+</body>
+
+</html>

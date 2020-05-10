@@ -1,0 +1,8 @@
+LIBRARY	"TestDll"
+
+EXPORTS
+	DoInitalize
+	DoCommand
+	DoEnd
+
+	SetContext

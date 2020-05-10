@@ -1,0 +1,92 @@
+;;;
+;;; KSfilter
+;;;
+;;;
+;;; Copyright (c) 2000, Microsoft Corporation
+;;;
+
+[Version]
+signature  	= "$Windows NT$"
+Class		= "ActivityMonitor"				;This is determined by the work this filter driver does
+ClassGuid 	= {b86dff51-a31e-4bac-b3cf-e8cfe75c9fc2}	;This value is determined by the Class
+Provider 	= %Msft%
+DriverVer 	= 08/28/2000,1.0.0.1
+CatalogFile     = KSfilter.cat                                   ; A CatalogFile entry is required for a WHQL signature.
+                                                                ; The actual catalog file will be provided by WHQL.  The
+                                                                ; catalog file for this sample is not provided for use.
+[DestinationDirs]
+DefaultDestDir	         = 12
+KSfilter.DriverFiles      = 12 			;%windir%\system32\drivers
+
+[SourceDisksNames]
+1 = %Disk1%
+
+[SourceDisksFiles]
+KSfilter.sys = 1
+
+;;
+;; Default install sections
+;;
+
+[DefaultInstall]
+OptionDesc          = %KSfilterServiceDesc%
+CopyFiles           = KSfilter.DriverFiles
+
+[DefaultInstall.Services]
+AddService          = %KSfilterServiceName%,,KSfilter.Service
+AddReg              = KSfilter.AddRegistry
+
+;;
+;; Default uninstall sections
+;;
+
+[DefaultUninstall]
+DelFiles   = KSfilter.DriverFiles
+DelReg     = KSfilter.DelRegistry
+
+[DefaultUninstall.Services]
+DelService = KSfilter,0x200		; Flags note to stop service first
+
+;
+; Services Section
+;
+
+[KSfilter.Service]
+DisplayName      = %KSfilterServiceName%
+Description      = %KSfilterServiceDesc%
+ServiceBinary    = %12%\KSfilter.sys		;%windir%\system32\drivers\KSfilter.sys
+ServiceType      = 2					;SERVICE_FILE_SYSTEM_DRIVER
+StartType        = 0					;SERVICE_BOOT_START
+ErrorControl     = 1					;SERVICE_ERROR_NORMAL
+LoadOrderGroup   = "filter"
+AddReg			 = KSfilter.AddRegistry
+
+;
+; Registry Modifications
+;
+
+[KSfilter.AddRegistry]
+HKLM,%KSfilterRegistry%,%KSfilterDebugFlags%,0x00010001 ,0
+
+[KSfilter.DelRegistry]
+HKLM,%KSfilterRegistry%,%KSfilterDebugFlags%
+
+;
+; Copy Files
+;
+
+[KSfilter.DriverFiles]
+KSfilter.sys
+
+;;
+;; String Section
+;;
+
+[Strings]
+Msft	            = "Microsoft Corporation"
+KSfilterServiceDesc  = "KSfilter Filter Driver"
+KSfilterServiceName  = "KSfilter"
+KSfilterRegistry     = "system\currentcontrolset\services\KSfilter"
+KSfilterDebugFlags   = "DebugFlags"
+Disk1               = "KSfilter Source Media"
+

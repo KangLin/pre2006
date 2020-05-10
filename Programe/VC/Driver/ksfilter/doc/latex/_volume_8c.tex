@@ -1,0 +1,64 @@
+\section{Volume.c文件参考}
+\label{_volume_8c}\index{Volume.c@{Volume.c}}
+{\tt \#include \char`\"{}sfilter.h\char`\"{}}\par
+
+
+Volume.c包含/依赖关系图：\subsection*{函数}
+\begin{CompactItemize}
+\item 
+NTSTATUS {\bf Sf\-Is\-Shadow\-Copy\-Volume} (IN PDEVICE\_\-OBJECT Storage\-Stack\-Device\-Object, OUT PBOOLEAN Is\-Shadow\-Copy)
+\item 
+NTSTATUS {\bf Sf\-Attach\-To\-Mounted\-Device} (IN PDEVICE\_\-OBJECT Device\-Object, IN PDEVICE\_\-OBJECT SFilter\-Device\-Object)
+\item 
+NTSTATUS {\bf Sf\-Fs\-Control\-Mount\-Volume\-Complete} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp, IN PDEVICE\_\-OBJECT New\-Device\-Object)
+\item 
+NTSTATUS {\bf Sf\-Fs\-Control\-Mount\-Volume} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\end{CompactItemize}
+
+
+\subsection{函数文档}
+\index{Volume.c@{Volume.c}!SfAttachToMountedDevice@{SfAttachToMountedDevice}}
+\index{SfAttachToMountedDevice@{SfAttachToMountedDevice}!Volume.c@{Volume.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Attach\-To\-Mounted\-Device (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PDEVICE\_\-OBJECT {\em SFilter\-Device\-Object})}\label{_volume_8c_ad03c618eb6579155ef804653bd91a2a}
+
+
+
+
+在文件Volume.c第225行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、DELAY\_\-ONE\_\-MILLISECOND、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、IS\_\-MY\_\-DEVICE\_\-OBJECT、SF\_\-LOG\_\-PRINT、Sf\-Attach\-Device\-To\-Device\-Stack()、SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES及Sf\-Is\-Attached\-To\-Device().
+
+参考自 Sf\-Fs\-Control\-Mount\-Volume\-Complete().\index{Volume.c@{Volume.c}!SfFsControlMountVolume@{SfFsControlMountVolume}}
+\index{SfFsControlMountVolume@{SfFsControlMountVolume}!Volume.c@{Volume.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Fs\-Control\-Mount\-Volume (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{_volume_8c_ffe498b3f7934ac0f937d1e7bfd9377d}
+
+
+
+
+在文件Volume.c第500行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Link\-Symbol\-Name、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Link\-Symbol\-Name\-Buffer、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name\-Buffer、\_\-FSCTRL\_\-COMPLETION\_\-CONTEXT::Device\-Object、g\-SFilter\-Driver\-Object、\_\-FSCTRL\_\-COMPLETION\_\-CONTEXT::Irp、IS\_\-DESIRED\_\-DEVICE\_\-TYPE、IS\_\-MY\_\-DEVICE\_\-OBJECT、MAX\_\-DEVNAME\_\-LENGTH、\_\-FSCTRL\_\-COMPLETION\_\-CONTEXT::New\-Device\-Object、SF\_\-LOG\_\-PRINT、Sf\-Debug、SFDEBUG\_\-ATTACH\_\-TO\_\-SHADOW\_\-COPIES、SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES、Sf\-Fs\-Control\-Completion()、Sf\-Fs\-Control\-Mount\-Volume\-Complete()、Sf\-Fs\-Control\-Mount\-Volume\-Complete\-Worker()、Sf\-Get\-Object\-Name()、Sf\-Is\-Shadow\-Copy\-Volume()、SFLT\_\-POOL\_\-TAG、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Storage\-Stack\-Device\-Object、Volume\-Device\-To\-Dos\-Name()及\_\-FSCTRL\_\-COMPLETION\_\-CONTEXT::Work\-Item.
+
+参考自 Sf\-Fs\-Control().\index{Volume.c@{Volume.c}!SfFsControlMountVolumeComplete@{SfFsControlMountVolumeComplete}}
+\index{SfFsControlMountVolumeComplete@{SfFsControlMountVolumeComplete}!Volume.c@{Volume.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Fs\-Control\-Mount\-Volume\-Complete (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp}, IN PDEVICE\_\-OBJECT {\em New\-Device\-Object})}\label{_volume_8c_532367b2d2da69a7faa65cc0bf854349}
+
+
+
+
+在文件Volume.c第328行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、g\-Sfilter\-Attach\-Lock、SF\_\-LOG\_\-PRINT、Sf\-Attach\-To\-Mounted\-Device()、Sf\-Cleanup\-Mounted\-Device()、SFDEBUG\_\-DISPLAY\_\-ATTACHMENT\_\-NAMES、Sf\-Is\-Attached\-To\-Device()及\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Storage\-Stack\-Device\-Object.
+
+参考自 Sf\-Fs\-Control\-Mount\-Volume()及Sf\-Fs\-Control\-Mount\-Volume\-Complete\-Worker().\index{Volume.c@{Volume.c}!SfIsShadowCopyVolume@{SfIsShadowCopyVolume}}
+\index{SfIsShadowCopyVolume@{SfIsShadowCopyVolume}!Volume.c@{Volume.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Is\-Shadow\-Copy\-Volume (IN PDEVICE\_\-OBJECT {\em Storage\-Stack\-Device\-Object}, OUT PBOOLEAN {\em Is\-Shadow\-Copy})}\label{_volume_8c_87259c2d52020c1a86319233f2be2354}
+
+
+
+
+在文件Volume.c第16行定义。
+
+参考 Add2Ptr及MAX\_\-DEVNAME\_\-LENGTH.
+
+参考自 Sf\-Fs\-Control\-Mount\-Volume().

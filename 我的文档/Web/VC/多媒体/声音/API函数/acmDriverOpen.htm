@@ -1,0 +1,76 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>acmDriverOpen</title>
+</head>
+
+<body>
+
+<h1 align="center">acmDriverOpen</h1>
+<p align="center">康&nbsp; 林</p>
+<p>打开一个指定的 ACM 驱动程序并返回一个驱动程序实例的句柄。</p>
+<pre><code><b>MMRESULT acmDriverOpen(
+  LPHACMDRIVER</b><i> phad</i><b>,  </b>
+<b>  HACMDRIVERID</b><i> hadid</i><b>, </b>
+<b>  DWORD</b><i> fdwOpen       </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>phad</i> </dt>
+	<dd>返回一个新的驱动程序实例的句柄。 
+	</dd>
+	<dt><i>hadid</i> </dt>
+	<dd>一个已安装的并已激活的 ACM 驱动程序的标识符句柄。 
+	</dd>
+	<dt><i>fdwOpen</i> </dt>
+	<dd>保留，为0</dd>
+</dl>
+<h4>返回值：</h4>
+<p>如果成功返回0，否则返回其它值，可能是下列值： </p>
+<table cellSpacing="4" cols="2">
+	<tr vAlign="top">
+		<th align="left" width="48%">Value</th>
+		<th align="left" width="52%">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_INVALFLAG</td>
+		<td width="52%">At least one flag is invalid.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_INVALHANDLE</td>
+		<td width="52%">The specified handle is invalid.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_INVALPARAM</td>
+		<td width="52%">At least one parameter is invalid.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_NOMEM</td>
+		<td width="52%">The system is unable to allocate resources.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="48%">MMSYSERR_NOTENABLED</td>
+		<td width="52%">The driver is not enabled.</td>
+	</tr>
+</table>
+<br>
+　<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in msacm.h.<br>
+<b>&nbsp;&nbsp;Import Library: </b>Use msacm32.lib.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/audcomp_3kc2.htm">
+Audio Compression Manager Overview</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/audcomp_6x9v.htm">
+Audio Compression Functions</a> </p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

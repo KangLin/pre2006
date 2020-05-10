@@ -1,0 +1,21 @@
+struct a
+{
+    char b;
+    int c;
+};
+
+union g
+{
+     char m;
+     char n;
+};
+
+struct{
+int aa;
+int bb,bbb;
+};
+
+union {
+int cc;
+int ok,okok;
+}

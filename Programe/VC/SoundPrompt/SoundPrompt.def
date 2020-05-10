@@ -1,0 +1,9 @@
+; SoundPrompt.def : Declares the module parameters for the DLL.
+
+LIBRARY      "SoundPrompt"
+DESCRIPTION  'SoundPrompt Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+    InstallHook
+	UnInstallHook

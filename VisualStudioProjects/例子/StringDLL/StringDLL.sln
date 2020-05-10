@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StringDLL", "StringDLL.vcproj", "{83554AC0-79D1-42D9-9C8B-3DE53CF6C07A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "StringDLLVB", "..\StringDLLVB\StringDLLVB.vbproj", "{29586F15-EBD0-46D8-B784-8C3FD1FEE369}"
+	ProjectSection(ProjectDependencies) = postProject
+		{83554AC0-79D1-42D9-9C8B-3DE53CF6C07A} = {83554AC0-79D1-42D9-9C8B-3DE53CF6C07A}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{83554AC0-79D1-42D9-9C8B-3DE53CF6C07A}.Debug.ActiveCfg = Debug|Win32
+		{83554AC0-79D1-42D9-9C8B-3DE53CF6C07A}.Debug.Build.0 = Debug|Win32
+		{83554AC0-79D1-42D9-9C8B-3DE53CF6C07A}.Release.ActiveCfg = Release|Win32
+		{83554AC0-79D1-42D9-9C8B-3DE53CF6C07A}.Release.Build.0 = Release|Win32
+		{29586F15-EBD0-46D8-B784-8C3FD1FEE369}.Debug.ActiveCfg = Debug|.NET
+		{29586F15-EBD0-46D8-B784-8C3FD1FEE369}.Debug.Build.0 = Debug|.NET
+		{29586F15-EBD0-46D8-B784-8C3FD1FEE369}.Release.ActiveCfg = Release|.NET
+		{29586F15-EBD0-46D8-B784-8C3FD1FEE369}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

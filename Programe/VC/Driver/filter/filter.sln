@@ -1,0 +1,26 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ksfilter", "sys\ksfilter.vcproj", "{BCF2E1F4-65DF-48CF-8E24-309BF1827F4A}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 2
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = sys\\ksfilter.vcproj
+		SccLocalPath1 = .
+		SccProjectFilePathRelativizedFromConnection1 = sys\\
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Checked|Win32 = Checked|Win32
+		Free|Win32 = Free|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BCF2E1F4-65DF-48CF-8E24-309BF1827F4A}.Checked|Win32.ActiveCfg = Checked|Win32
+		{BCF2E1F4-65DF-48CF-8E24-309BF1827F4A}.Checked|Win32.Build.0 = Checked|Win32
+		{BCF2E1F4-65DF-48CF-8E24-309BF1827F4A}.Free|Win32.ActiveCfg = Free|Win32
+		{BCF2E1F4-65DF-48CF-8E24-309BF1827F4A}.Free|Win32.Build.0 = Free|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

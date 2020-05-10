@@ -1,0 +1,35 @@
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
+#include "stdafx.h"
+#include "<DocumentName>.h"
+
+/////////////////////////////////////////////////////////////////////////////
+<ImplementMacro>
+
+<ClassName>::<ClassName>()
+{
+
+}
+
+<ClassName>::~<ClassName>()
+{
+
+}
+
+<SerialFunctionImplement>
+#ifdef _DEBUG
+void <ClassName>::AssertValid() const
+{
+	<BaseClassName>::AssertValid();
+}
+
+void <ClassName>::Dump(CDumpContext& dc) const
+{
+	<BaseClassName>::Dump(dc);
+}
+#endif
+

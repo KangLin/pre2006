@@ -1,0 +1,59 @@
+1、捕获连接后能否再进行捕获视频格式的设置。主要是设置宽度和高度，用以与播放窗口相同。
+
+答:在开始捕获操作后不能调整捕获参数(包括视频格式...)。如果要改变捕获参数，那么要先取消捕获操作(capCaptureAbort)，然后再设置捕获参数(capCaptureSetSetup)。
+
+2、在容器类中调用 
+void CVvDlg::OnDestroy() 
+{
+	CDialog::OnDestroy();
+	
+        delete m_PlayVideoWnd
+	// TODO: Add your message handler code here
+	
+}
+
+出现：Warning: calling DestroyWindow in CWnd::~CWnd; OnDestroy or PostNcDestroy in derived class will not be called.
+
+改为：
+void CVvDlg::OnDestroy() 
+{
+	CDialog::OnDestroy();
+        ::SendMessage(m_PlayVideoWnd->GetSafeHwnd(), WM_CLOSE, NULL, NULL);	
+	//m_playvideownd->CloseWindow();//用这个却不行
+        delete m_PlayVideoWnd
+	// TODO: Add your message handler code here
+	
+}
+无上面提示。
+
+3、一个捕获设备是否能够连接多个捕获窗口？
+答：不行，一个捕获设备只能连接一个捕获窗口，否则，产生异常。
+
+4、保护成员 m_pOut 在子类中不能 delete m_pOut.
+CPlayVideoWnd::CPlayVideoWnd()
+{
+	m_VideoCapture = NULL;
+                                  
+	if(m_pOut)           
+		delete []m_pOut;  =====>删除不了
+	m_pOut = new BYTE[2048];
+	
+}
+
+在期父类中删除出错
+CDisplayWnd::~CDisplayWnd()
+{
+	if(m_hdib != NULL)
+	{
+		if(!::DrawDibEnd(m_hdib))
+		{
+			TRACE(_T("DrawDibEnd失败!\n"));
+		}
+	    if(!::DrawDibClose(m_hdib))
+		{
+			TRACE(_T("DrawDibClose失败!\n"));
+		}
+	}
+
+	delete []m_pOut; ======>出错
+}

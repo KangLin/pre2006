@@ -1,0 +1,234 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>对话框</title>
+<link rel="stylesheet" type="text/css" href="../../../Scrpit/样式.css">
+<script language="vbscript" src="../../../Scrpit/webscrpit.bas"></script>
+</head>
+
+<body>
+
+<p align="center"><b><font size="5">对&nbsp; 话&nbsp; 框</font></b> </p>
+<p align="center">作者:康  林</p>
+<p><span class="ShowLink" onclick="Call Show(DirDialog)"><a name="显示浏览文件夹对话框">显示浏览文件夹对话框</a></span></p>
+<p>调用 <a href="../Shell编程/Shell函数/SHBrowseForFolder.htm">SHBrowseForFolder</a> 
+函数显示系统的浏览文件夹对话框。</p>
+<table border="1" id="DirDialog"  style="display:none" class ="TableStyle">
+	<tr>
+		<td>
+		//方法一:直接调用 SHBrowseForFolder 函数。<br>
+		/*******************************************************************************************************<br>
+		函数名：ShowBrowseFolderDialog<br>
+		功 能：显示浏览文件夹对话框<br>
+		参 数：<br>
+		HWND hWnd：窗口句柄<br>
+		返回值：如果成功,返回文件夹的路径,如果失败返回空字符串.<br>
+		作 者：康 林<br>
+		版 本：1.0.0.1<br>
+		日 期：2004-10-31<br>
+		时 间：10:25:26<br>
+		*******************************************************************************************************/<br>
+		CString ShowBrowseFolderDialog(HWND hWnd) <br>
+		{<br>
+&nbsp;&nbsp;&nbsp; BROWSEINFO bi;<br>
+&nbsp;&nbsp;&nbsp; TCHAR dispname[MAX_PATH], path[MAX_PATH];<br>
+&nbsp;&nbsp;&nbsp; ITEMIDLIST *pidl;<br>
+		<br>
+&nbsp;&nbsp;&nbsp; bi.hwndOwner = hWnd;<br>
+&nbsp;&nbsp;&nbsp; bi.pidlRoot = 0;<br>
+&nbsp;&nbsp;&nbsp; bi.pszDisplayName = dispname;<br>
+&nbsp;&nbsp;&nbsp; bi.lpszTitle = &quot;请选择查找目录：&quot;;<br>
+&nbsp;&nbsp;&nbsp; bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_EDITBOX | 
+		BIF_DONTGOBELOWDOMAIN;<br>
+&nbsp;&nbsp;&nbsp; bi.lpfn = 0;<br>
+&nbsp;&nbsp;&nbsp; bi.lParam = 0;<br>
+&nbsp;&nbsp;&nbsp; bi.iImage = 0;<br>
+&nbsp;&nbsp;&nbsp; if(pidl = SHBrowseForFolder(&amp;bi))<br>
+&nbsp;&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="../Shell编程/Shell函数/SHGetPathFromIDList.htm">SHGetPathFromIDList</a>(pidl, 
+		path);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return CString(path);<br>
+&nbsp;&nbsp;&nbsp; } <br>
+&nbsp;&nbsp;&nbsp; CString str;<br>
+&nbsp;&nbsp;&nbsp; str.Empty();<br>
+&nbsp;&nbsp;&nbsp; return str;<br>
+		}</td>
+	</tr>
+	<tr>
+		<td>
+		//<b>方法二</b>:建立一个类<br>
+		////////////////////////////////////////////////////////////////////////<br>
+		// DirDialog.h: interface for the CDirDialog class.<br>
+		//<br>
+		//////////////////////////////////////////////////////////////////////<br>
+		<br>
+		#if 
+		!defined(AFX_DIRDIALOG_H__62FFAC92_1DEE_11D1_B87A_0060979CDF6D__INCLUDED_)<br>
+		#define AFX_DIRDIALOG_H__62FFAC92_1DEE_11D1_B87A_0060979CDF6D__INCLUDED_<br>
+		<br>
+		#if _MSC_VER &gt;= 1000<br>
+		#pragma once<br>
+		#endif // _MSC_VER &gt;= 1000<br>
+		<br>
+		class CDirDialog<br>
+		{<br>
+		public:<br>
+		CDirDialog();<br>
+		virtual ~CDirDialog();<br>
+		int DoBrowse(CWnd *pwndParent);<br>
+		<br>
+		CString m_strPath;<br>
+		CString m_strInitDir;<br>
+		CString m_strSelDir;<br>
+		CString m_strWindowTitle;<br>
+		int m_iImageIndex;<br>
+		};<br>
+		<br>
+		#endif // 
+		!defined(AFX_DIRDIALOG_H__62FFAC92_1DEE_11D1_B87A_0060979CDF6D__INCLUDED_)</td>
+	</tr>
+	<tr>
+		<td>
+		///////////////////////////////////////////////////////////////////////////<br>
+		// DirDialog.cpp: implementation of the CDirDialog class.<br>
+		//////////////////////////////////////////////////////////////////////<br>
+		<br>
+		#include &quot;stdafx.h&quot;<br>
+		#include &quot;DirDialog.h&quot;<br>
+		<br>
+		// local includes for implementation<br>
+		#include &lt;shlobj.h&gt;<br>
+		<br>
+		#ifdef _DEBUG<br>
+		#undef THIS_FILE<br>
+		static char THIS_FILE[]=__FILE__;<br>
+		#define new DEBUG_NEW<br>
+		#endif<br>
+		<br>
+		// Callback function called by SHBrowseForFolder's browse control<br>
+		// after initialization and when selection changes<br>
+		static int __stdcall BrowseCtrlCallback(HWND hwnd, UINT uMsg, LPARAM 
+		lParam, LPARAM lpData)<br>
+		{<br>
+		CDirDialog* pDirDialogObj = (CDirDialog*)lpData;<br>
+		if (uMsg == BFFM_INITIALIZED )<br>
+		{<br>
+		if( ! pDirDialogObj-&gt;m_strSelDir.IsEmpty() )<br>
+		::SendMessage(hwnd, BFFM_SETSELECTION, TRUE, 
+		(LPARAM)(LPCTSTR)(pDirDialogObj-&gt;m_strSelDir));<br>
+		}<br>
+		::SendMessage(hwnd, BFFM_ENABLEOK, 0, TRUE);<br>
+		return 0;<br>
+		}<br>
+		<br>
+		//////////////////////////////////////////////////////////////////////<br>
+		// Construction/Destruction<br>
+		//////////////////////////////////////////////////////////////////////<br>
+		<br>
+		CDirDialog::CDirDialog()<br>
+		{<br>
+		m_strWindowTitle = _T(&quot;选择目标文件夹&quot;);<br>
+		}<br>
+		<br>
+		CDirDialog::~CDirDialog()<br>
+		{<br>
+		}<br>
+		<br>
+		BOOL CDirDialog::DoBrowse(CWnd *pwndParent/*=NULL*/)<br>
+		{<br>
+		<br>
+		if( ! m_strSelDir.IsEmpty() )<br>
+		{<br>
+		m_strSelDir.TrimRight();<br>
+		if( m_strSelDir.Right(1) == &quot;\\&quot; || m_strSelDir.Right(1) == &quot;//&quot; )<br>
+		m_strSelDir = m_strSelDir.Left(m_strSelDir.GetLength() - 1);<br>
+		}<br>
+		<br>
+		LPMALLOC pMalloc;<br>
+		if (SHGetMalloc (&amp;pMalloc)!= NOERROR)<br>
+		return FALSE;<br>
+		<br>
+		BROWSEINFO bInfo;<br>
+		LPITEMIDLIST pidl;<br>
+		ZeroMemory ( (PVOID) &amp;bInfo,sizeof (BROWSEINFO));<br>
+		<br>
+		if (!m_strInitDir.IsEmpty ())<br>
+		{<br>
+		OLECHAR olePath[MAX_PATH];<br>
+		ULONG chEaten;<br>
+		ULONG dwAttributes;<br>
+		HRESULT hr;<br>
+		LPSHELLFOLDER pDesktopFolder;<br>
+		//<br>
+		// Get a pointer to the Desktop's IShellFolder interface.<br>
+		//<br>
+		if (SUCCEEDED(SHGetDesktopFolder(&amp;pDesktopFolder)))<br>
+		{<br>
+		//<br>
+		// IShellFolder::ParseDisplayName requires the file name be in Unicode.<br>
+		//<br>
+		MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, 
+		m_strInitDir.GetBuffer(MAX_PATH), -1,<br>
+		olePath, MAX_PATH);<br>
+		<br>
+		m_strInitDir.ReleaseBuffer (-1);<br>
+		//<br>
+		// Convert the path to an ITEMIDLIST.<br>
+		//<br>
+		hr = pDesktopFolder-&gt;ParseDisplayName(NULL,<br>
+		NULL,<br>
+		olePath,<br>
+		&amp;chEaten,<br>
+		&amp;pidl,<br>
+		&amp;dwAttributes);<br>
+		if (FAILED(hr))<br>
+		{<br>
+		pMalloc -&gt;Free (pidl);<br>
+		pMalloc -&gt;Release ();<br>
+		return FALSE;<br>
+		}<br>
+		bInfo.pidlRoot = pidl;<br>
+		<br>
+		}<br>
+		}<br>
+		bInfo.hwndOwner = pwndParent == NULL ? NULL : pwndParent-&gt;GetSafeHwnd();<br>
+		bInfo.pszDisplayName = m_strPath.GetBuffer (MAX_PATH);<br>
+		bInfo.lpszTitle = m_strWindowTitle;<br>
+		bInfo.ulFlags = BIF_RETURNFSANCESTORS<br>
+		| BIF_RETURNONLYFSDIRS<br>
+		| (FALSE/*m_bStatus*/ ? BIF_STATUSTEXT : 0);<br>
+		<br>
+		bInfo.lpfn = BrowseCtrlCallback; // address of callback function<br>
+		bInfo.lParam = (LPARAM)this; // pass address of object to callback 
+		function<br>
+		<br>
+		if ((pidl = ::SHBrowseForFolder(&amp;bInfo)) == NULL)<br>
+		{<br>
+		return FALSE;<br>
+		}<br>
+		m_strPath.ReleaseBuffer();<br>
+		m_iImageIndex = bInfo.iImage;<br>
+		<br>
+		if (::SHGetPathFromIDList(pidl, m_strPath.GetBuffer(MAX_PATH)) == FALSE)<br>
+		{<br>
+		pMalloc -&gt;Free(pidl);<br>
+		pMalloc -&gt;Release();<br>
+		return FALSE;<br>
+		}<br>
+		<br>
+		m_strPath.ReleaseBuffer();<br>
+		<br>
+		pMalloc -&gt;Free(pidl);<br>
+		pMalloc -&gt;Release();<br>
+		<br>
+		return TRUE;<br>
+		}</td>
+	</tr>
+</table>
+
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>capCaptureGetSetup</title>
+</head>
+
+<body>
+
+<h1 align="center">capCaptureGetSetup</h1>
+<p align="center">康&nbsp; 林</p>
+<p>你能用此宏或者明确发送 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_2w1c.htm">
+WM_CAP_GET_SEQUENCE_SETUP</a> 消息，得到当前捕获流的参数设置。</p>
+<pre><code><b>BOOL capCaptureGetSetup(
+ </b><i> hwnd</i><b>,  </b>
+<b> </b><i> s</i><b>,     </b>
+<b> </b><i> wSize  </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>hwnd</i> </dt>
+	<dd>捕获窗口的句柄。</dd>
+	<dt><i>s</i> </dt>
+	<dd>&nbsp;<b><a href="../结构.htm#CAPTUREPARMS">CAPTUREPARMS</a></b> 
+	结构地址。</dd>
+	<dt>　</dt>
+	<dt><i>wSize</i> </dt>
+	<dd><i>s</i> 结构的大小，单位：字节。</dd>
+</dl>
+<h4>返回值：</h4>
+<p>成功返回TRUE，否则返回FALSE。</p>
+<h4>注释：</h4>
+<p>参数信息将用于控制捕获流。<b>看 <a href="../结构.htm#CAPTUREPARMS">CAPTUREPARMS</a></b> 
+结构。</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in vfw.h.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_8xyd.htm">
+Video Capture Overview</a>, <a href="index.htm">Video Capture Macros</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_6eia.htm">
+<b>CAPTUREPARMS</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_2w1c.htm">
+WM_CAP_GET_SEQUENCE_SETUP</a></p>
+
+</body>
+
+</html>

@@ -1,0 +1,273 @@
+\section{Array.c文件参考}
+\label{_array_8c}\index{Array.c@{Array.c}}
+process array data struct 
+
+{\tt \#include \char`\"{}Array.h\char`\"{}}\par
+
+
+Array.c包含/依赖关系图：\subsection*{函数}
+\begin{CompactItemize}
+\item 
+INT {\bf Initial\-Array} ({\bf PARRAYHEAD} p\-Root)
+\begin{CompactList}\small\item\em Initial Array \item\end{CompactList}\item 
+INT {\bf Clear\-Array} ({\bf PARRAYHEAD} p\-Root, {\bf CLEARDATA} Clear\-Call\-Back)
+\begin{CompactList}\small\item\em Clear Array \item\end{CompactList}\item 
+INT {\bf Adjust\-Array} ({\bf PARRAYHEAD} p\-Root, INT n\-Num)
+\begin{CompactList}\small\item\em Adjust Array size.If the buffer of array is too small. reallocate bigest buffer.and move old array data to new buffer. \item\end{CompactList}\item 
+INT {\bf Append\-Element\-Array} ({\bf PARRAYHEAD} p\-Root, PDATASTRUCT p\-Element)
+\begin{CompactList}\small\item\em Append Element to Array \item\end{CompactList}\item 
+INT {\bf Remove\-Element\-Array} ({\bf PARRAYHEAD} p\-Root, INT n\-Pos, {\bf CLEARDATA} Clear\-Call\-Back)
+\begin{CompactList}\small\item\em Remove Element from Array \item\end{CompactList}\item 
+PDATASTRUCT {\bf Get\-Element\-Array} ({\bf PARRAYHEAD} p\-Root, INT n\-Pos)
+\begin{CompactList}\small\item\em Get Element in Array \item\end{CompactList}\item 
+INT {\bf Insert\-Element\-Array} ({\bf PARRAYHEAD} p\-Root, PDATASTRUCT p\-Element, {\bf CHECKIFEQUAL} Call\-Back)
+\item 
+INT {\bf Replace\-Element\-Array} ({\bf PARRAYHEAD} p\-Root, PDATASTRUCT p\-Element, INT n\-Pos)
+\begin{CompactList}\small\item\em Replace the Element of pointed position in Array \item\end{CompactList}\item 
+INT {\bf Search\-Element\-Array} ({\bf PARRAYHEAD} p\-Root, PDATASTRUCT p\-Element, {\bf CHECKIFEQUAL} Call\-Back)
+\item 
+INT {\bf Delete\-Element\-Array} ({\bf PARRAYHEAD} p\-Root, PDATASTRUCT p\-Element, {\bf CHECKIFEQUAL} Call\-Back, {\bf CLEARDATA} Clear\-Call\-Back)
+\begin{CompactList}\small\item\em 从数组中删除指定的元素 \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{详细描述}
+process array data struct 
+
+\begin{Desc}
+\item[警告:]Copyright (C) 2007 Kang\-Lin Studio;All rights reserved.\end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin ({\tt kl222@126.com}) \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-13 18:55:29 \end{Desc}
+\begin{Desc}
+\item[Compiler:]Microsoft Visual Studio 8.0 —— C/C++ 8.0 \end{Desc}
+
+
+在文件{\bf Array.c}中定义。
+
+\subsection{函数文档}
+\index{Array.c@{Array.c}!AdjustArray@{AdjustArray}}
+\index{AdjustArray@{AdjustArray}!Array.c@{Array.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Adjust\-Array ({\bf PARRAYHEAD} {\em p\-Root}, INT {\em n\-Num})}\label{_array_8c_ab1fc7e0c26c7b3ba6b83a9c6a0188cc}
+
+
+Adjust Array size.If the buffer of array is too small. reallocate bigest buffer.and move old array data to new buffer. 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PARRAYHEAD}]p\-Root： \item[{\em INT}]n\-Num ： \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 INT 。If success, return 0. otherwise don't return zero. \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-15 13:38:17 \end{Desc}
+
+
+在文件Array.c第84行定义。
+
+参考 ALLOCATEBLOCKSZIE、Allocate\-Buffer()、DATASTRUCT、Free\-Buffer()、INT、Move\-Buffer()、\_\-ARRAYHEAD::n\-Element\-Number、\_\-ARRAYHEAD::n\-Total\-Size、\_\-ARRAYHEAD::p\-Array及PDATASTRUCT.
+
+参考自 Append\-Element\-Array()及Insert\-Element\-Array().\index{Array.c@{Array.c}!AppendElementArray@{AppendElementArray}}
+\index{AppendElementArray@{AppendElementArray}!Array.c@{Array.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Append\-Element\-Array ({\bf PARRAYHEAD} {\em p\-Root}, PDATASTRUCT {\em p\-Element})}\label{_array_8c_856ee3393737080c4ad4b03b3ee19f8f}
+
+
+Append Element to Array 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PARRAYHEAD}]p\-Root ： \item[{\em PDATASTRUCT}]p\-Element： \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 INT 。If success, return 0. otherwise don't return zero. \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-15 13:42:14 \end{Desc}
+
+
+在文件Array.c第146行定义。
+
+参考 Adjust\-Array()、DATASTRUCT、INT、Move\-Buffer()、\_\-ARRAYHEAD::n\-Element\-Number、\_\-ARRAYHEAD::p\-Array及PDATASTRUCT.\index{Array.c@{Array.c}!ClearArray@{ClearArray}}
+\index{ClearArray@{ClearArray}!Array.c@{Array.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Clear\-Array ({\bf PARRAYHEAD} {\em p\-Root}, {\bf CLEARDATA} {\em Clear\-Call\-Back})}\label{_array_8c_21c6904a41dcca6d79fea887bd13e505}
+
+
+Clear Array 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PARRAYHEAD}]p\-Root ： \item[{\em CLEARDATA}]Clear\-Call\-Back： \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]INT 。If success, return 0, otherwise, don't return zero. \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-15 13:36:11 \end{Desc}
+
+
+在文件Array.c第46行定义。
+
+参考 Clear\-Call\-Back()、Free\-Buffer()、Get\-Element\-Array()、Initial\-Array()、INT、\_\-ARRAYHEAD::n\-Element\-Number、\_\-ARRAYHEAD::p\-Array及PDATASTRUCT.\index{Array.c@{Array.c}!DeleteElementArray@{DeleteElementArray}}
+\index{DeleteElementArray@{DeleteElementArray}!Array.c@{Array.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Delete\-Element\-Array ({\bf PARRAYHEAD} {\em p\-Root}, PDATASTRUCT {\em p\-Element}, {\bf CHECKIFEQUAL} {\em Call\-Back}, {\bf CLEARDATA} {\em Clear\-Call\-Back})}\label{_array_8c_a458158788135750fe4a77c3acbd1f47}
+
+
+从数组中删除指定的元素 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PARRAYHEAD}]p\-Root ：数组指针 \item[{\em PDATASTRUCT}]p\-Element ：要删除元素的指针 \item[{\em CHECKIFEQUAL}]Call\-Back ：比较数组中的元素与要删除元素的回调函数 \item[{\em CLEARDATA}]Clear\-Call\-Back：删除元素时的清除回调函数，用于释放数组中被删除元素的内存空间 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 INT 。成功返回0，失败返回非零。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-13 18:48:00 \end{Desc}
+
+
+在文件Array.c第387行定义。
+
+参考 INT、Remove\-Element\-Array()及Search\-Element\-Array().
+
+参考自 Remove\-Element().\index{Array.c@{Array.c}!GetElementArray@{GetElementArray}}
+\index{GetElementArray@{GetElementArray}!Array.c@{Array.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}PDATASTRUCT Get\-Element\-Array ({\bf PARRAYHEAD} {\em p\-Root}, INT {\em n\-Pos})}\label{_array_8c_6605ea8736b483ff970407ec5287f8b7}
+
+
+Get Element in Array 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PARRAYHEAD}]p\-Root： \item[{\em INT}]n\-Pos ： \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 PDATASTRUCT 。return the element's pointer. \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-15 13:43:43 \end{Desc}
+
+
+在文件Array.c第219行定义。
+
+参考 \_\-ARRAYHEAD::p\-Array及PDATASTRUCT.
+
+参考自 Clear\-Array()、Get\-Element()、Insert\-Element\-Array()及Search\-Element\-Array().\index{Array.c@{Array.c}!InitialArray@{InitialArray}}
+\index{InitialArray@{InitialArray}!Array.c@{Array.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Initial\-Array ({\bf PARRAYHEAD} {\em p\-Root})}\label{_array_8c_53e72fc7c88d9a6c6dd250eccafa1875}
+
+
+Initial Array 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PARRAYHEAD}]p\-Root： \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]INT 。If success,return 0 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-15 13:36:05 \end{Desc}
+
+
+在文件Array.c第24行定义。
+
+参考自 Clear\-Array()及Driver\-Entry().\index{Array.c@{Array.c}!InsertElementArray@{InsertElementArray}}
+\index{InsertElementArray@{InsertElementArray}!Array.c@{Array.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Insert\-Element\-Array ({\bf PARRAYHEAD} {\em p\-Root}, PDATASTRUCT {\em p\-Element}, {\bf CHECKIFEQUAL} {\em Call\-Back})}\label{_array_8c_15c5b0690dc068dc560af97b7464c1ec}
+
+
+
+
+在文件Array.c第246行定义。
+
+参考 Adjust\-Array()、DATASTRUCT、Get\-Element\-Array()、INT、Move\-Buffer()、\_\-ARRAYHEAD::n\-Element\-Number、\_\-ARRAYHEAD::p\-Array及PDATASTRUCT.
+
+参考自 Insert\-Element().\index{Array.c@{Array.c}!RemoveElementArray@{RemoveElementArray}}
+\index{RemoveElementArray@{RemoveElementArray}!Array.c@{Array.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Remove\-Element\-Array ({\bf PARRAYHEAD} {\em p\-Root}, INT {\em n\-Pos}, {\bf CLEARDATA} {\em Clear\-Call\-Back})}\label{_array_8c_cd090c7add513f1f7a6f2d661365345c}
+
+
+Remove Element from Array 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PARRAYHEAD}]p\-Root ： \item[{\em INT}]n\-Pos ： \item[{\em CLEARDATA}]Clear\-Call\-Back：call back function that is used compare two element. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 INT 。If success, return 0. otherwise don't return zero. \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-15 13:42:36 \end{Desc}
+
+
+在文件Array.c第173行定义。
+
+参考 Clear\-Call\-Back()、DATASTRUCT、INT、Move\-Buffer()、\_\-ARRAYHEAD::n\-Element\-Number、\_\-ARRAYHEAD::p\-Array及PDATASTRUCT.
+
+参考自 Delete\-Element\-Array().\index{Array.c@{Array.c}!ReplaceElementArray@{ReplaceElementArray}}
+\index{ReplaceElementArray@{ReplaceElementArray}!Array.c@{Array.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Replace\-Element\-Array ({\bf PARRAYHEAD} {\em p\-Root}, PDATASTRUCT {\em p\-Element}, INT {\em n\-Pos})}\label{_array_8c_87e76a4200d6e9605efb3c7fb2903c9b}
+
+
+Replace the Element of pointed position in Array 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PARRAYHEAD}]p\-Root ： \item[{\em PDATASTRUCT}]p\-Element：replacing element \item[{\em INT}]n\-Pos ：replaced position \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]INT 。if success, return 0; \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-17 9:57:08 \end{Desc}
+
+
+在文件Array.c第316行定义。
+
+参考 DATASTRUCT、INT、Move\-Buffer()、\_\-ARRAYHEAD::n\-Element\-Number、\_\-ARRAYHEAD::p\-Array及PDATASTRUCT.\index{Array.c@{Array.c}!SearchElementArray@{SearchElementArray}}
+\index{SearchElementArray@{SearchElementArray}!Array.c@{Array.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}INT Search\-Element\-Array ({\bf PARRAYHEAD} {\em p\-Root}, PDATASTRUCT {\em p\-Element}, {\bf CHECKIFEQUAL} {\em Call\-Back})}\label{_array_8c_901224d2185f0500c22330f0cfefd67c}
+
+
+
+
+在文件Array.c第344行定义。
+
+参考 Get\-Element\-Array()、INT、\_\-ARRAYHEAD::n\-Element\-Number及PDATASTRUCT.
+
+参考自 Delete\-Element\-Array()及Sf\-Is\-Disable\-Delete\-File().

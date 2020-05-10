@@ -1,0 +1,1064 @@
+'*******************************************************************************************************
+'文件名：MyMacro.dsm
+'功  能：
+'作  者：康  林
+'        版权所有  保留所有权利
+'版  本：1.0.0.1
+'日  期：2004-8-17
+'时  间：19:48:45
+
+'FileName：MyMacro.dsm
+'Function：
+'Author：  KangLin
+'          Copyright 2004 KangLin
+'Date：    2004-8-17
+'Time：    19:48:45
+'*******************************************************************************************************
+
+'常量
+Const gc_szAuthor = "康  林"  '作者
+Const gc_szEAuthor = "KangLin"
+Const gc_szCLineCommentSymbol = "//" 'C语言的行注释符
+Const gc_szMarcoLineCommentSymbol = "'" '宏的行注释符
+'注释开始符
+Const gc_szStartCommentSymbol = "/*******************************************************************************************************"
+'注释结束符
+Const gc_szEndCommentSymbol = "*******************************************************************************************************/"
+'宏注释开始符
+Const gc_szMarcoStartCommentSymbol = "'*******************************************************************************************************"
+'宏注释结束符
+Const gc_szMarcoEndCommentSymbol = "'*******************************************************************************************************"
+'完成同一功能的函数块开始符
+Const gc_szFunctionSectionStart = "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" 
+'完成同一功能的函数块结束符
+Const gc_szFunctionSectionEnd   = ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+'在函数内完成同一功能的语句块开始符
+Const gc_szSentenceSectionStart = "------------------------------------------------------------------------"
+'在函数内完成同一功能的语句块结束符
+Const gc_szSentenceSectionEnd = "------------------------------------------------------------------------"
+Const gc_szCompiler = "Visual C++ 6.0"
+'变量
+Dim g_lVersion '版本号
+
+'*******************************************************************************************************
+'函数名：GetVerSion
+'功  能：得到版本号
+'参  数：无
+'返回值：版本号
+'作  者：康  林
+'版  本：1.0
+'日  期：2004-8-17
+'时  间：18:58:32
+'*******************************************************************************************************
+Function GetVerSion()
+Dim szProjectName, szDocument, OldDocument
+Dim szProjectFullName, szProjectPath
+Dim Sel
+Set OldDocument = ActiveDocument
+szProjectName = ActiveProject.Name
+szProjectFullName = ActiveProject.FullName
+szProjectPath = GetFilePath(szProjectFullName)
+
+For Each szDocument In Documents
+    If LCase(szDocument.Name) = LCase(szProjectName & ".rc") Then
+       szDocument.Close dsSaveChangesNo
+	   Exit For
+	End If
+Next
+
+Documents.Open szProjectPath & "\" & szProjectName & ".rc", "Text"
+on error resume next
+Set Sel = ActiveDocument.Selection
+Sel.StartOfDocument
+Sel.FindText "FILEVERSION"
+Sel.SelectLine
+g_lVersion = Split(ValidCode(Sel.Text))(1)
+g_lVersion = Replace(g_lVersion, ",", ".")
+
+OldDocument.Active True
+GetVerSion = g_lVersion
+End Function
+
+'*******************************************************************************************************
+'函数名：GetFilePath
+'功  能：得到文件路径
+'参  数：
+'        ByVal szFileName：文件名
+'返回值：文件路径
+'作  者：康  林
+'版  本：1.0
+'日  期：2004-8-17
+'时  间：19:00:10
+'*******************************************************************************************************
+Function GetFilePath(ByVal szFileName)
+Dim iPos
+iPos = InstrRev(szFileName, "\")
+If iPos Then
+   GetFilePath = Left(szFileName, iPos - 1)
+End If
+End Function
+
+'*******************************************************************************************************
+'函数名：GetFileExt
+'功  能：得到文件扩展名
+'参  数：
+'        ByVal szDocName：文件名
+'返回值：文件扩展名
+'作  者：康  林
+'版  本：1.0
+'日  期：2004-8-17
+'时  间：15:18:15
+'*******************************************************************************************************
+Function GetFileExt(ByVal szDocName)
+    GetFileExt = szDocName
+	If Instr(GetFileExt, ".") > 0 Then
+	   GetFileExt = Split(GetFileExt, ".")(1)
+	Else
+	   GetFileExt = ""
+	End If
+    'GetFileExt = LCase(GetFileExt)
+End Function
+
+'*******************************************************************************************************
+'函数名：GetFileTitle
+'功  能：得到文件标题
+'参  数：
+'        ByVal szDocName：文件名
+'返回值：文件标题
+'作  者：康  林
+'版  本：1.0
+'日  期：2004-8-17
+'时  间：13:44:36
+'*******************************************************************************************************
+Function GetFileTitle(ByVal szDocName)
+    GetFileTitle = szDocName
+	If Instr(GetFileTitle, ".") > 0 Then 
+	   GetFileTitle = Split(GetFileTitle, ".")(0)
+	End If
+End Function
+
+'*******************************************************************************************************
+'函数名：DeleteSpace
+'功  能：删除多余的空格
+'参  数：
+'        ByVal szSource：源代码
+'返回值：删除多余的空格的代码
+'作  者：康  林
+'版  本：1.0
+'日  期：2004-8-17
+'时  间：15:25:37
+'*******************************************************************************************************
+'功能:
+Function DeleteSpace(ByVal szSource)
+While Instr(1, szSource, "  ") > 0
+      szSource = Replace(szSource, "  ", " ")
+Wend
+DeleteSpace = szSource
+End Function
+
+'*******************************************************************************************************
+'函数名：TrimString
+'功  能：删除前导/后导空格和回车符CHR(13)、换行符CHR(10)、制表符CHR(9)
+'参  数：
+'        ByVal szSource：源代码
+'返回值：删除前导/后导空格和回车符CHR(13)、换行符CHR(10)、制表符CHR(9)的代码
+'作  者：康  林
+'版  本：1.0
+'日  期：2004-8-17
+'时  间：15:23:37
+'*******************************************************************************************************
+Function TrimString(ByVal szSource)
+szSource = Replace(szSource, CHR(9), " ")
+szSource = Replace(szSource, " \", " ")
+szSource = Replace(szSource, CHR(13) + CHR(10), " ")
+TrimString = Trim(szSource)
+End Function
+
+'*******************************************************************************************************
+'函数名：ValidCode
+'功  能：规格化代码（去掉多余的空格、前导/后导空格和回车符CHR(13)、换行符CHR(10)、制表符CHR(9)）
+'参  数：
+'        ByVal szSource：源代码
+'返回值：规格化后的代码
+'作  者：康  林
+'版  本：1.0
+'日  期：2004-8-17
+'时  间：15:06:23
+'*******************************************************************************************************
+Function ValidCode(ByVal szSource)
+Dim szTemp, sz
+Dim iStart, iEnd
+szTemp = szSource
+Do While Instr(1, szTemp, "/*") > 0  And Instr(1, szTemp, "*/") > 0
+   sz = szTemp
+   szTemp = MatchSplitSymbol(sz, "/*", "*/")
+   If szTemp = False Then
+      Exit Do
+   End If    
+Loop
+If szTemp <> False Then
+   Do While Instr(1, szTemp, "//") > 0
+      sz = szTemp
+      szTemp = MatchSplitSymbol(sz, "//", vbCrLf)
+	  If szTemp = False Then
+         Exit Do
+	  End If
+   Loop
+End If
+If szTemp <> False Then
+   szSource = szTemp
+End If
+szSource = DeleteSpace(TrimString(szSource))
+ValidCode = szSource
+End Function
+
+'*******************************************************************************************************
+'函数名：MatchSplitSymbol
+'功  能：匹配括号
+'参  数：
+'        ByRef szSource：代码，如果匹配成功，此参数包含分隔符中间的字符（不包含分隔符）
+'        ByVal String1：分隔符1
+'        ByVal String2：分隔符2
+'返回值：如果成功，返回除去分隔符和其中的字符所剩下的字符串,否则，返回False(字符串中不包含分隔符)
+'作  者：康  林
+'版  本：1.0
+'日  期：2004-8-17
+'时  间：15:02:13
+'*******************************************************************************************************
+Function MatchSplitSymbol(ByRef szSource, ByVal String1, ByVal String2)
+Dim iStack, iCurrent, iStart, iEnd, iSP
+Dim iLen1, iLen2
+iLen1 = Len(String1)
+iLen2 = Len(String2)
+iSP = Instr(1, szSource, String1)
+iStack = iStack +1
+If iSP Then   
+   iCurrent = iSP + iLen1
+   Do While iCurrent <= Len(szSource) And iStack
+      iStart = Instr(iCurrent, szSource, String1)
+      iEnd = Instr(iCurrent, szSource, String2)
+	  If (iStart < iEnd And iStart <>0) Or (iStart <> 0 And iEnd =0) Then
+         iStack = iStack + 1
+         iCurrent = iStart + iLen1
+	  End if
+	  If (iStart > iEnd And iEnd <>0) Or (iStart = 0 And iEnd <>0) Then
+	     iStack = iStack - 1
+	     iCurrent = iEnd + iLen2
+	  End IF	  
+	  If iStart = 0 And iEnd = 0 Then
+	     Exit Do
+	  End If
+   Loop
+End if
+If iStack = 0 Then
+   MatchSplitSymbol = True
+   If iCurrent <= Len(szSource) Then
+      MatchSplitSymbol = Left(szSource, iSP -1) & Right(szSource, Len(szSource) - iCurrent + 1)
+	  szSource = Mid(szSource, iSP + iLen1, iCurrent - iLen2 - (iSP + iLen1))
+   Else
+      MatchSplitSymbol = Left(szSource, iSP -1) 
+	  szSource = Mid(szSource, iSP + iLen1, iCurrent - iLen2 - (iSP + iLen1))
+   End If
+Else
+   MatchSplitSymbol = False
+End If
+End Function
+
+'*******************************************************************************************************
+'函数名：GetFunctionName
+'功  能：得到函数名
+'参  数：
+'        szCode:代码
+'返回值：函数名
+'作  者：康  林
+'版  本：1.0
+'日  期：2004-8-17
+'时  间：14:03:31
+'*******************************************************************************************************
+Function GetFunctionName(ByVal szCode)
+Dim iPos
+szCode = ValidCode(szCode)
+iPos = Instr(1, szCode, "(")
+If iPos Then
+   GetFunctionName = ValidCode(Split(szCode, "(")(0))
+   If InStr(GetFunctionName, " operator") > 0 Then
+	  GetFunctionName = ValidCode(Split(GetFunctionName, " operator")(1))
+	  GetFunctionName = "operator " + GetFunctionName
+	  Exit Function
+   End If 
+
+   pos = InStrRev(GetFunctionName, " ")
+   If pos > 0 Then     
+      GetFunctionName = Right(GetFunctionName, Len(GetFunctionName)-pos)
+   End If
+   If InStr(GetFunctionName, "::") > 0 Then
+	  GetFunctionName = Split(GetFunctionName, "::")(1)
+   End If
+End If
+End Function 
+
+'*******************************************************************************************************
+'函数名：FileCommentString
+'功  能：得到文件的注释
+'参  数：无
+'返回值：文件注释字符串
+'作  者：康  林
+'版  本：1.0.0.1
+'日  期：2004-8-17
+'时  间：19:45:54
+'*******************************************************************************************************
+Function FileCommentString()
+If LCase(GetFileExt(ActiveDocument.Name)) = "dsm" Then
+   FileCommentString = gc_szMarcoStartCommentSymbol & vbCrLf _
+                           & "'文件名：" & ActiveDocument.Name & vbCrLf _
+						   & "'功  能：" & vbCrLf _
+						   & "'作  者：" & gc_szAuthor & vbCrLf _
+						   & "'        版权所有  保留所有权利" & vbCrLf _
+						   & "'版  本：" & g_lVersion & vbCrLf _
+						   & "'日  期：" & Date & vbCrLf _
+						   & "'时  间：" & Time & vbCrLf & vbCrLf _
+						   & "'FileName：" & ActiveDocument.Name & vbCrLf _
+						   & "'Function：" & vbCrLf _
+						   & "'Author：  " & gc_szEAuthor & vbCrLf _
+						   & "'          Copyright " & Year(Date()) & " " & gc_szEAuthor & vbCrLf _
+                           & "'Date：    " & Date & vbCrLf _
+						   & "'Time：    " & Time & vbCrLf & vbCrLf _
+						   & gc_szMarcoEndCommentSymbol
+Else
+   FileCommentString = gc_szStartCommentSymbol & vbCrLf _
+                        & "文件名：" & ActiveDocument.Name & vbCrLf _
+						& "功  能：" & vbCrLf _
+						& "编译器：" & gc_szCompiler & vbCrLf _
+						& "作  者：" & gc_szAuthor & vbCrLf _
+						& "        版权所有  保留所有权利" & vbCrLf _
+						& "版  本：" & g_lVersion & vbCrLf _
+						& "日  期：" & Date & vbCrLf _
+						& "时  间：" & Time & vbCrLf & vbCrLf _
+                        & "FileName：" & ActiveDocument.Name & vbCrLf _
+					    & "Compiler：" & gc_szCompiler & vbCrLf _
+					    & "Author  ：" & gc_szEAuthor & vbCrLf _
+					    & "          Copyright " & Year(Date()) & " " & gc_szEAuthor & vbCrLf _
+                        & "Date    ：" & Date & vbCrLf _
+					    & "Time    ：" & Time & vbCrLf & vbCtLf _
+					    & gc_szEndCommentSymbol
+End If
+End Function
+
+'*******************************************************************************************************
+'函数名：GetFunctionParamters
+'功  能：得到参数列表
+'参  数：
+'        ByVal szCode：代码
+'返回值：参数列表
+'作  者：康  林
+'版  本：1.0
+'日  期：2004-8-17
+'时  间：15:02:44
+'*******************************************************************************************************
+Function GetFunctionParamters(ByVal szCode)
+Dim szTemp, i, j
+szTemp = ValidCode(szCode)
+szTemp = MatchSplitSymbol(szCode, "(", ")")
+szTemp = ValidCode(szCode)
+
+If szTemp = "" Then
+   GetFunctionParamters = "无" 
+Else
+   j = UBound(Split(szTemp, ","))
+   For i = 0 To j 
+       If LCase(GetFileExt(ActiveDocument.Name)) = "dsm" Then
+	      GetFunctionParamters = GetFunctionParamters & _
+	                             vbCrLf & "'        " & _
+			                     ValidCode(Split(szTemp, ",")(i)) & "：" 
+	   Else
+          GetFunctionParamters = GetFunctionParamters & _
+	                             vbCrLf & "        " & _
+			                     ValidCode(Split(szTemp, ",")(i)) & "：" 
+	   End If
+   Next 
+End If
+End Function
+
+Function GetFunctionReturn(Byval szCode)
+Dim iPos
+szCode = ValidCode(szCode)
+If LCase(GetFileExt(ActiveDocument.Name)) = "dsm" Then
+   iPos = Instr(1, Lcase(szCode), " as ")
+   If iPos Then
+      GetFunctionReturn = Right(szCode, Len(szCode) - iPos - 3)
+   Else
+      GetFunctionReturn = "无"
+   End If
+Else
+   iPos = InStr(1, szCode, "(")
+            If iPos Then
+                szCode = Left(szCode, iPos - 1)
+                iPos = UBound(Split(szCode, " "))
+                Select Case iPos
+                    Case 0
+                        GetFunctionReturn = "无"
+                    Case 1
+                        GetFunctionReturn = Split(szCode)(0)
+                    Case 2
+                        If Split(szCode)(0) = "extern" Then
+                            GetFunctionReturn = Split(szCode)(1)
+                        Else
+                            GetFunctionReturn = Split(szCode)(0)
+                        End If
+                    Case Else
+                        If Split(szCode)(0) = "extern" And UCase(Split(szCode)(1)) = """C""" Then
+                            GetFunctionReturn = Split(szCode)(2)
+                        Else
+                            GetFunctionReturn = Split(szCode)(0)
+                        End If
+                End Select
+            End If
+End If
+End Function
+
+'*******************************************************************************************************
+'函数名：FunctionCommentString
+'功  能：自动生成注释
+'参  数：
+'        ByVal szCode：代码
+'返回值：注释
+'作  者：康  林
+'版  本：1.0.0.1
+'日  期：2004-8-17
+'时  间：13:38:42
+'*******************************************************************************************************
+Function FunctionCommentString(ByVal szCode)
+If LCase(GetFileExt(ActiveDocument.Name)) = "dsm" Then
+   FunctionCommentString = gc_szMarcoStartCommentSymbol & vbCrLf 
+   If Instr(1, LCase(szCode), "sub ") Then
+      FunctionCommentString = FunctionCommentString & "'过程名：" 
+   Else
+      FunctionCommentString = FunctionCommentString & "'函数名：" 
+   End If
+   FunctionCommentString = FunctionCommentString & GetFunctionName(szCode) & vbCrLf _
+						& "'功  能：" & vbCrLf _
+						& "'参  数：" & GetFunctionParamters(szCode) & vbCrLf 
+   If Instr(1, LCase(szCode), "sub ") Then      
+   Else
+      FunctionCommentString = FunctionCommentString & "'返回值：" & vbCrLf 
+   End If
+   FunctionCommentString = FunctionCommentString & "'作  者：" & gc_szAuthor & vbCrLf _
+						& "'版  本：" & g_lVersion & vbCrLf _
+						& "'日  期：" & Date & vbCrLf _
+						& "'时  间：" & Time & vbCrLf _
+                        & gc_szMarcoEndCommentSymbol
+Else
+   FunctionCommentString = gc_szStartCommentSymbol & vbCrLf _
+                        & "函数名：" & GetFunctionName(szCode) & vbCrLf _
+						& "功  能：" & vbCrLf _
+						& "参  数：" & GetFunctionParamters(szCode) & vbCrLf _
+						& "返回值：" & GetFunctionReturn(szCode) & vbCrLf _
+						& "作  者：" & gc_szAuthor & vbCrLf _
+						& "版  本：" & g_lVersion & vbCrLf _
+						& "日  期：" & Date & vbCrLf _
+						& "时  间：" & Time & vbCrLf _
+                        & gc_szEndCommentSymbol
+End If
+End Function
+
+'*******************************************************************************************************
+'过程名：FunctionComment
+'功  能：给函数自动加注释
+'用  法：先把光标放在函数定义行的头行上，然后再执行本过程即可自动给函数加注释
+'参  数：无
+'作  者：康  林
+'版  本：1.0
+'日  期：2004-8-17
+'时  间：15:29:30
+'*******************************************************************************************************
+Sub FunctionComment()
+'DESCRIPTION: 自动增加函数注释
+Dim Sel, SelText
+Dim iFunctionStartLine
+Set Sel = ActiveDocument.Selection
+Call GetVerSion()
+Sel.SelectLine
+iFunctionStartLine = Sel.CurrentLine
+Sel.LineUp
+Sel.SelectLine
+If ValidCode(Sel.Text) <> "" Then
+   If Msgbox("是否在当前位置插入注释?", vbYesNo + vbDefaultButton2) =vbNo Then
+      While ValidCode(Sel.Text) <> "" And Sel.CurrentLine > 1
+            Sel.LineUp
+	        Sel.SelectLine
+      WEnd
+	  iFunctionStartLine = Sel.CurrentLine
+   Else
+      Sel.GoToLine iFunctionStartLine
+	  Sel.StartOfLine	  
+   End If
+End If
+If iFunctionStartLine = 1 Then
+   Sel.StartOfLine
+   Sel.NewLine
+   Sel.LineUp
+   Sel.Text = FileCommentString()
+   Sel.StartOfLine
+   Exit Sub
+End If
+Sel.NewLine
+Sel.NewLine
+Sel.LineUp
+iFunctionStartLine = Sel.CurrentLine
+Sel.LineDown
+Sel.SelectLine
+
+SelText = Sel.Text
+Sel.StartOfLine
+
+While MatchSplitSymbol(ValidCode(SelText), "(", ")") = False 
+   Sel.LineDown
+   Sel.SelectLine
+   SelText = SelText & Sel.Text
+   Sel.StartOfLine
+WEnd
+
+Sel.GoToLine iFunctionStartLine
+Sel.Text = FunctionCommentString(SelText)
+Sel.StartOfLine
+End Sub
+
+'*******************************************************************************************************
+'过程名：SwitchCppToH
+'功  能：执行文件与头文件互换
+'参  数：无
+'作  者：康  林
+'版  本：1.0.0.1
+'日  期：2004-10-18
+'时  间：10:10:18
+'*******************************************************************************************************
+Sub SwitchCppToH()
+'DESCRIPTION: 执行文件与头文件互换
+Dim FileName, FileExt
+FileName = ActiveDocument.Name
+FileExt = GetFileExt(FileName)
+If UCase(FileExt)  = "H" Then
+   FileName = GetFileTitle(FileName)
+   Documents.Open FileName & ".cpp"
+Else
+   FileName = GetFileTitle(FileName)
+   Documents.Open FileName & ".H"
+End If
+End Sub
+
+'*******************************************************************************************************
+'函数名：Section
+'功  能：对块加注释
+'参  数：
+'        ByVal szPrompt：提示字符
+'        ByVal szInput：块完成的功能
+'        ByVal szFunctionSectionStart：注释格式的开始符号
+'        ByVal szFunctionSectionEnd：注释格式的结束符号
+'返回值：无
+'作  者：康  林
+'版  本：1.0.0.1
+'日  期：2004-10-18
+'时  间：12:15:03
+'*******************************************************************************************************
+Function Section(ByVal szPrompt, ByVal szInput, _
+                 ByVal szFunctionSectionStart, ByVal szFunctionSectionEnd)
+Dim sel, iStart, iEnd, szText
+Set sel = ActiveDocument.Selection
+If LCase(GetFileExt(ActiveDocument.Name)) = "dsm" Then
+   szCommentSymbol = gc_szMarcoLineCommentSymbol
+Else
+   szCommentSymbol = gc_szCLineCommentSymbol
+End If
+iStart = sel.TopLine
+iEnd = sel.BottomLine
+sel.GotoLine iEnd
+sel.EndOfLine
+sel.NewLine
+sel.NewLine
+sel.Text = szCommentSymbol 
+sel.EndOfLine
+sel.NewLine
+sel.Text = szCommentSymbol & "以上是" & szInput & szPrompt
+sel.EndOfLine
+sel.NewLine
+sel.Text = szFunctionSectionEnd
+
+sel.GotoLine iStart
+sel.StartOfLine
+sel.NewLine
+sel.NewLine
+sel.LineUp
+sel.Text = szFunctionSectionStart 
+sel.EndOfLine
+sel.NewLine
+sel.Text = szCommentSymbol & "以下是" & szInput  & szPrompt
+sel.EndOfLine
+sel.NewLine
+sel.Text = szCommentSymbol
+sel.EndOfLine
+sel.NewLine
+End Function
+
+'*******************************************************************************************************
+'过程名：FunctionSection
+'功  能：给执行某个功能的函数块加标志。
+'参  数：无
+'作  者：康  林
+'版  本：1.0.0.1
+'日  期：2004-10-18
+'时  间：12:17:09
+'*******************************************************************************************************
+Sub FunctionSection()
+'DESCRIPTION: 标志出执行某个功能的函数块。
+Dim szInput
+Set sel = ActiveDocument.Selection
+If LCase(GetFileExt(ActiveDocument.Name)) = "dsm" Then
+   szCommentSymbol = gc_szMarcoLineCommentSymbol
+Else
+   szCommentSymbol = gc_szCLineCommentSymbol
+End If
+szInput = InputBox("请输入函数块的功能：", "函数块功能")
+If szInput <> "" Then
+   Section "功能的函数块",  "完成 ===" & szInput & "=== ", szCommentSymbol & gc_szFunctionSectionStart, szCommentSymbol & gc_szFunctionSectionEnd
+End If
+End Sub
+
+'*******************************************************************************************************
+'过程名：SentenceSection
+'功  能：标志出在某个函数内执行某个功能的语句块。
+'参  数：无
+'作  者：康  林
+'版  本：1.0.0.1
+'日  期：2004-10-18
+'时  间：12:23:48
+'*******************************************************************************************************
+Sub SentenceSection()
+'DESCRIPTION:  标志出在某个函数内执行某个功能的语句块。
+Dim szInput
+Set sel = ActiveDocument.Selection
+If LCase(GetFileExt(ActiveDocument.Name)) = "dsm" Then
+   szCommentSymbol = gc_szMarcoLineCommentSymbol
+Else
+   szCommentSymbol = gc_szCLineCommentSymbol
+End If
+szInput = InputBox("请输入语句块的功能：", "语句块功能")
+If szInput <> "" Then
+   Section "功能的语句块", "完成 ===" & szInput & "=== ", szCommentSymbol & gc_szSentenceSectionStart, szCommentSymbol & gc_szSentenceSectionEnd
+End If
+End Sub
+
+Sub GetClass()
+'DESCRIPTION: 得到文件中的定义类
+Dim sel, i, j, str, CurLine
+Set sel = ActiveDocument.Selection
+CurLine = sel.CurrentLine
+sel.SelectAll
+j = UBound(Split(sel.Text, "class"))
+For i = 0 To j
+    str = str & Split(ValidCode(Split(sel.Text, "class")(i)))(0) & vbCrLF
+Next
+sel.GotoLine CurLine
+MsgBox str
+End Sub
+
+'*******************************************************************************************************
+'过程名：GetActiveDocumentName
+'功  能：得到活动文档全路径
+'参  数：无
+'作  者：康  林
+'版  本：1.0.0.1
+'日  期：2004-11-1
+'时  间：17:10:51
+'*******************************************************************************************************
+Sub GetActiveDocumentName()
+'DESCRIPTION: 得到当前文档的全路径
+Call MsgBox(ActiveDocument.FullName)
+End Sub
+
+'*******************************************************************************************************
+'过程名：GeneralComment
+'功  能：一般注释,用于常量、结构等同类型的注释。
+'参  数：无
+'作  者：康  林
+'版  本：2.0.0.1
+'日  期：2004-11-17
+'时  间：13:57:21
+'*******************************************************************************************************
+Sub GeneralComment()
+'DESCRIPTION: 一般注释,用于常量、结构等同类型的注释。
+Dim sel
+Set sel = ActiveDocument.Selection
+sel.StartOfLine
+Sel.NewLine
+sel.SelectLine
+If ValidCode(sel.Text) <> "" Then
+   sel.LineUp
+End If
+sel.StartOfLine
+sel.Text = gc_szStartCommentSymbol
+sel.NewLine
+sel.NewLine
+sel.StartOfLine
+sel.Text = gc_szEndCommentSymbol
+sel.NewLine
+sel.LineUp
+sel.LineUp
+End Sub
+
+'*******************************************************************************************************
+'过程名：CommentInFunction
+'功  能：用于在函数中加入注释
+'参  数：无
+'作  者：康  林
+'版  本：2.0.0.1
+'日  期：2004-11-17
+'时  间：13:57:31
+'*******************************************************************************************************
+Sub CommentInFunction()
+'DESCRIPTION: 用于在函数中加入注释。
+Dim sel
+Set sel = ActiveDocument.Selection
+sel.LineUp
+sel.EndOfLine
+Sel.NewLine
+sel.Text = gc_szStartCommentSymbol
+sel.NewLine
+sel.LineDown
+sel.Text = gc_szCLineCommentSymbol & gc_szEndCommentSymbol
+sel.LineUp
+Sel.StartOfLine
+End Sub
+
+'*******************************************************************************************************
+'过程名：Modify
+'功  能：修改、增加、删除的信息
+'参  数：无
+'作  者：康  林
+'版  本：2.0.0.1
+'日  期：2004-11-17
+'时  间：13:57:41
+'*******************************************************************************************************
+Sub Modify()
+'DESCRIPTION: 修改信息
+Dim sel
+Call GetVerSion()
+Set sel = ActiveDocument.Selection
+Set sel = ActiveDocument.Selection
+If LCase(GetFileExt(ActiveDocument.Name)) = "dsm" Then
+   szCommentSymbol = gc_szMarcoLineCommentSymbol
+Else
+   szCommentSymbol = gc_szCLineCommentSymbol
+End If
+'sel.LineUp
+'sel.EndOfLine
+'sel.NewLine
+'sel.StartOfLine
+'sel.NewLine
+'sel.text = "作  者：" & gc_szAuthor & vbCrLf _
+'         & "版  本：" & g_lVersion & vbCrLf _
+'		 & "日  期：" & Date & vbCrLf _
+'		 & "时  间：" & Time & vbCrLf _
+szInput = InputBox("请输入：" & vbCrLf _
+                 & "         1、增加函数" & vbCrLf _
+				 & "         2、增加注释" & vbCrLf _
+				 & "         3、修改" & vbCrLf _
+				 & "         4、删除(函数内)" & vbCrLf _
+				 & "         5、删除(函数外)", "修改", "1")
+
+If szInput = "1" Then
+     szInput = "增加"
+	 szEndCommentSymbol = szCommentSymbol
+End If
+
+If szInput = "2" Then
+     szInput = "增加"
+     Section "", "由 ---" & gc_szAuthor & "--- " & szInput & "于 " & Date & " : " & Time , _
+       gc_szStartCommentSymbol, gc_szEndCommentSymbol
+	 Exit Sub
+End If
+
+If szInput = "3" Then
+     szInput = "修改"
+	 szEndCommentSymbol = szCommentSymbol
+End If
+
+If szInput = "4" Then
+     szInput = "删除"
+	 szCommentSymbol = "/*"
+	 szEndCommentSymbol = "*/"
+	 Section "", "由 ---" & gc_szAuthor & "--- " & szInput & "于 " & Date & " : " & Time , _
+       szCommentSymbol & gc_szSentenceSectionStart, _
+	   gc_szCLineCommentSymbol & gc_szSentenceSectionEnd & szEndCommentSymbol
+     Exit Sub
+End If
+
+If szInput = "5" Then
+     szInput = "删除"
+     Section "", "由 ---" & gc_szAuthor & "--- " & szInput & "于 " & Date & " : " & Time , _
+       gc_szStartCommentSymbol, gc_szCLineCommentSymbol & gc_szEndCommentSymbol
+	 Exit Sub
+End If
+Section "", "由 ---" & gc_szAuthor & "--- " & szInput & "于 " & Date & " : " & Time , _
+       szCommentSymbol & gc_szSentenceSectionStart, szEndCommentSymbol & gc_szSentenceSectionEnd
+End Sub
+
+'*******************************************************************************************************
+'过程名：Comment
+'功  能：注释掉选定的信息
+'参  数：无
+'作  者：康  林
+'版  本：1.0.0.1
+'日  期：2004-12-9
+'时  间：16:49:40
+'*******************************************************************************************************
+Sub Comment()
+'DESCRIPTION: 注释掉选定的信息
+Dim sel, iStart, iEnd, szText
+Set sel = ActiveDocument.Selection
+iStart = sel.TopLine
+iEnd = sel.BottomLine
+sel.GotoLine iEnd
+sel.EndOfLine
+sel.NewLine
+sel.Text = gc_szCLineCommentSymbol & gc_szEndCommentSymbol
+
+sel.GotoLine iStart
+sel.StartOfLine
+sel.NewLine
+sel.NewLine
+sel.LineUp
+sel.Text = gc_szStartCommentSymbol
+sel.StartOfLine
+End Sub
+
+'*******************************************************************************************************
+'过程名：TRACE
+'功  能：增加 TRACE 语句
+'参  数：无
+'作  者：康  林
+'版  本：1.0.0.1
+'日  期：2004-12-21
+'时  间：16:57:06
+'*******************************************************************************************************
+Sub TRACE()
+'DESCRIPTION: 增加 TRACE 语句
+Dim sel, szFormat, szInput, szOutput
+Set sel = ActiveDocument.Selection
+szInput = InputBox("请输入格式:" & vbCrLf _
+                   & "格式字符串与输入字符串之间用" & Chr(34) & ";" & Chr(34) & "隔开" & vbCrLf _
+                   & "1、TRACE(_T(" & Chr(34) & "文件:%s(行:%d) : "  & "提示字符串。\n" _
+				   & Chr(34) & "), __FILE__, __LINE__);" & vbCrLf _
+				   & "可输入为:" & vbCrLf _
+				   & ";提示字符串" & vbCrLf _
+				   & "2、TRACE(_T(" & Chr(34) & "文件:%s(行:%d) : %s, %d\n" & Chr(34) & "), szStr, iLen);" & vbCrLf _
+				   & "可输入为:" & vbCrLf _
+				   & ";%s, %d; szStr, iLen" & vbCrLf _
+				   & "3、TRACE(_T(" & Chr(34) & "%s, %d\n" & Chr(34) & "), szStr, iLen);" & vbCrLf _
+				   & "可输入为:" & vbCrLf _
+				   & "%s, %d; szStr, iLen" & vbCrLf _
+				   & "4、TRACE(_T(" & Chr(34) & "HELLO\n" & Chr(34) & "));" & vbCrLf _
+				   & "可输入为:" & vbCrLf _
+				   & "HELLO" & vbCrLf, _
+				   "自动增加TRACE语句")
+If szInput = "" Then
+   Exit Sub
+End If
+If Instr(1, szInput, ";") = 1 Then
+    szFormat = "%s(%d) : "
+	szOutput = "__FILE__, __LINE__"
+	If Instr(2, szInput, ";") Then
+       szFormat = szFormat & Split(szInput, ";")(1)
+	   szOutput = szOutput & ", " & Split(szInput, ";")(2)
+    Else
+	   szFormat = szFormat & Split(szInput, ";")(1)
+	End If
+Else 
+    If Instr(1, szInput, ";") Then
+       szFormat = Split(szInput, ";")(0)
+	   szOutput = Split(szInput, ";")(1)
+	Else
+       sel.Text = "TRACE(_T(""" & szInput & "\n""));"
+	   Exit Sub
+	End IF
+End If
+
+sel.Text = "TRACE(_T(""" & szFormat & "\n""), " & szOutput & ");" 
+
+End Sub
+
+'*******************************************************************************************************
+'过程名：CommentAsterisk
+'功  能：用 /*      */ 注释选择的文本
+'参  数：无
+'作  者：康  林
+'版  本：1.0.0.1
+'日  期：2004-12-21
+'时  间：16:57:18
+'*******************************************************************************************************
+Sub CommentAsterisk()
+'DESCRIPTION: 用 /*      */ 注释选择的文本
+Dim sel
+Set sel = ActiveDocument.Selection
+sel.Text = "/*" & sel.Text & "*/"
+End Sub
+
+'*******************************************************************************************************
+'过程名：AlignComment
+'功  能：对齐语句后的注释
+'参  数：无
+'作  者：康  林
+'版  本：1.0.0.1
+'日  期：2004-12-21
+'时  间：16:57:27
+'*******************************************************************************************************
+Sub AlignComment()
+'DESCRIPTION: 对齐语句后的注释
+Dim sel, iStart, iEnd, iCol, szTemp, i, j, szComment
+Set sel = ActiveDocument.Selection
+If LCase(GetFileExt(ActiveDocument.Name)) = LCase("dsm") Then
+    szComment =  gc_szMarcoLineCommentSymbol
+Else
+    szComment = gc_szCLineCommentSymbol
+End If
+iCol = 0 '注释的最大位置处
+iStart = sel.TopLine
+iEnd = sel.BottomLine
+sel.GoToLine iStart
+For i = iStart To iEnd
+    sel.SelectLine
+	'判断此行是否只是注释行
+	If LCase(Left(TrimString(sel.Text), Len(szComment))) <> LCase(szComment) Then
+	   '此行注释在语句的后面
+	   If Instr(1, sel.Text, szComment) > 0 Then
+	      sel.FindText(szComment)
+		  sel.MoveTo sel.CurrentLine, sel.CurrentColumn
+		  sel.CharLeft dsExtend, Len(szComment)
+		  While TrimString(sel.Text) = szComment
+		        sel.CharLeft dsExtend, 1
+		  WEnd
+		  sel.CharRight dsExtend, 1
+	      sel.Text = " " & szComment
+		  j = sel.CurrentColumn - Len(szComment)
+	   Else '此行无注释
+	      j = 0
+	   End If
+	   If j > iCol Then
+	      iCol = j
+	   End If
+	End IF
+	sel.StartOfLine
+	sel.LineDown
+Next
+
+sel.GoToLine iStart
+For i = iStart To iEnd                         
+    sel.SelectLine
+	If LCase(Left(TrimString(sel.Text), Len(szComment))) <> LCase(szComment) Then              
+	   If Instr(1, sel.Text, szComment) > 0 Then  
+	      sel.FindText(szComment)
+	      j = sel.CurrentColumn - Len(szComment)
+	      If j < iCol Then
+	         sel.Text = Space(iCol - j) & szComment
+	      End If
+		End If
+	End If
+	sel.StartOfLine
+	sel.LineDown
+Next
+End Sub
+
+Sub AlignComment1()
+'DESCRIPTION: 对齐语句后的注释,以最远的注释为准
+Dim sel, iStart, iEnd, iCol, szTemp, i, j, szComment
+Set sel = ActiveDocument.Selection
+If LCase(GetFileExt(ActiveDocument.Name)) = LCase("dsm") Then
+    szComment =  gc_szMarcoLineCommentSymbol
+Else
+    szComment = gc_szCLineCommentSymbol
+End If
+iCol = 0 '注释的最大位置处
+iStart = sel.TopLine
+iEnd = sel.BottomLine
+sel.GoToLine iStart
+For i = iStart To iEnd
+    sel.SelectLine
+	'判断此行是否只是注释行
+	If LCase(Left(TrimString(sel.Text), Len(szComment))) <> LCase(szComment) Then
+	   '此行注释在语句的后面
+	   If Instr(1, sel.Text, szComment) > 0 Then
+	      sel.FindText(szComment)
+		  j = sel.CurrentColumn - Len(szComment)
+	   Else '此行无注释
+	      j = 0
+	   End If
+	   If j > iCol Then
+	      iCol = j
+	   End If
+	End IF
+	sel.StartOfLine
+	sel.LineDown
+Next
+
+sel.GoToLine iStart
+For i = iStart To iEnd                         
+    sel.SelectLine
+	If LCase(Left(TrimString(sel.Text), Len(szComment))) <> LCase(szComment) Then              
+	   If Instr(1, sel.Text, szComment) > 0 Then  
+	      sel.FindText(szComment)
+	      j = sel.CurrentColumn - Len(szComment)
+	      If j < iCol Then
+	         sel.Text = Space(iCol - j) & szComment
+	      End If
+		End If
+	End If
+	sel.StartOfLine
+	sel.LineDown
+Next
+End Sub
+
+'*******************************************************************************************************
+'过程名：TableToSpace
+'功  能：把制表符转化为空格。一个制表符转换为四个空格。
+'        如果在工具->选项...->制表符 选中制表符转换为空格,就可以不用此宏进行转换。
+'参  数：无
+'作  者：康  林
+'版  本：1.0.0.1
+'日  期：2004-12-22
+'时  间：17:36:20
+'*******************************************************************************************************
+Sub TableToSpace()
+'DESCRIPTION: 把制表符转化为空格。一个制表符转换为四个空格。
+Dim sel
+Set sel = ActiveDocument.Selection
+sel.SelectAll
+sel.Text = Replace(sel.Text, vbTab, Space(4))
+End Sub
+
+Sub T()
+'DESCRIPTION: 自动增加 _T("")
+Dim sel
+Set sel = ActiveDocument.Selection
+szInput = InputBox("请输入", "_T()")
+If szInput <> "" Then
+   sel.Text = "_T(" & Chr(34) & szInput & Chr(34) & ")"
+End If
+End Sub
+
+Sub GetCharNumber()
+'DESCRIPTION: 得到字符的个数
+dim s
+s=Inputbox("输入要查找的字符:", "查找字符个数", "")
+if s="" then
+exit sub 
+end if
+Dim sel
+Set sel = ActiveDocument.Selection
+sel.StartOfDocument
+int i = 0
+int iline=0
+while(sel.FindText(s) and iline < sel.currentline)
+i = i + 1
+iline =sel.currentline
+wend
+msgbox i
+End Sub

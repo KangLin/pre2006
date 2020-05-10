@@ -1,0 +1,153 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>视频捕获控件的使用</title>
+</head>
+
+<body>
+
+<p align="center"><b><font size="7">视频捕获控件的使用</font></b></p>
+<p align="center">湖南 <a href="mailto:kl222@126.com">康林</a>&nbsp; 2004年11月</p>
+<p align="left">关键词:ActiveX控件、视频捕获、视频显示</p>
+<p align="left"><a href="Data/Data.rar">下载</a></p>
+<p align="left"><b>申明：</b></p>
+<p align="left">本控件组版权所有,保留所有权力。</p>
+<p align="left">本控件组仅供学习使用，如果要作为其它用途，请与<a href="mailto:kl_222@163.com">作者</a>联系。</p>
+<p align="left">如需要功能更完善的或定制控件，请与<a href="mailto:kl222@126.com">作者</a>联系。</p>
+<p align="left">E_Mail: <a href="mailto:kl222@126.com">kl222@126.com</a> 或 
+<a href="mailto:kl_222@163.com">kl_222@163.com</a> </p>
+<p align="left">　</p>
+<p align="left"><b><font size="4">一、视频捕获控件简介</font></b>：</p>
+<p align="left">本组控件包括两个控件：一个是捕获并显示视频控件(<a href="../VideoCtrl/Release/VideoCtrl.ocx">VideoCapture</a>)，另一个是只显示前一个捕获视频数据的控件(<a href="../DisplayVideo/Release/DisplayVideo.ocx">DisplayVideo</a>)。</p>
+<p align="left"><b>VideoCapture</b> 的视频数据压缩采用的是 <a href="../Video/test/DivXc32f.dll">DivX 
+MPEG-4 (fast-Motion)</a>。压缩后的数据小于2000字节。<br>
+事件： DisplayVideo 的参数：<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>lpData</i> 传递的是压缩后的视频数据。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>dwSize</i> 为压缩后视频数据的大小。</p>
+<p align="left">方法：StartCapture:开始捕获<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StopCapture:停止捕获</p>
+<p align="left"><b>DisplayVideo</b> 的视频数据解压缩采用的也是&nbsp; DivX MPEG-4 (fast-Motion)。<br>
+方法： Display 中参数:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>lpData</i> 传递入的是压缩后的视频数据。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>dwSize</i> 为压缩后视频数据的大小。</p>
+<p align="left">版本号：1.0</p>
+<p align="left"><b><font size="4">二、使用：</font></b></p>
+<p align="left">1、把上面三个文件释放到同一个文件夹中。并把它们添加到工程中（ 工程-&gt;添加工程-&gt;Components And 
+Controls...)</p>
+<p align="center">
+<img border="0" src="Picture/视频24.jpg" width="792" height="580"></p>
+<p align="center"><img border="0" src="Picture/视频23.jpg"></p>
+<p align="left">2、打开VC6.0建立向导，按下图所示建立一个对话框应用程序：</p>
+<p align="center"><br>
+<img border="0" src="视频200.gif"></p>
+<p align="center">图一</p>
+<p align="center"><img border="0" src="视频00.gif"></p>
+<p align="center">图二</p>
+<p align="center"><img border="0" src="Picture/视频400.gif"></p>
+<p align="center">图三</p>
+<p align="center"><img border="0" src="picture\视频4.gif"></p>
+<p align="center">图四</p>
+<p align="center"><img border="0" src="picture\视频5.gif"></p>
+<p align="center">图五</p>
+<p align="left">3、建立好应用程序框架后，插入 VideoCapture 和 DisplayVideo 控件：</p>
+<p align="center">
+<img border="0" src="picture\视频6.gif" width="712" height="464"></p>
+<p align="center">图六</p>
+<p align="center"><img border="0" src="picture\视频7.gif"></p>
+<p align="center">图七</p>
+<p align="center"><img border="0" src="picture\视频8.gif"></p>
+<p align="center">图八</p>
+<p align="center">
+<img border="0" src="Picture/视频9.gif" width="851" height="496"></p>
+<p align="center">图九</p>
+<p align="left">4、建立成员变量：m_VideoCapture 和 m_DisplayVideo:</p>
+<p align="center"><img border="0" src="Picture/视频10.gif"></p>
+<p align="center">图十</p>
+<p align="center"><img border="0" src="Picture/视频11.jpg"></p>
+<p align="center">图十一&nbsp; 点确定</p>
+<p align="center"><img border="0" src="Picture/视频12.gif"></p>
+<p align="center">图十二&nbsp; 点确定建立类</p>
+<p align="center"><img border="0" src="Picture/视频13.gif"></p>
+<p align="center">图十三&nbsp; 建立成员变量 m_DisplayVideo</p>
+<p align="center"><img border="0" src="Picture/视频14.gif"></p>
+<p align="center">图十四 建立成员变量 m_VideoCapturee</p>
+<p align="center"><img border="0" src="Picture/视频15.gif"></p>
+<p align="center">图十五</p>
+<p align="left">5、增加成员函数：OnStartcapture 和 OnStopcapture</p>
+<p align="center"><img border="0" src="Picture/视频16.gif"></p>
+<p align="center">图十六</p>
+<p align="center"><img border="0" src="Picture/视频17.gif"></p>
+<p align="center">图十七</p>
+<p align="center"><img border="0" src="Picture/视频18.gif"></p>
+<p align="center">图十八</p>
+<p align="left">在成员函数中加入下列代码（红色）<br>
+void CExampleDlg::OnStartcapture() <br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0000">
+m_VideoCapture.StartCapture();</font><br>
+}<br>
+<br>
+void CExampleDlg::OnStopcapture() <br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0000">
+m_VideoCapture.StopCapture(); </font><br>
+}</p>
+<p align="left">6、增加事件：</p>
+<p align="center">
+<img border="0" src="Picture/视频19.jpg" width="809" height="527"></p>
+<p align="center">图十九</p>
+<p align="center"><img border="0" src="Picture/视频20.gif"></p>
+<p align="center">图二十</p>
+<p align="center"><img border="0" src="Picture/视频21.gif"></p>
+<p align="center">图二十一</p>
+<p align="left">加入下列代码（红色）：</p>
+<p align="left">void CExampleDlg::OnDisplayVideoVideoctrl1(BSTR FAR* lpData, 
+long dwSize) <br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0000">m_DisplayVideo.Display(lpData, 
+dwSize);<br>
+</font>}</p>
+<p align="left">7、好了，编译执行。</p>
+<p align="center"><img border="0" src="Picture/视频22.jpg"></p>
+<p align="center">图二十二</p>
+<p align="left">8、关于在非对话框下使用ActiveX控件的方法，请见 VC知识库的第五期《<small><big>VC++5.0下使用ActiveX控件的问题》。</big></small></p>
+<p align="left"><b><font size="4">三、在VB中使用</font></b>：</p>
+<p align="left">1、工程-&gt;部件:</p>
+<p align="center"><img border="0" src="Picture/视频1.gif"></p>
+<p align="center">图二十三</p>
+<p align="center"><img border="0" src="Picture/视频2.gif"></p>
+<p align="center">图二十四</p>
+<p align="left">2、加入按钮：</p>
+<p align="center"><img border="0" src="Picture/视频3.gif"></p>
+<p align="center">图二十五</p>
+<p align="left">3、在代码窗口中加入如下代码：</p>
+<p align="left">Option Explicit<br>
+<br>
+Private Sub Command1_Click()<br>
+VC.StartCapture<br>
+End Sub<br>
+<br>
+Private Sub Command2_Click()<br>
+VC.StopCapture<br>
+End Sub<br>
+<br>
+Private Sub VC_DisplayVideo(lpData As String, ByVal dwSize As Long)<br>
+DV.Display lpData, dwszie<br>
+End Sub<br>
+　</p>
+<p align="left">4、远行：</p>
+<p align="center"><img border="0" src="Picture/视频4.jpg"></p>
+<p align="center">图二六</p>
+<p align="left">　</p>
+<p align="left"><b><font size="4">说明:</font></b></p>
+<p align="left">本控件组版权所有,保留所有权力。</p>
+<p align="left">本控件组仅供学习使用，如果要作为其它用途，请与<a href="mailto:kl_222@163.com">作者</a>联系。</p>
+<p align="left">如需要功能更完善的或定制控件，请与<a href="mailto:kl222@126.com">作者</a>联系。</p>
+<p align="left">E_Mail: <a href="mailto:kl222@126.com">kl222@126.com</a> 或 
+<a href="mailto:kl_222@163.com">kl_222@163.com</a> </p>
+
+</body>
+
+</html>

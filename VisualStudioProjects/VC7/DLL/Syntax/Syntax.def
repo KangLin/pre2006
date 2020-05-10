@@ -1,0 +1,29 @@
+; Syntax.def : 声明 DLL 的模块参数。
+
+LIBRARY      "Syntax"
+
+;DESCRIPTION "C/C++语法"
+
+EXPORTS
+    ; 此处可以是显式导出
+	DllCanUnloadNow     PRIVATE
+	DllGetClassObject   PRIVATE
+	DllRegisterServer   PRIVATE
+	DllUnregisterServer PRIVATE
+
+    ShowVersion                  ;显示版本信息
+    ShowHelp                     ;显示帮助文件
+    FormatVCCodeA                 ;自动格式化 VC 代码
+    FormatVCCodeW
+    MatchSplitSymbol             ;匹配指定的符号对
+    MatchSplitSymbolB            ;匹配指定的符号对
+    ReversionMatchSplitSymbolB   ;反向匹配指定的符号对
+    PathRelativePath             ;转路径为相对路径
+    FullPath                     ;相对路径转换为绝对路径
+    GetRelativePath              ;得到相对路径,并复制到剪切板中
+    ValidCCodeA                  ;去掉代码中的多余空格、制表符、换行符、注释、连接符（“\”）、前、后导空格
+    ValidCCodeW
+    Regist @11 NONAME
+    GetDLLPath                   ;得到此 DLL 的路径
+    GetIncludeFile               ;得到头文件 IncludeFile
+    TrimString

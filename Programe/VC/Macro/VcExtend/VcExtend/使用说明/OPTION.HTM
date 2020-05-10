@@ -1,0 +1,135 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>VcExtend文档</title>
+</head>
+
+<body topmargin="0" leftmargin="0">
+<script language="javascript" src="/js/header.js"></script>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td height="20"></td>
+    </tr>
+  </table>
+  </center>
+</div>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td width="100%">
+        <div align="center">
+          <table border="0" width="680">
+            <tr>
+              <td align="right" height="18">VcExtend文档
+                <hr size="1" color="#000080">
+              </td>
+            </tr>
+            <tr>
+              <td align="center" height="10"></td>
+            </tr>
+            <tr>
+              <td align="center"><b>十、可选项----定制你的VcExtend</b></td>
+            </tr>
+            <tr>
+              <td height="10"></td>
+            </tr>
+            <tr>
+              <td><p>&nbsp;&nbsp;&nbsp;&nbsp; 
+                你可以通过对源代码的一些全局常量进行修改来使VcExtend更适合你的习惯或开发组的规范。源代码中已对这些全局常量加了注释，很容易理解的，这里只对其中的几个可选项加一些说明。 
+		        </p>
+                <p>HppDir = "" ' "Hpp\"   'Hpp文件的存储目录，如果不为""，一定要加\<br>
+                CppDir = "" ' "Cpp\"   'Cpp文件的存储目录，如果不为""，一定要加\<br>
+                InlDir = "" ' "Hpp\"   'Inl文件的存储目录，如果不为""，一定要加\ 
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 
+                一个工程里文件较多时可能要分目录存储，修改上面的存储目录即可实现分目录存储。如果定义了存储目录，一定要在工程目录下建立这些目录，如果忘了，就会产生第三节所说的内存错误。如果把InlDir设为等于HppDir，inl文件就会和.h文件放在一起。 
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 
+                关于目录，还有一点要说明的。生成新类的时候，有一个目录选项，所填目录不包括上述的存储目录的部份。比如HppDir=&quot;Hpp&quot;，CppDir=&quot;Cpp&quot;, 
+                InlDir=HppDir，生成新类时加了目录名@Views，那么cpp文件会存到Cpp\Views目录下，而hpp和inl文件会存到Hpp\Views目录下。并且，一定要先建好Views目录！！！ 
+		        </p>
+                <p><br>
+                Mark_Desc    = "简述"&nbsp; '注释标签，修改了这些项则必须对Doc目录下的.xsl文件作相同修改。<br>
+                Mark_Return  = "返回"  '<br> 
+                Mark_Param   = "参数"  '<br> 
+                Mark_Cort    = "分类"  '  
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 
+                这些是注释的必选项，你可以改变标签名字，比如说改为英文。我喜欢用中文，因为英文长短不一。<br>
+                <br>
+                Marks_Class    = "版权/作者/初建/修改/说明" '可选类注释项，修改则须修改.xsl文件<br> 
+                Marks_Function = "说明"                     '可选函数注释项  
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 
+                这些是注释的可选项，你可以随便增删或改为英文，也可以按自己的喜好或开发规范重新排序。<br>
+                <br>
+                NameLen  = Len(Mark_Desc) '等于上面的最长的标签的Len<br> 
+                NameLang = 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                '标签的语言，英文为1，中文2 
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 如果你改变了标签，这两个变量也要做相应改变，否则注释会很难看，存入时还可能读错。 
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 
+                下面的可选项目前不推荐改动，有兴趣的话可以看看。<br>
+                <br>
+                &nbsp;&nbsp;&nbsp; AssertGet = False      '是否在所有的读函数中加断言语句<br> 
+                &nbsp;&nbsp;&nbsp; AssertSet = False      '是否在所有的写函数中加断言语句<br> 
+                &nbsp;&nbsp;&nbsp; GetSetAll = False      '是否为所有的成员变量生成读写函数<br> 
+                &nbsp;&nbsp;&nbsp; AssertSentence = "ASSERT_VALID(this);" '断言语句的内容<br> 
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 前面已经说过，用//RW来标记成员变紧是否可读写，标记为//RW的成员变量会生成public:的读写接口。 
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 如果你把GetSetAll设为True，VcExtend就会为所有的成员变量生成数据读写函数，其中，有可读写标记的成员变量会生成public:的读写函数，而其他读写函数的访问控制符与成员变量一致。有点迷糊吧？看看例子： 
+		        </p>
+                <p>protected:<br>
+                &nbsp;&nbsp;&nbsp; CString m_strName; //R<br>
+                private:<br>
+                &nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp;&nbsp; m_nAge;&nbsp;&nbsp;&nbsp; 
+                //W<br>
+                &nbsp;&nbsp;&nbsp; CStrign m_strAddr; 
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 如果GetSetAll设为True,则会生成： 
+		        </p>
+                <p>public:<br>
+                &nbsp;&nbsp;&nbsp; CString GetName() const;<br> 
+                &nbsp;&nbsp;&nbsp; void SetAge(int Age);<br> 
+                protected:<br>
+                &nbsp;&nbsp;&nbsp; void SetName(const CString&amp; Name);<br> 
+                private:<br>
+                &nbsp;&nbsp;&nbsp; int GetAge() const;<br> 
+                &nbsp;&nbsp;&nbsp; CStrign* GetAddr();<br> 
+                &nbsp;&nbsp;&nbsp; void SetAddr(const CStrign&amp; Addr);  
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 
+                可以看出，公共的读写接口还是一样的，那么protected和private的读写函数有什么意义吗？ 
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 我正在尝试一种C++编程观念：类的封装可以进一步扩大，将类设计和类实现完全分开，函数声明、成员变量、构造与析构及对象有效性检查、数据接口均属于类设计，其他功能函数的实现属于类实现，类实现完全不接触成员变量，而是通过数据读写函数来操作数据。这样做有一些很吸引人的好处，比如说AssertGet、AssertSet、GetSetAll全部设为True，类实现中全部通过GetSet函数来读写成员数据，那么将自动形成严密的断言网络，可以拦截很多很难查找的错误，照我的说法，是用密集阵火炮拦截巡航导弹。当然，这是指AssertValid函数已经实现得很好。 
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 
+                还有其他好处，但也有一些缺点，我正在尝试使用，有兴趣的朋友可以一起探讨，目前不推荐。<br>
+		        </p>
+                </td>
+            </tr>
+            <tr>
+              <td height="30"></td>
+            </tr>
+            <tr>
+              <td align="right"><a href="index.htm">返回目录页</a>&nbsp;&nbsp;  
+                下一节：<a href="better.htm">如果VcExtend对你有用，请跟我一起完善它</a></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+  </center>
+</div>
+<script language="javascript" src="/js/tail.js"></script>
+</body>
+
+</html>

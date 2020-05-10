@@ -1,0 +1,83 @@
+RegSetValueEx
+The RegSetValueEx function sets the data and type of a specified value under a registry key. 
+
+LONG RegSetValueEx(
+  HKEY hKey,           // handle to key to set value for
+  LPCTSTR lpValueName, // name of the value to set
+  DWORD Reserved,      // reserved
+  DWORD dwType,        // flag for value type
+  CONST BYTE *lpData,  // address of value data
+  DWORD cbData         // size of value data
+);
+ 
+Parameters
+hKey 
+Handle to a currently open key or any of the following predefined reserved handle values: 
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_CONFIG
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS
+Windows NT: HKEY_PERFORMANCE_DATA 
+Windows 95 and Windows 98: HKEY_DYN_DATA 
+
+lpValueName 
+Pointer to a string containing the name of the value to set. If a value with this name is not already present in the key, the function adds it to the key. 
+If lpValueName is NULL or an empty string, "", the function sets the type and data for the key's unnamed or default value. 
+
+Windows 95 and Windows 98: On Windows 95, the type of a key's default value is always REG_SZ, so the dwType parameter must specify REG_SZ for an unnamed value. On Windows 98, an unnamed value can be of any type. 
+
+Windows NT: Registry keys do not have default values, but they can have one unnamed value, which can be of any type. 
+
+Reserved 
+Reserved; must be zero. 
+dwType 
+Specifies the type of information to be stored as the value's data. This parameter can be one of the following values: Value Meaning 
+REG_BINARY Binary data in any form. 
+REG_DWORD A 32-bit number. 
+REG_DWORD_LITTLE_ENDIAN A 32-bit number in little-endian format. This is equivalent to REG_DWORD.
+In little-endian format, a multi-byte value is stored in memory from the lowest byte (the "little end") to the highest byte. For example, the value 0x12345678 is stored as (0x78 0x56 0x34 0x12) in little-endian format.
+
+Windows NT, Windows 95, and Windows 98 are designed to run on little-endian computer architectures. A user may connect to computers that have big-endian architectures, such as some UNIX systems. 
+ 
+REG_DWORD_BIG_ENDIAN A 32-bit number in big-endian format. 
+In big-endian format, a multi-byte value is stored in memory from the highest byte (the "big end") to the lowest byte. For example, the value 0x12345678 is stored as (0x12 0x34 0x56 0x78) in big-endian format.
+ 
+REG_EXPAND_SZ A null-terminated string that contains unexpanded references to environment variables (for example, "%PATH%"). It will be a Unicode or ANSI string depending on whether you use the Unicode or ANSI functions. To expand the environment variable references, use theExpandEnvironmentStrings function. 
+REG_LINK A Unicode symbolic link. 
+REG_MULTI_SZ An array of null-terminated strings, terminated by two null characters. 
+REG_NONE No defined value type. 
+REG_RESOURCE_LIST A device-driver resource list. 
+REG_SZ A null-terminated string. It will be a Unicode or ANSI string depending on whether you use the Unicode or ANSI functions.
+Do not use the REG_SZ type to store hard-coded paths to the system root directory or to the drive containing the system files. Instead, use the REG_EXPAND_SZ type with environment variables such as "%SystemRoot%". This ensures that the path will be up-to-date even if the user remaps the system drive to a different drive letter.
+ 
+
+
+lpData 
+Pointer to a buffer containing the data to be stored with the specified value name. 
+cbData 
+Specifies the size, in bytes, of the information pointed to by the lpData parameter. If the data is of type REG_SZ, REG_EXPAND_SZ, or REG_MULTI_SZ, cbData must include the size of the terminating null character. 
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+Value lengths are limited by available memory. Long values (more than 2048 bytes) should be stored as files with the filenames stored in the registry. This helps the registry perform efficiently. Application elements such as icons, bitmaps, and executable files should be stored as files and not be placed in the registry. 
+
+The key identified by the hKey parameter must have been opened with KEY_SET_VALUE access. To open the key, use the RegCreateKeyEx or RegOpenKeyEx function. 
+
+If dwType is the REG_SZ, REG_MULTI_SZ or REG_EXPAND_SZ type and the ANSI version of this function is used (either by explicitly calling RegSetValueExA or by not defining UNICODE before including the WINDOWS.H file), the data pointed to by the lpData parameter must be an ANSI character string. The string is converted to Unicode before it is stored in the registry. 
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Requires version 1.0 or later.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions, RegCreateKeyEx, RegFlushKey, RegOpenKeyEx, RegQueryValue, RegQueryValueEx, RegSetValue 
+
+ 

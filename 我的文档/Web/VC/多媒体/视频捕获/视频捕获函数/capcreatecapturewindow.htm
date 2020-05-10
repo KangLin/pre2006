@@ -1,0 +1,67 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>capCreateCaptureWindow</title>
+</head>
+
+<body>
+
+<h1 align="center">capCreateCaptureWindow</h1>
+<p align="center">康&nbsp; 林</p>
+<p>建立一个捕获窗口。</p>
+<pre><code><b>HWND VFWAPI capCreateCaptureWindow(
+  LPCSTR</b><i> lpszWindowName</i><b>,  </b>
+<b>  DWORD</b><i> dwStyle</i><b>,          </b>
+<b>  int</b><i> x</i><b>,                  </b>
+<b>  int</b><i> y</i><b>,                  </b>
+<b>  int</b><i> nWidth</i><b>,             </b>
+<b>  int</b><i> nHeight</i><b>,            </b>
+<b>  HWND</b><i> hWnd</i><b>,              </b>
+<b>  int</b><i> nID                 </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>lpszWindowName</i> </dt>
+	<dd>包含捕获窗口名字的字符串指针。</dd>
+	<dt><i>dwStyle</i> </dt>
+	<dd>捕获窗口的窗口类型。窗口类型的描述见 <a href="JavaScript:alink_1.Click()"><b>
+	CreateWindowEx</b></a> 函数. 
+	</dd>
+	<dt><i>x </i>and <i>y</i> </dt>
+	<dd>捕获窗口的左上角的 x 和 y 坐标。</dd>
+	<dt><i>nWidth </i>and <i>nHeight</i> </dt>
+	<dd>捕获窗口的宽度和高度。</dd>
+	<dt><i>hWnd</i> </dt>
+	<dd>捕获窗口父窗口的句柄。</dd>
+	<dt><i>nID</i> </dt>
+	<dd>窗口的标志符。</dd>
+</dl>
+<h4>返回值：</h4>
+<p>成功返回捕获窗口的句柄，否则返回 NULL。</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in vfw.h.<br>
+<b>&nbsp;&nbsp;Import Library: </b>Use vfw32.lib.<br>
+<b>&nbsp;&nbsp;Unicode: </b>Implemented as Unicode and ANSI versions on Windows NT.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_8xyd.htm">
+Video Capture Overview</a>,
+<a href="index.htm">Video Capture Functions</a>,
+<object id="alink_2" type="application/x-oleobject" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	<param NAME="Width" VALUE="0">
+	<param NAME="Height" VALUE="0">
+	<param NAME="Command" VALUE="ALink,MENU">
+	<param NAME="Item1" VALUE>
+	<param NAME="Item2" VALUE="_">
+</object>
+<a href="JavaScript:alink_2.Click()"><b>CreateWindowEx</b></a></p>
+
+</body>
+
+</html>

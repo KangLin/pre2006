@@ -1,0 +1,65 @@
+<HTML>
+<HEAD>
+<META http-equiv="Pragma" content="no-cache">
+<META http-equiv="Content-Type" content="text/html; charset=gb2312">
+<TITLE>TENDA 多功能宽带SOHO路由器</TITLE>
+<SCRIPT src="gozila\.js"></SCRIPT>
+<SCRIPT language=JavaScript src="menu\.js"></SCRIPT>
+<Script Language=javascript>  
+function Click\(\)\{ 
+window\.event\.returnValue=false; 
+\} 
+document.oncontextmenu=Click; 
+</Script> 
+<SCRIPT language=JavaScript>
+
+conType=new Array\("静态 IP","动态 IP","PPPoE"\);
+state=new Array\("禁止","允许"\);
+conStat=new Array\("未连接", "连接中...","已连接"\);
+
+dns1 = "\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+cableDSL="\d";
+{wanIP = "\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+subMask="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+gateWay="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+dns1="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+dns2="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";}
+dname="www.cnsip.net";
+conntime="\d?\d?\d?\d?\d";
+{conTypeIdx="\d";}
+ipAddr="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+gateSubMsk="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+dhcpServer="\d";
+firewall="\d";
+NAT=\d;
+{run_code_ver="Ver \d?\d\.\d?\d\.\d?\d\.\d?\d";}
+boot_code_ver="Ver \d?\d\.\d?\d\.\d?\d";
+hw_ver="Ver \d?\d\.\d?\d\.\d?\d";
+hw_sn="";
+{lan_mac="\h\h:\h\h:\h\h:\h\h:\h\h:\h\h";
+wan_mac="\h\h:\h\h:\h\h:\h\h:\h\h:\h\h";}.*
+function refresh\(\)\{
+   window\.location="system_status\.asp";
+\}.*
+setTimeout\("refresh\(\)", 60000\);
+
+</SCRIPT>
+<link rel=stylesheet type=text/css href=style\.css>
+
+
+</HEAD>
+
+<BODY leftMargin=\d?\d?\d topMargin=\d?\d?\d MARGINHEIGHT=\d?\d?\d MARGINWIDTH=\d?\d?\d background="images/bgline\.gif">
+<TABLE width="\d?\d?\d%" height="\d?\d?\d" border=\d?\d?\d cellPadding=\d?\d?\d cellSpacing=\d?\d?\d background="images/gbcolor\.jpg">.*
+	<SCRIPT>tbl_tail\(''\);</SCRIPT>
+
+	</TD>
+	<td vAlign=top><br><br><input type=button class=button value="刷  新" onclick="location='system_status\.asp'">
+	</td>
+
+</TR>
+</TABLE>
+</FORM>
+
+</BODY>
+</HTML>

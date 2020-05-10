@@ -1,0 +1,77 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>VcExtend文档</title>
+</head>
+
+<body topmargin="0" leftmargin="0">
+<script language="javascript" src="/js/header.js"></script>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td height="20"></td>
+    </tr>
+  </table>
+  </center>
+</div>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td width="100%">
+        <div align="center">
+          <table border="0" width="680">
+            <tr>
+              <td align="right" height="18">VcExtend文档
+                <hr size="1" color="#000080">
+              </td>
+            </tr>
+            <tr>
+              <td align="center" height="10"></td>
+            </tr>
+            <tr>
+              <td align="center"><b>五、生成函数体与数据接口----好用的代码整理功能</b></td>
+            </tr>
+            <tr>
+              <td height="10"></td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp; 虽然Rose的代码生成功能不错，但附加的无数的注释却让我深恶痛绝，最后还是决定不用它生成的代码。我希望做一个简单的工具，可以先进行类设计，然后自动生成代码框架，修改了类设计后还可以很方便地在不影响有效代码的前提下重新生成代码框架，当然，不能有很多的附加注释！CodeCleanUp就是这样子的一个工具！<br> 
+                <br>
+                &nbsp;&nbsp;&nbsp; 使用CodeCleanUp，你可以先写头文件，把所有的函数声明和成员变量都写出来，然后一下子就把函数体和数据接口生成了。
+                <p>&nbsp;&nbsp;&nbsp; CodeCleanUp主要有三个功能，一是函数体生成，二是数据接口函数生成，三是函数体按声明的顺序重排序。不管你的头文件写了多少或修改了多少，CodeCleanUp都会很好的工作。 
+		    	</p>
+                <p>&nbsp;&nbsp;&nbsp; 要提供公共接口的成员变量，只要在注释上加上读写标记就行，只读为//R，只写为//W，可读写为//RW，这样，你自己可以对哪些成员变量是可读写的一目了然，而CodeCleanUp会根据这些标记生成公共数据接口。任何时候，你都可以修改读写标记，然后点击CodeCleanUp，都会自动生成或删除接口函数。</p> 
+                <p>&nbsp;&nbsp;&nbsp; 接口函数默认的命名规则是Get或Set加上去掉前缀的变量名，如果不喜欢，可以修改，参见后面的关于可选项的章节。</p> 
+                <p>&nbsp;&nbsp;&nbsp; 接口函数的实现代码也是自动生成的，一般情况下可以直接使用，当然你也可以修改它。</p> 
+                <p>&nbsp;&nbsp;&nbsp; 接口函数都是内联的，实现在.inl文件里，你可以使用CodeJump方便的在声明与实现之间跳转。 
+		    	</p>
+                <p>&nbsp;&nbsp;&nbsp; 			除了接口函数外，其他函数也可以声明为内联，只要在声明的最前面加inline，CodeCleanUp就会把它生成到.inl文件中去，但函数体里的实现代码当然不会象接口函数一样自动生成了，可以使用CodeJump跳过去写自己的代码。 
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; 要删除一个或一些函数，只要删掉声明后运行CodeCleanUp就行，接口函数则只需修改成员变量的读写标记。内联函数一般都是很简单的，所以删除时会完全删掉，但普通函数则不会删除函数体，因为里边的代码说不定你还要用呢，所以只会把它移到最上边，要手工删掉才行。
+		        </p>
+                <p>&nbsp;&nbsp;&nbsp; CodeCleanUp会把接口函数的声明放在头文件的最下边，这样你所要关注的代码就少了很多，可以把注意力放在最重要的代码上。 
+		        </p>
+                </td>
+            </tr>
+            <tr>
+              <td height="30"></td>
+            </tr>
+            <tr>
+              <td align="right"><a href="index.htm">返回目录页</a>&nbsp;&nbsp; 
+                下一节：<a href="comment.htm">让你爱上写注释----注释可隐可现，文档自动生成</a></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+  </center>
+</div>
+<script language="javascript" src="/js/tail.js"></script>
+</body>
+
+</html>

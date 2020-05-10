@@ -1,0 +1,10 @@
+char 
+short 
+int 
+unsigned 
+long 
+float 
+double 
+void  
+signed 
+bool 

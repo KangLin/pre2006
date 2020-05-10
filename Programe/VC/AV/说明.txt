@@ -1,0 +1,9 @@
+VideoCtrl:视频捕获控件
+DisplayVideo:显示视频控件
+
+以上两控件配套使用。
+
+Video:视频捕获显示类
+Video2.0:视频捕获显示类2.0版
+Compress:压缩器
+Audio:音频捕获

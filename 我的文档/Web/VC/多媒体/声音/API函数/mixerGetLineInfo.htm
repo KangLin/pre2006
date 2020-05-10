@@ -1,0 +1,189 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>mixerGetLineInfo</title>
+</head>
+
+<body>
+
+<h1 align="center"><font size="7">mixerGetLineInfo</font></h1>
+<p align="center">康&nbsp; 林</p>
+<p>返回指定混频设备的信息。</p>
+<pre><code><b>MMRESULT mixerGetLineInfo(
+  HMIXEROBJ</b><i> hmxobj</i><b>,  </b>
+<b>  LPMIXERLINE</b><i> pmxl</i><b>,  </b>
+<b>  DWORD</b><i> fdwInfo      </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>hmxobj</i> </dt>
+	<dd>控制指定音频线的混频器对象的句柄。</dd>
+	<dt><i>pmxl</i> </dt>
+	<dd>&nbsp;<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_3y7m.htm"><b>MIXERLINE</b></a> 
+	结构的地址，这个结构将背混频器驱动程序相关的音频线的信息填充。<font color="#FF0000">成员<b> cbStruct</b> 
+	必须用这个结构的大小初始化，单位：字节。</font></dd>
+	<dt><i>fdwInfo</i> </dt>
+	<dd>关于返回音频线信息的标识。<dl>
+		<dt>MIXER_GETLINEINFOF_COMPONENTTYPE </dt>
+		<dd>参数<i> pmxl</i> 返回关于结构 MIXERLINE 中成员 dwComponentType 
+		中指定类型的音频线的第一个音频线的信息。这个标识用于返回一个指定的组合类型的音频线的信息。</dd>
+		<dt>MIXER_GETLINEINFOF_DESTINATION </dt>
+		<dd>参数 <i>pmxl</i> 返回关于在结构 MIXERLINE 中成员 dwDestination 
+		中指定的目的音频线的信息。这个索引范围是从0到结构MIXERCAPS 中成员 dwDestinations 减一。All remaining 
+		structure members except <b>cbStruct</b> require no further 
+		initialization. 
+		</dd>
+		<dt>MIXER_GETLINEINFOF_LINEID </dt>
+		<dd>参数 <i>pmxl</i> 返回关于 MIXERLINE 结构中成员 dwLineID 指定的音频线的信息。 This is 
+		usually used to retrieve updated information about the state of an audio 
+		line. All remaining structure members except <b>cbStruct</b> require no 
+		further initialization. 
+		</dd>
+		<dt>MIXER_GETLINEINFOF_SOURCE </dt>
+		<dd>参数 <i>pmxl</i> 返回关于由 MIXERLINE 中成员 dwDestination 和 dwSource 
+		指定的源音频线。The index specified by <b>dwDestination</b> ranges from zero to 
+		one less than the value in the <b>cDestinations</b> member of the
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_9l9u.htm">
+		<b>MIXERCAPS</b></a> structure. The index specified by <b>dwSource</b> 
+		ranges from zero to one less than the value in the <b>cConnections</b> 
+		member of the <b>MIXERLINE</b> structure returned for the audio line 
+		stored in the <b>dwDestination</b> member. All remaining structure 
+		members except <b>cbStruct</b> require no further initialization. 
+		</dd>
+		<dt>MIXER_GETLINEINFOF_TARGETTYPE </dt>
+		<dd>参数 <i>pmxl</i> 将返回关于 MIXERLINE 结构中 Target 结构中成员 dwType 
+		指定的音频线的信息。这个标识用于返回关于一个音频线的对象类型的句柄的信息。（例如：MIXERLINE_TARGETTYPE_WAVEOUT）。当用这个标识调用函数 
+		mixerGetLineInfo 前，MIXERLINE 结构的成员 dwType,wMid,wPid,vDriverVersion 和 
+		szPname。All of these values can be retrieved from the device 
+		capabilities structures for all media devices. Remaining structure 
+		members except <b>cbStruct</b> require no further initialization. 
+		</dd>
+		<dt>MIXER_OBJECTF_AUX </dt>
+		<dd>参数 <i>hmxobj</i> 是一个辅助设备标识符，范围从0到 auxGetNumDevs 减一。</dd>
+		<dt>MIXER_OBJECTF_HMIDIIN </dt>
+		<dd>参数 <i>hmxobj</i> 是一个设备 MIDI 输入设备的句柄。这个句柄必须是一个由函数 midiInOpen 返回的句柄。 
+		</dd>
+		<dt>MIXER_OBJECTF_HMIDIOUT </dt>
+		<dd>参数 <i>hmxobj</i> 是一个设备 MIDI 输出设备的句柄。这个句柄必须是由函数 midiOutOpen 返回的。 
+		</dd>
+		<dt>MIXER_OBJECTF_HMIXER </dt>
+		<dd>参数 <i>hmxobj</i> 是一个混频设备的句柄，这个句柄是这个函数 
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_1cq6.htm">
+		<b>mixerOpen</b></a> 返回的。这个标识是可选的。 
+		</dd>
+		<dt>MIXER_OBJECTF_HWAVEIN </dt>
+		<dd>参数 <i>hmxobj</i> 是一个波形音频输入设备句柄，这个句柄是由函数 
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_1q5q.htm">
+		<b>waveInOpen</b></a> 返回的。</dd>
+		<dt>MIXER_OBJECTF_HWAVEOUT </dt>
+		<dd>参数 <i>hmxobj</i> 是一个波形音频输出设备的句柄，这个句柄是由函数 
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_36b2.htm">
+		<b>waveOutOpen</b></a> 返回的。</dd>
+		<dt>MIXER_OBJECTF_MIDIIN </dt>
+		<dd>参数 <i>hmxobj</i> 是一个 MIDI 输入设备标识符。这个标识符必须是一个范围从0到函数 midiInGetNumDevs 
+		减一。 
+		</dd>
+		<dt>MIXER_OBJECTF_MIDIOUT </dt>
+		<dd>参数 <i>hmxobj</i> 是一个 MIDI 输出设备标识符。这个标识符必须是一个范围从0到函数 
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_7j03.htm">
+		<b>midiOutGetNumDevs</b></a> 减一。</dd>
+		<dt>MIXER_OBJECTF_MIXER </dt>
+		<dd>参数 <i>hmxobj</i> 是一个混频设备的标识符，范围从0到函数 
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_4xrn.htm">
+		<b>mixerGetNumDevs</b></a> 减一。这个标识是可选的。 
+		</dd>
+		<dt>MIXER_OBJECTF_WAVEIN </dt>
+		<dd>参数 <i>hmxobj</i> 是波形音频输入设备的标识符。范围从0到函数 
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_5oj7.htm">
+		<b>waveInGetNumDevs</b></a> 减一。</dd>
+		<dt>MIXER_OBJECTF_WAVEOUT </dt>
+		<dd>参数 <i>hmxobj</i> 是波形音频输出设备的标识符。范围从0到函数 
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_2ooj.htm">
+		<b>waveOutGetNumDevs</b></a>&nbsp; 减一。 
+		</dd>
+	</dl>
+	</dd>
+</dl>
+<h4>返回值：</h4>
+<p>如果成功返回 MMSYSERR_NOERROR ，否则返回一个错误。 </p>
+<table cellSpacing="4" cols="4">
+	<tr vAlign="top">
+		<th align="left" width="44%">Value</th>
+		<th align="left" width="55%" colSpan="2">Description</th>
+	</tr>
+	<tr vAlign="top">
+		<td width="45%" colSpan="2">MIXERR_INVALLINE</td>
+		<td width="55%" colSpan="2">The audio line reference is invalid.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="45%" colSpan="2">MMSYSERR_BADDEVICEID</td>
+		<td width="55%" colSpan="2">The <i>hmxobj</i> parameter specifies an 
+		invalid device identifier.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="45%" colSpan="2">MMSYSERR_INVALFLAG</td>
+		<td width="55%" colSpan="2">One or more flags are invalid.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="45%" colSpan="2">MMSYSERR_INVALHANDLE</td>
+		<td width="55%" colSpan="2">The <i>hmxobj</i> parameter specifies an 
+		invalid handle.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="45%" colSpan="2">MMSYSERR_INVALPARAM</td>
+		<td width="55%" colSpan="2">One or more parameters are invalid.</td>
+	</tr>
+	<tr vAlign="top">
+		<td width="45%" colSpan="2">MMSYSERR_NODRIVER</td>
+		<td width="55%" colSpan="2">No mixer device is available for the object 
+		specified by <i>hmxobj</i>.</td>
+	</tr>
+</table>
+<br>
+　<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in mmsystem.h.<br>
+<b>&nbsp;&nbsp;Import Library: </b>Use winmm.lib.<br>
+<b>&nbsp;&nbsp;Unicode: </b>Implemented as Unicode and ANSI versions on Windows NT.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/mixer_10xf.htm">
+Audio Mixers Overview</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/mixer_4msz.htm">
+Audio Mixer Functions</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_3y7m.htm">
+<b>MIXERLINE</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmstr_9l9u.htm">
+<b>MIXERCAPS</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_08hf.htm">
+<b>auxGetNumDevs</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_00xa.htm">
+<b>midiInOpen</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_4bam.htm">
+<b>midiOutOpen</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_1cq6.htm">
+<b>mixerOpen</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_1q5q.htm">
+<b>waveInOpen</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_36b2.htm">
+<b>waveOutOpen</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_4cmr.htm">
+<b>midiInGetNumDevs</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_7j03.htm">
+<b>midiOutGetNumDevs</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_4xrn.htm">
+<b>mixerGetNumDevs</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_5oj7.htm">
+<b>waveInGetNumDevs</b></a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmfunc_2ooj.htm">
+<b>waveOutGetNumDevs</b></a> </p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

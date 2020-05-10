@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoDisplayConstOrMacro", "..\..\..\..\Visual Studio Projects\VC7\DLL\AutoDisplayConstOrMacro\AutoDisplayConstOrMacro.vcproj", "{F7A598A9-1FD7-467D-83C1-B6BD05C12EA0}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MicrosoftDevelopmentEnvironmentExtendTools", "MicrosoftDevelopmentEnvironmentExtendTools.vcproj", "{8C722A10-55B5-4C84-9113-433321BB4609}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F7A598A9-1FD7-467D-83C1-B6BD05C12EA0} = {F7A598A9-1FD7-467D-83C1-B6BD05C12EA0}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{F7A598A9-1FD7-467D-83C1-B6BD05C12EA0}.Debug.ActiveCfg = Debug|Win32
+		{F7A598A9-1FD7-467D-83C1-B6BD05C12EA0}.Debug.Build.0 = Debug|Win32
+		{F7A598A9-1FD7-467D-83C1-B6BD05C12EA0}.Release.ActiveCfg = Release|Win32
+		{F7A598A9-1FD7-467D-83C1-B6BD05C12EA0}.Release.Build.0 = Release|Win32
+		{8C722A10-55B5-4C84-9113-433321BB4609}.Debug.ActiveCfg = Debug|Win32
+		{8C722A10-55B5-4C84-9113-433321BB4609}.Debug.Build.0 = Debug|Win32
+		{8C722A10-55B5-4C84-9113-433321BB4609}.Release.ActiveCfg = Release|Win32
+		{8C722A10-55B5-4C84-9113-433321BB4609}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<OBJECT type="text/site properties">
+	<param name="WindowName" value="windows">
+	<param name="Window Styles" value="0x800025">
+	<param name="ImageType" value="Folder">
+</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="欢迎">
+		<param name="Local" value="欢迎.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="声明">
+		<param name="Local" value="版权.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="序言">
+		<param name="Local" value="序言.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="安装">
+		<param name="Local" value="安装.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="功能">
+		<param name="Local" value="自动格式化VC代码.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="自动格式化 VC 代码">
+			<param name="Local" value="自动格式化VC代码.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="增加结束块注释">
+			<param name="Local" value="增加结束块注释.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="常量、宏自动提示器">
+			<param name="Local" value="常量、宏自动提示器.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="注释">
+			<param name="Local" value="注释.html">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="函数注释">
+				<param name="Local" value="注释.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="自动对齐注释">
+				<param name="Local" value="对齐注释.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="头文件与实现文件互换">
+				<param name="Local" value="头文件与实现文件互换.html#VisualStudioNetExtendTools.Connect.SwitchCppToH">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="添加头文件">
+				<param name="Local" value="头文件与实现文件互换.html">
+				<param name="URL" value="头文件与实现文件互换.html#VisualStudioNetExtendTools.Connect.IncludeFile">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="得到相对路径，并复制到剪切板中">
+				<param name="Local" value="头文件与实现文件互换.html#VisualStudioNetExtendTools.Connect.GetFileRelativePath">
+				<param name="URL" value="头文件与实现文件互换.html#VisualStudioNetExtendTools.Connect.GetFileRelativePath">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="注释掉TRACE语句">
+				<param name="Local" value="TRACE.html#VisualStudioNetExtendTools.Connect.CommentTRACE">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="去掉TRACE的注释">
+				<param name="Local" value="TRACE.html#VisualStudioNetExtendTools.Connect.UncommentTRACE">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="超链接、书签">
+				<param name="Local" value="超链接、书签.html">
+				</OBJECT>
+		</UL>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="历史版本">
+		<param name="Local" value="历史版本.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="编程规范和范例">
+		<param name="Local" value="编程规范和范例.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="BUG报告表">
+		<param name="Local" value="..\..\..\..\..\..\我的文档\模板\BUG 报告表.dot">
+		</OBJECT>
+</UL>
+</BODY></HTML>

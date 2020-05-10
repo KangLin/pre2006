@@ -1,0 +1,141 @@
+\section{Memory.c文件参考}
+\label{_memory_8c}\index{Memory.c@{Memory.c}}
+This functions that is used to managent memory. The file is used to implement this functions. 
+
+{\tt \#include \char`\"{}Memory.h\char`\"{}}\par
+
+
+Memory.c包含/依赖关系图：\subsection*{函数}
+\begin{CompactItemize}
+\item 
+PVOID {\bf Allocate\-Buffer} (int n\-Size)
+\begin{CompactList}\small\item\em Allocate Buffer,The buffer allocated with it. use Free\-Buffer function to free. \item\end{CompactList}\item 
+void {\bf Free\-Buffer} (PVOID p)
+\begin{CompactList}\small\item\em Free Buffer \item\end{CompactList}\item 
+void {\bf Move\-Buffer} (PVOID p\-Destination, PVOID p\-Source, ULONG n\-Len)
+\begin{CompactList}\small\item\em Move Buffer \item\end{CompactList}\item 
+void {\bf Free\-Unicode\-Buffer} (PUNICODE\_\-STRING p\-String)
+\begin{CompactList}\small\item\em Free Unicode Buffer \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{详细描述}
+This functions that is used to managent memory. The file is used to implement this functions. 
+
+\begin{Desc}
+\item[警告:]Copyright (C) 2007 Kang\-Lin Studio;All rights reserved.\end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin ({\tt kl222@126.com}) \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-15 13:46:15 \end{Desc}
+\begin{Desc}
+\item[Compiler:]Microsoft Visual Studio 8.0 —— C/C++ 8.0 \end{Desc}
+
+
+在文件{\bf Memory.c}中定义。
+
+\subsection{函数文档}
+\index{Memory.c@{Memory.c}!AllocateBuffer@{AllocateBuffer}}
+\index{AllocateBuffer@{AllocateBuffer}!Memory.c@{Memory.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}PVOID Allocate\-Buffer (int {\em n\-Size})}\label{_memory_8c_d1278ccbb86850662bb62df4ae7b2dfa}
+
+
+Allocate Buffer,The buffer allocated with it. use Free\-Buffer function to free. 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em int}]n\-Size：buffer size. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 PVOID 。If success, return pointer of buffer, otherwise is NULL. \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-15 13:47:44 \end{Desc}
+
+
+在文件Memory.c第24行定义。
+
+参考 SFLT\_\-POOL\_\-TAG.
+
+参考自 Adjust\-Array()、Get\-Full\-Path()、Insert\-Element()、Process\-File\-Both\-Directory\-Information()、Remove\-Element()及Sf\-Is\-Disable\-Delete\-File().\index{Memory.c@{Memory.c}!FreeBuffer@{FreeBuffer}}
+\index{FreeBuffer@{FreeBuffer}!Memory.c@{Memory.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Free\-Buffer (PVOID {\em p})}\label{_memory_8c_afe709c114f192a36ac8c0e46a8d609f}
+
+
+Free Buffer 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PVOID}]p： \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 void 。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-15 13:48:45 \end{Desc}
+
+
+在文件Memory.c第42行定义。
+
+参考 SFLT\_\-POOL\_\-TAG.
+
+参考自 Adjust\-Array()、Clear\-Array()、Clear\-Call\-Back()、Free\-Unicode\-Buffer()、Process\-File\-Both\-Directory\-Information()、Remove\-Element()及Sf\-Is\-Disable\-Delete\-File().\index{Memory.c@{Memory.c}!FreeUnicodeBuffer@{FreeUnicodeBuffer}}
+\index{FreeUnicodeBuffer@{FreeUnicodeBuffer}!Memory.c@{Memory.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Free\-Unicode\-Buffer (PUNICODE\_\-STRING {\em p\-String})}\label{_memory_8c_65bc27a5c446fac2552e1cf0df9b4c43}
+
+
+Free Unicode Buffer 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PUNICODE\_\-STRING}]p\-String： \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 void 。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-15 13:49:39 \end{Desc}
+
+
+在文件Memory.c第86行定义。
+
+参考 Free\-Buffer().
+
+参考自 Sf\-Directory\-Control()、Sf\-Set\-Information()及Sf\-Write().\index{Memory.c@{Memory.c}!MoveBuffer@{MoveBuffer}}
+\index{MoveBuffer@{MoveBuffer}!Memory.c@{Memory.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Move\-Buffer (PVOID {\em p\-Destination}, PVOID {\em p\-Source}, ULONG {\em n\-Len})}\label{_memory_8c_dbe548915433bf112247a74048250346}
+
+
+Move Buffer 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em PVOID}]p\-Destination：Destination buffer \item[{\em PVOID}]p\-Source ：Source buffer \item[{\em ULONG}]n\-Len ：move length,in byte \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 void 。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-15 13:48:53 \end{Desc}
+
+
+在文件Memory.c第66行定义。
+
+参考自 Adjust\-Array()、Append\-Element\-Array()、Get\-Element()、Insert\-Element()、Insert\-Element\-Array()、Process\-File\-Both\-Directory\-Information()、Remove\-Element()、Remove\-Element\-Array()及Replace\-Element\-Array().

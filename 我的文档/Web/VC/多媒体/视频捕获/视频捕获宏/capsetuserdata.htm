@@ -1,0 +1,47 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>capSetUserData</title>
+</head>
+
+<body>
+
+<h1 align="center">capSetUserData</h1>
+<p align="center">康&nbsp; 林</p>
+<p>你能用这个宏或者明确地调用 
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_95nl.htm">
+WM_CAP_SET_USER_DATA</a> 消息，把一个 <b>LONG</b> 型的数据值联系到一个捕获窗口。</p>
+<pre><code><b>BOOL capSetUserData(
+ </b><i> hwnd</i><b>,  </b>
+<b> </b><i> lUser  </i>
+<b>);</b>
+ </code></pre>
+<h4>参数：</h4>
+<dl>
+	<dt><i>hwnd</i> </dt>
+	<dd>捕获窗口的句柄。</dd>
+	<dt><i>lUser</i> </dt>
+	<dd>与捕获窗口相联第的值。</dd>
+</dl>
+<h4>返回值：</h4>
+<p>如果成功返回 TRUE，如果捕获正在进行，返回 FALSE。</p>
+<h4>注释：</h4>
+<p>典型地，这个消息用于为捕获窗口相联系的数据块的指针。</p>
+<h4>QuickInfo</h4>
+<p><b>&nbsp;&nbsp;Windows NT: </b>Requires version 3.1 or later.<br>
+<b>&nbsp;&nbsp;Windows: </b>Requires Windows 95 or later.<br>
+<b>&nbsp;&nbsp;Windows CE: </b>Unsupported.<br>
+<b>&nbsp;&nbsp;Header: </b>Declared in vfw.h.</p>
+<h4>See Also</h4>
+<p>
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdgrmm/avicap_8xyd.htm">
+Video Capture Overview</a>,
+<a href="index.htm">Video Capture Macros</a>,
+<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/MultiMed.chm::/devdoc/live/pdref/mmmsg_95nl.htm">
+WM_CAP_SET_USER_DATA</a></p>
+
+</body>
+
+</html>

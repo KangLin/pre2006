@@ -1,0 +1,6 @@
+..\release\ShowDialog.dll
+..\release\AutoDisplayConstOrMacro.dll
+..\release\MicrosoftDevelopmentEnvironmentExtendTools.dll
+setup\list.txt
+setup\mdeet.ini
+setup\license.rtf

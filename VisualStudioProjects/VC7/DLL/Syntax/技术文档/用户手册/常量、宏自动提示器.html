@@ -1,0 +1,125 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<!-- #BeginEditable "doctitle" -->
+<title>Microsoft Development Environmen 7.1 扩展工具集 - 常量、宏自动提示器</title>
+<script language="vbscript" src="../../../../../../../../../../我的文档/Scrpit/webscrpit.bas"></script>
+<script language="jscript"  src="/../../../../../../../../../../../../我的文档/Scrpit/JumpTop.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../../../../../../我的文档/Scrpit/样式.css">
+<!-- #EndEditable -->
+</head>
+
+<body>
+
+<table border="0" width="100%" height="32">
+	
+	<tr>
+		<td width="32">
+		<img border="0" src="Picture/KL.BMP" width="32" height="32"></td>
+			<td align="center" height="37"><b><font size="5">Microsoft 
+			Development Environment 扩展工具集</font></b></td>
+	</tr>
+</table>
+
+<table border="0" width="100%" height="287">
+	<tr>
+		<td align="left" valign="top">
+		<P align="center"><SPAN lang="EN-US" style="FONT-WEIGHT: normal"><FONT face="宋体">
+					<SPAN style="FONT-FAMILY: 宋体">
+						<a name="常量、宏自动提示器"><STRONG>常量、宏自动提示器</STRONG></a></SPAN></FONT></SPAN></P>
+		<FONT face="宋体">
+			<P>
+				<TABLE id="table1" height="174" cellSpacing="1" width="552" border="0">
+					<TBODY>
+						<TR>
+							<TD><SPAN lang="EN-US" style="FONT-WEIGHT: normal">
+									<SPAN style="FONT-FAMILY: 宋体">
+										<FONT face="楷体_GB2312"><STRONG>功能:</STRONG></FONT></SPAN>
+								</SPAN></TD>
+						</TR>
+						<TR>
+							<TD><SPAN lang="EN-US" style="FONT-WEIGHT: normal"><FONT face="宋体">
+										<SPAN style="FONT-FAMILY: 宋体">提示常量、宏,并完成自动输入。能够记录用户自己定义的宏。并在提示器中显示。</SPAN></FONT></SPAN></TD>
+						</TR>
+						<TR>
+							<TD><FONT face="楷体_GB2312"><STRONG>用法：</STRONG></FONT></TD>
+						</TR>
+						<TR>
+							<TD>
+								<SPAN style="FONT-FAMILY: 宋体">激活字符：<BR>要显示系统提供的默认宏，默认激活字符为“..”。<BR>要显示用户自己定义的宏，默认激活字符为“.&gt;”。<BR>你可在配置文件中设置自己的激活字符。<BR>注意：如果用户把系统提供的宏的激活字符与用户自己定义的宏的激活字符设置为相同的话，那么用户自己定义的宏自动增加到系统提供的宏中。也就是说用户自己定义的宏与系统提供的宏一起显示。当关闭解决方案时，用户自己定义的宏将被从系统中删除。</SPAN><P><SPAN style="FONT-FAMILY: 宋体">取消显示用 “ ESC ”&nbsp;键。</SPAN></P>
+								<P><FONT face="宋体"><SPAN style="FONT-FAMILY: 宋体">选取项目:用Alt+光标键(Up、Down)：单行；<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      Alt+（PAGEUP、PAGEDOWN）：翻页；<BR>&nbsp;&nbsp;&nbsp; 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alt+（HOME、END）：至顶、至尾；<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      也可以用鼠标。选中后双击，即可自动完成输入。</SPAN></FONT></P>
+								<P><FONT face="宋体"><SPAN style="FONT-FAMILY: 宋体">自动完成输入：<BR>&nbsp;&nbsp;&nbsp; 
+      当输入空格、分号“；”、大括号、小括号、中括号、问号、单引号、双引号、冒号“:”、算术运算符号（“+”、“-”、“*”、“/”、“%”、“\”）、逻辑运算符号（“&amp;”、“|”、“^”、“~”、“!”)等时，自动完成输入。</SPAN></FONT></P>
+							</TD>
+						</TR>
+						<TR>
+							<TD><SPAN style="FONT-FAMILY: 宋体"><STRONG><FONT face="楷体_GB2312">配置文件</FONT></STRONG>：AutoDisplayConstOrmacro.InI</SPAN></TD>
+						</TR>
+						<TR>
+							<TD>
+								[Settings]
+									<BR>
+									<FONT face="宋体">
+										<SPAN style="FONT-FAMILY: 宋体">;显示系统提供的宏的激活键<BR>PromptString =                         .. 
+      <BR> ;显示用户添加的宏的激活键<BR>UserPromptString = .&gt; 
+      <BR>;当显示提示框时，按“ESC”键的作用。TRUE：清除已输入的字符。FALSE：不清除已输入的字符。<BR>ESCFunction = TRUE <BR>;包含要显示的内容的文件<BR>ListFile = "List.txt" 
+								</SPAN></FONT>
+							</TD>
+						</TR>
+		</FONT>
+		<TR>
+			<TD>
+				<font face="楷体_GB2312"><b>宏例表文件</b></font></FONT></SPAN><SPAN style="FONT-FAMILY: 宋体">：在配置文件中的 ListFile 
+中设置。默认为：List.txt</SPAN></TD>
+		</TR>
+		<TR>
+			<TD>
+				此文件包含系统提供的宏、常量。<br>
+				文件格式：一条宏或常量占一行。<br>
+				我已用工具《得到文件中的宏》从VS.NET2003中提出了VC7目录下的宏放在此文件中。在我机器上用了一天时间。因为在提取时中断了几次，所以可能没有完全提取出所有的宏。只提取了“C:\Program 
+				Files\Microsoft Visual Studio .NET 2003\Vc7\PlatformSDK\Include”下的宏<a href="list.txt">
+					list.txt</a>&nbsp;。总共有 129309 
+				条。由于太大，所能没放到程序文件夹中，如果你的内存够大，你可用下面的工具把它与程序文件夹中的 list.txt 
+				合并，以便使用。如果你有兴趣的话，你可用我提供的工具重新提取“C:\Program Files\Microsoft Visual Studio .NET 
+				2003\Vc7\”一遍。如果你是一次性的提取，请你把 List.txt 文件发给我。当然，如果你用 C#、JAVA，那你要把 list.txt 
+				换成相应的宏列表文件。因为我没用过这两种语言，所以没有提取，不知它们中的宏定义是否与 C\C++ 
+				中的一样，如果一样，那也可用我提供的这个工具提取。如果你有办法提取它们中的宏，请把你的程序发给我。</TD>
+		</TR>
+		<SPAN lang="EN-US" style="FONT-WEIGHT: normal">
+						<tr>
+					<TD><FONT face="楷体_GB2312"><STRONG>工具：</STRONG> </FONT>
+					</TD>
+						</tr>
+		<tr>
+					<TD>
+						<FONT face="宋体">《得到文件中的宏》<BR>
+							</FONT>从头文件（文件扩展名为.h，其它文件不读取）中提取宏,宏被保存在当前目录下的 List.txt 文件中。<br>
+							菜单中的“工具-&gt;合并宏”，合并两文件中的宏，并去掉重复的项。<P>位于安装文件夹中，在“开始-&gt;所有程序-&gt;微软开发环境扩展工具集”下。</P>
+					</TD>
+			</tr></TBODY></TABLE><table width="113" id="table2">
+				<TR>
+					<TD><STRONG><FONT face="楷体_GB2312">效果</FONT></STRONG>：</TD>
+				</TR>
+				<TR>
+					<TD><IMG alt="" src="Picture/宏自动提示器.JPG"></TD>
+				</TR>
+			</table></P></SPAN>
+		<p align="center"><a href="注释.html">下一步</a></td>
+	</tr>
+</table>
+<table border="0" width="100%" height="32">
+	<tr>
+		<td width="32" height="26">
+		<img border="0" src="Picture/KL.BMP" width="32" height="32"></td>
+			<td align="center" height="26">版权所有(C) 2004-2006 康林工作室；保留所有权力。</td>
+	</tr>
+
+</table>
+
+</body>
+
+</html>

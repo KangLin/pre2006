@@ -1,0 +1,18 @@
+[OPTIONS]
+Auto Index=Yes
+Compiled file=..\..\..\..\chm\工具条.chm
+Contents file=Table of Contents.hhc
+Default Window=window
+Default topic=说明.htm
+Display compile progress=No
+Full-text search=Yes
+Index file=Index.hhk
+Language=0x804 中文(中国)
+Title=工具条
+
+[WINDOWS]
+window="工具条","Table of Contents.hhc",,"说明.htm","说明.htm",,,,,0x2520,,0x387e,,0xb0000,0x90,,0,,,0
+
+
+[INFOTYPES]
+

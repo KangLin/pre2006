@@ -1,0 +1,277 @@
+\section{CKSFilter\-Control类参考}
+\label{class_c_k_s_filter_control}\index{CKSFilterControl@{CKSFilterControl}}
+\doxyref{CKSFilter\-Control}{p.}{class_c_k_s_filter_control} 类  
+
+
+{\tt \#include $<$KSFilter\-Control.h$>$}
+
+\subsection*{公有成员}
+\begin{CompactItemize}
+\item 
+{\bf CKSFilter\-Control} ()
+\item 
+{\bf CKSFilter\-Control} (LPCTSTR psz\-File)
+\item 
+{\bf $\sim$CKSFilter\-Control} ()
+\item 
+BOOL {\bf Open\-Device} ()
+\begin{CompactList}\small\item\em 打开 KSFilter 设备。 \item\end{CompactList}\item 
+BOOL {\bf Close\-Device} ()
+\begin{CompactList}\small\item\em 关闭 KSFilter 设备。 \item\end{CompactList}\item 
+BOOL {\bf Device\-Io\-Control} (DWORD dw\-Io\-Control\-Code, LPVOID lp\-In\-Buffer, DWORD n\-In\-Buffer\-Size, LPVOID lp\-Out\-Buffer, DWORD n\-Out\-Buffer\-Size, LPDWORD lp\-Bytes\-Returned, LPOVERLAPPED lp\-Overlapped)
+\begin{CompactList}\small\item\em 发送指定的控制代码到 KSFilter 设备 \item\end{CompactList}\item 
+BOOL {\bf Device\-Io\-Control} (DWORD dw\-Io\-Control\-Code, LPVOID lp\-In\-Buffer, DWORD n\-In\-Buffer\-Size, LPVOID lp\-Out\-Buffer, DWORD n\-Out\-Buffer\-Size)
+\item 
+BOOL {\bf Set\-Protect\-File} (LPCTSTR sz\-File)
+\begin{CompactList}\small\item\em 设置要保护的文件。 \item\end{CompactList}\item 
+BOOL {\bf Remove\-Protect\-File} (LPCTSTR sz\-File)
+\begin{CompactList}\small\item\em 删除要保护的文件 \item\end{CompactList}\item 
+BOOL {\bf Set\-Config\-Name} (LPCTSTR lpsz\-File)
+\begin{CompactList}\small\item\em Set Config file Name \item\end{CompactList}\item 
+BOOL {\bf Load\-Config} (LPCTSTR lpsz\-File=NULL)
+\begin{CompactList}\small\item\em Load Config from the file \item\end{CompactList}\item 
+BOOL {\bf Save\-Config} (LPCTSTR lpsz\-File=NULL)
+\begin{CompactList}\small\item\em Save Config to the file. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{详细描述}
+\doxyref{CKSFilter\-Control}{p.}{class_c_k_s_filter_control} 类 
+
+用于控制 KSFilter 设备的库。 
+
+
+
+在文件KSFilter\-Control.h第22行定义。
+
+\subsection{构造及析构函数文档}
+\index{CKSFilterControl@{CKSFilter\-Control}!CKSFilterControl@{CKSFilterControl}}
+\index{CKSFilterControl@{CKSFilterControl}!CKSFilterControl@{CKSFilter\-Control}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}CKSFilter\-Control::CKSFilter\-Control ()}\label{class_c_k_s_filter_control_92ca3a48179535c767e8c76bf5d6269e}
+
+
+构造函数 
+
+在文件KSFilter\-Control.cpp第25行定义。\index{CKSFilterControl@{CKSFilter\-Control}!CKSFilterControl@{CKSFilterControl}}
+\index{CKSFilterControl@{CKSFilterControl}!CKSFilterControl@{CKSFilter\-Control}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}CKSFilter\-Control::CKSFilter\-Control (LPCTSTR {\em psz\-File})}\label{class_c_k_s_filter_control_1970627032f30c7eaa0e966017d89d1e}
+
+
+
+
+在文件KSFilter\-Control.cpp第30行定义。
+
+参考 Load\-Config().\index{CKSFilterControl@{CKSFilter\-Control}!~CKSFilterControl@{$\sim$CKSFilterControl}}
+\index{~CKSFilterControl@{$\sim$CKSFilterControl}!CKSFilterControl@{CKSFilter\-Control}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}CKSFilter\-Control::$\sim$CKSFilter\-Control ()}\label{class_c_k_s_filter_control_f383962496b7c8e8afb77235506aa7b2}
+
+
+析构函数 
+
+在文件KSFilter\-Control.cpp第37行定义。
+
+参考 Close\-Device()及Save\-Config().
+
+\subsection{成员函数文档}
+\index{CKSFilterControl@{CKSFilter\-Control}!OpenDevice@{OpenDevice}}
+\index{OpenDevice@{OpenDevice}!CKSFilterControl@{CKSFilter\-Control}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL CKSFilter\-Control::Open\-Device ()}\label{class_c_k_s_filter_control_c58b478469d4c120932c9f391e241033}
+
+
+打开 KSFilter 设备。 
+
+\begin{Desc}
+\item[返回:]类型为 BOOL 。成功返回 TRUE，失败返回 FALSE。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]Kang\-Lin \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-12 9:28:10 \end{Desc}
+
+
+在文件KSFilter\-Control.cpp第55行定义。
+
+参考自 Ctest\-Dlg::On\-Bn\-Clicked\-Button4()、Ctest\-Dlg::On\-Bn\-Clicked\-Button5()、Ctest\-Dlg::On\-Bn\-Clicked\-Button6()及Ctest\-Dlg::On\-Bn\-Clicked\-Button7().\index{CKSFilterControl@{CKSFilter\-Control}!CloseDevice@{CloseDevice}}
+\index{CloseDevice@{CloseDevice}!CKSFilterControl@{CKSFilter\-Control}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL CKSFilter\-Control::Close\-Device ()}\label{class_c_k_s_filter_control_799d9be8601c001267713348993d7265}
+
+
+关闭 KSFilter 设备。 
+
+\begin{Desc}
+\item[返回:]类型为 BOOL 。成功返回 TRUE，失败返回 FALSE。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-13 18:47:25 \end{Desc}
+
+
+在文件KSFilter\-Control.cpp第98行定义。
+
+参考自 Ctest\-Dlg::On\-Bn\-Clicked\-Button4()、Ctest\-Dlg::On\-Bn\-Clicked\-Button5()、Ctest\-Dlg::On\-Bn\-Clicked\-Button6()、Ctest\-Dlg::On\-Bn\-Clicked\-Button7()及$\sim$CKSFilter\-Control().\index{CKSFilterControl@{CKSFilter\-Control}!DeviceIoControl@{DeviceIoControl}}
+\index{DeviceIoControl@{DeviceIoControl}!CKSFilterControl@{CKSFilter\-Control}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL CKSFilter\-Control::Device\-Io\-Control (DWORD {\em dw\-Io\-Control\-Code}, LPVOID {\em lp\-In\-Buffer}, DWORD {\em n\-In\-Buffer\-Size}, LPVOID {\em lp\-Out\-Buffer}, DWORD {\em n\-Out\-Buffer\-Size}, LPDWORD {\em lp\-Bytes\-Returned}, LPOVERLAPPED {\em lp\-Overlapped})}\label{class_c_k_s_filter_control_8c5574db37055bb32c0719fac6749d08}
+
+
+发送指定的控制代码到 KSFilter 设备 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em DWORD}]dw\-Io\-Control\-Code ：代码 \item[{\em LPVOID}]lp\-In\-Buffer ：输入缓存 \item[{\em DWORD}]n\-In\-Buffer\-Size ：输入缓存的大小 \item[{\em LPVOID}]lp\-Out\-Buffer ：输出缓存 \item[{\em DWORD}]n\-Out\-Buffer\-Size ：输出缓存的大小 \item[{\em LPDWORD}]lp\-Bytes\-Returned ：返回的字节数 \item[{\em LPOVERLAPPED}]lp\-Overlapped：异步 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 BOOL 。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-13 18:37:45 \end{Desc}
+
+
+在文件KSFilter\-Control.cpp第132行定义。
+
+参考自 Device\-Io\-Control()、Remove\-Protect\-File()、Save\-Config()及Set\-Protect\-File().\index{CKSFilterControl@{CKSFilter\-Control}!DeviceIoControl@{DeviceIoControl}}
+\index{DeviceIoControl@{DeviceIoControl}!CKSFilterControl@{CKSFilter\-Control}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL CKSFilter\-Control::Device\-Io\-Control (DWORD {\em dw\-Io\-Control\-Code}, LPVOID {\em lp\-In\-Buffer}, DWORD {\em n\-In\-Buffer\-Size}, LPVOID {\em lp\-Out\-Buffer}, DWORD {\em n\-Out\-Buffer\-Size})}\label{class_c_k_s_filter_control_bcda6378e8b535807716b12b592bda58}
+
+
+
+
+在文件KSFilter\-Control.cpp第147行定义。
+
+参考 Device\-Io\-Control().\index{CKSFilterControl@{CKSFilter\-Control}!SetProtectFile@{SetProtectFile}}
+\index{SetProtectFile@{SetProtectFile}!CKSFilterControl@{CKSFilter\-Control}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL CKSFilter\-Control::Set\-Protect\-File (LPCTSTR {\em sz\-File})}\label{class_c_k_s_filter_control_8f613eaafa12f31d96580b96d4df1826}
+
+
+设置要保护的文件。 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em LPCTSTR}]sz\-File：文件名。 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 BOOL 。成功返回 TRUE，失败返回 FALSE。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-13 18:46:37 \end{Desc}
+
+
+在文件KSFilter\-Control.cpp第165行定义。
+
+参考 Device\-Io\-Control()及FSCTL\_\-SET\_\-PROTECT\_\-FILE.
+
+参考自 Load\-Config()、Ctest\-Dlg::On\-Bn\-Clicked\-Button5()及Save\-Config().\index{CKSFilterControl@{CKSFilter\-Control}!RemoveProtectFile@{RemoveProtectFile}}
+\index{RemoveProtectFile@{RemoveProtectFile}!CKSFilterControl@{CKSFilter\-Control}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL CKSFilter\-Control::Remove\-Protect\-File (LPCTSTR {\em sz\-File})}\label{class_c_k_s_filter_control_f4867e57be8272f54e95cb279d764e9a}
+
+
+删除要保护的文件 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em LPCTSTR}]sz\-File：要删除的文件 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 BOOL 。成功返回0,否则返回非零 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-15 14:19:42 \end{Desc}
+
+
+在文件KSFilter\-Control.cpp第187行定义。
+
+参考 Device\-Io\-Control()及FSCTL\_\-REMOVE\_\-PROTECT\_\-FILE.
+
+参考自 Load\-Config()、Ctest\-Dlg::On\-Bn\-Clicked\-Button6()及Save\-Config().\index{CKSFilterControl@{CKSFilter\-Control}!SetConfigName@{SetConfigName}}
+\index{SetConfigName@{SetConfigName}!CKSFilterControl@{CKSFilter\-Control}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL CKSFilter\-Control::Set\-Config\-Name (LPCTSTR {\em lpsz\-File})}\label{class_c_k_s_filter_control_e647e3ac7ec741b0d2a8f4d98aaef7a8}
+
+
+Set Config file Name 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em LPCTSTR}]lpsz\-File：config file name \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 BOOL 。 \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-22 14:32:13 \end{Desc}
+
+
+在文件KSFilter\-Control.cpp第209行定义。\index{CKSFilterControl@{CKSFilter\-Control}!LoadConfig@{LoadConfig}}
+\index{LoadConfig@{LoadConfig}!CKSFilterControl@{CKSFilter\-Control}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL CKSFilter\-Control::Load\-Config (LPCTSTR {\em lpsz\-File} = {\tt NULL})}\label{class_c_k_s_filter_control_21ea43b568d289f5ef000767f2fb5c89}
+
+
+Load Config from the file 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em LPCTSTR}]lpsz\-File：the config file name \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 BOOL 。If success, return TRUE, otherwise,return FALSE. \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-22 14:31:49 \end{Desc}
+
+
+在文件KSFilter\-Control.cpp第228行定义。
+
+参考 Remove\-Protect\-File()及Set\-Protect\-File().
+
+参考自 CKSFilter\-Control()及Ctest\-Dlg::On\-Bn\-Clicked\-Button7().\index{CKSFilterControl@{CKSFilter\-Control}!SaveConfig@{SaveConfig}}
+\index{SaveConfig@{SaveConfig}!CKSFilterControl@{CKSFilter\-Control}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}BOOL CKSFilter\-Control::Save\-Config (LPCTSTR {\em lpsz\-File} = {\tt NULL})}\label{class_c_k_s_filter_control_813b4d1a3235cf319847c697a5505e47}
+
+
+Save Config to the file. 
+
+\begin{Desc}
+\item[参数:]
+\begin{description}
+\item[{\em LPCTSTR}]lpsz\-File：the config file name \end{description}
+\end{Desc}
+\begin{Desc}
+\item[返回:]类型为 BOOL 。If success, return TRUE, otherwise,return FALSE. \end{Desc}
+\begin{Desc}
+\item[版本:]1.0 \end{Desc}
+\begin{Desc}
+\item[作者:]康 林 \end{Desc}
+\begin{Desc}
+\item[日期:]2007-5-22 14:31:42 \end{Desc}
+
+
+在文件KSFilter\-Control.cpp第274行定义。
+
+参考 Device\-Io\-Control()、FSCTL\_\-GET\_\-POSITION\_\-FILE、Remove\-Protect\-File()及Set\-Protect\-File().
+
+参考自 Ctest\-Dlg::On\-Bn\-Clicked\-Button4()及$\sim$CKSFilter\-Control().
+
+该类的文档由以下文件生成：\begin{CompactItemize}
+\item 
+{\bf KSFilter\-Control.h}\item 
+{\bf KSFilter\-Control.cpp}\end{CompactItemize}

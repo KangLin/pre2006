@@ -1,0 +1,135 @@
+<html>
+	<head>
+		<title>远程控制功能设计</title>
+		<meta http-equiv="Content-Language" content="zh-cn">
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+		<script language="javascript" src="../../../../我的文档/Scrpit/JumpTop.js"></script>
+		<script language="vbscript" src="../../../../我的文档/Scrpit/webscrpit.bas"></script>
+		<!-- #BeginEditable "doctitle" -->
+		<!-- #EndEditable -->
+		<link rel="stylesheet" type="text/css" href="../../../../我的文档/我的网站/Script/样式.css">
+	</head>
+	<body>
+		<table border="0" width="711" height="32">
+			<tr>
+				<td width="32">
+					<img border="0" src="../../../../我的文档/图片/KL.BMP" width="32" height="32"></td>
+				<td>
+					<p align="center"><b><font size="6">远程控制详细设计</font></b></p>
+				</td>
+			</tr>
+		</table>
+		<p align="center">康&nbsp; 林</p>
+		<p align="center"><b><font size="4">文件系统操作</font></b></p>
+		<ol>
+			<li>
+				<font size="4"><b>命令：</b></font>
+		<ol>
+			<li>
+				查找本机驱动器(drive)<br>
+				注：此命令只用于 Windows 系统<br>
+			命令格式：drive
+			<li>
+				得到当前目录(pwd)<br>
+			命令格式：pwd
+			<li>
+				显示目录、文件(dir)。
+				<br>
+				命令格式：dir 参数 文件名<br>
+				参数：<br>
+				&nbsp;&nbsp;&nbsp;&nbsp; -d：目录<br>
+				&nbsp;&nbsp;&nbsp;&nbsp; -f：文件<br>
+			&nbsp;&nbsp;&nbsp;&nbsp; -s：查找子目录<li>建立目录(md)。<br>
+			命令格式：md 目录名
+			<li>
+				进入目录(cd)。<br>
+			命令格式：cd 目录名
+			<li>
+				删除目录(rd)。<br>
+			命令格式：rd 目录名
+			<li>
+				删除目录树(deltree)<br>
+			命令格式：rd 目录名
+			<li>
+		复制目录、文件(copy)。
+		<ol>
+			<li>
+		上传(put)。
+		<ol>
+			<li>
+				目录<br>
+			命令格式：put -d 目录名
+			<li>
+				文件<br>
+				命令格式：put -f 文件名</li>
+		</ol>
+		<li>
+			下载(get)。
+			<ol>
+		<li>
+			目录<br>
+		命令格式：get -d 目录名
+		<li>
+			文件<br>
+			命令格式：get -f 文件名</li>
+		</ol></li> </ol>
+		<li>
+		建立文件(cf)。
+		<li>
+		重命名文件(rename)
+		<li>
+		删除文件(del)。
+		<li>
+		得到、更改文件、目录的属性(attrib)。
+		<li>
+			执行文件(exe)。
+			<ol>
+		<li>
+		执行可执行文件
+		<li>
+		在服务器端用相关连的程序打开文件
+		<li>
+			用指定的文件打开文件</li>
+		</ol></li> </ol>
+		<li>
+			<b><font size="4">实现：</font></b>
+			<ol>
+		<li>
+			类：CFileSystem
+			<ol>
+		<li>
+			成员函数：
+			<ol>
+		<li>
+			<p><span class="ShowLink" onclick="Call Show(GetDriver_table)"> GetAllDriver：</span>
+				<table class="TableStyle" id="GetAllDriver_table" style="DISPLAY:none">
+					<tr>
+						<td>
+							功能：得到当前有效的逻辑驱动器的掩码.<br>
+							参数：无<br>
+							返回值:如果函数成功调用,则返回当前有效逻辑驱器的掩码.比特0位表示驱动器A:，<br>
+							&nbsp;比特1位表示驱动器B:，比特2位表示驱动器C:，……<br>
+							<pre>  ……   4    3   2  1
+________________________
+| …… | 1 | 1 | 1 | 1 |
+------------------------
+  ……   ^   ^   ^   ^
+  ……   |   |   |   |
+  ……   D:  C:  B:  A;	</pre>
+						</td>
+					</tr>
+				</table>
+			</p>
+		</li>
+		</ol></li> </ol></li> </ol></li> </ol>
+		<table border="0" width="100%">
+			<tr>
+				<td width="32">
+					<img border="0" src="../../../../我的文档/图片/KL.BMP" width="32" height="32"></td>
+				<td>
+					<p align="center">版权所有（C）2005 康林工作室；保留所有权力</p>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

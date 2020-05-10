@@ -1,0 +1,309 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>//------------------------------</title>
+</head>
+
+<body>
+
+<p><b><font size="4"><span style="background-color: #FFFF00">FunctionComment：</span></font></b><br>
+功 能：给函数自动加注释<br>
+用 法：先把光标放在函数定义行的头行上，然后再执行本过程即可自动给函数加注释。效果如下</p>
+<table border="0" width="82">
+	<tr>
+		<td>
+		<pre><font color="#00FF00">/*******************************************************************************************************
+函数名：ConvertCoordinate
+功  能：坐标转换
+参  数：
+         long *x：设备横坐标
+         long *y：设备纵坐标
+         int *i：棋盘横坐标[0,8]
+         int *j：棋盘纵坐标[0,9]
+         ENUM_ConvertCoordinate eCC：转换方式 
+		                             XYToIJ:从设备坐标转换到棋盘坐标(默认值)
+									 IJToXY:从棋盘坐标转换到设备坐标
+返回值：返回真值。
+作  者：康  林
+版  本：1.0.0.1
+日  期：2004-8-24
+时  间：15:01:37
+*******************************************************************************************************/</font>
+BOOL CXQCtrl::ConvertCoordinate(long *x, long *y, int *i, int *j, ENUM_ConvertCoordinate eCC)
+{
+	switch(eCC)
+	{
+	case XYToIJ:
+		*i = (*x - m_QiPangStartX + m_QiPangDistance / 2) / m_QiPangDistance;
+		*j = (*y - m_QiPangStartY + m_QiPangDistance / 2) / m_QiPangDistance;
+		break;		
+	case IJToXY:
+         *x = m_QiPangStartX + *i * m_QiPangDistance;
+	     *y = m_QiPangStartY + *j * m_QiPangDistance;
+		break;
+	}
+	return true;
+}</pre>
+		</td>
+	</tr>
+</table>
+<p>如果是在文件的第一行执行此命令，则增加文件的信息。效果如下：</p>
+<table border="0" width="81">
+	<tr>
+		<td>
+		<pre><font color="#00FF00">/*******************************************************************************************************
+文件名：PlayVideoWnd.cpp
+功  能：显示视频窗口实现文件
+编译器：Visual C++ 6.0
+作  者：康  林
+       版权所有  保留所有权利
+版  本：1.0.0.1
+日  期：2004-11-3
+时  间：17:11:32
+*******************************************************************************************************/</font></pre>
+		</td>
+	</tr>
+</table>
+<p><b><font size="4"><span style="background-color: #FFFF00">FunctionSection：</span></font></b><br>
+'功 能：给执行某个功能的函数块加标志。</p>
+<table border="0" width="80">
+	<tr>
+		<td>
+		<pre><font color="#00FF00">//&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+//以下是完成 ===中国象棋属性=== 的函数块
+//</font></pre>
+		<pre>/*******************************************************************************************************
+函数名：OnQiPangColorChanged
+功  能：棋盘颜色属性通告函数
+参  数：无
+返回值：无
+作  者：康  林
+版  本：1.0.0.1
+日  期：2004-8-18
+时  间：15:51:24
+*******************************************************************************************************/
+void CXQCtrl::OnQiPangColorChanged() 
+{
+	SetModifiedFlag();
+	//重绘控件
+	InvalidateControl();
+}</pre>
+		<pre>void CXQCtrl::OnTiShiBoxColorChanged() 
+{
+	SetModifiedFlag();
+	//重绘控件
+	InvalidateControl();
+}</pre>
+		<pre>LPPICTUREDISP CXQCtrl::GetQiPangPicture() 
+{
+	// TODO: Add your property handler here</pre>
+		<pre>	return m_QiPangPictureHolder.GetPictureDispatch();
+}</pre>
+		<pre>void CXQCtrl::SetQiPangPicture(LPPICTUREDISP newValue) 
+{
+	// TODO: Add your property handler here</pre>
+		<pre>	m_QiPangPictureHolder.SetPictureDispatch(newValue);</pre>
+		<pre>	GetCBitmapFromCPictureHolder(&amp;m_QiPangPictureHolder, &amp;m_QiPangPicture);</pre>
+		<pre>	//设置修改标志
+	SetModifiedFlag();
+	//重绘控件
+	InvalidateControl();
+}</pre>
+		<pre>/*******************************************************************************************************
+函数名：SetStartSide
+功  能：谁先走棋。
+参  数：
+         long nNewValue：先走方
+返回值：无
+作  者：康  林
+版  本：1.0.0.1
+日  期：2004-12-2
+时  间：12:55:52
+*******************************************************************************************************/
+void CXQCtrl::SetStartSide(long nNewValue) 
+{
+	if(m_WalkState == RedWalked || m_WalkState == BlackWalked)
+		return;</pre>
+		<pre>	ENUM_WalkState val;
+	if(nNewValue &lt; 4 &amp;&amp; nNewValue &gt;= 0)
+		val = (ENUM_WalkState)nNewValue;
+	else
+		val = BlackReadly;
+	if(val == RedWalked)
+		val = RedReadly;
+	if(val == BlackWalked)
+        val = BlackReadly;
+	m_WalkState = val;
+	m_FileHead.iStartSide = m_WalkState;</pre>
+		<pre>	SetModifiedFlag();
+	//重绘控件
+	InvalidateControl();
+	TRACE(_T(&quot;CXQCtrl::SetStartSide.m_startSide=%d\n&quot;),m_WalkState);
+}</pre>
+		<pre>/*******************************************************************************************************
+函数名：GetStartSide
+功  能：得到开始方
+参  数：无
+返回值：开始方
+作  者：康  林
+版  本：1.0.0.1
+日  期：2004-12-2
+时  间：13:05:09
+*******************************************************************************************************/
+long CXQCtrl::GetStartSide() 
+{
+	return m_FileHead.iStartSide;
+}</pre>
+		<pre><font color="#00FF00">//
+//以上是完成 ===中国象棋属性=== 的函数块
+//&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</font></pre>
+		</td>
+	</tr>
+</table>
+<p><b><font size="4"><span style="background-color: #FFFF00">SentenceSection：</span></font></b><br>
+功 能：标记出在某个函数内执行某个功能的语句块。<br>
+用 法：选择执行某个功能的语句块，执行此命令。效果如下：</p>
+<table border="0" width="79">
+	<tr>
+		<td>
+		<pre>	<font color="#00FF00">//------------------------------------------------------------------------
+	//以下是完成 ===设置捕获窗口的参数(这一步是必须的)=== 功能的语句块
+	//</font></pre>
+		<pre>	CAPTUREPARMS CapParms = {0};	</pre>
+		<pre>         //得到捕获流参数
+	if(!capCaptureGetSetup(m_hCapWnd, &amp;CapParms, sizeof(CapParms)))
+         {
+		TRACE(&quot;%s&quot;, _T(&quot;不能得到捕获流参数。\n&quot;));
+		return FALSE;
+	}</pre>
+		<pre>	//设置捕获流参数
+	//CapParms.dwRequestMicroSecPerFrame *= 2;   //设置捕获速率,默认为 15帧/秒
+	CapParms.vKeyAbort = 0;                    //停止用按键取消
+	CapParms.fAbortLeftMouse = FALSE;          //停止用鼠标左键取消
+	CapParms.fAbortRightMouse = FALSE;         //停止用鼠标右键取消
+	CapParms.fYield = TRUE;                    //允许捕获窗口产生后台线程,默认值为FALSE,
+	                                           //捕获开始后,应用程序将不响应其它的
+	CapParms.fCaptureAudio = FALSE;            //不捕获音频
+	CapParms.wPercentDropForError = 50;        //允许最大丢失多少帧
+	</pre>
+		<pre>	if(capCaptureSetSetup(m_hCapWnd, &amp;CapParms, sizeof(CapParms)) == FALSE)
+	{
+		TRACE(&quot;%s&quot;, _T(&quot;设置捕获流参数失败。\n&quot;));
+		return FALSE;
+	}</pre>
+		<pre>	<font color="#00FF00">//
+	//以上是完成 ===设置捕获窗口的参数(这一步是必须的)=== 功能的语句块
+	//------------------------------------------------------------------------</font></pre>
+		</td>
+	</tr>
+</table>
+<p><b><font size="4"><span style="background-color: #FFFF00">Comment:</span></font></b><br>
+功 能：注释掉选定的信息<br>
+用 法：选择要注释的内容，执行此命令。效果如下：</p>
+<table border="0" width="82">
+	<tr>
+		<td>
+		<pre>        <font color="#00FF00"> /*******************************************************************************************************</font>
+	void Move(CPoint ptTo) {ptOrg = ptTo; };
+         CRect GetRect() { return CRect(ptOrg, CSize(13, 13)); };
+         void Paint(CDC* pDC);
+	<font color="#00FF00">*******************************************************************************************************/</font></pre>
+		</td>
+	</tr>
+</table>
+<p><b><font size="4"><span style="background-color: #FFFF00">GeneralComment：</span></font></b><br>
+功 能：一般注释。只是在指定的位置加入一对注释符。效果如下：</p>
+<table border="0" width="100">
+	<tr>
+		<td><font color="#00FF00">
+		/*******************************************************************************************************</font><p>
+		<font color="#00FF00"><br>
+		*******************************************************************************************************/</font></td>
+	</tr>
+</table>
+<p><b><span style="background-color: #FFFF00">AlignComment:</span></b></p>
+<p>功&nbsp; 能:对齐注释</p>
+<p>用&nbsp; 法:选取要对齐注释的文本,执行此命令</p>
+<table border="0" width="100">
+	<tr>
+		<td>
+		<pre>struct UDPSOCKREMOTEINFO
+{
+	CString szRemoteIP; <font color="#00FF00">//远程主机IP</font>
+	UINT uRemotePort;   <font color="#00FF00">//远程主机端口号</font>
+	LPVOID pBuf;        <font color="#00FF00">//接收的数据</font>
+	int iLen;           <font color="#00FF00">//接收的数据长度</font>
+	LPVOID pParent;     <font color="#00FF00">//父指针</font>
+	HANDLE* phEvent;    <font color="#00FF00">//事件对象</font>
+};</pre>
+		</td>
+	</tr>
+</table>
+<p><b><span style="background-color: #FFFF00">CommentAsterisk</span></b><br>
+功 能：用 /* */ 注释选择的文本</p>
+<p>用 法:选取要注释的文本,执行此命令</p>
+<table border="0" width="100">
+	<tr>
+		<td>
+		<pre>if(!m_ControlBar.Create(_T(&quot;信息&quot;), <font color="#00FF00">/*</font>this<font color="#00FF00">*/</font>, CSize(rect.Width() / 3, rect.Height() / 2), TRUE,0))
+{
+   TRACE(_T(&quot;m_ControlBar.Create失败.\n&quot;));
+   return -1;
+}</pre>
+		</td>
+	</tr>
+</table>
+<p><b><font size="4"><span style="background-color: #FFFF00">Modify</span></font></b><span style="background-color: #FFFF00">:</span><br>
+功 能：修改、增加、删除的信息<br>
+用 法：<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1、选定修改、增加或删除的内容<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2、执行此命令，出现下面的对话框：</p>
+<p align="center"><img border="0" src="picture/MyMacr1.gif"></p>
+<p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3、选择你要执行的操作：<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4、最后效果如下：</p>
+<table border="0" width="82">
+	<tr>
+		<td>
+		<pre>	<font color="#00FF00">//------------------------------------------------------------------------
+	//以下是由 ---康  林--- 增加于 2004-12-9 : 16:52:35
+	//</font></pre>
+		<pre>	virtual BOOL Create(LPCTSTR lpszWindowName, CWnd* pParentWnd,
+                  CSize sizeDefault, BOOL bHasGripper, UINT nID, 
+		DWORD dwStyle = WS_CHILD | WS_VISIBLE | CBRS_TOP
+		|CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+	virtual BOOL Create(LPCTSTR lpszWindowName, CWnd* pParentWnd,
+                   UINT nID, DWORD dwStyle = WS_CHILD | WS_VISIBLE | CBRS_TOP
+		| CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);</pre>
+		<pre>	<font color="#00FF00">//
+	//以上是由 ---康  林--- 增加于 2004-12-9 : 16:52:35
+	//------------------------------------------------------------------------</font></pre>
+		</td>
+	</tr>
+</table>
+
+<p><b><font size="4"><span style="background-color: #FFFF00">TRACE</span></font></b></p>
+<p>功能:自动增加 TRACE 宏<br>
+用法：在要加入此宏的地方执行此命令。出现下面的对话框：</p>
+<p align="center">
+<img border="0" src="picture/trace.gif" width="416" height="275"></p>
+<p align="left">此命令提供三种此宏的命令：</p>
+<p align="left">1、TRACE(_T(&quot;文件名(行号) : 提示字符串\n&quot;);</p>
+<p align="left">则只要输入：<b><font color="#FF0000">;</font></b>提示串</p>
+<p align="left">执行结果为：TRACE(_T(&quot;%s(%d) : hello\n&quot;), __FILE__, __LINE__);</p>
+<p align="left"><font color="#FF0000">; </font>用于提示字符串与输出串之间的分隔。</p>
+<p align="left">那么在输出的字符串上双击就可以到达程序源文件中的位置处。</p>
+<p align="left">2、TRACE(_T(&quot;文件名(行号) : 提示字符串 %s, %d\n&quot;, str, iLen);</p>
+<p align="left">则只要输入：<b><font color="#FF0000">;</font></b>提示字符串 %s, %d<b><font color="#FF0000">;</font></b>str, 
+iLen</p>
+<p align="left">执行结果为：TRACE(_T(&quot;%s(%d) : 提示字符串 %s, %d\n&quot;), __FILE__, __LINE__, 
+str, iLen);</p>
+<p align="left">3、TRACE(_T(&quot;%s,%d\n&quot;), szStr, iLen);</p>
+<p align="left">则只要输入：%s,%d<b><font color="#FF0000">;</font></b>szStr,iLen</p>
+<p align="left">4、TRACE(_T(&quot;提示串\n&quot;);</p>
+<p align="left">则只要输入：提示串</p>
+
+</body>
+
+</html>

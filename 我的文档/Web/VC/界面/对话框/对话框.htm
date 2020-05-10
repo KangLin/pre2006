@@ -1,0 +1,36 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>对话框</title>
+</head>
+
+<body>
+
+<p>如何在自己添加的对话框显示窗口图标?</p>
+<table border="0" width="548" id="table1">
+	<tr>
+		<td>1、在对话框类头文件中定义变量：<br>
+		HICON m_hIcon;<br>
+		2、在实现文件中的对话框构造函数中初始化变量：<br>
+		m_hIcon = AfxGetApp()-&gt;LoadIcon(IDC_MAINFRAME);<br>
+		3、在 OnInitDialog() <br>
+		// 设置此对话框的图标。当应用程序主窗口不是对话框时，框架将自动<br>
+		// 执行此操作<br>
+		SetIcon(m_hIcon, TRUE); // 设置大图标<br>
+		SetIcon(m_hIcon, FALSE); // 设置小图标</td>
+	</tr>
+</table>
+<p>如何让对话框启动时最大化或最小化？</p>
+<table border="0" width="545" id="table2">
+	<tr>
+		<td>在 OnInitDialog() <br>
+		ShowWindo(SW_SHOWMAXIMIZED); //最大化<br>
+		Showindow(SW_SHOWMINIMIZED); //最小化</td>
+	</tr>
+</table>
+
+</body>
+
+</html>

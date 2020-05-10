@@ -1,0 +1,76 @@
+\section{create.c文件参考}
+\label{create_8c}\index{create.c@{create.c}}
+{\tt \#include \char`\"{}sfilter.h\char`\"{}}\par
+{\tt \#include \char`\"{}Support.h\char`\"{}}\par
+
+
+create.c包含/依赖关系图：\subsection*{函数}
+\begin{CompactItemize}
+\item 
+PUNICODE\_\-STRING {\bf Sf\-Get\-File\-Name} (IN PFILE\_\-OBJECT File\-Object, IN NTSTATUS Create\-Status, IN OUT {\bf PGET\_\-NAME\_\-CONTROL} Name\-Control)
+\item 
+VOID {\bf Sf\-Get\-File\-Name\-Cleanup} (IN OUT {\bf PGET\_\-NAME\_\-CONTROL} Name\-Control)
+\item 
+VOID {\bf Sf\-Display\-Create\-File\-Name} (IN PIRP Irp)
+\item 
+NTSTATUS {\bf Sf\-Create} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\item 
+NTSTATUS {\bf Sf\-Cleanup\-Close} (IN PDEVICE\_\-OBJECT Device\-Object, IN PIRP Irp)
+\end{CompactItemize}
+
+
+\subsection{函数文档}
+\index{create.c@{create.c}!SfCleanupClose@{SfCleanupClose}}
+\index{SfCleanupClose@{SfCleanupClose}!create.c@{create.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Cleanup\-Close (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{create_8c_bcceec930b121c849d5a85c993ad6da0}
+
+
+
+
+在文件create.c第580行定义。
+
+参考 IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT及IS\_\-MY\_\-DEVICE\_\-OBJECT.
+
+参考自 Driver\-Entry().\index{create.c@{create.c}!SfCreate@{SfCreate}}
+\index{SfCreate@{SfCreate}!create.c@{create.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}NTSTATUS Sf\-Create (IN PDEVICE\_\-OBJECT {\em Device\-Object}, IN PIRP {\em Irp})}\label{create_8c_a86a5ab4e343a4756037137246d488bb}
+
+
+
+
+在文件create.c第367行定义。
+
+参考 \_\-SFILTER\_\-DEVICE\_\-EXTENSION::Attached\-To\-Device\-Object、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Link\-Symbol\-Name、\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Device\-Name、IS\_\-MY\_\-CONTROL\_\-DEVICE\_\-OBJECT、IS\_\-MY\_\-DEVICE\_\-OBJECT、Sf\-Completion\-Routine()、Sf\-Debug、SFDEBUG\_\-CREATE、SFDEBUG\_\-DISPLAY\_\-CREATE\_\-NAMES、SFDEBUG\_\-DO\_\-CREATE\_\-COMPLETION、SFDEBUG\_\-GET\_\-CREATE\_\-NAMES、Sf\-Display\-Create\-File\-Name()、Sf\-Get\-File\-Name()及\_\-SFILTER\_\-DEVICE\_\-EXTENSION::Storage\-Stack\-Device\-Object.
+
+参考自 Driver\-Entry().\index{create.c@{create.c}!SfDisplayCreateFileName@{SfDisplayCreateFileName}}
+\index{SfDisplayCreateFileName@{SfDisplayCreateFileName}!create.c@{create.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Display\-Create\-File\-Name (IN PIRP {\em Irp})}\label{create_8c_5ad93ea82e6b91ceee52c950b6a419de}
+
+
+
+
+在文件create.c第296行定义。
+
+参考 SF\_\-LOG\_\-PRINT、SFDEBUG\_\-DISPLAY\_\-CREATE\_\-NAMES、Sf\-Get\-File\-Name()及Sf\-Get\-File\-Name\-Cleanup().
+
+参考自 Sf\-Create().\index{create.c@{create.c}!SfGetFileName@{SfGetFileName}}
+\index{SfGetFileName@{SfGetFileName}!create.c@{create.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}PUNICODE\_\-STRING Sf\-Get\-File\-Name (IN PFILE\_\-OBJECT {\em File\-Object}, IN NTSTATUS {\em Create\-Status}, IN OUT {\bf PGET\_\-NAME\_\-CONTROL} {\em Name\-Control})}\label{create_8c_6835b923064e1292e397753f9dcea32c}
+
+
+
+
+在文件create.c第17行定义。
+
+参考 SFLT\_\-POOL\_\-TAG.
+
+参考自 Sf\-Create()及Sf\-Display\-Create\-File\-Name().\index{create.c@{create.c}!SfGetFileNameCleanup@{SfGetFileNameCleanup}}
+\index{SfGetFileNameCleanup@{SfGetFileNameCleanup}!create.c@{create.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}VOID Sf\-Get\-File\-Name\-Cleanup (IN OUT {\bf PGET\_\-NAME\_\-CONTROL} {\em Name\-Control})}\label{create_8c_252a8c651b08c9151c4c6d630e579e88}
+
+
+
+
+在文件create.c第266行定义。
+
+参考自 Sf\-Display\-Create\-File\-Name().

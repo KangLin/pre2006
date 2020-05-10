@@ -1,0 +1,933 @@
+RegQueryValueEx
+The RegQueryValueEx function retrieves the type and data for a specified value name associated with an open registry key. 
+
+LONG Ex(
+  HKEY hKey,           // handle to key to query
+  LPTSTR lpValueName,  // address of name of value to query
+  LPDWORD lpReserved,  // reserved
+  LPDWORD lpType,      // address of buffer for value type
+  LPBYTE lpData,       // address of data buffer
+  LPDWORD lpcbData     // address of data buffer size
+);
+ 
+Parameters
+hKey 
+Handle to a currently open key or any of the following predefined reserved handle values: 
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_CONFIG
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS
+Windows NT: HKEY_PERFORMANCE_DATA 
+Windows 95 and Windows 98: HKEY_DYN_DATA 
+
+lpValueName 
+Pointer to a null-terminated string containing the name of the value to query. 
+If lpValueName is NULL or an empty string, "", the function retrieves the type and data for the key's unnamed or default value, if any. 
+
+Windows 95 and Windows 98: Every key has a default value that initially does not contain data. On Windows 95, the default value type is always REG_SZ. On Windows 98, the type of a key's default value is initially REG_SZ, but RegSetValueEx can specify a default value with a different type. 
+
+Windows NT: Keys do not automatically have an unnamed or default value. Unnamed values can be of any type. 
+
+lpReserved 
+Reserved; must be NULL. 
+lpType 
+Pointer to a variable that receives the type of data associated with the specified value. The value returned through this parameter will be one of the following: Value Meaning 
+REG_BINARY Binary data in any form. 
+REG_DWORD A 32-bit number. 
+REG_DWORD_LITTLE_ENDIAN A 32-bit number in little-endian format. This is equivalent to REG_DWORD.
+In little-endian format, a multi-byte value is stored in memory from the lowest byte (the "little end") to the highest byte. For example, the value 0x12345678 is stored as (0x78 0x56 0x34 0x12) in little-endian format.
+
+Windows NT, Windows 95, and Windows 98 are designed to run on little-endian computer architectures. A user may connect to computers that have big-endian architectures, such as some UNIX systems. 
+ 
+REG_DWORD_BIG_ENDIAN A 32-bit number in big-endian format. 
+In big-endian format, a multi-byte value is stored in memory from the highest byte (the "big end") to the lowest byte. For example, the value 0x12345678 is stored as (0x12 0x34 0x56 0x78) in big-endian format.
+ 
+REG_EXPAND_SZ A null-terminated string that contains unexpanded references to environment variables (for example, "%PATH%"). It will be a Unicode or ANSI string depending on whether you use the Unicode or ANSI functions. To expand the environment variable references, use theExpandEnvironmentStrings function. 
+REG_LINK A Unicode symbolic link. 
+REG_MULTI_SZ An array of null-terminated strings, terminated by two null characters. 
+REG_NONE No defined value type. 
+REG_RESOURCE_LIST A device-driver resource list. 
+REG_SZ A null-terminated string. It will be a Unicode or ANSI string depending on whether you use the Unicode or ANSI functions. 
+
+
+The lpType parameter can be NULL if the type is not required. 
+
+lpData 
+Pointer to a buffer that receives the value's data. This parameter can be NULL if the data is not required. 
+lpcbData 
+Pointer to a variable that specifies the size, in bytes, of the buffer pointed to by the lpData parameter. When the function returns, this variable contains the size of the data copied to lpData. 
+If the data has the REG_SZ, REG_MULTI_SZ or REG_EXPAND_SZ type, then lpcbData will also include the size of the terminating null character. 
+
+The lpcbData parameter can be NULL only if lpData is NULL. 
+
+If the buffer specified by lpData parameter is not large enough to hold the data, the function returns the value ERROR_MORE_DATA, and stores the required buffer size, in bytes, into the variable pointed to by lpcbData. 
+
+If lpData is NULL, and lpcbData is non-NULL, the function returns ERROR_SUCCESS, and stores the size of the data, in bytes, in the variable pointed to by lpcbData. This lets an application determine the best way to allocate a buffer for the value's data. 
+
+Window NT: If hKey specifies HKEY_PERFORMANCE_DATA and the lpData buffer is too small, RegQueryValueEx returns ERROR_MORE_DATA but lpcbData does not return the required buffer size. This is because the size of the performance data can change from one call to the next. In this case, you must increase the buffer size and call RegQueryValueEx again passing the updated buffer size in the lpcbData parameter. Repeat this until the function succeeds. You need to maintain a separate variable to keep track of the buffer size, because the value returned by lpcbData is unpredictable. 
+
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+The key identified by hKey must have been opened with KEY_QUERY_VALUE access. To open the key, use the RegCreateKeyEx or RegOpenKeyEx function. 
+
+If the value data has the REG_SZ, REG_MULTI_SZ or REG_EXPAND_SZ type, and the ANSI version of this function is used (either by explicitly calling RegQueryValueExA or by not defining UNICODE before including the WINDOWS.H file), this function converts the stored Unicode string to an ANSI string before copying it to the buffer pointed to by lpData. 
+
+Window NT: When calling the RegQueryValueEx function with hKey set to the HKEY_PERFORMANCE_DATA handle and a value string of a specified object, the returned data structure sometimes has unrequested objects. Don't be surprised; this is normal behavior. When calling the RegQueryValueEx function, you should always expect to walk the returned data structure to look for the requested object. 
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Requires version 1.0 or later.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions,ExpandEnvironmentStrings, RegCreateKeyEx, RegEnumKey, RegEnumKeyEx, RegEnumValue, RegOpenKeyEx, RegQueryInfoKey, RegQueryValue 
+
+RegEnumValue
+The RegEnumValue function enumerates the values for the specified open registry key. The function copies one indexed value name and data block for the key each time it is called. 
+
+LONG RegEnumValue(
+  HKEY hKey,              // handle to key to query
+  DWORD dwIndex,          // index of value to query
+  LPTSTR lpValueName,     // address of buffer for value string
+  LPDWORD lpcbValueName,  // address for size of value buffer
+  LPDWORD lpReserved,     // reserved
+  LPDWORD lpType,         // address of buffer for type code
+  LPBYTE lpData,          // address of buffer for value data
+  LPDWORD lpcbData        // address for size of data buffer
+);
+ 
+Parameters
+hKey 
+Handle to a currently open key or one of the following predefined reserved handle values: 
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_CONFIG
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS
+Windows NT: HKEY_PERFORMANCE_DATA 
+Windows 95 and Windows 98: HKEY_DYN_DATA 
+
+The enumerated values are associated with the key identified by hKey. 
+
+dwIndex 
+Specifies the index of the value to retrieve. This parameter should be zero for the first call to the RegEnumValue function and then be incremented for subsequent calls. 
+Because values are not ordered, any new value will have an arbitrary index. This means that the function may return values in any order. 
+
+lpValueName 
+Pointer to a buffer that receives the name of the value, including the terminating null character. 
+lpcbValueName 
+Pointer to a variable that specifies the size, in characters, of the buffer pointed to by the lpValueName parameter. This size should include the terminating null character. When the function returns, the variable pointed to by lpcbValueName contains the number of characters stored in the buffer. The count returned does not include the terminating null character. 
+lpReserved 
+Reserved; must be NULL. 
+lpType 
+Pointer to a variable that receives the type code for the value entry. The type code can be one of the following values: Value Meaning 
+REG_BINARY Binary data in any form. 
+REG_DWORD A 32-bit number. 
+REG_DWORD_LITTLE_ENDIAN A 32-bit number in little-endian format. This is equivalent to REG_DWORD.
+In little-endian format, a multi-byte value is stored in memory from the lowest byte (the "little end") to the highest byte. For example, the value 0x12345678 is stored as (0x78 0x56 0x34 0x12) in little-endian format.
+
+Windows NT, Windows 95, and Windows 98 are designed to run on little-endian computer architectures. A user may connect to computers that have big-endian architectures, such as some UNIX systems. 
+ 
+REG_DWORD_BIG_ENDIAN A 32-bit number in big-endian format. 
+In big-endian format, a multi-byte value is stored in memory from the highest byte (the "big end") to the lowest byte. For example, the value 0x12345678 is stored as (0x12 0x34 0x56 0x78) in big-endian format.
+ 
+REG_EXPAND_SZ A null-terminated string that contains unexpanded references to environment variables (for example, "%PATH%"). It will be a Unicode or ANSI string depending on whether you use the Unicode or ANSI functions. To expand the environment variable references, use theExpandEnvironmentStrings function. 
+REG_LINK A Unicode symbolic link. 
+REG_MULTI_SZ An array of null-terminated strings, terminated by two null characters. 
+REG_NONE No defined value type. 
+REG_RESOURCE_LIST A device-driver resource list. 
+REG_SZ A null-terminated string. It will be a Unicode or ANSI string, depending on whether you use the Unicode or ANSI functions. 
+
+
+The lpType parameter can be NULL if the type code is not required. 
+
+lpData 
+Pointer to a buffer that receives the data for the value entry. This parameter can be NULL if the data is not required. 
+lpcbData 
+Pointer to a variable that specifies the size, in bytes, of the buffer pointed to by the lpData parameter. When the function returns, the variable pointed to by the lpcbData parameter contains the number of bytes stored in the buffer. This parameter can be NULL, only if lpData is NULL. 
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+To enumerate values, an application should initially call the RegEnumValue function with the dwIndex parameter set to zero. The application should then increment dwIndex and call the RegEnumValue function until there are no more values (until the function returns ERROR_NO_MORE_ITEMS). 
+
+The application can also set dwIndex to the index of the last value on the first call to the function and decrement the index until the value with index 0 is enumerated. To retrieve the index of the last value, use the RegQueryInfoKey function. 
+
+While using RegEnumValue, an application should not call any registration functions that might change the key being queried. 
+
+The key identified by the hKey parameter must have been opened with KEY_QUERY_VALUE access. To open the key, use the RegCreateKeyEx or RegOpenKeyEx function. 
+
+To determine the maximum size of the name and data buffers, use the RegQueryInfoKey function. 
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Requires version 1.0 or later.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions, RegCreateKeyEx, RegEnumKey, RegEnumKeyEx, RegOpenKeyEx, RegQueryInfoKey
+RegEnumKeyEx
+The RegEnumKeyEx function enumerates subkeys of the specified open registry key. The function retrieves information about one subkey each time it is called. Unlike the RegEnumKey function, RegEnumKeyEx retrieves the class name of the subkey and the time it was last modified. 
+
+LONG RegEnumKeyEx(
+  HKEY hKey,          // handle to key to enumerate
+  DWORD dwIndex,      // index of subkey to enumerate
+  LPTSTR lpName,      // address of buffer for subkey name
+  LPDWORD lpcbName,   // address for size of subkey buffer
+  LPDWORD lpReserved, // reserved
+  LPTSTR lpClass,     // address of buffer for class string
+  LPDWORD lpcbClass,  // address for size of class buffer
+  PFILETIME lpftLastWriteTime 
+                      // address for time key last written to
+);
+ 
+Parameters
+hKey 
+Handle to a currently open key or one of the following predefined reserved handle values: 
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_CONFIG
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS
+Windows NT: HKEY_PERFORMANCE_DATA 
+Windows 95 and Windows 98: HKEY_DYN_DATA 
+
+The enumerated keys are subkeys of the key identified by hKey. 
+
+dwIndex 
+Specifies the index of the subkey to retrieve. This parameter should be zero for the first call to the RegEnumKeyEx function and then incremented for subsequent calls. 
+Because subkeys are not ordered, any new subkey will have an arbitrary index. This means that the function may return subkeys in any order. 
+
+lpName 
+Pointer to a buffer that receives the name of the subkey, including the terminating null character. The function copies only the name of the subkey, not the full key hierarchy, to the buffer. 
+lpcbName 
+Pointer to a variable that specifies the size, in characters, of the buffer specified by the lpName parameter. This size should include the terminating null character. When the function returns, the variable pointed to by lpcbName contains the number of characters stored in the buffer. The count returned does not include the terminating null character. 
+lpReserved 
+Reserved; must be NULL. 
+lpClass 
+Pointer to a buffer that contains the class of the enumerated subkey when the function returns. This parameter can be NULL if the class is not required. 
+lpcbClass 
+Pointer to a variable that specifies the size, in characters, of the buffer specified by the lpClass parameter. The size should include the terminating null character. When the function returns, lpcbClass contains the number of characters stored in the buffer. The count returned does not include the terminating null character. This parameter can be NULL only if lpClass is NULL. 
+lpftLastWriteTime 
+Pointer to a variable that receives the time the enumerated subkey was last written to. 
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+To enumerate subkeys, an application should initially call the RegEnumKeyEx function with the dwIndex parameter set to zero. The application should then increment the dwIndex parameter and call RegEnumKeyEx until there are no more subkeys (until the function returns ERROR_NO_MORE_ITEMS). 
+
+The application can also set dwIndex to the index of the last subkey on the first call to the function and decrement the index until the subkey with the index 0 is enumerated. To retrieve the index of the last subkey, use the RegQueryInfoKey function. 
+
+While an application is using the RegEnumKeyEx function, it should not make calls to any registration functions that might change the key being enumerated. 
+
+The key identified by hKey must have been opened with KEY_ENUMERATE_SUB_KEYS access (KEY_READ includes KEY_ENUMERATE_SUB_KEYS). Use the RegCreateKeyEx or RegOpenKeyEx function to open the key. 
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Requires version 1.0 or later.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions, RegCreateKeyEx, RegDeleteKey, RegEnumKey, RegOpenKeyEx, RegQueryInfoKey 
+
+ 
+RegCreateKeyEx
+The RegCreateKeyEx function creates the specified key. If the key already exists in the registry, the function opens it.
+
+LONG RegCreateKeyEx(
+  HKEY hKey,                // handle to an open key
+  LPCTSTR lpSubKey,         // address of subkey name
+  DWORD Reserved,           // reserved
+  LPTSTR lpClass,           // address of class string
+  DWORD dwOptions,          // special options flag
+  REGSAM samDesired,        // desired security access
+  LPSECURITY_ATTRIBUTES lpSecurityAttributes,
+                            // address of key security structure
+  PHKEY phkResult,          // address of buffer for opened handle
+  LPDWORD lpdwDisposition   // address of disposition value buffer
+);
+ 
+Parameters
+hKey 
+Handle to a currently open key or one of the following predefined reserved handle values: 
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_CONFIG
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS
+Windows NT: HKEY_PERFORMANCE_DATA 
+Windows 95 and Windows 98: HKEY_DYN_DATA 
+
+The key opened or created by the RegCreateKeyEx function is a subkey of the key identified by the hKey parameter. 
+
+lpSubKey 
+Pointer to a null-terminated string specifying the name of a subkey that this function opens or creates. The subkey specified must be a subkey of the key identified by the hKey parameter. This subkey must not begin with the backslash character ('\'). This parameter cannot be NULL. 
+Reserved 
+Reserved; must be zero. 
+lpClass 
+Pointer to a null-terminated string that specifies the class (object type) of this key. This parameter is ignored if the key already exists. 
+dwOptions 
+Specifies special options for the key. This parameter can be one of the following values. Value Meaning 
+REG_OPTION_NON_VOLATILE This key is not volatile; this is the default. The information is stored in a file and is preserved when the system is restarted. The RegSaveKey function saves keys that are not volatile.  
+REG_OPTION_VOLATILE Windows NT: This key is volatile; the information is stored in memory and is not preserved when the system is restarted. The RegSaveKey function does not save volatile keys. This flag is ignored if the key already exists. 
+Windows 95: This value is ignored. If REG_OPTION_VOLATILE is specified, the RegCreateKeyEx function creates a nonvolatile key and returns ERROR_SUCCESS.
+ 
+REG_OPTION_BACKUP_RESTORE  Windows NT: If this flag is set, the function ignores the samDesired parameter and attempts to open the key with the access required to backup or restore the key. If the calling thread has the SE_BACKUP_NAME privilege enabled, the key is opened with ACCESS_SYSTEM_SECURITY and KEY_READ access. If the calling thread has the SE_RESTORE_NAME privilege enabled, the key is opened with ACCESS_SYSTEM_SECURITY and KEY_WRITE access. If both privileges are enabled, the key has the combined accesses for both privileges.  
+
+
+samDesired 
+Specifies an access mask that specifies the desired security access for the new key. This parameter can be a combination of the following values: Value Meaning 
+KEY_ALL_ACCESS Combination of KEY_QUERY_VALUE, KEY_ENUMERATE_SUB_KEYS, KEY_NOTIFY, KEY_CREATE_SUB_KEY, KEY_CREATE_LINK, and KEY_SET_VALUE access. 
+KEY_CREATE_LINK Permission to create a symbolic link. 
+KEY_CREATE_SUB_KEY Permission to create subkeys. 
+KEY_ENUMERATE_SUB_KEYS Permission to enumerate subkeys. 
+KEY_EXECUTE Permission for read access. 
+KEY_NOTIFY Permission for change notification. 
+KEY_QUERY_VALUE Permission to query subkey data. 
+KEY_READ Combination of KEY_QUERY_VALUE, KEY_ENUMERATE_SUB_KEYS, and KEY_NOTIFY access. 
+KEY_SET_VALUE Permission to set subkey data. 
+KEY_WRITE Combination of KEY_SET_VALUE and KEY_CREATE_SUB_KEY access. 
+
+
+lpSecurityAttributes 
+Pointer to a SECURITY_ATTRIBUTES structure that determines whether the returned handle can be inherited by child processes. If lpSecurityAttributes is NULL, the handle cannot be inherited. 
+Windows NT: The lpSecurityDescriptor member of the structure specifies a security descriptor for the new key. If lpSecurityAttributes is NULL, the key gets a default security descriptor. 
+
+phkResult 
+Pointer to a variable that receives a handle to the opened or created key. When you no longer need the returned handle, call the RegCloseKey function to close it. 
+lpdwDisposition 
+Pointer to a variable that receives one of the following disposition values: Value Meaning 
+REG_CREATED_NEW_KEY The key did not exist and was created. 
+REG_OPENED_EXISTING_KEY The key existed and was simply opened without being changed. 
+
+
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+The key that the RegCreateKeyEx function creates has no values. An application can use the RegSetValue or RegSetValueEx function to set key values. 
+
+The key identified by the hKey parameter must have been opened with KEY_CREATE_SUB_KEY access. To open the key, use the RegCreateKeyEx or RegOpenKeyEx function. 
+
+An application cannot create a key under HKEY_USERS or HKEY_LOCAL_MACHINE. 
+
+An application can use RegCreateKeyEx to temporarily lock a portion of the registry. When the locking process creates a new key, it receives the disposition value REG_CREATED_NEW_KEY, indicating that it "owns" the lock. Another process attempting to create the same key receives the disposition value REG_OPENED_EXISTING_KEY, indicating that another process already owns the lock. 
+
+Windows CE: The dwOptions and samDesired parameters are ignored and should be set to zero to ensure compatibility with future versions of Windows CE.
+
+The lpSecurityAttributes parameter should be set to NULL. Windows CE automatically assigns the key a default security descriptor.
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Requires version 1.0 or later.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions, RegCloseKey, RegCreateKey, RegDeleteKey, RegOpenKey, RegOpenKeyEx, RegSaveKey, SECURITY_ATTRIBUTES 
+
+ 
+RegSaveKey
+The RegSaveKey function saves the specified key and all of its subkeys and values to a new file. 
+
+LONG RegSaveKey(
+  HKEY hKey,       // handle to key where save begins
+  LPCTSTR lpFile,  // address of filename to save to
+  LPSECURITY_ATTRIBUTES lpSecurityAttributes 
+                   // address of security structure
+);
+ 
+Parameters
+hKey 
+Specifies a handle to the key where the save operation is to begin, or any of the following predefined reserved handle values: 
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_CONFIG
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS 
+
+lpFile 
+Pointer to a null-terminated string containing the name of the file in which the specified key and subkeys are saved. 
+Windows 95: RegSaveKey does not support long file names. To save a registry hive to a file with a long file name, first save the hive to a short file name, then rename the resulting file to its long file name. 
+
+Windows NT: If the file already exists, the function fails with the ERROR_ALREADY_EXISTS error. 
+
+Windows 95: If the file already exists, the function fails with the ERROR_REGISTRY_IO_FAILED error. 
+
+Windows NT: If the string does not include a path, the file is created in the current directory of the calling process for a local key, or in the %systemroot%\system32 directory for a remote key. 
+
+Windows 95: If the string does not include a path, the file is created in the Windows root directory for local and remote keys. SeeGetWindowsDirectory. 
+
+lpSecurityAttributes 
+Windows NT: Pointer to a SECURITY_ATTRIBUTES structure that specifies a security descriptor for the new file. If lpSecurityAttributes is NULL, the file gets a default security descriptor. 
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+If hKey represents a key on a remote computer, the path described by lpFile is relative to the remote computer. 
+
+The RegSaveKey function saves only nonvolatile keys. It does not save volatile keys. A key is made volatile or nonvolatile at its creation; see RegCreateKeyEx. 
+
+You can use the file created by RegSaveKey in subsequent calls to the RegLoadKey, RegReplaceKey, or RegRestoreKey functions. If RegSaveKey fails part way through its operation, the file will be corrupt and subsequent calls to RegLoadKey, RegReplaceKey, or RegRestoreKey for the file will fail.
+
+Windows NT: The new file has the archive attribute.
+
+Windows 95: The new file has the archive, hidden, read-only, and system attributes. 
+
+Windows NT: The calling process must have the SE_BACKUP_NAME privilege enabled. For more information about privileges, see Privileges. 
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Unsupported.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions, RegCreateKeyEx, RegDeleteKey, RegLoadKey, RegReplaceKey, RegRestoreKey, SECURITY_ATTRIBUTES 
+
+ 
+RegDeleteKey
+Windows 95: The RegDeleteKey function deletes a subkey and all its descendants.
+
+Windows NT: The RegDeleteKey function deletes the specified subkey. The subkey to be deleted must not have subkeys.
+
+LONG RegDeleteKey(
+  HKEY hKey,         // handle to open key
+  LPCTSTR lpSubKey   // address of name of subkey to delete
+);
+ 
+Parameters
+hKey 
+Handle to a currently open key or one of the following predefined reserved handle values: 
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_CONFIG
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS
+Windows NT: HKEY_PERFORMANCE_DATA 
+Windows 95 and Windows 98: HKEY_DYN_DATA 
+
+The key specified by the lpSubKey parameter must be a subkey of the key identified by hKey. 
+
+lpSubKey 
+Pointer to a null-terminated string specifying the name of the key to delete. This parameter cannot be NULL. 
+Windows NT: The specified key must not have subkeys. 
+
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+If the function succeeds, RegDeleteKey removes the specified key from the registry. The entire key, including all of its values, is removed. 
+
+To open the key, use the RegCreateKeyEx or RegOpenKeyEx function. Do not use the RegCreateKey or RegOpenKey functions.
+
+Windows CE: With Windows CE, you can not RegDeleteKey a key which an application currently has open.
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Requires version 1.0 or later.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions, RegCloseKey, RegCreateKeyEx, RegOpenKeyEx 
+
+ 
+RegOpenKeyEx
+The RegOpenKeyEx function opens the specified key. 
+
+LONG RegOpenKeyEx(
+  HKEY hKey,         // handle to open key
+  LPCTSTR lpSubKey,  // address of name of subkey to open
+  DWORD ulOptions,   // reserved
+  REGSAM samDesired, // security access mask
+  PHKEY phkResult    // address of handle to open key
+);
+ 
+Parameters
+hKey 
+Handle to a currently open key or any of the following predefined reserved handle values: 
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_CONFIG
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS
+Windows NT: HKEY_PERFORMANCE_DATA 
+Windows 95 and Windows 98: HKEY_DYN_DATA 
+
+lpSubKey 
+Pointer to a null-terminated string containing the name of the subkey to open. If this parameter is NULL or a pointer to an empty string, the function will open a new handle to the key identified by the hKey parameter. In this case, the function will not close the handles previously opened. 
+ulOptions 
+Reserved; must be zero. 
+samDesired 
+Specifies an access mask that describes the desired security access for the new key. This parameter can be a combination of the following values: Value Meaning 
+KEY_ALL_ACCESS Combination of KEY_QUERY_VALUE, KEY_ENUMERATE_SUB_KEYS, KEY_NOTIFY, KEY_CREATE_SUB_KEY, KEY_CREATE_LINK, and KEY_SET_VALUE access. 
+KEY_CREATE_LINK Permission to create a symbolic link. 
+KEY_CREATE_SUB_KEY Permission to create subkeys. 
+KEY_ENUMERATE_SUB_KEYS Permission to enumerate subkeys. 
+KEY_EXECUTE Permission for read access. 
+KEY_NOTIFY Permission for change notification. 
+KEY_QUERY_VALUE Permission to query subkey data. 
+KEY_READ Combination of KEY_QUERY_VALUE, KEY_ENUMERATE_SUB_KEYS, and KEY_NOTIFY access. 
+KEY_SET_VALUE Permission to set subkey data. 
+KEY_WRITE Combination of KEY_SET_VALUE and KEY_CREATE_SUB_KEY access. 
+
+
+phkResult 
+Pointer to a variable that receives a handle to the opened key. When you no longer need the returned handle, call the RegCloseKey function to close it. 
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+Unlike the RegCreateKeyEx function, the RegOpenKeyEx function does not create the specified key if the key does not exist in the registry. 
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Requires version 1.0 or later.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions, RegCloseKey, RegCreateKeyEx, RegDeleteKey, RegOpenKey 
+
+ 
+RegReplaceKey
+The RegReplaceKey function replaces the file backing a key and all its subkeys with another file, so that when the system is next started, the key and subkeys will have the values stored in the new file. 
+
+LONG RegReplaceKey(
+  HKEY hKey,         // handle to open key
+  LPCTSTR lpSubKey,  // address of name of subkey
+  LPCTSTR lpNewFile, // address of filename for file with new data
+  LPCTSTR lpOldFile  // address of filename for backup file
+);
+ 
+Parameters
+hKey 
+Handle to a currently open key or any of the following predefined reserved handle values: 
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_CONFIG
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS 
+
+lpSubKey 
+Pointer to a null-terminated string containing the name of a key whose subkeys and values are replaced by this function. This key must be a subkey of the key identified by the hKey parameter. This parameter can be NULL. 
+The selected key must be the root of a hive; that is, it must be an immediate descendent of HKEY_LOCAL_MACHINE or HKEY_USERS. 
+
+lpNewFile 
+Pointer to a null-terminated string containing the name of the file with registration information. This file is typically created by using the RegSaveKey function. 
+lpOldFile 
+Pointer to a null-terminated string containing the name of a file that receives a backup copy of the registry information being replaced. 
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+The file specified by the lpNewFile parameter remains open until the system is restarted. 
+
+If hKey is a handle returned by RegConnectRegistry, then the paths specified in lpNewFile and lpOldFile are relative to the remote computer. 
+
+Windows NT: The calling process must have the SE_RESTORE_NAME privilege. For more information about privileges, see Privileges. 
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Unsupported.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions, RegConnectRegistry, RegDeleteKey, RegLoadKey, RegRestoreKey, RegSaveKey 
+
+ 
+RegLoadKey
+The RegLoadKey function creates a subkey under HKEY_USER or HKEY_LOCAL_MACHINE and stores registration information from a specified file into that subkey. This registration information is in the form of a hive. A hive is a discrete body of keys, subkeys, and values that is rooted at the top of the registry hierarchy. A hive is backed by a single file and .LOG file. 
+
+LONG RegLoadKey(
+  HKEY hKey,       // handle to open key
+  LPCTSTR lpSubKey,
+                   // address of name of subkey
+  LPCTSTR lpFile   // address of filename for registry information
+);
+ 
+Parameters
+hKey 
+Specifies the key where the subkey will be created. This can be a predefined reserved handle value, or a handle returned by a call to RegConnectRegistry. The predefined reserved handle values are: 
+HKEY_LOCAL_MACHINE
+HKEY_USERS 
+
+This function always loads information at the top of the registry hierarchy. The HKEY_CLASSES_ROOT and HKEY_CURRENT_USER handle values cannot be specified for this parameter, because they represent subsets of the HKEY_LOCAL_MACHINE and HKEY_USERS handle values, respectively. 
+
+lpSubKey 
+Pointer to a null-terminated string that specifies the name of the key to be created under hKey. This subkey is where the registration information from the file will be loaded. 
+lpFile 
+Pointer to a null-terminated string containing the name of a file that has registration information. This file must have been created with the RegSaveKey function. 
+Windows 95: RegLoadKey does not support long file names. If the desired file has a long file name, use the short file name to load it. 
+
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+If hKey is a handle returned by RegConnectRegistry, then the path specified in lpFile is relative to the remote computer. 
+
+Windows NT: The calling process must have the SE_RESTORE_NAME privilege. For more information about privileges, see Privileges. 
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Unsupported.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions, RegConnectRegistry, RegDeleteKey, RegReplaceKey, RegRestoreKey, RegSaveKey, RegUnloadKey 
+
+ 
+RegRestoreKey
+The RegRestoreKey function reads the registry information in a specified file and copies it over the specified key. This registry information may be in the form of a key and multiple levels of subkeys. 
+
+LONG RegRestoreKey(
+  HKEY hKey,      // handle to key where restore begins
+  LPCTSTR lpFile, // address of filename containing saved tree
+  DWORD dwFlags   // optional flags
+);
+ 
+Parameters
+hKey 
+Handle to a currently open key or any of the following predefined reserved handle values: 
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_CONFIG
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS 
+
+Any information contained in this key and its descendent keys is overwritten by the information in the file pointed to by the lpFile parameter. 
+
+lpFile 
+Pointer to a null-terminated string containing the name of the file with registry information. This file is typically created by using the RegSaveKey function. 
+dwFlags 
+Specifies a flag indicating whether the key is volatile. (A volatile key is valid only until the next time the system is started.) This parameter is optional; if no value is specified, the key is not volatile. 
+This parameter can be the REG_WHOLE_HIVE_VOLATILE flag set. Instead of restoring the given key, this flag causes a new, volatile (memory only) set of registry information to be created. (A hive is a large set of registry information, typically containing all of the pertinent information for part of the system. For example, HKEY_LOCAL_MACHINE\Hardware is a volatile hive.) 
+
+If REG_WHOLE_HIVE_VOLATILE is specified, the key identified by the hKey parameter must be either the HKEY_USERS or HKEY_LOCAL_MACHINE value. 
+
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+If any subkeys of the hKey parameter are open, RegRestoreKey fails. The function also fails if the calling process does not have the SE_RESTORE_NAME privilege. For more information about privileges, see Privileges. 
+
+This function replaces the keys and values below the specified key with the keys and values that are subsidiary to the top-level key in the file, no matter what the name of the top-level key in the file might be. For example, hKey might identify a key A with subkeys B and C, while the lpFile parameter specifies a file containing key X with subkeys Y and Z. After a call to RegRestoreKey, the registry would contain key A with subkeys Y and Z. The value entries of A would be replaced by the value entries of X. 
+
+The new information in the file specified by lpFile overwrites the contents of the key specified by the hKey parameter, except for the key name. 
+
+If hKey represents a key in a remote computer, the path described by lpFile is relative to the remote computer. 
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Unsupported.
+  Windows CE: Unsupported.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions, RegDeleteKey, RegLoadKey, RegReplaceKey, RegSaveKey 
+
+ 
+RegUnLoadKey
+The RegUnLoadKey function unloads the specified key and subkeys from the registry. 
+
+LONG RegUnLoadKey(
+  HKEY hKey,         // handle to open key
+  LPCTSTR lpSubKey   // address of name of subkey to unload
+);
+ 
+Parameters
+hKey 
+Specifies the key to be unloaded. This can be a predefined reserved handle value, or a handle returned by a call to RegConnectRegistry. The predefined reserved handle values are: 
+HKEY_LOCAL_MACHINE
+HKEY_USERS 
+
+lpSubKey 
+Pointer to a null-terminated string containing the name of the subkey to be unloaded. The key referred to by the lpSubKey parameter must have been created by using the RegLoadKey function. 
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+This function removes a hive from the registry but does not modify the file containing the registry information. A hive is a discrete body of keys, subkeys, and values that is rooted at the top of the registry hierarchy. 
+
+Windows NT: The calling process must have the SE_RESTORE_NAME privilege. For more information about privileges, see Privileges. 
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Unsupported.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions, RegConnectRegistry, RegDeleteKey, RegLoadKey, RegRestoreKey 
+
+ 
+RegConnectRegistry
+The RegConnectRegistry function establishes a connection to a predefined registry handle on another computer. 
+
+LONG RegConnectRegistry(
+  LPTSTR lpMachineName,
+                    // address of name of remote computer
+  HKEY hKey,        // predefined registry handle
+  PHKEY phkResult   // address of buffer for remote registry handle
+);
+ 
+Parameters
+lpMachineName 
+Pointer to a null-terminated string containing the name of the remote computer. The string has the following form: 
+\\computername 
+
+If lpMachineName is NULL, the local computer name is used. 
+
+hKey 
+Specifies the one of the following predefined registry handles on the remote computer. 
+HKEY_LOCAL_MACHINE
+HKEY_USERS
+Windows NT: HKEY_PERFORMANCE_DATA, if the remote computer is running Windows NT
+Windows 95 and Windows 98: HKEY_DYN_DATA, if the remote computer is running Windows 95 or Windows 98
+Windows 95 and Windows 98: HKEY_CURRENT_CONFIG, if the remote computer is running Windows 95 or Windows 98 
+
+You cannot specify the HKEY_CLASSES_ROOT or HKEY_CURRENT_USER value for this parameter. 
+
+phkResult 
+Pointer to a variable that receives a key handle identifying the predefined handle on the remote computer. 
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+When a handle returned by RegConnectRegistry is no longer needed, it should be closed by calling RegCloseKey. 
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Unsupported.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions, RegCloseKey 
+
+ 
+RegFlushKey
+The RegFlushKey function writes all the attributes of the specified open key into the registry. 
+
+LONG RegFlushKey(
+  HKEY hKey   // handle to key to write
+);
+ 
+Parameters
+hKey 
+Handle to a currently open key or one of the following predefined reserved handle values: 
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_CONFIG
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS
+Windows NT: HKEY_PERFORMANCE_DATA 
+Windows 95 and Windows 98: HKEY_DYN_DATA 
+
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+It is not necessary to call RegFlushKey to change a key. Registry changes are flushed to disk by the registry using its lazy flusher. Registry changes are also flushed to disk at system shutdown. 
+
+Unlike RegCloseKey, the RegFlushKey function returns only when all the data has been written to the registry. 
+
+The RegFlushKey function may also write out parts of or all of the other keys. Calling this function excessively can have a negative effect on an application's performance. 
+
+An application should only call RegFlushKey if it requires absolute certainty that registry changes are on disk. In general, RegFlushKey rarely, if ever, need be used. 
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Unsupported.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+
+See Also
+Registry Overview, Registry Functions, RegCloseKey, RegDeleteKey 
+
+ 
+SECURITY_ATTRIBUTES
+The SECURITY_ATTRIBUTES structure contains the security descriptor for an object and specifies whether the handle retrieved by specifying this structure is inheritable. 
+
+typedef struct _SECURITY_ATTRIBUTES { // sa 
+    DWORD  nLength; 
+    LPVOID lpSecurityDescriptor; 
+    BOOL   bInheritHandle; 
+} SECURITY_ATTRIBUTES; 
+ 
+Members
+nLength 
+Specifies the size, in bytes, of this structure. Set this value to the size of the SECURITY_ATTRIBUTES structure. 
+Windows NT: Some functions that use the SECURITY_ATTRIBUTES structure do not verify the value of the nLength member. However, an application should still set it properly. That ensures current, future, and cross-platform compatibility. 
+
+lpSecurityDescriptor 
+Pointer to a security descriptor for the object that controls the sharing of it. If NULL is specified for this member, the object may be assigned the default security descriptor of the calling process. 
+Windows 95 and Windows 98: The lpSecurityDescriptor member of the structure is ignored. 
+
+bInheritHandle 
+Specifies whether the returned handle is inherited when a new process is created. If this member is TRUE, the new process inherits the handle. 
+Remarks
+A pointer to a SECURITY_ATTRIBUTES structure is used as a parameter in most kernel and window-management functions in the Win32 API that return a handle of an object. 
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Unsupported.
+  Header: Declared in winnt.h.
+
+See Also
+Access Control Overview, Access Control Structures, SECURITY_DESCRIPTOR 
+
+ 
+RegQueryInfoKey
+The RegQueryInfoKey function retrieves information about a specified registry key. 
+
+LONG RegQueryInfoKey(
+  HKEY hKey,                // handle to key to query
+  LPTSTR lpClass,           // address of buffer for class string
+  LPDWORD lpcbClass,        // address of size of class string buffer
+  LPDWORD lpReserved,       // reserved
+  LPDWORD lpcSubKeys,       // address of buffer for number of 
+                            // subkeys
+  LPDWORD lpcbMaxSubKeyLen,  // address of buffer for longest subkey 
+                             // name length
+  LPDWORD lpcbMaxClassLen,  // address of buffer for longest class 
+                            // string length
+  LPDWORD lpcValues,        // address of buffer for number of value 
+                            // entries
+  LPDWORD lpcbMaxValueNameLen,  // address of buffer for longest 
+                                // value name length
+  LPDWORD lpcbMaxValueLen,  // address of buffer for longest value 
+                            // data length
+  LPDWORD lpcbSecurityDescriptor,
+                            // address of buffer for security 
+                            // descriptor length
+  PFILETIME lpftLastWriteTime   // address of buffer for last write 
+                                // time
+);
+ 
+Parameters
+hKey 
+Handle to a currently open key or any of the following predefined reserved handle values: 
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_CONFIG
+HKEY_CURRENT_USER
+HKEY_LOCAL_MACHINE
+HKEY_USERS
+Windows NT: HKEY_PERFORMANCE_DATA 
+Windows 95 and Windows 98: HKEY_DYN_DATA 
+
+lpClass 
+Pointer to a buffer that receives the key's class name. This parameter can be NULL. 
+lpcbClass 
+Pointer to a variable that specifies the size, in characters, of the buffer pointed to by the lpClass parameter. This size should include the terminating null character. When the function returns, this variable contains the length of the class string stored in the buffer. The count returned does not include the terminating null character. If the buffer is not big enough, the function returns ERROR_MORE_DATA, and the variable contains the size of the string, in characters, without counting the null character. 
+If lpClass is NULL, lpcbClass can be NULL. 
+
+Windows NT: If the lpClass parameter is a valid address, but the lpcbClass parameter is not (for example, it is NULL), the function returns ERROR_INVALID_PARAMETER. 
+
+Windows 95: If the lpClass parameter is a valid address, but the lpcbClass parameter is not (for example, it is NULL), the function returns ERROR_SUCCESS instead of ERROR_INVALID_PARAMETER. To ensure compatibility with other platforms, verify that lpcbClass is valid before calling the function. 
+
+lpReserved 
+Reserved; must be NULL. 
+lpcSubKeys 
+Pointer to a variable that receives the number of subkeys contained by the specified key. This parameter can be NULL. 
+lpcbMaxSubKeyLen 
+Pointer to a variable that receives the length, in characters, of the key's subkey with the longest name. The count returned does not include the terminating null character. This parameter can be NULL. 
+lpcbMaxClassLen 
+Pointer to a variable that receives the length, in characters, of the longest string specifying a subkey class. The count returned does not include the terminating null character. This parameter can be NULL. 
+lpcValues 
+Pointer to a variable that receives the number of values associated with the key. This parameter can be NULL. 
+lpcbMaxValueNameLen 
+Pointer to a variable that receives the length, in characters, of the key's longest value name. The count returned does not include the terminating null character. This parameter can be NULL. 
+lpcbMaxValueLen 
+Pointer to a variable that receives the length, in bytes, of the longest data component among the key's values. This parameter can be NULL. 
+lpcbSecurityDescriptor 
+Pointer to a variable that receives the length, in bytes, of the key's security descriptor. This parameter can be NULL. 
+lpftLastWriteTime 
+Pointer to a FILETIME structure. This parameter can be NULL. 
+Windows NT: The function sets the members of the FILETIME structure to indicate the last time that the key or any of its value entries was modified. 
+
+Windows 95: The function sets the members of the FILETIME structure to zero. This is because the system does not keep track of registry key last write time information. 
+
+Return Values
+If the function succeeds, the return value is ERROR_SUCCESS.
+
+If the function fails, the return value is a nonzero error code defined in WINERROR.H. You can use the FormatMessage function with the FORMAT_MESSAGE_FROM_SYSTEM flag to get a generic description of the error.
+
+Remarks
+The key identified by the hKey parameter must have been opened with KEY_QUERY_VALUE access (KEY_READ access includes KEY_QUERY_VALUE access). 
+
+Windows CE: The lpcbMaxValueData and lpcbSecurityDescriptor parameters are not used and must be set to NULL.
+
+QuickInfo
+  Windows NT: Requires version 3.1 or later.
+  Windows: Requires Windows 95 or later.
+  Windows CE: Requires version 1.0 or later.
+  Header: Declared in winreg.h.
+  Import Library: Use advapi32.lib.
+  Unicode: Implemented as Unicode and ANSI versions on Windows NT.
+
+See Also
+Registry Overview, Registry Functions, FILETIME, RegDeleteKey, RegEnumKey, RegEnumKeyEx, RegEnumValue, RegQueryValue, RegQueryValueEx 
+
+ 

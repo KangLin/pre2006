@@ -1,0 +1,538 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>Shell函数</title>
+<link rel="stylesheet" type="text/css" href="../../../../Scrpit/样式.css">
+<script language="vbscript" src ="../../../../Scrpit/webscrpit.bas"></script>
+</head>
+
+<body>
+
+<p align="center"><b><font size="5">Shell函数</font></b></p>
+<p align="center">康&nbsp; 林</p>
+<!-- NAV_LINKS_START -->
+<blockquote class="body">
+	<h1>Functions</h1>
+	<br clear="all">
+　<p>This section describes the Microsoft&reg; Windows&reg; shell functions. </p>
+	<p>　</p>
+	<table>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/CPlApplet.htm#CPlApplet">
+			CPlApplet</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/DefScreenSaverProc.htm#DefScreenSaverProc">
+			DefScreenSaverProc</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/DragAcceptFiles.htm#DragAcceptFiles">
+			DragAcceptFiles</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/DragFinish.htm#DragFinish">
+			DragFinish</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/DragQueryFile.htm#DragQueryFile">
+			DragQueryFile</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/DragQueryPoint.htm#DragQueryPoint">
+			DragQueryPoint</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/FindExecutable.htm#FindExecutable">
+			FindExecutable</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/GetMenuContextHelpId.htm#GetMenuContextHelpId">
+			GetMenuContextHelpId</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/GetWindowContextHelpId.htm#GetWindowContextHelp">
+			GetWindowContextHelpId</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/RegisterDialogClasses.htm#RegisterDialogClasse">
+			RegisterDialogClasses</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/ScreenSaverConfigureDialog.htm#ScreenSaverConfigure">
+			ScreenSaverConfigureDialog</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/ScreenSaverProc.htm#ScreenSaverProc">
+			ScreenSaverProc</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SetMenuContextHelpId.htm#SetMenuContextHelpId">
+			SetMenuContextHelpId</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SetWindowContextHelpId.htm#SetWindowContextHelp">
+			SetWindowContextHelpId</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHAddToRecentDocs.htm#SHAddToRecentDocs">
+			SHAddToRecentDocs</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHAppBarMessage.htm#SHAppBarMessage">
+			SHAppBarMessage</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHBrowseForFolder.htm#SHBrowseForFolder">
+			SHBrowseForFolder</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHChangeNotify.htm#SHChangeNotify">
+			SHChangeNotify</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/Shell_NotifyIcon.htm#Shell_NotifyIcon">
+			Shell_NotifyIcon</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/ShellAbout.htm#ShellAbout">
+			ShellAbout</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/ShellExecute.htm#ShellExecute">
+			ShellExecute</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/ShellExecuteEx.htm#ShellExecuteEx">
+			ShellExecuteEx</a> <a href="ShellExecute.htm">参见</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHEmptyRecycleBin.htm#SHEmptyRecycleBin">
+			SHEmptyRecycleBin</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHFileOperation.htm#SHFileOperation">
+			SHFileOperation</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHFreeNameMappings.htm#SHFreeNameMappings">
+			SHFreeNameMappings</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHGetDataFromIDList.htm#SHGetDataFromIDList">
+			SHGetDataFromIDList</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHGetDesktopFolder.htm#SHGetDesktopFolder">
+			SHGetDesktopFolder</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHGetDiskFreeSpace.htm">
+			SHGetDiskFreeSpace</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHGetFileInfo.htm#SHGetFileInfo">
+			SHGetFileInfo</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHGetInstanceExplorer.htm#SHGetInstanceExplorer">
+			SHGetInstanceExplorer</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHGetMalloc.htm#SHGetMalloc">
+			SHGetMalloc</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHGetNewLinkInfo.htm">
+			SHGetNewLinkInfo</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHGetPathFromIDList.htm#SHGetPathFromIDList">
+			SHGetPathFromIDList</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHGetSettings.htm#SHGetSettings">
+			SHGetSettings</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHGetSpecialFolderLocation.htm#SHGetSpecialFolderLocation">
+			SHGetSpecialFolderLocation</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHGetSpecialFolderPath.htm#SHGetSpecialFolderPath">
+			SHGetSpecialFolderPath</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHInvokePrinterCommand.htm">
+			SHInvokePrinterCommand</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHLoadInProc.htm#SHLoadInProc">
+			SHLoadInProc</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SHQueryRecycleBin.htm#SHQueryRecycleBin">
+			SHQueryRecycleBin</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOBailOut.htm#SOBailOut">
+			SOBailOut</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOBeginTable.htm#SOBeginTable">
+			SOBeginTable</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOEndColumnInfo.htm#SOEndColumnInfo">
+			SOEndColumnInfo</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOEndFieldInfo.htm#SOEndFieldInfo">
+			SOEndFieldInfo</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOEndFontTable.htm#SOEndFontTable">
+			SOEndFontTable</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOEndPalette.htm#SOEndPalette">
+			SOEndPalette</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOEndTable.htm#SOEndTable">
+			SOEndTable</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOEndTabStops.htm#SOEndTabStops">
+			SOEndTabStops</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOGetInfo.htm#SOGetInfo">
+			SOGetInfo</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOGetScanLineBuffer.htm#SOGetScanLineBuffer">
+			SOGetScanLineBuffer</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutBitmapHeader.htm#SOPutBitmapHeader">
+			SOPutBitmapHeader</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutBreak.htm#SOPutBreak">
+			SOPutBreak</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutChar.htm#SOPutChar">
+			SOPutChar</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutCharAttr.htm#SOPutCharAttr">
+			SOPutCharAttr</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutCharFontById.htm#SOPutCharFontById">
+			SOPutCharFontById</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutCharFontByName.htm#SOPutCharFontByName">
+			SOPutCharFontByName</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutCharHeight.htm#SOPutCharHeight">
+			SOPutCharHeight</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutCharX.htm#SOPutCharX">
+			SOPutCharX</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutColumnInfo.htm#SOPutColumnInfo">
+			SOPutColumnInfo</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutDataCell.htm#SOPutDataCell">
+			SOPutDataCell</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutEmbeddedObject.htm#SOPutEmbeddedObject">
+			SOPutEmbeddedObject</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutField.htm#SOPutField">
+			SOPutField</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutFieldInfo.htm#SOPutFieldInfo">
+			SOPutFieldInfo</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutFontTableEntry.htm#SOPutFontTableEntry">
+			SOPutFontTableEntry</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutHdrEntry.htm#SOPutHdrEntry">
+			SOPutHdrEntry</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutMoreText.htm#SOPutMoreText">
+			SOPutMoreText</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutMoreVarField.htm#SOPutMoreVarField">
+			SOPutMoreVarField</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutPaletteEntry.htm#SOPutPaletteEntry">
+			SOPutPaletteEntry</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutParaAlign.htm#SOPutParaAlign">
+			SOPutParaAlign</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutParaIndents.htm#SOPutParaIndents">
+			SOPutParaIndents</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutParaMargins.htm#SOPutParaMargins">
+			SOPutParaMargins</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutParaSpacing.htm#SOPutParaSpacing">
+			SOPutParaSpacing</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutScanLineData.htm#SOPutScanLineData">
+			SOPutScanLineData</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutSectionName.htm#SOPutSectionName">
+			SOPutSectionName</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutSectionType.htm#SOPutSectionType">
+			SOPutSectionType</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutSpecialCharX.htm#SOPutSpecialCharX">
+			SOPutSpecialCharX</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutSubdocInfo.htm#SOPutSubdocInfo">
+			SOPutSubdocInfo</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutTableCellInfo.htm#SOPutTableCellInfo">
+			SOPutTableCellInfo</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutTableRowFormat.htm#SOPutTableRowFormat">
+			SOPutTableRowFormat</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutTabStop.htm#SOPutTabStop">
+			SOPutTabStop</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutTextCell.htm#SOPutTextCell">
+			SOPutTextCell</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutVarField.htm#SOPutVarField">
+			SOPutVarField</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOPutVectorHeader.htm#SOPutVectorHeader">
+			SOPutVectorHeader</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOSetDateBase.htm#SOSetDateBase">
+			SOSetDateBase</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOStartColumnInfo.htm#SOStartColumnInfo">
+			SOStartColumnInfo</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOStartFieldInfo.htm#SOStartFieldInfo">
+			SOStartFieldInfo</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOStartFontTable.htm#SOStartFontTable">
+			SOStartFontTable</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOStartPalette.htm#SOStartPalette">
+			SOStartPalette</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOStartTabStops.htm#SOStartTabStops">
+			SOStartTabStops</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOVectorAttr.htm#SOVectorAttr">
+			SOVectorAttr</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SOVectorObject.htm#SOVectorObject">
+			SOVectorObject</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SUUserPopData.htm#SUUserPopData">
+			SUUserPopData</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SUUserPushData.htm#SUUserPushData">
+			SUUserPushData</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SUUserRetrieveData.htm#SUUserRetrieveData">
+			SUUserRetrieveData</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/SUUserSaveData.htm#SUUserSaveData">
+			SUUserSaveData</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/VwStreamCloseFunc.htm#VwStreamCloseFunc">
+			VwStreamCloseFunc</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/VwStreamOpenFunc.htm#VwStreamOpenFunc">
+			VwStreamOpenFunc</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/VwStreamReadFunc.htm#VwStreamReadFunc">
+			VwStreamReadFunc</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/VwStreamReadRecordFunc.htm#VwStreamReadRecordFu">
+			VwStreamReadRecordFunc</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/VwStreamSectionFunc.htm#VwStreamSectionFunc">
+			VwStreamSectionFunc</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/VwStreamSeekFunc.htm#VwStreamSeekFunc">
+			VwStreamSeekFunc</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/VwStreamTellFunc.htm#VwStreamTellFunc">
+			VwStreamTellFunc</a></td>
+		</tr>
+		<tr>
+			<td>
+			<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/functions/WinHelp.htm#WinHelp">
+			WinHelp</a></td>
+		</tr>
+	</table>
+	<!--CONTENTS_END --><!-- START PAGE FOOTER -->
+</blockquote>
+
+</body>
+
+</html>

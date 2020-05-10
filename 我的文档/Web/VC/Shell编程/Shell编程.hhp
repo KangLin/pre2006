@@ -1,0 +1,21 @@
+[OPTIONS]
+Auto Index=Yes
+Binary TOC=Yes
+Compatibility=1.1 or later
+Compiled file=..\..\..\chm\Shell编程.chm
+Contents file=Table of Contents.hhc
+Default Window=window
+Default topic=..\..\..\index.htm
+Display compile progress=No
+Enhanced decompilation=Yes
+Full-text search=Yes
+Index file=Index.hhk
+Language=0x804 中文(中国)
+Title=Shell编程
+
+[WINDOWS]
+window=,"Table of Contents.hhc","Index.hhk",,,,,,,0x3520,,0x387e,,0x818b0000,0x490,,,,,0
+
+
+[INFOTYPES]
+

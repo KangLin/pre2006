@@ -1,0 +1,41 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>SHBrowseForFolder</title>
+</head>
+
+<body>
+
+<blockquote class="body">
+	<h1>SHBrowseForFolder</h1>
+	<pre>WINSHELLAPI LPITEMIDLIST WINAPI SHBrowseForFolder(
+    LPBROWSEINFO lpbi
+); 
+</pre>
+	<p>显示一个对话框，允许用户选择一个文件夹。 </p>
+	<ul>
+		<li>返回一个指定相对于根目录的名字空间的选择文件夹的位置的项目标志符指针。如果用户在对话框中选择取消按钮，则返回NULL。（Returns 
+		the address of an item identifier list that specifies the location of 
+		the selected folder relative to the root of the namespace. If the user 
+		chooses the Cancel button in the dialog box, the return value is NULL.） 
+		</li>
+	</ul>
+	<dl>
+		<dt><i>lpbi</i> <br>
+&nbsp;&nbsp;&nbsp;&nbsp; 一个包含用于在对话框中要显示的信息的 <a href="../结构/browseinfo.htm">
+		BROWSEINFO</a> 结构。</dt>
+		<dd>Address of a
+		<a href="mk:@MSITStore:g:/PROGRAME/MSDN/MSDN/Shellcc.chm::/inet401/help/itt/Shell/structures/BROWSEINFO.htm#BROWSEINFO">
+		BROWSEINFO</a> structure that contains information used to display the 
+		dialog box. </dd>
+	</dl>
+	<p>The calling application is responsible for freeing the returned item 
+	identifier list by using the shell's task allocator. <!-- *************************************************************************** --><!--CONTENTS_END --><!-- START PAGE FOOTER -->
+	</p>
+</blockquote>
+
+</body>
+
+</html>

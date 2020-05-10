@@ -1,0 +1,83 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>VcExtend文档</title>
+</head>
+
+<body topmargin="0" leftmargin="0">
+<script language="javascript" src="/js/header.js"></script>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td height="20"></td>
+    </tr>
+  </table>
+  </center>
+</div>
+<div align="center">
+  <center>
+  <table border="0" width="700">
+    <tr>
+      <td width="100%">
+        <div align="center">
+          <table border="0" width="680">
+            <tr>
+              <td align="right" height="18">VcExtend文档
+                <hr size="1" color="#000080">
+              </td>
+            </tr>
+            <tr>
+              <td align="center" height="10"></td>
+            </tr>
+            <tr>
+              <td align="center"><b>三、丑话说在前头</b></td>
+            </tr>
+            <tr>
+              <td height="10"></td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp; 如果你浏览到了这里，说明对VcExtend至少不反感。趁你高兴，我可要把一些问题先交代清楚。  
+                <p>&nbsp;&nbsp;&nbsp; 这是使用VC提供的宏功能和几个组件，用VBScript写的东东，语言的功能比较有限，并且，我对VBScript也不太熟，有些地方可能写得比较烂。</p>  
+                <p>&nbsp;&nbsp;&nbsp;   
+                最糟的是出错处理，比如我想打开一个文件，使用Documents.Open函数，这个函数没有返回值，如果文件不存在，它不会告诉我不存在，而是造成一个致命的内存错误，可能导致VC要整个退出。哪位知道有没有解决办法啊？</p>
+                <p>&nbsp;&nbsp;&nbsp;   
+               当然，你不要害怕，这也没什么大不了的。如果你新建了一个工程，要使用VcExtend功能，千万记住要把Doc和Txt两个文件夹拷到工程的目录下，和Debug和res目录并列，如果你忘了的话，我以我的人格担保：一定会出问题的。</p>
+                <p>&nbsp;&nbsp;&nbsp;   
+                如果修改了VcExtend的源代码，最好把VC退出后再重新打开，要不然也可能产生与上边所说相似的内存错误。
+		    	</p>
+                <p>&nbsp;&nbsp;&nbsp; 出了上述的问题后，如果在win2000环境下，最好注销再登录。
+		    	</p>
+                <p>&nbsp;&nbsp;&nbsp;   
+               还有一个问题是，由于语言所限，考虑到效率和性能，无法对代码进行复杂的词法分析，所以代码要比较规范，当然也不太特别，都是非常普通的编码规范，只要做到了下面几点就行：</p>
+                <p>&nbsp;&nbsp;&nbsp;   
+               一是每个类一定要有构造函数，并且放在最上面，构造函数上方的代码将不作处理，你可以把内置的数据类型，如enum，struct或嵌套类什么的，放在构造函数的上边。</p>
+                <p>&nbsp;&nbsp;&nbsp;   
+                二是每个成员变量的声明要独占一行，是指头文件的成员变量，函数体内的东西，VcExtend是完全不管的。</p>
+                <p>&nbsp;&nbsp;&nbsp;   
+                三是如果要写额外的注释，不能使用/**/，要使用//。</p>
+                <p>&nbsp;&nbsp;&nbsp; 存在的主要问题，大概就这些了吧。如果你发现了什么问题，请在论坛发表，我将尽力解决。</p>  
+				<p>&nbsp;&nbsp;&nbsp; 另外要说明的是，Inline函数的实现放在.inl文件中，所以一个类有三个文件。这是自动处理的，可不敢给你添麻烦。CodeJump的良好跳转功能，会让你感觉不到多了个文件。</p>  
+                <p>&nbsp;&nbsp;&nbsp; 虽然还有一些问题，但我觉得VcExtend还是挺好用的，能提高工作效率十分之N。我向你推荐它，就表示这个东东不错，因为，我觉得不好的东西，是从来不会给人的，比如说，我从来不会随便送钱给人家，因为，我知道，金钱是肮脏的东西。 
+                </td>
+            </tr>
+            <tr>
+              <td height="30"></td>
+            </tr>
+            <tr>
+              <td align="right"><a href="index.htm">返回目录页</a>&nbsp;&nbsp; 
+                下一节：<a href="classnew.htm">与清爽干净的代码为伴----类框架生成</a></td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
+  </center>
+</div>
+<script language="javascript" src="/js/tail.js"></script>
+</body>
+
+</html>

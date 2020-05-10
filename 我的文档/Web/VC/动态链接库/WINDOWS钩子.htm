@@ -1,0 +1,88 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>WINDOWS钩子</title>
+</head>
+
+<body>
+
+<p align="center"><b><font size="7" >WINDOWS钩子</font></b></p>
+<p align="center">康&nbsp; 林</p>
+WINDOWS的钩子函数可以认为是WINDOWS的主要特性之一。利用它们，您可以捕捉您自己进程或其它进程发生的事件。通过“钩挂”，您可以给WINDOWS一个处理或过滤事件的回调函数，该函数也叫做“钩子函数”，当每次发生您感兴趣的事件时，WINDOWS都将调用该函数。一共有两种类型的钩子：局部的和远程的。 
+
+<ul>
+	<li>局部钩子仅钩挂您自己进程的事件。 
+	</li>
+	<li>远程的钩子还可以将钩挂其它进程发生的事件。远程的钩子又有两种： 
+	<ul>
+		<li>基于线程的 它将捕获其它进程中某一特定线程的事件。简言之，就是可以用来观察其它进程中的某一特定线程将发生的事件。 
+		</li>
+		<li>系统范围的 将捕捉系统中所有进程将发生的事件消息。 
+		</li>
+	</ul>
+	</li>
+</ul>
+安装钩子函数将会影响系统的性能。监测“系统范围事件”的系统钩子特别明显。因为系统在处理所有的相关事件时都将调用您的钩子函数，这样您的系统将会明显的减慢。所以应谨慎使用，用完后立即卸载。还有，由于您可以预先截获其它进程的消息，所以一旦您的钩子函数出了问题的话必将影响其它的进程。记住：功能强大也意味着使用时要负责任。<br>
+在正确使用钩子函数前，我们先讲解钩子函数的工作原理。当您创建一个钩子时，WINDOWS会先在内存中创建一个数据结构，该数据结构包含了钩子的相关信息，然后把该结构体加到已经存在的钩子链表中去。新的钩子将加到老的前面。当一个事件发生时，如果您安装的是一个局部钩子，您进程中的钩子函数将被调用。如果是一个远程钩子，系统就必须把钩子函数插入到其它进程的地址空间，要做到这一点要求钩子函数必须在一个动态链接库中，所以如果您想要使用远程钩子，就必须把该钩子函数放到动态链接库中去。当然有两个例外：工作日志钩子和工作日志回放钩子。这两个钩子的钩子函数必须在安装钩子的线程中。原因是：这两个钩子是用来监控比较底层的硬件事件的，既然是记录和回放，所有的事件就当然都是有先后次序的。所以如果把回调函数放在DLL中，输入的事件被放在几个线程中记录，所以我们无法保证得到正确的次序。故解决的办法是：把钩子函数放到单个的线程中，譬如安装钩子的线程。<br>
+钩子一共有14种，以下是它们被调用的时机： 
+
+<ul>
+	<li>WH_CALLWNDPROC 当调用SendMessage时 
+	</li>
+	<li>WH_CALLWNDPROCRET 当SendMessage的调用返回时 
+	</li>
+	<li>WH_GETMESSAGE 当调用GetMessage 或 PeekMessage时 
+	</li>
+	<li>WH_KEYBOARD 当调用GetMessage 或 PeekMessage 来从消息队列中查询WM_KEYUP 或 WM_KEYDOWN 
+	消息时 
+	</li>
+	<li>WH_MOUSE 当调用GetMessage 或 PeekMessage 来从消息队列中查询鼠标事件消息时 
+	</li>
+	<li>WH_HARDWARE 当调用GetMessage 或 PeekMessage 来从消息队列种查询非鼠标、键盘消息时 
+	</li>
+	<li>WH_MSGFILTER 当对话框、菜单或滚动条要处理一个消息时。该钩子是局部的。它时为那些有自己的消息处理过程的控件对象设计的。 
+	</li>
+	<li>WH_SYSMSGFILTER 和WH_MSGFILTER一样，只不过是系统范围的 
+	</li>
+	<li>WH_JOURNALRECORD 当WINDOWS从硬件队列中获得消息时 
+	</li>
+	<li>WH_JOURNALPLAYBACK 当一个事件从系统的硬件输入队列中被请求时 
+	</li>
+	<li>WH_SHELL 当关于WINDOWS外壳事件发生时，譬如任务条需要重画它的按钮. 
+	</li>
+	<li>WH_CBT 当基于计算机的训练(CBT)事件发生时 
+	</li>
+	<li>WH_FOREGROUNDIDLE 由WINDOWS自己使用，一般的应用程序很少使用 
+	</li>
+	<li>WH_DEBUG 用来给钩子函数除错 </li>
+</ul>
+<p>安装钩子:<code><b><br>
+HHOOK SetWindowsHookEx(<br>
+&nbsp; int</b><i> idHook</i><b>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>
+// type of hook to install<br>
+<b>&nbsp; HOOKPROC</b><i> lpfn</i><b>,&nbsp;&nbsp;&nbsp;&nbsp; </b>// address of 
+hook procedure<br>
+<b>&nbsp; HINSTANCE</b><i> hMod</i><b>,&nbsp;&nbsp;&nbsp; </b>// handle to 
+application instance<br>
+<b>&nbsp; DWORD</b><i> dwThreadId</i>&nbsp;&nbsp; // identity of thread to 
+install hook for<br>
+<b>);</b><br>
+　</code></p>
+<p><code><b>LRESULT CallNextHookEx(<br>
+&nbsp; HHOOK</b><i> hhk</i><b>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>// handle to 
+current hook<br>
+<b>&nbsp; int</b><i> nCode</i><b>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>// hook 
+code passed to hook procedure<br>
+<b>&nbsp; WPARAM</b><i> wParam</i><b>,&nbsp; </b>// value passed to hook 
+procedure<br>
+<b>&nbsp; LPARAM</b><i> lParam</i>&nbsp;&nbsp; // value passed to hook procedure<br>
+<b>);</b></code></p>
+<p>卸载钩子</p>
+<p><code><b>BOOL UnhookWindowsHookEx(<br>
+&nbsp; HHOOK</b><i> hhk</i>&nbsp;&nbsp; // handle to hook procedure to remove<br>
+<b>);</b></code></p>
+<p></p>
+</body>
+
+</html>

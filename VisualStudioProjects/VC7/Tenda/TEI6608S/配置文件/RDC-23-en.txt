@@ -1,0 +1,42 @@
+<HTML>
+<HEAD>
+<META http-equiv="Pragma" content="no-cache">
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<TITLE>SOHO Router</TITLE>
+<SCRIPT src="gozila\.js"></SCRIPT>
+<SCRIPT language=JavaScript src="menu\.js"></SCRIPT>
+<SCRIPT language=JavaScript>
+
+//var conType=new Array\("Static IP","Dynamic IP","PPPoE","PPTP","L2TP"\);
+var conType=new Array\("Static IP","Dynamic IP","PPPoE"\);
+var state=new Array\("Disable","Enabled"\);
+var conStat=new Array\("Disconnected","Connecting","Connected"\);
+.*
+if\(cableDSL\!="2"\) \{
+wanIP="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+subMask="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+gateWay="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+curr_wantype_dns1="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+curr_wantype_dns2="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+\} 
+else \{
+{wanIP="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+subMask="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+gateWay="\d?\d?\d\.\d?\d?\d\.\d?\d?\d\.\d?\d?\d";
+}\}.*
+{var wan_type="(STATIC IP)|(DHCP CLIENT)";}.*
+{run_code_ver="R01-\d\d\d";}
+.*
+{lan_mac="\h\h:\h\h:\h\h:\h\h:\h\h:\h\h";
+wan_mac="\h\h:\h\h:\h\h:\h\h:\h\h:\h\h";}.*
+
+	</TD>
+	<td vAlign=top><br><br><input type=button class=button value="Refresh" onclick="location='sys_status.htm'">
+	</td>
+
+</TR>
+</TABLE>
+</FORM>
+
+</BODY>
+</HTML>

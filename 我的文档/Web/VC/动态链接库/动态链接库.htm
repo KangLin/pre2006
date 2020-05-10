@@ -1,0 +1,54 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>动态链接库</title>
+</head>
+
+<body>
+
+<p align="center">　</p>
+<p align="center"><b><font size="7">动态链接库</font></b></p>
+<p align="center">康&nbsp; 林 2004年11月</p>
+<p align="left">关键词：动态链接库、</p>
+<p align="left"><b><font size="4">动态链接库 (DLL)</font></b> 
+是作为共享函数库的可执行文件。动态链接提供了一种方法，使进程可以调用不属于其可执行代码的函数。函数的可执行代码位于一个 DLL 中，该 DLL 
+包含一个或多个已被编译、链接并与使用它们的进程分开存储的函数。DLL 还有助于共享数据和资源。多个应用程序可同时访问内存中单个 DLL 副本的内容。<br>
+　</p>
+<p align="left"><b><font size="4">一、动态链接库的建立：</font></b></p>
+<p align="left"><b>1、使用DEF文件</b></p>
+<p align="left">　</p>
+<p align="left"><b>2、使用导出申明</b></p>
+<p align="left">　</p>
+<p align="left"><b><font size="4">二、动态链接库的使用：</font></b></p>
+<p align="left"><b>1、静态链接</b>又叫隐式链接，这种链接方式使我们在代码中不用语句来指示系统中，我们的应用程序要加载哪些动态链接库。其静态链接声明是放在工程属性中的(或者使用#pragma 
+comment(lib,&quot;XXX.lib&quot;)，这个可以和#include放在一起)。在指定时，只需要输入其动态链接库相应的导入库文件(.lib)。然后，你就可以在程序的任何地方像调用普通函数一样调用该动态链接库中存在的函数了(当然，你需要包含其相应的头文件。一般情况下，头文件会和LIB文件一块给出)。通过这种方法生成的程序在运行初始化的时候(具体到什么时候不太清楚。但我可以肯定是在WinMain函数之前了^_^)，会自动将动态链接库加载在系统环境中，并将其映射到我们应用程序的进程当中去。当我们调用一个我们进程没有定义的函数时，VC运行库会通过查找LIB文件的相关信息找到相应动态链接库的函数并调用它。进程结束时，系统会缷载动态链接库。</p>
+<p align="left">2、<b>动态链接</b>又叫显式链接，顾名思义这种方式让我们必需在代码通过调用API来显式地加载动态链接库。COM组件模型全部都是采用这种方式来加载进程内组件模块(就是Dll)的。(我觉得微软的专业术语有些混乱耶)。这个方式有许多好处，它可以在运行时决定具体要加载哪个链接库，要调用哪个函数…这才叫动态链接呢。</p>
+<p>要使用动态链接库，首先要调用LoadLibrary,加载动态链接库。其原型如下: </p>
+<pre>HMODULE LoadLibrary(
+  LPCTSTR lpFileName   // file name of module
+);</pre>
+参数lpFileName是要加载的动态链接库的文件名。如果加载成功的话，就返回其句柄。否则的，返回NULL。<br>
+与这个API相配对的是FreeLibrary,释放动态链接库。其原型如下:<pre>BOOL FreeLibrary(
+  HMODULE hModule   // handle to DLL module
+);</pre>
+当加载成功后，我们会得到一个HMODULE句柄。这个句柄的使用与HINSTANCE应用程序实例的句柄很相似(追查定义，HMODULE就是HINSTANCE)。我们可以使用下面一些API函数来使用HMODULE句柄:<br>
+LoadBitmap、LoadIcon、LoadString、…、GetProcAddress等等<br>
+其中，最重要的就是GetProcAddress。它是用来返回链接库中的某个函数的函数指针，然后我们就可以通过这个函数指针来调用这个链接库函数了。(如果你对函数指针不熟的话，最好再看一看C\C++语法书。我觉得函数指针的声明方法很怪异)其原型如下:<br>
+　<pre>FARPROC GetProcAddress(
+  HMODULE hModule,    // handle to DLL module
+  LPCSTR lpProcName   // function name
+);</pre>
+<pre><b><font size="4">三、调用约定</font></b></pre>
+<pre><b>标准调用</b>：_stdcall、<span class="big">PASCAL、CALLBACK、WINAPI</span></pre>
+<pre><span class="big">类的成员函数缺省调用为_stdcall</span></pre>
+<pre><b>C调用</b>：_cdecl</pre>
+<pre><span class="big">C和C++缺省调用方式</span></pre>
+<pre><span class="big"><font size="4"><b>四、链接说明 </b></font>extern &quot;C&quot;</span></pre>
+<pre><span class="big">
+</span></pre>
+
+</body>
+
+</html>

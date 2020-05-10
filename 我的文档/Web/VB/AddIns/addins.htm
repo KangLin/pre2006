@@ -1,0 +1,91 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>AddIns</title>
+</head>
+
+<body>
+
+<p align="center"><b><font size="6">AddIns</font></b></p>
+<p align="center">康&nbsp; 林</p>
+<p align="left">一、添加菜单项：</p>
+<table border="0" width="100" id="table1">
+	<tr>
+		<td>
+		<pre>Dim objMenu As CommandBar '菜单栏
+Dim objMenuItem As CommandBarControl '菜单项
+Dim objMenuBar As CommandBar '扩展工具集菜单项
+Dim objMenuSet As CommandBar '设置菜单项
+objCommands = applicationObject.Commands
+objMenu = applicationObject.CommandBars.ActiveMenuBar '当前菜单栏
+'增加一项菜单项
+objMenuBar = objCommands.AddCommandBar(&quot;扩展工具集(&amp;X)&quot;, vsCommandBarType.vsCommandBarTypeMenu, objMenu, 4)
+'增加命令
+CommandObj = objCommands.AddNamedCommand(objAddIn, &quot;AboutExtendTools&quot;, &quot;关于微软扩展工具集&quot;, &quot;关于微软扩展工具集&quot;, True, 49, Nothing, 1 + 2) '1+2 == vsCommandStatusSupported+vsCommandStatusEnabled
+'在菜单项中增加一项
+CommandObj.AddControl(applicationObject.CommandBars.Item(&quot;扩展工具集(&amp;X)&quot;))</pre>
+		</td>
+	</tr>
+</table>
+<p align="left">二、添加工具栏：</p>
+
+<table border="0" width="1460" id="table2">
+	<tr>
+		<td>'增加命令条<br>
+		objComBar = objCommands.AddCommandBar(&quot;删除&quot;, 
+		vsCommandBarType.vsCommandBarTypeToolbar)<br>
+		'增加命令<br>
+		CommandObj = objCommands.AddNamedCommand(objAddIn, &quot;删除命令&quot;, &quot;删除指定的命令&quot;, 
+		&quot;删除指定的命令&quot;, True, 214, Nothing, 1 + 2) '1+2 == 
+		vsCommandStatusSupported+vsCommandStatusEnabled<br>
+		'在命令条中增加一项<br>
+		CommandObj.AddControl(applicationObject.CommandBars.Item(&quot;删除&quot;))</td>
+	</tr>
+</table>
+<p>设置命令条中按钮样式：</p>
+<table border="0" width="787" id="table3">
+	<tr>
+		<td>Dim objComBarBut As CommandBarButton<br>
+		For Each objComBarBut In 
+		applicationObject.CommandBars.Item(&quot;删除&quot;).Controls<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; objComBarBut.Style = 
+		MsoButtonStyle.msoButtonIcon<br>
+		Next</td>
+	</tr>
+</table>
+
+<h2><a id="customizing" name="customizing">自定义菜单和工具栏</a></h2>
+<p>
+<a id="HV05221139" lcid=" " href="mk:@MSITStore:vbaof11.chm::/html/ofobjCommandBar1.htm">
+<b class="bterm">CommandBar</b></a> 对象既代表菜单又代表工具栏。使用 
+<a id="HV05210283" lcid=" " href="mk:@MSITStore:C:/Program%20Files/Microsoft%20Office/OFFICE11/2052/vbawd10.chm::/html/woproCommandBars1.htm">
+<b class="bterm">CommandBars</b></a> 属性和菜单或工具栏名称可返回单独的 <b class="bterm">
+CommandBar</b> 对象。<a id="HV05221040" lcid=" " href="mk:@MSITStore:vbaof11.chm::/html/ofproControls1.htm"><b class="bterm">Controls</b></a> 
+属性返回 
+<a id="HV05221140" lcid=" " href="mk:@MSITStore:vbaof11.chm::/html/ofobjCommandBarControls1.htm">
+<b class="bterm">CommandBarControls</b></a> 对象，该对象指向指定命令行上的项。下列示例将 Word Count 
+命令添加到<b class="bterm">“常用”</b>菜单上。</p>
+<pre><code>Sub AddToolbarItem()
+    Dim btnNew As CommandBarButton
+    CustomizationContext = NormalTemplate
+    Set btnNew = CommandBars(&quot;Standard&quot;).Controls.Add _
+        (Type:=msoControlButton, ID:=792, Before:=6)
+    With btnNew
+<font color="#FF00FF">        .BeginGroup = True '设置组</font>
+        .FaceId = 700
+        .TooltipText = &quot;Word Count&quot;
+    End With
+End Sub</code></pre>
+<p>下列示例将“双下划线”命令添至“格式”工具栏。</p>
+<pre><code>Sub AddDoubleUnderlineButton()
+    CustomizationContext = NormalTemplate
+    CommandBars(&quot;Formatting&quot;).Controls.Add _
+        Type:=msoControlButton, ID:=60, Before:=7
+End Sub</code></pre>
+<p>打开宏录制器，并自定义一个菜单或工具栏，以确定某个命令的 <b class="bterm">ID</b> 值（例如，ID 60 是 “双下划线”命令）。</p>
+
+</body>
+
+</html>

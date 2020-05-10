@@ -1,0 +1,57 @@
+// VCExtendTools.odl : type library source for VCExtendTools.dll
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (VCExtendTools.tlb).
+
+[	uuid(9E5387F8-B208-4D18-9689-A0CFCBFFA6A1), version(1.0),
+	helpstring ("VC扩展工具集") ]
+library VCExtendTools
+{
+	importlib("stdole32.tlb");
+	importlib("devshl.dll");
+	importlib("ide\devdbg.pkg");
+	
+
+	//  Dual interface for CCommands
+	//
+	//  All commands that your add-in adds to DevStudio
+	//   must appear in this interface.  You may use the
+	//   ClassView to add methods to this interface, which
+	//   will cause stub implementations of those methods to
+	//   appear in your CCommands class.
+	
+	[	uuid(C1C6B1E0-BC50-411A-B838-F132755EC8D7),
+		oleautomation,
+		dual
+	]
+
+	interface ICommands : IDispatch
+	{
+		// methods
+		[id(1)]
+		HRESULT VCExtendToolsCommandMethod();
+	};
+
+	//  Class information for CCommands
+
+	[ uuid(82ECCCCE-A778-478E-ACA5-8CC6AAE1E7B2) ]
+	coclass Commands
+	{
+		[default] interface ICommands;
+	};
+
+	[ hidden, uuid(F53091DA-E10A-48AA-BE2F-78EAFFAAADCD) ]
+	coclass ApplicationEvents
+	{
+		[default] interface IApplicationEvents;
+	}
+
+	[ hidden, uuid(54C30EF2-968A-467A-8DF7-58876A1DDA83) ]
+	coclass DebuggerEvents
+	{
+		[default] interface IDebuggerEvents;
+	}
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};
